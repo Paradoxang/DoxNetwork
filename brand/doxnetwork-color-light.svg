@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="262 118 818 830" font-family="Georgia, 'Times New Roman', serif">
+  <!-- Version principal - fondos claros -->
+  <defs>
+    <linearGradient id="ringA" x1="0" y1="0" x2="1" y2="0.35"><stop offset="0" stop-color="#f2cd80"/><stop offset="0.5" stop-color="#d99a2b"/><stop offset="1" stop-color="#b8791a"/></linearGradient>
+    <linearGradient id="ringB" x1="0" y1="0" x2="1" y2="0.35"><stop offset="0" stop-color="#8fd2f2"/><stop offset="0.5" stop-color="#3b8fd8"/><stop offset="1" stop-color="#2456a8"/></linearGradient>
+    <linearGradient id="ringAback" x1="0" y1="0" x2="1" y2="0.35"><stop offset="0" stop-color="#a97e2f"/><stop offset="0.5" stop-color="#886425"/><stop offset="1" stop-color="#684d1d"/></linearGradient>
+    <linearGradient id="ringBback" x1="0" y1="0" x2="1" y2="0.35"><stop offset="0" stop-color="#4581ae"/><stop offset="0.5" stop-color="#2d5c8e"/><stop offset="1" stop-color="#224871"/></linearGradient>
+    <linearGradient id="dStroke" x1="0" y1="0" x2="0.6" y2="1"><stop offset="0" stop-color="#2f7fd0"/><stop offset="0.55" stop-color="#26509f"/><stop offset="1" stop-color="#1c357f"/></linearGradient>
+    <radialGradient id="sphereFill"><stop offset="0" stop-color="#1b2749"/><stop offset="0.72" stop-color="#0a1020"/><stop offset="1" stop-color="#05070f"/></radialGradient>
+    <radialGradient id="glow"><stop offset="0.6" stop-color="#2f7fd016"/><stop offset="0.84" stop-color="#2f7fd00a"/><stop offset="1" stop-color="#2f7fd000"/></radialGradient>
+    <linearGradient id="text" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a4a85"/><stop offset="0.5" stop-color="#1f2c5c"/><stop offset="1" stop-color="#3a4a85"/></linearGradient>
+  </defs>
+  <path d="M 305.0 165.0 L 420.0 165.0 A 255.7 255.7 0 1 1 420.0 675.0 L 305.0 675.0 Z" fill="none" stroke="url(#dStroke)" stroke-width="24.0" stroke-linejoin="round"/>
+  <path d="M 790.0 675.0 L 790.0 165.0 M 1030.0 165.0 L 1030.0 675.0" fill="none" stroke="url(#dStroke)" stroke-width="24.0" stroke-linecap="round"/>
+  <path d="M 790.0 165.0 L 1030.0 675.0" fill="none" stroke="url(#ringA)" stroke-width="24.0" stroke-linecap="round"/>
+  <circle cx="790" cy="165" r="21.0" fill="#ffffff" stroke="#d99a2b" stroke-width="9"/>
+  <circle cx="1030" cy="675" r="21.0" fill="#ffffff" stroke="#d99a2b" stroke-width="9"/>
+  <circle cx="790" cy="675" r="21.0" fill="#ffffff" stroke="#3f92da" stroke-width="9"/>
+  <circle cx="1030" cy="165" r="21.0" fill="#ffffff" stroke="#3f92da" stroke-width="9"/>
+  <g transform="translate(500.0 420.0) rotate(-36.0)">
+    <path d="M -275.0 0 A 275.0 66.0 0 0 1 275.0 0 L 155.0 0 A 155.0 37.2 0 0 0 -155.0 0 Z" fill="url(#ringAback)"/>
+  </g>
+  <g transform="translate(500.0 420.0) rotate(36.0)">
+    <path d="M -275.0 0 A 275.0 66.0 0 0 1 275.0 0 L 155.0 0 A 155.0 37.2 0 0 0 -155.0 0 Z" fill="url(#ringBback)"/>
+  </g>
+  <circle cx="500.0" cy="420.0" r="168.0" fill="url(#glow)"/>
+  <circle cx="500.0" cy="420.0" r="112.0" fill="url(#sphereFill)"/>
+  <circle cx="500.0" cy="420.0" r="127.0" fill="none" stroke="#3f92da" stroke-width="6" opacity="0.9"/>
+  <path d="M 399.67 498.74 A 127.0 127.0 0 0 0 600.33 498.74" fill="none" stroke="#d99a2b" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+  <g transform="translate(500.0 420.0) rotate(-36.0)">
+    <path d="M 275.0 0 A 275.0 66.0 0 0 1 -275.0 0 L -155.0 0 A 155.0 37.2 0 0 0 155.0 0 Z" fill="url(#ringA)"/>
+  </g>
+  <g transform="translate(500.0 420.0) rotate(36.0)">
+    <path d="M 275.0 0 A 275.0 66.0 0 0 1 -275.0 0 L -155.0 0 A 155.0 37.2 0 0 0 155.0 0 Z" fill="url(#ringB)"/>
+  </g>
+  <text x="671" y="838" text-anchor="middle" font-size="150" font-weight="bold" letter-spacing="18" fill="url(#text)">DOX</text>
+  <text x="683" y="930" text-anchor="middle" font-size="64" font-weight="bold" letter-spacing="26" fill="url(#text)">NETWORK</text>
+</svg>

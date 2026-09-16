@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Metadatos por defecto; título, descripción y canonical los pone <Seo> en cada página -->
+    <meta name="author" content="DoxNetwork · Dox Designs" />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#0f1424" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="DoxNetwork" />
+    <meta property="og:locale" content="es_CO" />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Tema antes del primer pintado: la preferencia guardada o el oscuro de
+         la marca. La clase `js` habilita los estados iniciales de las
+         animaciones de entrada; sin JS el contenido sale visible tal cual.
+         El build lo externaliza a un .js propio (ver vite.config.ts), así la
+         CSP puede quedarse en `script-src 'self'`. -->
+    <script>
+      (function () {
+        var d = document.documentElement;
+        var t = null;
+        try {
+          t = localStorage.getItem("dn:theme");
+        } catch (e) {
+          /* modo privado */
+        }
+        d.dataset.theme = t === "light" ? "light" : "dark";
+        d.classList.add("js");
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

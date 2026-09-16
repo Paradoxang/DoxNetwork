@@ -1,0 +1,379 @@
+@import "tailwindcss";
+
+/* ── DoxNetwork · tokens ──
+   Hereda la identidad de Dox Designs (navy cósmico, azul nebulosa, Kenney
+   Future en el cromo) pero en clave de tienda: fondos menos profundos,
+   acentos menos saturados y ningún efecto de fondo animado. El magenta del
+   portafolio se retira; aquí los acentos cuentan algo:
+     · nebulosa → navegación, foco, selección
+     · menta    → comprar / WhatsApp
+     · dorado   → precio rebajado y ofertas (sale de los anillos del logo)
+
+   Los colores viven como variables en :root y se cambian por tema; @theme
+   inline los expone a Tailwind sin congelar su valor en el build. */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1424;
+  --bg-soft: #131a2e;
+  --surface: #172039;
+  --surface-2: #1e2945;
+  --line: rgba(233, 237, 247, 0.09);
+  --line-strong: rgba(233, 237, 247, 0.17);
+
+  --ink: #e9edf7;
+  --mute: #a7b0c6;
+  --faint: #8089a0;
+
+  --neb: #9aa9ff;
+  --neb-ink: #0f1424;
+  --neb-soft: rgba(154, 169, 255, 0.12);
+  --mint: #74d8b0;
+  --mint-ink: #0b2a1f;
+  --mint-soft: rgba(116, 216, 176, 0.12);
+  --gold: #f2c46d;
+  --gold-ink: #3a2806;
+  --gold-soft: rgba(242, 196, 109, 0.13);
+
+  --shadow: 0 18px 44px rgba(3, 6, 15, 0.38);
+  --glow-a: rgba(154, 169, 255, 0.13);
+  --glow-b: rgba(242, 196, 109, 0.06);
+
+  /* Logo DN — paleta del isotipo para fondos oscuros */
+  --lg-d1: #9fdcff;
+  --lg-d2: #3b6fd4;
+  --lg-d3: #22409f;
+  --lg-a1: #ffe3a8;
+  --lg-a2: #e8b04b;
+  --lg-a3: #d08c22;
+  --lg-b1: #cdeeff;
+  --lg-b2: #6cc6f2;
+  --lg-b3: #3b74d8;
+  --lg-ab1: #b08536;
+  --lg-ab2: #6f5320;
+  --lg-bb1: #4a8fbe;
+  --lg-bb2: #274f7d;
+  --lg-photon: #dcf3ff;
+  --lg-hot: #f6c667;
+  --lg-node: #0f1424;
+  --lg-glow: rgba(127, 208, 247, 0.2);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f6fb;
+  --bg-soft: #eceff8;
+  --surface: #ffffff;
+  --surface-2: #f1f3fa;
+  --line: rgba(26, 33, 64, 0.09);
+  --line-strong: rgba(26, 33, 64, 0.17);
+
+  --ink: #1a2140;
+  --mute: #4d5675;
+  --faint: #5f6886;
+
+  --neb: #4a5bd4;
+  --neb-ink: #ffffff;
+  --neb-soft: rgba(74, 91, 212, 0.1);
+  --mint: #13805a;
+  --mint-ink: #ffffff;
+  --mint-soft: rgba(19, 128, 90, 0.1);
+  --gold: #946010;
+  --gold-ink: #ffffff;
+  --gold-soft: rgba(212, 150, 43, 0.14);
+
+  --shadow: 0 18px 40px rgba(26, 33, 64, 0.1);
+  --glow-a: rgba(74, 91, 212, 0.09);
+  --glow-b: rgba(212, 150, 43, 0.06);
+
+  --lg-d1: #2f7fd0;
+  --lg-d2: #26509f;
+  --lg-d3: #1c357f;
+  --lg-a1: #f2cd80;
+  --lg-a2: #d99a2b;
+  --lg-a3: #b8791a;
+  --lg-b1: #8fd2f2;
+  --lg-b2: #3b8fd8;
+  --lg-b3: #2456a8;
+  --lg-ab1: #a97e2f;
+  --lg-ab2: #684d1d;
+  --lg-bb1: #4581ae;
+  --lg-bb2: #224871;
+  --lg-photon: #3f92da;
+  --lg-hot: #d99a2b;
+  --lg-node: #ffffff;
+  --lg-glow: rgba(47, 127, 208, 0.1);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-soft: var(--bg-soft);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-mute: var(--mute);
+  --color-faint: var(--faint);
+  --color-neb: var(--neb);
+  --color-neb-ink: var(--neb-ink);
+  --color-neb-soft: var(--neb-soft);
+  --color-mint: var(--mint);
+  --color-mint-ink: var(--mint-ink);
+  --color-mint-soft: var(--mint-soft);
+  --color-gold: var(--gold);
+  --color-gold-ink: var(--gold-ink);
+  --color-gold-soft: var(--gold-soft);
+}
+
+@theme {
+  /* Kenney Future Narrow (CC0), la del portafolio. Solo caja alta: se reserva
+     para marca, titulares y etiquetas. El cuerpo va en Manrope. */
+  --font-display: "Kenney Future", "Manrope", system-ui, sans-serif;
+  --font-sans: "Manrope", system-ui, -apple-system, sans-serif;
+  --font-heading: "Manrope", system-ui, -apple-system, sans-serif;
+}
+
+@font-face {
+  font-family: "Kenney Future";
+  src: url("/fonts/kenney-future-narrow.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@layer base {
+  /* Sin scroll-behavior:smooth — Lenis se encarga y ambos chocan. */
+  html {
+    background-color: var(--bg);
+  }
+  body {
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  ::selection {
+    background: var(--neb-soft);
+    color: var(--ink);
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    font-family: inherit;
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--neb);
+    outline-offset: 3px;
+    border-radius: 10px;
+  }
+}
+
+/* Clases de componente en su capa: así cualquier utilidad de Tailwind puesta
+   en el marcado (text-faint sobre .kicker, rounded-* sobre .card…) gana. */
+@layer components {
+  /* Dos luces fijas y quietas: el recuerdo de la nebulosa sin partículas. */
+  .ambient {
+    background:
+      radial-gradient(70% 55% at 85% -10%, var(--glow-a), transparent 60%),
+      radial-gradient(60% 50% at -10% 105%, var(--glow-b), transparent 60%);
+  }
+
+  /* ── Tipografía de marca ── */
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 11px;
+    line-height: 1;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--neb);
+  }
+  /* Titulares en Manrope y no en Kenney: en Kenney la K y la X se leen como
+     H y la V como U ("UUELTAS"), aceptable en un portafolio pero no en una
+     tienda. Kenney se queda en la marca y en los kickers. Para volver al
+     titular de portafolio basta con cambiar --font-heading por
+     var(--font-display) y añadir text-transform: uppercase. */
+  .display {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.04;
+    color: var(--ink);
+  }
+
+  /* ── Superficies ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+  }
+  .card-hover {
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    border-color: var(--line-strong);
+    box-shadow: var(--shadow);
+  }
+
+  /* ── Botones ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    min-height: 44px;
+    padding: 0 1.25rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    font-size: 15px;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+      box-shadow 0.2s ease, transform 0.15s ease;
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .btn-primary {
+    background: var(--neb);
+    color: var(--neb-ink);
+  }
+  .btn-primary:hover {
+    box-shadow: 0 8px 26px var(--neb-soft);
+    filter: brightness(1.06);
+  }
+  .btn-buy {
+    background: var(--mint);
+    color: var(--mint-ink);
+  }
+  .btn-buy:hover {
+    box-shadow: 0 8px 26px var(--mint-soft);
+    filter: brightness(1.06);
+  }
+  .btn-ghost {
+    border: 1px solid var(--line-strong);
+    color: var(--ink);
+  }
+  .btn-ghost:hover {
+    border-color: var(--neb);
+    color: var(--neb);
+    background: var(--neb-soft);
+  }
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  }
+  .icon-btn:hover {
+    border-color: var(--neb);
+    color: var(--neb);
+    background: var(--neb-soft);
+  }
+
+  /* ── Chips ── */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 38px;
+    padding: 0 0.95rem;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mute);
+    white-space: nowrap;
+    transition: border-color 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  }
+  .chip:hover {
+    color: var(--ink);
+    border-color: var(--line-strong);
+  }
+  .chip[aria-pressed="true"],
+  .chip[aria-current="true"] {
+    color: var(--neb);
+    border-color: var(--neb);
+    background: var(--neb-soft);
+  }
+
+  /* ── Campos ── */
+  .field {
+    width: 100%;
+    min-height: 48px;
+    border-radius: 9999px;
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--ink);
+    padding: 0 1.1rem;
+    font-size: 16px; /* 16px: evita el zoom automático de iOS al enfocar */
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .field::placeholder {
+    color: var(--faint);
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--neb);
+    box-shadow: 0 0 0 4px var(--neb-soft);
+  }
+
+  /* Sin barra de scroll visible en las filas de chips (siguen desplazables). */
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── Entradas del hero ──
+   Con JS, el contenido del hero arranca oculto y GSAP lo presenta. Sin JS o
+   con movimiento reducido se ve desde el principio. La animación CSS con
+   retardo es un seguro: si el bundle no llegara a cargar, a los 2.5 s se
+   muestra igual. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-intro] {
+    visibility: hidden;
+    animation: intro-seguro 0s 2.5s forwards;
+  }
+}
+@keyframes intro-seguro {
+  to {
+    visibility: visible;
+  }
+}
+
+/* Flotación del isotipo del hero */
+@keyframes flota {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -10px;
+  }
+}
+.flota {
+  animation: flota 7s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flota {
+    animation: none;
+  }
+}
