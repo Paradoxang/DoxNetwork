@@ -2,7 +2,8 @@ import { ArrowRight, Check, Search } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LogoDN } from "@/components/LogoDN";
-import { site } from "@/data/site";
+import { minPrice } from "@/data/catalog";
+import { formatCOP, site } from "@/data/site";
 import { Magnetic, Tilt } from "@/lib/anim";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 
@@ -29,9 +30,9 @@ export function Hero() {
         no depende de dónde corten las líneas, así da igual si Kenney aún no
         ha cargado cuando se parte el texto),
      2. el resto del texto y el buscador llegan escalonados,
-     3. en paralelo el isotipo se dibuja: trazo de la D, trazo de la N, la
-        esfera aparece, los anillos se abren desde el centro y los nodos de la
-        red se encienden uno a uno.
+     3. en paralelo el isotipo se dibuja: trazo de la D, trazo de la N, se
+        enciende el halo de la N, aparecen el planeta y la luna, los anillos se
+        abren desde el centro y los nodos de la red se encienden uno a uno.
      Con movimiento reducido no se anima nada: el CSS ya lo deja visible. */
   useGSAP(
     () => {
@@ -51,7 +52,9 @@ export function Hero() {
           const lt = gsap.timeline({ delay: 0.15 });
           lt.from(logo.querySelector(".dn-d"), { drawSVG: "0%", duration: 1.3, ease: "power2.inOut" })
             .from(logo.querySelectorAll(".dn-n"), { drawSVG: "0%", duration: 0.9, stagger: 0.25, ease: "power2.inOut" }, "-=0.9")
-            .from(logo.querySelector(".dn-sphere"), { scale: 0.4, autoAlpha: 0, svgOrigin: "500 420", duration: 0.9, ease: "back.out(1.6)" }, "-=1.1")
+            .from(logo.querySelectorAll(".dn-n-fx"), { autoAlpha: 0, duration: 0.8, ease: "power1.out" }, "-=0.3")
+            .from(logo.querySelector(".dn-sphere"), { scale: 0.4, autoAlpha: 0, svgOrigin: "500 420", duration: 0.9, ease: "back.out(1.6)" }, "-=1.3")
+            .from(logo.querySelector(".dn-moon"), { scale: 0, autoAlpha: 0, svgOrigin: "910 420", duration: 0.8, ease: "back.out(2)" }, "-=0.5")
             .from(logo.querySelectorAll(".dn-ring"), { scale: 0.2, autoAlpha: 0, svgOrigin: "500 420", duration: 1.1, ease: "expo.out" }, "-=0.6")
             .from(logo.querySelectorAll(".dn-node"), { scale: 0, transformOrigin: "50% 50%", duration: 0.5, stagger: 0.12, ease: "back.out(2.2)" }, "-=0.7");
         }
@@ -72,7 +75,7 @@ export function Hero() {
             Todo lo digital, sin vueltas.
           </h1>
           <p data-hero-in className="mt-6 max-w-xl text-[17px] leading-relaxed text-mute md:text-lg">
-            Streaming, música, IA, pines de cine, software y gaming desde $2.900. Eliges, pagas y lo
+            Streaming, música, IA, pines de cine, software y gaming desde {formatCOP(minPrice)}. Eliges, pagas y lo
             recibes en tu WhatsApp, con garantía durante toda la vigencia.
           </p>
 

@@ -5,6 +5,9 @@
  * pinta con su fondo de marca (degradado del tono + órbita) y se ve completo.
  * Cómo generar cada imagen con Nano Banana: docs/brief-imagenes-nano-banana.md
  */
+import { fromPrice, productBySlug, products } from "@/data/catalog";
+import { formatCOP } from "@/data/site";
+
 export interface Promo {
   id: string;
   kicker: string;
@@ -24,7 +27,7 @@ export const promos: Promo[] = [
     id: "combo-universitario",
     kicker: "Combo de la semana",
     title: "Universitario: IA, diseño e inglés",
-    text: "ChatGPT Plus, Canva Pro y Duolingo juntos por $25.900.",
+    text: `ChatGPT Plus, Canva Pro y Duolingo juntos por ${formatCOP(fromPrice(productBySlug("combo-universitario")!))}.`,
     cta: { label: "Ver combo", to: "/producto/combo-universitario" },
     hue: "#2fb38c",
     image: "/promos/promo-universitario.webp",
@@ -53,7 +56,7 @@ export const promos: Promo[] = [
   {
     id: "pines-cine",
     kicker: "Plan de fin de semana",
-    title: "Pines de cine desde $13.900",
+    title: `Pines de cine desde ${formatCOP(Math.min(...products.filter((p) => p.slug.startsWith("pin-")).map(fromPrice)))}`,
     text: "Cine Colombia, Cinemark y Procinal. El código llega en minutos.",
     cta: { label: "Ver pines", to: "/catalogo?categoria=cine-tv" },
     hue: "#d9364a",

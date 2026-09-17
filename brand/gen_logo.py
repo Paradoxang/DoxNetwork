@@ -4,10 +4,11 @@ Genera las variantes SVG del logo de DoxNetwork.
 
 Parte del isotipo de Dox Designs (el contorno de una D que encierra una esfera
 ensartada en dos anillos que se cruzan formando la X) y le suma una N a la
-derecha. La N se construye con el mismo trazo de la D: sus astas en el azul del
-contorno y la diagonal en el dorado del anillo A, para que las dos letras se
-lean como una sola familia. En los cuatro vertices de la N van nodos: la N es a
-la vez la letra y un pequeno grafo, la "red" de DoxNetwork.
+derecha. La N es gruesa (tubo de luz con halo y brillo interior): astas en el
+azul del contorno y diagonal en el dorado del anillo A. En el centro de la
+diagonal lleva una luna ensartada en un anillo con la misma inclinacion que el
+anillo A, a la misma altura que el planeta de la D: planeta y luna. En los
+cuatro vertices van nodos: la N es tambien un pequeno grafo, la "red".
 
 Uso:  python gen_logo.py
 """
@@ -29,17 +30,24 @@ D_L = 305.0
 D_T, D_B = 165.0, 675.0
 D_SH = 420.0
 D_BOWL = 255.7
-D_W = 24.0
+D_W = 32.0                   # un poco más grueso para acompañar a la N gruesa
 
-# La N: misma altura y mismo grosor que la D. El hueco con la panza de la D es
-# el mismo que deja la punta de los anillos, asi el conjunto respira parejo.
+# La N: misma altura que la D. El hueco con la panza de la D es el mismo que
+# deja la punta de los anillos, asi el conjunto respira parejo.
 N_L, N_R = 790.0, 1030.0
-N_W = D_W
-R_NODE = 21.0
+N_STEM_W = 50.0              # astas: el doble de la D, para que la N pese igual que el planeta
+N_DIAG_W = 58.0              # diagonal un poco más gruesa, como en una N tipográfica
+R_NODE = 30.0
 
-VIEW_ICON = "262 118 818 604"          # D + N, horizontal
-VIEW_SQUARE = "262 21 818 818"         # cuadrado para favicon / avatar
-VIEW_FULL = "262 118 818 830"          # con logotipo debajo
+# Luna: centro de la diagonal. Cae justo a la altura del centro del planeta de
+# la D (y = 420), así las dos esferas quedan alineadas en el mismo eje.
+MX, MY = (N_L + N_R) / 2, (D_T + D_B) / 2
+R_MOON = 50.0
+MOON_RING = (94.0, 20.0)     # anillo de la luna, con la inclinación del anillo A (-36°)
+
+VIEW_ICON = "262 100 840 640"          # D + N, horizontal
+VIEW_SQUARE = "262 0 840 840"         # cuadrado para favicon / avatar
+VIEW_FULL = "262 100 840 850"          # con logotipo debajo
 FONT = "Georgia, 'Times New Roman', serif"
 
 D_PATH = (f"M {D_L} {D_T} L {D_SH} {D_T} "
@@ -82,23 +90,50 @@ def sphere(pal):
     )
 
 
+def moon_ring_half(half):
+    """Mitad trasera (arriba) o delantera (abajo) del anillo de la luna."""
+    rx, ry = MOON_RING
+    sweep = 1 if half == "back" else 0
+    return (f'<path d="M {-rx:g} 0 A {rx:g} {ry:g} 0 0 {sweep} {rx:g} 0" fill="none" '
+            f'stroke="url(#ringA)" stroke-width="9" stroke-linecap="round"/>')
+
+
 def letter_n(pal):
-    out = (
-        f'  <path d="{N_STEMS}" fill="none" stroke="url(#dStroke)" '
-        f'stroke-width="{N_W}" stroke-linecap="round"/>\n'
-        f'  <path d="{N_DIAG}" fill="none" stroke="url(#ringA)" '
-        f'stroke-width="{N_W}" stroke-linecap="round"/>\n'
+    """N gruesa con efecto de tubo de luz y una luna en la diagonal.
+
+    Capas: halo difuminado, astas y diagonal, brillo interior (luz desde
+    arriba a la izquierda), luna ensartada en su anillo y nodos de red.
+    """
+    dx, dy = N_R - N_L, D_B - D_T
+    ln = (dx * dx + dy * dy) ** 0.5
+    ox, oy = -dy / ln * 10, dx / ln * 10  # perpendicular a la diagonal
+    if ox > 0:
+        ox, oy = -ox, -oy
+    return (
+        f'  <g filter="url(#nGlow)" opacity="{pal["glowOpacity"]}">\n'
+        f'    <path d="{N_STEMS}" fill="none" stroke="{pal["photon"]}" stroke-width="{N_STEM_W + 16:g}" stroke-linecap="round"/>\n'
+        f'    <path d="{N_DIAG}" fill="none" stroke="{pal["hot"]}" stroke-width="{N_DIAG_W + 16:g}" stroke-linecap="round"/>\n'
+        f'  </g>\n'
+        f'  <path d="{N_STEMS}" fill="none" stroke="url(#nStem)" stroke-width="{N_STEM_W:g}" stroke-linecap="round"/>\n'
+        f'  <path d="{N_DIAG}" fill="none" stroke="url(#nDiag)" stroke-width="{N_DIAG_W:g}" stroke-linecap="round"/>\n'
+        f'  <path d="{N_STEMS}" transform="translate(-11 0)" fill="none" stroke="{pal["shine"]}" stroke-width="9" stroke-linecap="round" opacity="0.5"/>\n'
+        f'  <path d="{N_DIAG}" transform="translate({ox:.1f} {oy:.1f})" fill="none" stroke="{pal["shineHot"]}" stroke-width="10" stroke-linecap="round" opacity="0.55"/>\n'
+        f'  <g transform="translate({MX:g} {MY:g}) rotate(-36)">{moon_ring_half("back")}</g>\n'
+        f'  <circle cx="{MX:g}" cy="{MY:g}" r="{R_MOON + 34:g}" fill="url(#glow)"/>\n'
+        f'  <circle cx="{MX:g}" cy="{MY:g}" r="{R_MOON:g}" fill="url(#sphereFill)"/>\n'
+        f'  <circle cx="{MX:g}" cy="{MY:g}" r="{R_MOON + 8:g}" fill="none" stroke="{pal["photon"]}" stroke-width="5" opacity="0.9"/>\n'
+        f'  <path d="M {MX - 46:g} {MY + 35:g} A 58 58 0 0 0 {MX + 46:g} {MY + 35:g}" fill="none" stroke="{pal["hot"]}" stroke-width="6" stroke-linecap="round" opacity="0.9"/>\n'
+        f'  <g transform="translate({MX:g} {MY:g}) rotate(-36)">{moon_ring_half("front")}</g>\n'
+        + "".join(
+            f'  <circle cx="{x:g}" cy="{y:g}" r="{R_NODE:g}" fill="{pal["node"]}" '
+            f'stroke="{pal["hot"] if i < 2 else pal["photon"]}" stroke-width="10"/>\n'
+            for i, (x, y) in enumerate(N_NODES)
+        )
     )
-    # nodos: los extremos de la diagonal en dorado, los otros dos en azul
-    for i, (x, y) in enumerate(N_NODES):
-        ring = pal["hot"] if i < 2 else pal["photon"]
-        out += (f'  <circle cx="{x:g}" cy="{y:g}" r="{R_NODE}" '
-                f'fill="{pal["node"]}" stroke="{ring}" stroke-width="9"/>\n')
-    return out
 
 
 def wordmark(fill):
-    mid = (262 + 262 + 818) / 2
+    mid = 262 + 840 / 2
     return (
         f'  <text x="{mid:g}" y="838" text-anchor="middle" font-size="150" '
         f'font-weight="bold" letter-spacing="18" fill="{fill}">DOX</text>\n'
@@ -116,9 +151,14 @@ DARK = {
     "sphereFill": [("0", "#182341"), ("0.72", "#080c18"), ("1", "#05070f")],
     "glow": [("0.6", "#7fd0f733"), ("0.84", "#7fd0f716"), ("1", "#7fd0f700")],
     "text": [("0", "#cfc3ea"), ("0.5", "#eef2fb"), ("1", "#a8c4ef")],
+    "nStem": [("0", "#b8e6ff"), ("0.5", "#4d86e0"), ("1", "#2a48a8")],
+    "nDiag": [("0", "#fff0c4"), ("0.45", "#f0bb52"), ("1", "#c98420")],
     "photon": "#dcf3ff",
     "hot": "#f6c667",
+    "shine": "#eaf7ff",
+    "shineHot": "#fff6d8",
     "node": "#0f1424",
+    "glowOpacity": 0.55,
 }
 
 LIGHT = {
@@ -130,9 +170,14 @@ LIGHT = {
     "sphereFill": [("0", "#1b2749"), ("0.72", "#0a1020"), ("1", "#05070f")],
     "glow": [("0.6", "#2f7fd016"), ("0.84", "#2f7fd00a"), ("1", "#2f7fd000")],
     "text": [("0", "#3a4a85"), ("0.5", "#1f2c5c"), ("1", "#3a4a85")],
+    "nStem": [("0", "#4a9be0"), ("0.5", "#2a5bb0"), ("1", "#1c357f")],
+    "nDiag": [("0", "#f7d58c"), ("0.45", "#dca13a"), ("1", "#a86d12")],
     "photon": "#3f92da",
     "hot": "#d99a2b",
+    "shine": "#e6f3ff",
+    "shineHot": "#fff3cf",
     "node": "#ffffff",
+    "glowOpacity": 0.28,
 }
 
 
@@ -147,7 +192,11 @@ def defs(pal):
 
     return ("  <defs>\n" + lin("ringA") + lin("ringB") + lin("ringAback")
             + lin("ringBback") + lin("dStroke", "0.6", "1") + rad("sphereFill")
-            + rad("glow") + lin("text", "1", "0") + "  </defs>\n")
+            + rad("glow") + lin("text", "1", "0")
+            + lin("nStem", "0", "1") + lin("nDiag", "0.4", "1")
+            + '    <filter id="nGlow" x="-40%" y="-20%" width="180%" height="140%">'
+              '<feGaussianBlur stdDeviation="16"/></filter>\n'
+            + "  </defs>\n")
 
 
 def icon_body(pal):
@@ -167,15 +216,37 @@ def svg(view, comment, body):
 
 
 def mono_body():
+    # En una tinta la diagonal se corta alrededor de la luna para que se lea.
+    dx, dy = N_R - N_L, D_B - D_T
+    ln = (dx * dx + dy * dy) ** 0.5
+    ux, uy = dx / ln, dy / ln
+    gap = R_MOON + 22
+    x1, y1 = MX - ux * gap, MY - uy * gap
+    x2, y2 = MX + ux * gap, MY + uy * gap
+    rx, ry = MOON_RING
     return (
         '  <g fill="none" stroke="currentColor">\n'
         f'    <ellipse cx="0" cy="0" rx="{RO_X}" ry="{RO_Y}" stroke-width="19" transform="translate({CX} {CY}) rotate({-TILT})"/>\n'
         f'    <ellipse cx="0" cy="0" rx="{RO_X}" ry="{RO_Y}" stroke-width="19" transform="translate({CX} {CY}) rotate({TILT})"/>\n'
+        f'    <ellipse cx="0" cy="0" rx="{rx:g}" ry="{ry:g}" stroke-width="9" transform="translate({MX:g} {MY:g}) rotate(-36)"/>\n'
         '  </g>\n'
         f'  <circle cx="{CX}" cy="{CY}" r="{R_SPHERE}" fill="currentColor"/>\n'
+        f'  <circle cx="{MX:g}" cy="{MY:g}" r="{R_MOON:g}" fill="currentColor"/>\n'
         f'  <path d="{D_PATH}" fill="none" stroke="currentColor" stroke-width="{D_W}" stroke-linejoin="round"/>\n'
-        f'  <path d="{N_STEMS} {N_DIAG}" fill="none" stroke="currentColor" stroke-width="{N_W}" stroke-linecap="round" stroke-linejoin="round"/>\n'
-        + "".join(f'  <circle cx="{x:g}" cy="{y:g}" r="{R_NODE + 6}" fill="currentColor"/>\n' for x, y in N_NODES)
+        f'  <path d="{N_STEMS}" fill="none" stroke="currentColor" stroke-width="{N_STEM_W:g}" stroke-linecap="round"/>\n'
+        f'  <path d="M {N_L} {D_T} L {x1:.1f} {y1:.1f} M {x2:.1f} {y2:.1f} L {N_R} {D_B}" fill="none" stroke="currentColor" stroke-width="{N_DIAG_W:g}" stroke-linecap="round"/>\n'
+    )
+
+
+def favicon_body(pal):
+    """Versión para 16-64 px: fondo propio, trazos muy gruesos, sin anillos ni brillos.
+    A ese tamaño los anillos se vuelven ruido; quedan la D con su planeta y la N con su luna."""
+    return (
+        f'  <rect x="262" y="0" width="840" height="840" rx="190" fill="#0f1424"/>\n'
+        f'  <path d="{D_PATH}" fill="none" stroke="url(#dStroke)" stroke-width="64" stroke-linejoin="round"/>\n'
+        f'  <circle cx="{CX}" cy="{CY}" r="96" fill="{pal["hot"]}"/>\n'
+        f'  <path d="{N_STEMS}" fill="none" stroke="url(#nStem)" stroke-width="84" stroke-linecap="round"/>\n'
+        f'  <path d="{N_DIAG}" fill="none" stroke="url(#nDiag)" stroke-width="92" stroke-linecap="round"/>\n'
     )
 
 
@@ -185,6 +256,7 @@ FILES = {
     "doxnetwork-square.svg": (VIEW_SQUARE, "Isotipo DN cuadrado - favicon/avatar", lambda: defs(DARK) + icon_body(DARK)),
     "doxnetwork-color.svg": (VIEW_FULL, "Version principal - fondos oscuros", lambda: defs(DARK) + icon_body(DARK) + wordmark("url(#text)")),
     "doxnetwork-color-light.svg": (VIEW_FULL, "Version principal - fondos claros", lambda: defs(LIGHT) + icon_body(LIGHT) + wordmark("url(#text)")),
+    "doxnetwork-favicon.svg": (VIEW_SQUARE, "Favicon simplificado 16-64 px", lambda: defs(DARK) + favicon_body(DARK)),
     "doxnetwork-icon-mono.svg": (VIEW_ICON, "Monocromo: hereda currentColor", mono_body),
 }
 

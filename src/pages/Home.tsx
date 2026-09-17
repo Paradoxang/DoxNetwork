@@ -1,5 +1,6 @@
 import { Seo } from "@/components/Seo";
-import { site } from "@/data/site";
+import { minPrice } from "@/data/catalog";
+import { formatCOP, site } from "@/data/site";
 import { Benefits } from "@/sections/Benefits";
 import { Categories } from "@/sections/Categories";
 import { CombosSection } from "@/sections/CombosSection";
@@ -21,7 +22,7 @@ export function Home() {
   return (
     <>
       <Seo
-        title={`${site.name} · Streaming, IA y pines de cine desde $2.900`}
+        title={`${site.name} · Streaming, IA y pines de cine desde ${formatCOP(minPrice)}`}
         description={site.description}
         path="/"
         jsonLd={{

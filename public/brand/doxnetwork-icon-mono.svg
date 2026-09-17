@@ -1,14 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="262 118 818 604" font-family="Georgia, 'Times New Roman', serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="262 100 840 640" font-family="Georgia, 'Times New Roman', serif">
   <!-- Monocromo: hereda currentColor -->
   <g fill="none" stroke="currentColor">
     <ellipse cx="0" cy="0" rx="275.0" ry="66.0" stroke-width="19" transform="translate(500.0 420.0) rotate(-36.0)"/>
     <ellipse cx="0" cy="0" rx="275.0" ry="66.0" stroke-width="19" transform="translate(500.0 420.0) rotate(36.0)"/>
+    <ellipse cx="0" cy="0" rx="94" ry="20" stroke-width="9" transform="translate(910 420) rotate(-36)"/>
   </g>
   <circle cx="500.0" cy="420.0" r="112.0" fill="currentColor"/>
-  <path d="M 305.0 165.0 L 420.0 165.0 A 255.7 255.7 0 1 1 420.0 675.0 L 305.0 675.0 Z" fill="none" stroke="currentColor" stroke-width="24.0" stroke-linejoin="round"/>
-  <path d="M 790.0 675.0 L 790.0 165.0 M 1030.0 165.0 L 1030.0 675.0 M 790.0 165.0 L 1030.0 675.0" fill="none" stroke="currentColor" stroke-width="24.0" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="790" cy="165" r="27.0" fill="currentColor"/>
-  <circle cx="1030" cy="675" r="27.0" fill="currentColor"/>
-  <circle cx="790" cy="675" r="27.0" fill="currentColor"/>
-  <circle cx="1030" cy="165" r="27.0" fill="currentColor"/>
+  <circle cx="910" cy="420" r="50" fill="currentColor"/>
+  <path d="M 305.0 165.0 L 420.0 165.0 A 255.7 255.7 0 1 1 420.0 675.0 L 305.0 675.0 Z" fill="none" stroke="currentColor" stroke-width="32.0" stroke-linejoin="round"/>
+  <path d="M 790.0 675.0 L 790.0 165.0 M 1030.0 165.0 L 1030.0 675.0" fill="none" stroke="currentColor" stroke-width="50" stroke-linecap="round"/>
+  <path d="M 790.0 165.0 L 879.3 354.9 M 940.7 485.1 L 1030.0 675.0" fill="none" stroke="currentColor" stroke-width="58" stroke-linecap="round"/>
 </svg>

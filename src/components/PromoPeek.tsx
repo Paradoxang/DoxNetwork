@@ -3,6 +3,8 @@ import { ArrowRight, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { SmartImage } from "@/components/SmartImage";
+import { minPrice } from "@/data/catalog";
+import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
 import { EASE } from "@/lib/anim";
 
@@ -70,7 +72,7 @@ export function PromoPeek() {
             style={{ background: "radial-gradient(90% 90% at 80% 10%, var(--neb-soft), transparent 60%), var(--surface-2)" }}
           >
             <span className="absolute inset-0 flex items-center justify-center text-4xl font-extrabold tracking-[-0.03em] text-neb">
-              $2.900
+              {formatCOP(minPrice)}
             </span>
             <SmartImage src="/promos/promo-peek.webp" className="absolute inset-0 h-full w-full object-cover" />
             <button
@@ -84,7 +86,7 @@ export function PromoPeek() {
           </div>
           <div className="p-4">
             <p className="kicker">¿Primera vez?</p>
-            <p className="mt-2 font-bold leading-snug">Prueba con una pantalla desde $2.900</p>
+            <p className="mt-2 font-bold leading-snug">Empieza con productos desde {formatCOP(minPrice)}</p>
             <Link to="/catalogo?orden=menor" onClick={close} className="mt-3 flex items-center gap-1.5 text-sm font-semibold text-neb hover:underline">
               Ver lo más económico <ArrowRight className="h-4 w-4" />
             </Link>

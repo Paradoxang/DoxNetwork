@@ -58,6 +58,15 @@
   --lg-hot: #f6c667;
   --lg-node: #0f1424;
   --lg-glow: rgba(127, 208, 247, 0.2);
+  --lg-ns1: #b8e6ff;
+  --lg-ns2: #4d86e0;
+  --lg-ns3: #2a48a8;
+  --lg-nd1: #fff0c4;
+  --lg-nd2: #f0bb52;
+  --lg-nd3: #c98420;
+  --lg-shine: #eaf7ff;
+  --lg-shine-hot: #fff6d8;
+  --lg-nglow: 0.55;
 }
 
 [data-theme="light"] {
@@ -104,6 +113,15 @@
   --lg-hot: #d99a2b;
   --lg-node: #ffffff;
   --lg-glow: rgba(47, 127, 208, 0.1);
+  --lg-ns1: #4a9be0;
+  --lg-ns2: #2a5bb0;
+  --lg-ns3: #1c357f;
+  --lg-nd1: #f7d58c;
+  --lg-nd2: #dca13a;
+  --lg-nd3: #a86d12;
+  --lg-shine: #e6f3ff;
+  --lg-shine-hot: #fff3cf;
+  --lg-nglow: 0.28;
 }
 
 @theme inline {

@@ -52,12 +52,16 @@ Cada plan se describe por ejes: `access` (Pantalla / Completa), `tier`
 (Estándar, Premium, Platino, Go, Plus…) y `duration`. La ficha solo muestra los
 ejes que cambian dentro del producto.
 
-- `compareAt`: precio tachado. **Solo si se puede comprobar** (por ejemplo, 3
-  meses frente a 3 × el mensual).
+- `cost`: precio de proveedor. El precio de venta se calcula solo con
+  `MARKUP` (en `src/data/catalog.ts`), redondeado hacia arriba a terminación 900.
+  Sin `cost`, el plan lleva `price` fijo.
+- `per`: en planes de varios periodos, se tacha contra `n` veces el precio del
+  plan mensual.
+- Combos: `comboDiscount` (0.12 = 12%) sobre la suma de sus partes.
 - `stock`: si existe y es 5 o menos, se muestra "Quedan N". En 0, el producto
   aparece como agotado. Úsalo solo con inventario real.
-- Combos: `includes` lista producto y plan. El precio tachado se calcula solo
-  como la suma de las partes.
+- Combos: `includes` lista producto y plan. El precio y el tachado se calculan
+  solos a partir de las partes.
 - `price: 0` = "A cotizar".
 
 ## Decisiones tomadas a partir de los estudios de competencia
@@ -66,7 +70,7 @@ Estudios de ZeroDelay, Torostream y Emprendered (16-sep-2026). Son documentos
 internos: están en `.gitignore` y no se suben al repositorio.
 
 **Aplicado**
-- Precios con terminación 900 y entrada por debajo de $5.000 en 13 productos.
+- Precio = costo de proveedor × `MARKUP` (3), redondeado a terminación 900. Costo de referencia: Torostream y, si falta, Emprendered.
 - Escalera por producto: acceso × calidad × duración.
 - 6 combos con identidad ("Universitario", "Fan del deporte"…), con ahorro real
   del 11% al 16%.
@@ -86,6 +90,17 @@ internos: están en `.gitignore` y no se suben al repositorio.
 - Contenido adulto, réplicas "1.1" y vapes.
 - Nivel "genérica": cuentas recicladas de origen dudoso.
 - Precios tachados inventados (−96%) y testimonios genéricos.
+
+## Logo
+
+La D de Dox Designs (planeta con dos anillos en X) y una N gruesa con efecto de
+tubo de luz (halo + brillo interior), con una luna ensartada en la diagonal a la
+misma altura que el planeta, y nodos de red en los vértices.
+
+- Fuente única: `brand/gen_logo.py` (`python brand/gen_logo.py`).
+- PNG exportados: `brand/export/` (`SHARP_DIR=<carpeta con node_modules/sharp> node brand/render.cjs`).
+- `doxnetwork-favicon.svg` es una versión simplificada, legible a 16–64 px.
+- En la web va en línea (`src/components/LogoDN.tsx`) para animarlo y cambiar de color con el tema.
 
 ## Navegación
 

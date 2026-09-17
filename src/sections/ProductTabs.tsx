@@ -20,9 +20,10 @@ const tabs = [
     more: { to: "/catalogo", label: "Ver catálogo" },
   },
   {
+    // Los 8 más económicos: la puerta de entrada para el primer pedido
     id: "empezar",
-    label: "Desde $2.900",
-    list: products.filter((p) => !isCombo(p) && fromPrice(p) > 0 && fromPrice(p) < 5000).sort((a, b) => fromPrice(a) - fromPrice(b)).slice(0, 8),
+    label: "Para empezar",
+    list: products.filter((p) => !isCombo(p) && fromPrice(p) > 0).sort((a, b) => fromPrice(a) - fromPrice(b)).slice(0, 8),
     more: { to: "/catalogo?orden=menor", label: "Ver por precio" },
   },
   {
