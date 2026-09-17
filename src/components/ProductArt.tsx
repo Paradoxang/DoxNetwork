@@ -1,9 +1,10 @@
 import { initials, isCombo, logoOf, productBySlug, type Plan, type Product } from "@/data/catalog";
+import { conditionInfo } from "@/data/lineas";
 import { qualityInfo } from "@/data/perfumeria";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { SmartImage } from "@/components/SmartImage";
 
-type Size = "sm" | "md" | "lg" | "wide";
+type Size = "sm" | "md" | "lg" | "wide" | "square";
 
 /**
  * Miniatura de producto. Tres formas, todas sobre el tono del producto:
@@ -29,6 +30,7 @@ export function ProductArt({
   className?: string;
 }) {
   if (product.perfume) return <PerfumeArt product={product} size={size} bare={bare} className={className} />;
+  if (product.articulo) return <ArticuloArt product={product} size={size} bare={bare} className={className} />;
 
   const big = size === "lg";
   const small = size === "sm";
@@ -39,7 +41,7 @@ export function ProductArt({
 
   return (
     <div
-      className={`relative isolate flex ${size === "md" ? "aspect-[16/9] sm:aspect-[4/3]" : size === "wide" ? "aspect-[16/9]" : "aspect-[4/3]"} items-center justify-center overflow-hidden ${className}`}
+      className={`relative isolate flex ${size === "md" ? "aspect-[16/9] sm:aspect-[4/3]" : size === "wide" ? "aspect-[16/9]" : size === "square" ? "aspect-square" : "aspect-[4/3]"} items-center justify-center overflow-hidden ${className}`}
       style={{
         background: `radial-gradient(120% 90% at 20% 0%, ${product.hue}55, transparent 60%),
           radial-gradient(90% 80% at 100% 100%, ${product.hue}33, transparent 65%),
@@ -104,6 +106,42 @@ export function ProductArt({
           className={`absolute left-3 top-3 z-20 flex items-center justify-center rounded-full bg-bg/70 text-ink backdrop-blur-sm ${big ? "h-10 w-10" : "h-8 w-8"}`}
         >
           <CategoryIcon id={product.category} className={big ? "h-5 w-5" : "h-4 w-4"} />
+        </span>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Relojería y tecnología: las fotos del proveedor ya vienen compuestas
+ * (estudio gris para relojes, piezas de producto para tecnología), así que
+ * van enteras, cuadradas, sobre el tono de su subcategoría mientras cargan.
+ */
+function ArticuloArt({ product, size, bare, className }: { product: Product; size: Size; bare: boolean; className: string }) {
+  const info = product.articulo!;
+  const big = size === "lg";
+  const small = size === "sm";
+  const base = product.image!.replace(/\.webp$/, "");
+  return (
+    <div
+      className={`relative isolate aspect-square overflow-hidden ${className}`}
+      style={{ background: `radial-gradient(90% 70% at 50% 30%, ${product.hue}33, transparent 70%), var(--surface-2)` }}
+      aria-hidden="true"
+    >
+      <SmartImage
+        src={`${base}${small ? "-sm" : ""}.webp`}
+        srcSet={small ? undefined : `${base}-sm.webp 360w, ${base}.webp 720w`}
+        sizes={big ? "(min-width: 1024px) 560px, 100vw" : "(min-width: 1024px) 280px, (min-width: 640px) 45vw, 50vw"}
+        eager={big}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
+      {!small && !bare && info.condition && (
+        <span
+          className={`absolute left-3 top-3 z-20 rounded-full bg-[#1a1712]/85 font-extrabold tracking-wide text-[#f6ead2] backdrop-blur-sm ${
+            big ? "px-3 py-1.5 text-xs" : "px-2.5 py-1 text-[11px]"
+          }`}
+        >
+          {conditionInfo[info.condition].label}
         </span>
       )}
     </div>

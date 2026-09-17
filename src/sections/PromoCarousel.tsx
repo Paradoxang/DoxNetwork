@@ -3,6 +3,7 @@ import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { SmartImage } from "@/components/SmartImage";
+import { productBySlug, type Product } from "@/data/catalog";
 import { promos } from "@/data/promos";
 import { EASE } from "@/lib/anim";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -107,6 +108,8 @@ export function PromoCarousel() {
                   donde está el sujeto. */}
               <SmartImage src={p.image} eager={index === 0} className={`absolute inset-0 h-full w-full object-cover object-[80%_50%] ${p.imageMobile ? "hidden sm:block" : ""}`} />
               {p.imageMobile && <SmartImage src={p.imageMobile} eager={index === 0} className="absolute inset-0 h-full w-full object-cover sm:hidden" />}
+              {/* Sin banner: tres productos reales en abanico, arriba en móvil y a la derecha desde sm */}
+              {p.showcase && <PromoShowcase slugs={p.showcase} />}
               {/* Velo para que el texto se lea sobre cualquier imagen */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#060912]/85 via-[#060912]/35 to-transparent sm:bg-gradient-to-r sm:from-[#060912]/80 sm:via-[#060912]/40" />
 
@@ -173,5 +176,34 @@ export function PromoCarousel() {
         </div>
       </div>
     </section>
+  );
+}
+
+function PromoShowcase({ slugs }: { slugs: string[] }) {
+  const items = slugs.map((s) => productBySlug(s)).filter((x): x is Product => Boolean(x));
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute inset-x-0 top-[6%] flex h-[48%] items-center justify-center sm:inset-y-0 sm:left-auto sm:right-[4%] sm:top-0 sm:h-full sm:w-[52%]"
+    >
+      {items.map((it, i) => (
+        <div
+          key={it.slug}
+          className={`relative aspect-[4/5] w-[34%] overflow-hidden rounded-[22px] border border-white/15 shadow-[0_30px_60px_-20px_rgba(3,6,15,0.8)] sm:w-[30%] ${
+            i === 0 ? "-mr-[6%] -rotate-[8deg] translate-y-[6%]" : i === 1 ? "z-10 -translate-y-[4%]" : "-ml-[6%] rotate-[8deg] translate-y-[6%]"
+          }`}
+          style={{ background: it.perfume ? "linear-gradient(180deg,#f7f5f1,#ece8e1)" : "var(--surface-2)" }}
+        >
+          <img
+            src={it.image}
+            alt=""
+            width={720}
+            height={720}
+            draggable={false}
+            className={`h-full w-full ${it.perfume ? "object-contain p-[6%] mix-blend-multiply" : "object-cover"}`}
+          />
+        </div>
+      ))}
+    </div>
   );
 }

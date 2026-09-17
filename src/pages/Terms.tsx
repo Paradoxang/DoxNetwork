@@ -8,8 +8,17 @@ import { Reveal } from "@/lib/anim";
  */
 const sections = [
   {
-    t: "Productos digitales",
-    p: `${site.name} vende productos y servicios digitales. No hay envíos físicos: la entrega se hace por WhatsApp una vez confirmado el pago.`,
+    t: "Qué vendemos",
+    p: `${site.name} vende productos y servicios digitales, que se entregan por WhatsApp una vez confirmado el pago, y productos físicos (perfumería, relojería y tecnología), que se envían a la dirección que indiques.`,
+  },
+  // TODO: ajusta envíos y cambios de productos físicos a tus condiciones reales
+  {
+    t: "Envíos de productos físicos",
+    p: "Enviamos a toda Colombia. El costo, la transportadora y el tiempo estimado se confirman por WhatsApp antes del pago según tu ciudad.",
+  },
+  {
+    t: "Originales y réplicas",
+    p: "Cada ficha indica si el producto es original o réplica. Las réplicas no son productos de las marcas mencionadas ni están asociadas a ellas; los nombres se usan solo como referencia.",
   },
   {
     t: "Pedidos y pagos",
@@ -29,7 +38,7 @@ const sections = [
   },
   {
     t: "Cambios y devoluciones",
-    p: "Por la naturaleza digital de los productos, una vez entregados no se admiten devoluciones, salvo que el producto no funcione y no podamos solucionarlo.",
+    p: "Productos digitales: una vez entregados no se admiten devoluciones, salvo que no funcionen y no podamos solucionarlo. Productos físicos: la garantía y las condiciones de cambio se confirman por escrito antes del pago según el producto.",
   },
   {
     t: "Datos personales",

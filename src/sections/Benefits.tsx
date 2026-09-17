@@ -1,16 +1,14 @@
-import { Percent, ShieldCheck, Wallet, Zap } from "lucide-react";
-import { comboTiers, site } from "@/data/site";
+import { ShieldCheck, Truck, Wallet, Zap } from "lucide-react";
+import { site } from "@/data/site";
 import { Reveal } from "@/lib/anim";
-
-const maxPct = comboTiers.length ? comboTiers[comboTiers.length - 1].pct : 0;
 
 // Barra de confianza justo debajo del hero (estructura mínima de los tres estudios).
 // TODO: confirma que cada promesa es real en tu operación antes de publicarla.
 const items = [
-  { icon: Zap, title: "Digital en minutos", text: `Plataformas y software por WhatsApp, ~${site.deliveryMinutes} min. Perfumes con envío nacional.` },
-  { icon: ShieldCheck, title: "Garantía escrita", text: `Reponemos en menos de ${site.warrantyHours} h si algo falla.` },
+  { icon: Zap, title: "Digital en minutos", text: `Streaming, IA y software por WhatsApp en ~${site.deliveryMinutes} min.` },
+  { icon: Truck, title: "Envíos a toda Colombia", text: "Perfumes, relojes y tecnología. Costo y tiempo por WhatsApp." },
+  { icon: ShieldCheck, title: "Garantía por escrito", text: `Reposición digital en menos de ${site.warrantyHours} h; en lo físico, antes de pagar.` },
   { icon: Wallet, title: "Pagos locales", text: `${site.payments.slice(0, 3).join(", ")}. Sin tarjeta.` },
-  ...(maxPct ? [{ icon: Percent, title: `Combos hasta ${maxPct}%`, text: "El descuento se aplica solo al combinar." }] : []),
 ];
 
 export function Benefits() {

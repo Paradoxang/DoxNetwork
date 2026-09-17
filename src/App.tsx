@@ -16,6 +16,7 @@ import { EASE, scrollToTarget, useLenis } from "@/lib/anim";
 import { CartProvider, useCart } from "@/lib/cart";
 import { UIProvider } from "@/lib/ui";
 import { Catalog } from "@/pages/Catalog";
+import { Coleccion } from "@/pages/Coleccion";
 import { ComboBuilder } from "@/pages/ComboBuilder";
 import { Favorites } from "@/pages/Favorites";
 import { Home } from "@/pages/Home";
@@ -140,6 +141,8 @@ export const routes: RouteRecord[] = [
         getStaticPaths: () => allProducts.map((p) => `producto/${p.slug}`),
       },
       { path: "perfumeria", element: <Perfumeria /> },
+      { path: "relojeria", element: <Coleccion linea="relojeria" /> },
+      { path: "tecnologia", element: <Coleccion linea="tecnologia" /> },
       { path: "arma-tu-combo", element: <ComboBuilder /> },
       { path: "favoritos", element: <Favorites /> },
       { path: "terminos", element: <Terms /> },

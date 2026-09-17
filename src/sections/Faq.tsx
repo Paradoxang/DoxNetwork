@@ -14,6 +14,18 @@ import { EASE, Reveal } from "@/lib/anim";
  */
 export const faqs = [
   {
+    q: "¿Qué venden en DoxNetwork?",
+    a: "Productos digitales (streaming, música, IA, software, pines de cine y gaming), perfumería, relojería y tecnología, y páginas web a la medida con Dox Designs. Todo se pide por el mismo carrito y el mismo WhatsApp.",
+  },
+  {
+    q: "¿Hacen envíos? ¿Cuánto tardan?",
+    a: `Lo digital llega por WhatsApp en unos ${site.deliveryMinutes} minutos en horario de atención (${site.hours}). Perfumes, relojes y tecnología se envían a toda Colombia: el costo y el tiempo te los confirmamos por WhatsApp según tu ciudad.`,
+  },
+  {
+    q: "¿Los productos físicos son originales?",
+    a: "Cada ficha lo dice. Hay productos originales (como los relojes Kairos) y réplicas (perfumes 1.1 y AAA, algunos relojes y audífonos). Las réplicas no son productos de las marcas ni están asociadas a ellas.",
+  },
+  {
     q: "¿Qué diferencia hay entre Pantalla y Completa?",
     a: "Pantalla es un perfil propio dentro de una cuenta compartida: lo usas tú solo, en un dispositivo a la vez. Completa es la cuenta entera con todos sus perfiles, ideal para compartir en casa.",
   },
@@ -22,11 +34,7 @@ export const faqs = [
     a: "La calidad y lo que incluye el plan oficial de cada plataforma. Premium y Platino suelen sumar 4K, más dispositivos a la vez o extras como ESPN en Disney+. En cada ficha lo ves detallado.",
   },
   {
-    q: "¿Cuánto tarda la entrega?",
-    a: `En horario de atención (${site.hours}) entregamos en unos ${site.deliveryMinutes} minutos después de confirmar el pago, por el mismo chat de WhatsApp.`,
-  },
-  {
-    q: "¿Qué pasa si deja de funcionar?",
+    q: "¿Qué pasa si un producto digital deja de funcionar?",
     a: `Escríbenos con tu número de pedido. Te reponemos la cuenta o el perfil en menos de ${site.warrantyHours} horas y sin costo, durante toda la vigencia de tu plan.`,
   },
   {
@@ -40,7 +48,7 @@ export const faqs = [
   {
     q: "¿Cómo funcionan los combos?",
     a: comboTiers.length
-      ? `Hay dos formas: los combos armados, que ya vienen con precio rebajado, o armar el tuyo. Al combinar productos distintos el descuento se aplica solo: ${comboTiers
+      ? `Hay dos formas: los combos armados, que ya vienen con precio rebajado, o armar el tuyo. Al combinar productos digitales distintos el descuento se aplica solo: ${comboTiers
           .map((t) => `${t.pct}% con ${t.min}`)
           .join(", ")} o más.`
       : "Tenemos combos armados con precio rebajado frente a comprar cada plataforma por separado.",

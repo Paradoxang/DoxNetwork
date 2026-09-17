@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { ProductCard } from "@/components/ProductCard";
+import { FaqItem, Select } from "@/components/ShopControls";
 import { Seo } from "@/components/Seo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { productBySlug, type Product } from "@/data/catalog";
@@ -505,57 +506,5 @@ function ShowcaseArt({ product }: { product: Product }) {
     >
       <img src={`${base}.webp`} alt="" width={720} height={720} className="h-full w-full object-contain p-[4%] mix-blend-multiply" />
     </div>
-  );
-}
-
-function Select({
-  label,
-  value,
-  onChange,
-  options,
-}: {
-  label: string;
-  value: string;
-  onChange: (v: string) => void;
-  options: { value: string; label: string }[];
-}) {
-  return (
-    <label className="relative md:w-60">
-      <span className="sr-only">{label}</span>
-      <select value={value} onChange={(e) => onChange(e.target.value)} className="field cursor-pointer appearance-none pr-10">
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>
-            {o.label}
-          </option>
-        ))}
-      </select>
-      <span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-faint">
-        ▾
-      </span>
-    </label>
-  );
-}
-
-function FaqItem({ q, a }: { q: string; a: string }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <li className="card overflow-hidden">
-      <button type="button" onClick={() => setOpen((v) => !v)} aria-expanded={open} className="flex min-h-[60px] w-full items-center justify-between gap-4 px-5 text-left font-bold">
-        {q}
-        <Plus className={`h-5 w-5 shrink-0 text-faint transition-transform duration-300 ${open ? "rotate-45" : ""}`} />
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: EASE }}
-          >
-            <p className="px-5 pb-5 leading-relaxed text-mute">{a}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </li>
   );
 }

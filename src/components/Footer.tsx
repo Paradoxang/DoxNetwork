@@ -1,7 +1,7 @@
 import { Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import { categories } from "@/data/catalog";
-import { perfumeCategory } from "@/data/perfumeria";
+import { lineaOrder, lineas } from "@/data/lineas";
 import { site, waLink } from "@/data/site";
 import { LogoDN } from "@/components/LogoDN";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -28,7 +28,17 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="kicker">Categorías</p>
+          <p className="kicker">La red</p>
+          <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm md:grid-cols-1">
+            {lineaOrder.map((id) => (
+              <li key={id}>
+                <Link to={lineas[id].path} className="font-semibold text-ink transition-colors hover:text-neb">
+                  {lineas[id].name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="kicker mt-8">Digital</p>
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm md:grid-cols-1">
             {categories.map((c) => (
               <li key={c.id}>
@@ -37,11 +47,6 @@ export function Footer() {
                 </Link>
               </li>
             ))}
-            <li>
-              <Link to="/perfumeria" className="text-mute transition-colors hover:text-neb">
-                {perfumeCategory.name}
-              </Link>
-            </li>
           </ul>
         </div>
 

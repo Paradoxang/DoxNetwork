@@ -9,7 +9,7 @@ const steps = [
   {
     icon: MousePointerClick,
     title: "Elige",
-    text: "Agrega al carrito lo que quieras, o arma tu combo. Al combinar productos el descuento se aplica solo.",
+    text: "Agrega al carrito lo que quieras de toda la red: plataformas, perfumes, relojes o tecnología.",
   },
   {
     icon: MessageCircle,
@@ -19,7 +19,7 @@ const steps = [
   {
     icon: CreditCard,
     title: "Paga y recibe",
-    text: `Pagas por ${site.payments.slice(0, 3).join(", ")} y lo recibes en el mismo chat en ~${site.deliveryMinutes} minutos.`,
+    text: `Pagas por ${site.payments.slice(0, 3).join(", ")}. Lo digital llega al chat en ~${site.deliveryMinutes} minutos y lo físico sale con envío a toda Colombia.`,
   },
 ];
 
@@ -63,7 +63,7 @@ export function HowItWorks() {
     <section ref={scope} id="como-comprar" className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
       <div className="relative">
         <SectionHeading kicker="04 · Cómo comprar" title="Tres pasos y listo" center>
-          Sin registros ni formularios largos. Todo pasa en un chat.
+          Sin registros ni formularios largos. Compres lo que compres, todo pasa en un chat.
         </SectionHeading>
         {/* ASTRO señala los pasos (solo escritorio, a la izquierda del titular) */}
         <div className="absolute -top-10 left-0 hidden lg:block">

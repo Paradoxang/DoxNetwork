@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { isCombo, planLabel, productBySlug, type Plan, type Product } from "@/data/catalog";
+import { isPhysical } from "@/data/lineas";
 import { comboTiers, formatCOP, site, waLink } from "@/data/site";
 
 export interface CartLine {
@@ -32,8 +33,8 @@ export interface Totals {
 
 /**
  * Descuento por combinar: cuenta productos digitales distintos que no sean
- * combos (los combos ya traen su precio rebajado; la perfumería tiene su
- * propio margen) y aplica el % solo sobre esas líneas.
+ * combos (los combos ya traen su precio rebajado; perfumería, relojería y
+ * tecnología tienen su propio margen) y aplica el % solo sobre esas líneas.
  * Exportado porque el armador de combos calcula lo mismo en vivo.
  */
 export function computeTotals(lines: { product: Product; total: number }[]): Totals & {
@@ -41,7 +42,7 @@ export function computeTotals(lines: { product: Product; total: number }[]): Tot
   nextTier: { missing: number; pct: number } | null;
 } {
   const subtotal = lines.reduce((a, l) => a + l.total, 0);
-  const loose = lines.filter((l) => !isCombo(l.product) && !l.product.perfume);
+  const loose = lines.filter((l) => !isCombo(l.product) && !isPhysical(l.product));
   const distinct = new Set(loose.map((l) => l.product.slug)).size;
   const tier = [...comboTiers].reverse().find((t) => distinct >= t.min);
   const discountPct = tier?.pct ?? 0;
@@ -109,8 +110,8 @@ export function buildOrderMessage(lines: ResolvedLine[], t: Totals) {
     out.push(`Descuento por combinar (${t.discountPct}%): -${formatCOP(t.discount)}`);
   }
   out.push(`Total: ${formatCOP(t.total)}`);
-  if (lines.some((l) => l.product.perfume)) {
-    out.push("", "Envío de perfumes a (ciudad y dirección): ");
+  if (lines.some((l) => isPhysical(l.product))) {
+    out.push("", "Envío a (ciudad y dirección): ");
   }
   return out.join("\n");
 }

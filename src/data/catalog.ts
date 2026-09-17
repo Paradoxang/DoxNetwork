@@ -21,6 +21,7 @@
  * perfumeria.ts, y solo se une aquí para carrito, buscador y fichas.
  */
 
+import { articulos, lineas, type ArticuloInfo } from "./lineas";
 import { perfumeCategory, perfumes, type PerfumeInfo } from "./perfumeria";
 import { down900, up900 } from "./price";
 
@@ -36,7 +37,9 @@ export type CategoryId =
   | "creatividad"
   | "gaming"
   | "aprende"
-  | "perfumeria";
+  | "perfumeria"
+  | "relojeria"
+  | "tecnologia";
 
 export interface Category {
   id: CategoryId;
@@ -56,10 +59,7 @@ export const categories: Category[] = [
 ];
 
 /** Categorías anunciadas como "Próximamente": dan sensación de catálogo que crece. */
-export const upcoming = [
-  { name: "Gift cards", blurb: "Steam, PlayStation, Google Play" },
-  { name: "Tecnología", blurb: "Accesorios para ver y jugar" },
-];
+export const upcoming = [{ name: "Gift cards", blurb: "Steam, PlayStation, Google Play" }];
 
 export type Access = "Pantalla" | "Completa";
 
@@ -108,6 +108,8 @@ export interface Product {
   logo?: string;
   /** Solo perfumería. */
   perfume?: PerfumeInfo;
+  /** Solo relojería y tecnología. */
+  articulo?: ArticuloInfo;
   /** Solo combos: descuento frente a la suma de sus partes (0.12 = 12%). */
   comboDiscount?: number;
 }
@@ -712,15 +714,19 @@ const combos = combosInput.map(withPrices);
 /** Catálogo digital: lo que recorren catálogo, combos, categorías y el inicio. */
 export const products: Product[] = [...combos, ...base];
 
-/** Digital + perfumería: para carrito, favoritos, buscador y fichas. */
-export const allProducts: Product[] = [...products, ...perfumes];
+/** Toda la red (digital, perfumería, relojería y tecnología): carrito, favoritos, buscador y fichas. */
+export const allProducts: Product[] = [...products, ...perfumes, ...articulos];
 
 // ── Utilidades ──
 
 const bySlug = new Map(allProducts.map((p) => [p.slug, p]));
 
 export const categoryById = (id: string): Category | undefined =>
-  id === perfumeCategory.id ? perfumeCategory : categories.find((c) => c.id === id);
+  id === perfumeCategory.id
+    ? perfumeCategory
+    : id === "relojeria" || id === "tecnologia"
+      ? { id, name: lineas[id].name, blurb: lineas[id].blurb }
+      : categories.find((c) => c.id === id);
 export const productBySlug = (slug: string) => bySlug.get(slug);
 export const planOf = (slug: string, planId: string) =>
   productBySlug(slug)?.plans.find((pl) => pl.id === planId);

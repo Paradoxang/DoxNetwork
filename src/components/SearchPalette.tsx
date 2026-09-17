@@ -4,8 +4,9 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { CategoryIcon } from "@/components/CategoryIcon";
-import { allProducts, categories, categoryById, fromPrice, products, type CategoryId } from "@/data/catalog";
-import { perfumeCategory } from "@/data/perfumeria";
+import { allProducts, categories, categoryById, fromPrice, type CategoryId } from "@/data/catalog";
+import { destacadosRed } from "@/data/destacados";
+import { lineaOf, lineaOrder, lineas, subLabel } from "@/data/lineas";
 import { formatCOP } from "@/data/site";
 import { EASE, lockScroll } from "@/lib/anim";
 import { normalize, useUI } from "@/lib/ui";
@@ -48,21 +49,19 @@ export function SearchPalette() {
   const results = useMemo<Result[]>(() => {
     const nq = normalize(q.trim());
     if (!nq) {
-      return products
-        .filter((p) => p.badge === "popular")
-        .slice(0, 6)
-        .map((p) => ({ key: p.slug, label: p.name, hint: "Más vendido", to: `/producto/${p.slug}`, icon: p.category, price: fromPrice(p) }));
+      return destacadosRed
+        .slice(0, 8)
+        .map((p) => ({ key: p.slug, label: p.name, hint: lineas[lineaOf(p)].name, to: `/producto/${p.slug}`, icon: p.category, price: fromPrice(p) }));
     }
-    const cats = [...categories, perfumeCategory]
-      .filter((c) => normalize(`${c.name} ${c.blurb}`).includes(nq))
-      .slice(0, 3)
-      .map((c) => ({
-        key: `c-${c.id}`,
-        label: c.name,
-        hint: "Categoría",
-        to: c.id === perfumeCategory.id ? "/perfumeria" : `/catalogo?categoria=${c.id}`,
-        icon: c.id,
-      }));
+    const lines = lineaOrder
+      .filter((id) => id !== "digital" && normalize(`${lineas[id].name} ${lineas[id].blurb}`).includes(nq))
+      .map((id) => ({ key: `l-${id}`, label: lineas[id].name, hint: "Línea de la red", to: lineas[id].path, icon: id as CategoryId }));
+    const cats = [
+      ...lines,
+      ...categories
+        .filter((c) => normalize(`${c.name} ${c.blurb}`).includes(nq))
+        .map((c) => ({ key: `c-${c.id}`, label: c.name, hint: "Categoría digital", to: `/catalogo?categoria=${c.id}`, icon: c.id })),
+    ].slice(0, 3);
     // Todas las palabras, en cualquier orden: "sauvage dior" encuentra "Dior Sauvage"
     const words = nq.split(/\s+/);
     const prods = allProducts
@@ -74,7 +73,11 @@ export function SearchPalette() {
       .map((p) => ({
         key: p.slug,
         label: p.name,
-        hint: p.perfume ? `Perfumería · ${p.tagline}` : categoryById(p.category)?.name ?? "",
+        hint: p.perfume
+          ? `Perfumería · ${p.tagline}`
+          : p.articulo
+            ? `${lineas[p.articulo.line].name} · ${p.articulo.brand || subLabel[p.articulo.sub]}`
+            : categoryById(p.category)?.name ?? "",
         to: `/producto/${p.slug}`,
         icon: p.category,
         price: fromPrice(p),
@@ -140,7 +143,7 @@ export function SearchPalette() {
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 onKeyDown={onKey}
-                placeholder="Busca Netflix, Canva, un perfume…"
+                placeholder="Busca Netflix, un perfume, un reloj, AirPods…"
                 className="h-16 w-full bg-transparent text-[17px] text-ink outline-none placeholder:text-faint"
                 role="combobox"
                 aria-expanded="true"
@@ -154,7 +157,7 @@ export function SearchPalette() {
             </div>
 
             <ul ref={list} id="search-results" role="listbox" className="max-h-[55vh] overflow-y-auto p-2">
-              {!q.trim() && <li className="px-3 pb-1 pt-2 text-xs font-bold uppercase tracking-wider text-faint">Lo más vendido</li>}
+              {!q.trim() && <li className="px-3 pb-1 pt-2 text-xs font-bold uppercase tracking-wider text-faint">Destacados de la red</li>}
               {results.map((r, i) => (
                 <li
                   key={r.key}

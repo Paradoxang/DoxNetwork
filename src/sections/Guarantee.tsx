@@ -13,12 +13,12 @@ const items = [
   {
     icon: RefreshCcw,
     title: `Reposición en menos de ${site.warrantyHours} h`,
-    text: "Si tu cuenta o perfil falla durante la vigencia, te damos uno nuevo sin costo.",
+    text: "Si tu cuenta, perfil o código digital falla durante la vigencia, te damos uno nuevo sin costo.",
   },
   {
     icon: BellRing,
-    title: "Sin cobros automáticos",
-    text: "Nada se renueva solo. Te escribimos antes de que venza y decides si sigues.",
+    title: "Productos físicos, sin sorpresas",
+    text: "Antes de pagar te confirmamos por escrito disponibilidad, envío y garantía. Nada se renueva ni se cobra solo.",
   },
   {
     icon: WhatsAppIcon,
@@ -44,9 +44,10 @@ export function Guarantee() {
             </span>
           </div>
           <p className="kicker mt-6">05 · Garantía</p>
-          <h2 className="display mt-3 text-[clamp(28px,4.2vw,44px)]">Si falla, lo reponemos</h2>
+          <h2 className="display mt-3 text-[clamp(28px,4.2vw,44px)]">Compras con respaldo</h2>
           <p className="mt-3 max-w-md leading-relaxed text-mute">
-            En este mercado las cuentas a veces se caen. Por eso la garantía está por escrito y dura toda la vigencia de tu plan.
+            Lo digital tiene reposición por escrito durante toda la vigencia. En perfumes, relojes y tecnología te confirmamos la
+            garantía de tu producto antes de que pagues.
           </p>
           <a
             href={waLink(`Hola ${site.name}, tengo un problema con mi pedido. Mi número de pedido es:`)}

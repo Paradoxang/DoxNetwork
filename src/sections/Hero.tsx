@@ -1,9 +1,10 @@
-import { ArrowRight, ArrowUpRight, Check, Code2, Search, Sparkles, SprayCan, Tv } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Check, Code2, Headphones, Search, Sparkles, SprayCan, Tv, Watch } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
 import { products } from "@/data/catalog";
+import { relojes, tecnologia } from "@/data/lineas";
 import { perfumes } from "@/data/perfumeria";
 import { site } from "@/data/site";
 import { Magnetic } from "@/lib/anim";
@@ -17,20 +18,33 @@ const nodes = [
   {
     icon: Tv,
     title: "Streaming y TV",
-    text: `${count("streaming", "cine-tv", "musica")} plataformas, música y cine`,
+    text: `${count("streaming", "cine-tv", "musica")} plataformas y cine`,
     to: "/catalogo?categoria=streaming",
   },
   {
     icon: Sparkles,
     title: "IA y software",
-    text: "ChatGPT, Gemini, Canva, Office",
+    text: "ChatGPT, Canva, Office",
     to: "/catalogo?categoria=ia",
   },
   {
     icon: SprayCan,
     title: "Perfumería",
-    text: `${perfumes.length} fragancias con envío`,
+    text: `${perfumes.length} fragancias`,
     to: "/perfumeria",
+  },
+  {
+    icon: Watch,
+    title: "Relojería",
+    text: `${relojes.length} originales y réplicas`,
+    to: "/relojeria",
+    isNew: true,
+  },
+  {
+    icon: Headphones,
+    title: "Tecnología",
+    text: `${tecnologia.length} gadgets y accesorios`,
+    to: "/tecnologia",
     isNew: true,
   },
   {
@@ -124,8 +138,8 @@ export function Hero() {
               Todo lo que usas, en una sola red.
             </h1>
             <p data-hero-in className="mt-6 max-w-xl text-[17px] leading-relaxed text-mute md:text-lg">
-              Streaming, IA y software, perfumería con envío a toda Colombia y páginas web a la medida. Una sola tienda, pagos
-              locales y atención de personas por WhatsApp.
+              Streaming e IA, perfumería, relojería, tecnología y páginas web a la medida. Una sola tienda, envíos a toda
+              Colombia, pagos locales y atención de personas por WhatsApp.
             </p>
 
             <form data-hero-in onSubmit={onSearch} role="search" className="mt-8 flex max-w-xl gap-2">
@@ -140,7 +154,7 @@ export function Hero() {
                   type="search"
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  placeholder="Una plataforma, un perfume, un servicio…"
+                  placeholder="Netflix, un perfume, un reloj, AirPods…"
                   className="field bg-white/[0.06] pl-11 backdrop-blur-md"
                   autoComplete="off"
                 />
@@ -153,12 +167,12 @@ export function Hero() {
             </form>
 
             {/* Los nodos de la red: una puerta por línea de negocio */}
-            <ul className="mt-8 grid max-w-xl grid-cols-2 gap-2.5" aria-label="Explora la red">
+            <ul className="mt-8 grid max-w-xl grid-cols-2 gap-2.5 sm:grid-cols-3" aria-label="Explora la red">
               {nodes.map((n) => (
                 <li key={n.title} data-node>
                   <Link
                     to={n.to}
-                    className="group relative flex h-full flex-col items-start gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3 backdrop-blur-md transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.08] sm:flex-row sm:gap-3 sm:p-3.5"
+                    className="group relative flex h-full flex-col items-start gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3 backdrop-blur-md transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.08] sm:p-3.5"
                   >
                     <span
                       className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors ${

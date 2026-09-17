@@ -6,7 +6,11 @@
  * Cómo generar cada imagen con Nano Banana: docs/brief-imagenes-nano-banana.md
  */
 import { fromPrice, productBySlug, products } from "@/data/catalog";
+import { relojes, tecnologia } from "@/data/lineas";
+import { perfumeMinPrice, perfumes } from "@/data/perfumeria";
 import { formatCOP } from "@/data/site";
+
+const minOf = (list: { plans: { price: number }[] }[]) => Math.min(...list.map((p) => p.plans[0].price));
 
 export interface Promo {
   id: string;
@@ -20,9 +24,33 @@ export interface Promo {
   image?: string;
   /** Móvil, 4:5. Si falta, se usa `image` recortada. */
   imageMobile?: string;
+  /** Sin banner propio: tres productos del catálogo en abanico (slugs). */
+  showcase?: string[];
 }
 
 export const promos: Promo[] = [
+  {
+    id: "nuevo-relojeria-tecnologia",
+    kicker: "Nuevo en la red",
+    title: "Relojería y tecnología con envío a toda Colombia",
+    text: `${relojes.length} relojes desde ${formatCOP(minOf(relojes.filter((p) => p.articulo!.sub === "relojes")))} y ${tecnologia.length} productos de tecnología desde ${formatCOP(minOf(tecnologia))}.`,
+    cta: { label: "Ver tecnología", to: "/tecnologia" },
+    hue: "#5fb8e8",
+    showcase: [
+      "tecnologia-parlante-portatil-kimiso-kms-374",
+      "relojeria-kairos-oficial-seleccion-colombia",
+      "tecnologia-smartwatch-mobulaa-ub6-pro",
+    ],
+  },
+  {
+    id: "perfumeria",
+    kicker: "Perfumería",
+    title: "Tu fragancia favorita, en réplica 1.1",
+    text: `${perfumes.length} perfumes para ella, para él y unisex desde ${formatCOP(perfumeMinPrice)}.`,
+    cta: { label: "Ver perfumería", to: "/perfumeria" },
+    hue: "#e7a35a",
+    showcase: ["perfume-lattafa-yara", "perfume-dior-sauvage", "perfume-carolina-herrera-good-girl"],
+  },
   {
     id: "combo-universitario",
     kicker: "Combo de la semana",
@@ -32,16 +60,6 @@ export const promos: Promo[] = [
     hue: "#2fb38c",
     image: "/promos/promo-universitario.webp",
     imageMobile: "/promos/promo-universitario-m.webp",
-  },
-  {
-    id: "arma-tu-combo",
-    kicker: "Arma tu combo",
-    title: "Elige tus plataformas y ahorra hasta 15%",
-    text: "El descuento se aplica solo al combinar productos distintos.",
-    cta: { label: "Armar mi combo", to: "/arma-tu-combo" },
-    hue: "#9aa9ff",
-    image: "/promos/promo-arma-tu-combo.webp",
-    imageMobile: "/promos/promo-arma-tu-combo-m.webp",
   },
   {
     id: "fan-del-deporte",

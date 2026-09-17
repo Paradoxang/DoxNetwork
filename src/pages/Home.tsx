@@ -8,7 +8,7 @@ import { DoxDesigns } from "@/sections/DoxDesigns";
 import { Faq, faqs } from "@/sections/Faq";
 import { Guarantee } from "@/sections/Guarantee";
 import { Hero } from "@/sections/Hero";
-import { PerfumeTeaser } from "@/sections/PerfumeTeaser";
+import { TiendaTeaser } from "@/sections/TiendaTeaser";
 import { HowItWorks } from "@/sections/HowItWorks";
 import { ProductTabs } from "@/sections/ProductTabs";
 import { PromoCarousel } from "@/sections/PromoCarousel";
@@ -47,7 +47,7 @@ export function Home() {
       <Categories />
       <CombosSection />
       <ProductTabs />
-      <PerfumeTeaser />
+      <TiendaTeaser />
       <HowItWorks />
       <Guarantee />
       <DoxDesigns />

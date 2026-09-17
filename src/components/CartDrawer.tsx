@@ -7,6 +7,7 @@ import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
 import { EASE, lockScroll } from "@/lib/anim";
 import { ProductArt } from "@/components/ProductArt";
+import { isPhysical } from "@/data/lineas";
 import { shipping } from "@/data/perfumeria";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
@@ -191,9 +192,9 @@ export function CartDrawer() {
                     </div>
                   </dl>
                   {hasQuote && <p className="text-xs text-faint">Los servicios a cotizar se confirman por WhatsApp.</p>}
-                  {cart.lines.some((l) => l.product.perfume) && (
+                  {cart.lines.some((l) => isPhysical(l.product)) && (
                     <p className="flex items-start gap-2 text-xs text-faint">
-                      <Truck className="h-3.5 w-3.5 shrink-0" /> Perfumes: {shipping.detail.charAt(0).toLowerCase() + shipping.detail.slice(1)}
+                      <Truck className="h-3.5 w-3.5 shrink-0" /> Productos con envío: {shipping.detail.charAt(0).toLowerCase() + shipping.detail.slice(1)}
                     </p>
                   )}
                   <a href={cart.checkoutUrl} target="_blank" rel="noopener noreferrer" className="btn btn-buy w-full">

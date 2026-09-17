@@ -32,6 +32,7 @@ import {
   productBySlug,
   products,
 } from "@/data/catalog";
+import { articulos, conditionInfo, lineas, subLabel } from "@/data/lineas";
 import { disclaimer, families, paraLabel, perfumes, qualityInfo, shipping } from "@/data/perfumeria";
 import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, Reveal } from "@/lib/anim";
@@ -60,7 +61,17 @@ export function Product() {
   const off = discountPct(plan);
   const url = `${site.url}/producto/${product.slug}`;
   const perfume = product.perfume;
-  const related = perfume
+  const articulo = product.articulo;
+  const physical = Boolean(perfume || articulo);
+  const related = articulo
+    ? // Misma subcategoría primero; entre ellos, misma marca
+      articulos
+        .filter((p) => p.slug !== product.slug && p.articulo!.line === articulo.line)
+        .map((p) => ({ p, score: (p.articulo!.sub === articulo.sub ? 2 : 0) + (articulo.brand && p.articulo!.brand === articulo.brand ? 1 : 0) }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 4)
+        .map((x) => x.p)
+    : perfume
     ? // Primero misma familia y mismo público, luego solo misma familia o mismo público
       perfumes
         .filter((p) => p.slug !== product.slug)
@@ -69,7 +80,7 @@ export function Product() {
         .slice(0, 4)
         .map((x) => x.p)
     : products.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 4);
-  const listPath = perfume ? "/perfumeria" : `/catalogo?categoria=${product.category}`;
+  const listPath = perfume ? "/perfumeria" : articulo ? lineas[articulo.line].path : `/catalogo?categoria=${product.category}`;
 
   // Mensaje precargado con nombre, plan y enlace (lo mejor de Torostream)
   const buyNow = waLink(
@@ -78,7 +89,15 @@ export function Product() {
       : `Hola ${site.name}, quiero comprar: ${product.name} (${planLabel(plan)}) por ${formatCOP(plan.price)}.\n${url}`
   );
 
-  const details = perfume
+  const details = articulo
+    ? ([
+        articulo.brand && { icon: Tag, label: "Marca", value: articulo.brand },
+        { icon: Sparkles, label: "Categoría", value: `${lineas[articulo.line].name} · ${subLabel[articulo.sub]}` },
+        articulo.condition && { icon: BadgeCheck, label: "Condición", value: conditionInfo[articulo.condition].label },
+        { icon: Truck, label: "Envío", value: shipping.short },
+        { icon: Wallet, label: "Pago", value: site.payments.slice(0, 2).join(" · ") },
+      ].filter(Boolean) as { icon: typeof Zap; label: string; value: string }[])
+    : perfume
     ? ([
         perfume.brand && { icon: Tag, label: "Fragancia de referencia", value: perfume.brand },
         { icon: UserRound, label: "Para", value: paraLabel[perfume.para] },
@@ -185,8 +204,14 @@ export function Product() {
 
           <Reveal delay={0.08} className="flex flex-col">
             <div className="flex flex-wrap items-center gap-3">
-              <span className={`text-sm font-semibold text-faint ${perfume ? "uppercase tracking-[0.08em]" : ""}`}>
-                {combo ? product.forWho : perfume ? perfume.brand || category?.name : category?.name}
+              <span className={`text-sm font-semibold text-faint ${physical ? "uppercase tracking-[0.08em]" : ""}`}>
+                {combo
+                  ? product.forWho
+                  : perfume
+                    ? perfume.brand || category?.name
+                    : articulo
+                      ? `${lineas[articulo.line].name} · ${subLabel[articulo.sub]}`
+                      : category?.name}
               </span>
               <ProductBadge product={product} />
               <StockHint product={product} />
@@ -275,12 +300,14 @@ export function Product() {
               ))}
             </ul>
 
-            {perfume ? (
+            {physical ? (
               <>
                 <p className="mt-6 text-sm text-faint">{shipping.detail}</p>
                 <p className="mt-4 flex gap-3 rounded-2xl border border-line bg-surface p-4 text-sm text-mute">
                   <Info className="mt-0.5 h-4 w-4 shrink-0 text-faint" />
-                  {disclaimer}
+                  {articulo && articulo.condition !== "replica"
+                    ? "Las fotos son del proveedor. Si tienes dudas del modelo, color o garantía, pregúntanos por WhatsApp antes de pagar."
+                    : disclaimer}
                 </p>
               </>
             ) : (
@@ -297,8 +324,8 @@ export function Product() {
       {related.length > 0 && (
         <section className="border-t border-line bg-bg-soft">
           <div className="mx-auto max-w-[1200px] px-4 py-16 md:px-6">
-            <h2 className="display text-[clamp(24px,3vw,32px)]">{perfume ? "Fragancias parecidas" : "También te puede interesar"}</h2>
-            <ul className={`mt-8 grid gap-4 lg:grid-cols-4 ${perfume ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2"}`}>
+            <h2 className="display text-[clamp(24px,3vw,32px)]">{perfume ? "Fragancias parecidas" : articulo ? "Más en " + lineas[articulo.line].name : "También te puede interesar"}</h2>
+            <ul className={`mt-8 grid gap-4 lg:grid-cols-4 ${physical ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2"}`}>
               {related.map((p) => (
                 <li key={p.slug}>
                   <ProductCard product={p} />

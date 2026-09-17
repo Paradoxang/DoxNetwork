@@ -16,17 +16,13 @@ import {
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
-import { CategoryIcon } from "@/components/CategoryIcon";
+import { CategoryIcon, LineIcon } from "@/components/CategoryIcon";
 import { LogoDN } from "@/components/LogoDN";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import {
-  bestDiscount,
-  categories,
-  fromPrice,
-  products,
-  upcoming,
-} from "@/data/catalog";
+import { allProducts, bestDiscount, categories, fromPrice, products } from "@/data/catalog";
+import { destacados } from "@/data/destacados";
+import { lineaOf, lineaOrder, lineas, type LineaId } from "@/data/lineas";
 import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, lockScroll } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
@@ -36,6 +32,7 @@ type MenuId = "categorias" | "combos" | "ayuda";
 
 const combos = products.filter((p) => p.category === "combos");
 const countIn = (id: string) => products.filter((p) => p.category === id).length;
+const lineCount = Object.fromEntries(lineaOrder.map((id) => [id, allProducts.filter((p) => lineaOf(p) === id).length])) as Record<LineaId, number>;
 
 /**
  * Cabecera interactiva:
@@ -137,20 +134,6 @@ export function Nav() {
     </button>
   );
 
-  const link = (to: string, label: string, key: string, className = "") => (
-    <Link
-      to={to}
-      onPointerEnter={() => {
-        setHover(key);
-        leave();
-      }}
-      className={`relative whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink ${className}`}
-    >
-      {hover === key && <Pill reduced={reduced} />}
-      <span className="relative">{label}</span>
-    </Link>
-  );
-
   return (
     <>
     <motion.header
@@ -194,23 +177,24 @@ export function Nav() {
           </Link>
 
           <nav className="hidden items-center lg:flex" aria-label="Principal">
-            {trigger("categorias", "Categorías")}
+            {trigger("categorias", "Tienda")}
             {trigger("combos", "Combos")}
-            <Link
-              to="/perfumeria"
-              onPointerEnter={() => {
-                setHover("perfumeria");
-                leave();
-              }}
-              className="relative flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink"
-            >
-              {hover === "perfumeria" && <Pill reduced={reduced} />}
-              <span className="relative">Perfumería</span>
-              <span className="relative h-1.5 w-1.5 rounded-full bg-gold" aria-label="Nuevo" />
-            </Link>
-            {/* Con Perfumería no caben todos en lg: Ofertas y Arma tu combo siguen en el menú móvil y en Combos */}
-            {link("/catalogo?ofertas=1", "Ofertas", "ofertas", "hidden xl:block")}
-            {link("/arma-tu-combo", "Arma tu combo", "arma", "hidden xl:block")}
+            {/* Una puerta por línea física; Ofertas y Arma tu combo viven en los paneles y en el menú móvil */}
+            {(["perfumeria", "relojeria", "tecnologia"] as const).map((id) => (
+              <Link
+                key={id}
+                to={lineas[id].path}
+                onPointerEnter={() => {
+                  setHover(id);
+                  leave();
+                }}
+                className="relative flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink xl:px-3.5"
+              >
+                {hover === id && <Pill reduced={reduced} />}
+                <span className="relative">{lineas[id].name}</span>
+                {id !== "perfumeria" && <span className="relative h-1.5 w-1.5 rounded-full bg-gold" aria-label="Nuevo" />}
+              </Link>
+            ))}
             {trigger("ayuda", "Ayuda")}
           </nav>
 
@@ -353,57 +337,77 @@ function CountBubble({ n, tone }: { n: number; tone: "mint" | "neb" }) {
 // ── Paneles ──
 
 function CategoriesPanel() {
-  const star = products.find((p) => p.slug === "combo-universitario")!;
+  const nuevos = [destacados.tecnologia[0], destacados.relojeria[0]].filter(Boolean);
   return (
-    <div className="grid grid-cols-[1fr_300px] gap-6">
+    <div className="grid grid-cols-[1fr_280px] gap-6">
       <div>
-        <p className="kicker">Explora por categoría</p>
+        <p className="kicker">La red</p>
         <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-4">
-          {categories.map((c) => (
-            <li key={c.id}>
-              <Link
-                to={`/catalogo?categoria=${c.id}`}
-                className="group flex h-full items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-surface"
-              >
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-neb-soft text-neb transition-colors group-hover:bg-neb group-hover:text-neb-ink">
-                  <CategoryIcon id={c.id} />
+          {lineaOrder.map((id) => (
+            <li key={id}>
+              <Link to={lineas[id].path} className="group flex h-full items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-surface">
+                <span
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
+                  style={{ background: `${lineas[id].hue}22`, color: lineas[id].hue }}
+                >
+                  <LineIcon id={id} />
                 </span>
                 <span>
-                  <span className="block font-bold leading-snug">{c.name}</span>
-                  <span className="mt-0.5 block text-[13px] leading-snug text-mute">{c.blurb}</span>
-                  <span className="mt-1 block text-xs font-semibold text-faint">{countIn(c.id)} productos</span>
+                  <span className="block font-bold leading-snug">{lineas[id].name}</span>
+                  <span className="mt-0.5 block text-[13px] leading-snug text-mute">{lineas[id].blurb}</span>
+                  <span className="mt-1 block text-xs font-semibold text-faint">{lineCount[id]} productos</span>
                 </span>
               </Link>
             </li>
           ))}
         </ul>
-        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
-          <span className="text-faint">Próximamente:</span>
-          {upcoming.map((u) => (
-            <span key={u.name} className="rounded-full border border-dashed border-line-strong px-3 py-1 text-mute">
-              {u.name}
-            </span>
+
+        <p className="kicker mt-5 border-t border-line pt-5 text-faint">Categorías digitales</p>
+        <ul className="mt-3 grid grid-cols-2 gap-1 xl:grid-cols-4">
+          {categories.map((c) => (
+            <li key={c.id}>
+              <Link to={`/catalogo?categoria=${c.id}`} className="group flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm transition-colors hover:bg-surface">
+                <CategoryIcon id={c.id} className="h-4 w-4 shrink-0 text-neb" />
+                <span className="font-semibold group-hover:text-ink">{c.name}</span>
+                <span className="ml-auto text-xs text-faint">{countIn(c.id)}</span>
+              </Link>
+            </li>
           ))}
+        </ul>
+
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
+          <Link to="/catalogo?ofertas=1" className="chip min-h-[34px] text-[13px]">Ofertas</Link>
+          <Link to="/arma-tu-combo" className="chip min-h-[34px] text-[13px]">Arma tu combo</Link>
+          <Link to="/#dox-designs" className="chip min-h-[34px] text-[13px]">Páginas web</Link>
           <Link to="/catalogo" className="ml-auto flex items-center gap-1.5 font-semibold text-neb hover:underline">
-            Ver todo el catálogo <ArrowRight className="h-4 w-4" />
+            Ver toda la tienda <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </div>
 
       <Link
-        to={`/producto/${star.slug}`}
-        className="group relative flex flex-col justify-end overflow-hidden rounded-2xl border border-line p-5"
-        style={{ background: `radial-gradient(120% 80% at 100% 0%, ${star.hue}55, transparent 60%), var(--surface)` }}
+        to="/tecnologia"
+        className="group relative flex flex-col overflow-hidden rounded-2xl border border-line p-5"
+        style={{ background: `radial-gradient(120% 80% at 100% 0%, ${lineas.tecnologia.hue}33, transparent 60%), var(--surface)` }}
       >
-        <span className="kicker">Combo destacado</span>
-        <span className="mt-2 text-xl font-extrabold leading-tight">{star.name}</span>
-        <span className="mt-1 text-sm text-mute">{star.tagline}</span>
-        <span className="mt-4 flex items-baseline gap-2">
-          <span className="text-2xl font-extrabold">{formatCOP(fromPrice(star))}</span>
-          <span className="rounded-full bg-gold-soft px-2 py-0.5 text-xs font-bold text-gold">Ahorra {bestDiscount(star)}%</span>
+        <span className="kicker">Nuevo en la red</span>
+        <span className="mt-2 text-xl font-extrabold leading-tight">Relojería y tecnología</span>
+        <span className="mt-1 text-sm text-mute">Con envío a toda Colombia.</span>
+        <span className="mt-4 flex gap-2" aria-hidden="true">
+          {nuevos.map((p) => (
+            <img
+              key={p.slug}
+              src={p.image!.replace(/\.webp$/, "-sm.webp")}
+              alt=""
+              width={110}
+              height={110}
+              loading="lazy"
+              className="aspect-square w-1/2 rounded-xl object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            />
+          ))}
         </span>
-        <span className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-neb">
-          Ver combo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        <span className="mt-auto flex items-center gap-1.5 pt-4 text-sm font-semibold text-neb">
+          Ver lo nuevo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </span>
       </Link>
     </div>
@@ -505,7 +509,7 @@ function HelpPanel() {
 // ── Menú móvil ──
 
 function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void }) {
-  const [section, setSection] = useState<"cat" | "combos" | null>("cat");
+  const [section, setSection] = useState<"red" | "cat" | "combos" | null>("red");
   const reduced = useReducedMotion();
 
   return (
@@ -525,7 +529,25 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
               <Search className="h-[18px] w-[18px]" /> Buscar productos
             </button>
 
-            <Accordion label="Categorías" open={section === "cat"} onToggle={() => setSection((s) => (s === "cat" ? null : "cat"))}>
+            <Accordion label="La red" open={section === "red"} onToggle={() => setSection((s) => (s === "red" ? null : "red"))}>
+              <ul className="grid grid-cols-2 gap-2">
+                {lineaOrder.map((id) => (
+                  <li key={id}>
+                    <Link to={lineas[id].path} className="flex min-h-[60px] items-center gap-2.5 rounded-xl bg-surface p-3 text-sm font-bold">
+                      <span style={{ color: lineas[id].hue }}>
+                        <LineIcon id={id} className="h-5 w-5 shrink-0" />
+                      </span>
+                      <span>
+                        {lineas[id].name}
+                        <span className="block text-xs font-semibold text-faint">{lineCount[id]} productos</span>
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Accordion>
+
+            <Accordion label="Categorías digitales" open={section === "cat"} onToggle={() => setSection((s) => (s === "cat" ? null : "cat"))}>
               <ul className="grid grid-cols-2 gap-2">
                 {categories.map((c) => (
                   <li key={c.id}>
@@ -552,7 +574,7 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
             </Accordion>
 
             {[
-              { to: "/perfumeria", label: "Perfumería" },
+              { to: "/catalogo", label: "Toda la tienda" },
               { to: "/catalogo?ofertas=1", label: "Ofertas" },
               { to: "/arma-tu-combo", label: "Arma tu combo" },
               { to: "/favoritos", label: "Favoritos" },

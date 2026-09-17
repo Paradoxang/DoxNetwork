@@ -8,7 +8,7 @@ export const site = {
   url: "https://doxnetwork.vercel.app",
   tagline: "Todo lo que usas, en una sola red.",
   description:
-    "Streaming, IA y software, perfumería con envío a toda Colombia y páginas web a la medida con Dox Designs. Una sola tienda, pagos locales y atención de personas por WhatsApp.",
+    "Streaming, IA y software, perfumería, relojería, tecnología y páginas web a la medida con Dox Designs. Una sola tienda, envíos a toda Colombia, pagos locales y atención de personas por WhatsApp.",
 
   /** TODO: número de WhatsApp de la tienda, solo dígitos con indicativo. */
   whatsapp: "573189819384",
@@ -40,10 +40,10 @@ export const comboTiers = [
 
 /** Mensajes de la barra superior rotativa (la de Emprendered, sin promesas vacías). */
 export const announcements = [
-  `Entrega por WhatsApp en ~${site.deliveryMinutes} minutos`,
-  "Nuevo: perfumería con envío a toda Colombia",
-  "Arma tu combo y ahorra hasta 15%",
-  `Garantía: reponemos en menos de ${site.warrantyHours} h`,
+  "Nuevo: relojería y tecnología con envío a toda Colombia",
+  `Streaming, IA y software por WhatsApp en ~${site.deliveryMinutes} minutos`,
+  "Perfumería: réplicas 1.1 y AAA para ella, para él y unisex",
+  "Arma tu combo digital y ahorra hasta 15%",
 ];
 
 export function waLink(text: string) {

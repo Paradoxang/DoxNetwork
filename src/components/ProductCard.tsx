@@ -9,6 +9,7 @@ import {
   planLabel,
   type Product,
 } from "@/data/catalog";
+import { conditionInfo, lineas, subLabel } from "@/data/lineas";
 import { families, paraLabel, qualityInfo } from "@/data/perfumeria";
 import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
@@ -89,6 +90,7 @@ export function ProductCard({ product }: { product: Product }) {
   const quote = plan.price === 0;
   const category = categoryById(product.category);
   const perfume = product.perfume;
+  const articulo = product.articulo;
   const off = bestDiscount(product);
   const href = `/producto/${product.slug}`;
 
@@ -96,7 +98,13 @@ export function ProductCard({ product }: { product: Product }) {
     ? { label: "Agotado", tone: "muted" }
     : perfume
       ? { label: qualityInfo[perfume.quality].label, tone: "dark" }
-      : off
+      : articulo
+        ? articulo.condition === "original"
+          ? { label: conditionInfo.original.label, tone: "new" }
+          : articulo.condition === "replica"
+            ? { label: conditionInfo.replica.label, tone: "dark" }
+            : undefined
+        : off
         ? plan.compareAt
           ? undefined // el descuento ya va junto al precio
           : { label: `Ahorra hasta ${off}%`, tone: "sale" } // el ahorro está en otro plan (3 meses…)
@@ -108,14 +116,24 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <UICard
-      media={<ProductArt product={product} bare />}
+      media={<ProductArt product={product} size="square" bare />}
       title={perfume ? perfume.line : product.name}
       href={href}
-      kicker={perfume ? perfume.brand || "Perfumería" : category?.name}
+      kicker={
+        perfume
+          ? perfume.brand || "Perfumería"
+          : articulo
+            ? articulo.sub === "relojes"
+              ? lineas.relojeria.name
+              : `${lineas[articulo.line].name} · ${subLabel[articulo.sub]}`
+            : category?.name
+      }
       subtitle={
         perfume
           ? [paraLabel[perfume.para], perfume.family && families[perfume.family].label].filter(Boolean).join(" · ")
-          : product.tagline
+          : articulo
+            ? articulo.brand || product.description
+            : product.tagline
       }
       meta={<StockHint product={product} />}
       price={plan.price}

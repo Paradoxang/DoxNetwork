@@ -1,42 +1,30 @@
 import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { productBySlug, type Product } from "@/data/catalog";
-import { perfumeMinPrice, perfumes, shipping } from "@/data/perfumeria";
+import type { Product } from "@/data/catalog";
+import { destacados } from "@/data/destacados";
+import { relojes, tecnologia } from "@/data/lineas";
+import { perfumes, shipping } from "@/data/perfumeria";
 import { formatCOP } from "@/data/site";
 import { Reveal } from "@/lib/anim";
 import { gsap, useGSAP } from "@/lib/gsap";
 
-const picks = [
-  "perfume-lattafa-yara",
-  "perfume-dior-sauvage",
-  "perfume-carolina-herrera-good-girl",
-  "perfume-lattafa-khamrah",
-  "perfume-paco-rabanne-1-million",
-  "perfume-maison-francis-kurkdjian-baccarat-rouge-540",
-  "perfume-bleu-de-chanel",
-  "perfume-lancome-la-vie-est-belle",
-  "perfume-armaf-club-de-nuit-intense-man",
-  "perfume-parfums-de-marly-delina",
-  "perfume-xerjoff-erba-pura",
-  "perfume-emporio-armani-stronger-with-you",
-]
-  .map((s) => productBySlug(s))
-  .filter(Boolean) as Product[];
+// Perfume, reloj, tecnología, perfume…: la cinta muestra las tres líneas físicas
+const picks: Product[] = [];
+for (let i = 0; i < 8; i++) for (const id of ["perfumeria", "relojeria", "tecnologia"] as const) if (destacados[id][i]) picks.push(destacados[id][i]);
 
 const shortcuts = [
-  { para: "dama", label: "Para ella" },
-  { para: "hombre", label: "Para él" },
-  { para: "unisex", label: "Unisex" },
-  { para: "sets", label: "Sets y kits" },
+  { to: "/perfumeria", label: "Perfumería", count: perfumes.length },
+  { to: "/relojeria", label: "Relojería", count: relojes.length },
+  { to: "/tecnologia", label: "Tecnología", count: tecnologia.length },
 ];
 
 /**
- * Anuncio de la perfumería en el inicio: una banda cálida (el dorado del logo)
- * con una cinta de frascos que corre sola y se pausa al pasar el puntero.
- * GSAP solo mueve el halo con el scroll; la cinta es CSS.
+ * Las líneas físicas en el inicio: una banda cálida (el dorado del logo) con
+ * una cinta de perfumes, relojes y tecnología que corre sola y se pausa al
+ * pasar el puntero. GSAP solo mueve el halo con el scroll; la cinta es CSS.
  */
-export function PerfumeTeaser() {
+export function TiendaTeaser() {
   const scope = useRef<HTMLElement>(null);
 
   useGSAP(
@@ -55,7 +43,7 @@ export function PerfumeTeaser() {
   );
 
   return (
-    <section ref={scope} id="perfumeria" className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
+    <section ref={scope} id="envios" className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
       <div className="card relative overflow-hidden">
         <div
           data-halo
@@ -68,21 +56,21 @@ export function PerfumeTeaser() {
             <span className="inline-flex items-center gap-2 rounded-full bg-gold-soft px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-gold">
               <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Nuevo
             </span>
-            <h2 className="display mt-4 text-[clamp(30px,4.6vw,50px)]">Perfumería</h2>
+            <h2 className="display mt-4 text-[clamp(30px,4.6vw,50px)]">Perfumes, relojes y tecnología</h2>
             <p className="mt-3 max-w-lg leading-relaxed text-mute">
-              {perfumes.length} fragancias en réplica 1.1 y AAA, desde {formatCOP(perfumeMinPrice)}. {shipping.short}.
+              {perfumes.length + relojes.length + tecnologia.length} productos físicos que confirmas por WhatsApp. {shipping.short}.
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               {shortcuts.map((s) => (
-                <Link key={s.para} to={`/perfumeria?para=${s.para}`} className="chip">
-                  {s.label}
+                <Link key={s.to} to={s.to} className="chip">
+                  {s.label} <span className="text-xs text-faint">{s.count}</span>
                 </Link>
               ))}
             </div>
           </Reveal>
           <Reveal delay={0.08}>
-            <Link to="/perfumeria" className="btn btn-primary">
-              Ir a la perfumería <ArrowRight className="h-4 w-4" />
+            <Link to="/catalogo" className="btn btn-primary">
+              Ver toda la tienda <ArrowRight className="h-4 w-4" />
             </Link>
           </Reveal>
         </div>
@@ -100,7 +88,9 @@ export function PerfumeTeaser() {
                   <span
                     className="block aspect-square overflow-hidden rounded-[22px] transition-transform duration-500 ease-out group-hover:-translate-y-2"
                     style={{
-                      background: `radial-gradient(70% 38% at 50% 96%, ${p.hue}40, transparent 75%), linear-gradient(180deg, #f7f5f1, #ece8e1)`,
+                      background: p.perfume
+                        ? `radial-gradient(70% 38% at 50% 96%, ${p.hue}40, transparent 75%), linear-gradient(180deg, #f7f5f1, #ece8e1)`
+                        : "var(--surface-2)",
                     }}
                   >
                     <img
@@ -110,11 +100,13 @@ export function PerfumeTeaser() {
                       height={360}
                       loading="lazy"
                       decoding="async"
-                      className="h-full w-full object-contain p-2 mix-blend-multiply"
+                      className={`h-full w-full ${p.perfume ? "object-contain p-2 mix-blend-multiply" : "object-cover"}`}
                     />
                   </span>
-                  <span className="mt-3 block truncate px-1 text-xs font-semibold uppercase tracking-[0.08em] text-faint">{p.perfume!.brand}</span>
-                  <span className="block truncate px-1 font-bold group-hover:text-gold">{p.perfume!.line}</span>
+                  <span className="mt-3 block truncate px-1 text-xs font-semibold uppercase tracking-[0.08em] text-faint">
+                    {p.perfume ? "Perfumería" : p.articulo!.line === "relojeria" ? "Relojería" : "Tecnología"}
+                  </span>
+                  <span className="block truncate px-1 font-bold group-hover:text-gold">{p.name}</span>
                   <span className="block px-1 text-sm text-mute">{formatCOP(p.plans[0].price)}</span>
                 </Link>
               </li>

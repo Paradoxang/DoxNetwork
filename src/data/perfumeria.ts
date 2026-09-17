@@ -87,7 +87,7 @@ export const shipping = {
 };
 
 export const disclaimer =
-  "Vendemos réplicas: no son productos originales de las marcas ni están asociadas a ellas. Los nombres de marca se usan solo como referencia del aroma.";
+  "Vendemos réplicas: no son productos originales de las marcas ni están asociadas a ellas. Los nombres de marca se usan solo como referencia.";
 
 function toProduct([id, cost, line, brand, para, quality, family, slug, photo]: PerfumeRow): Product {
   const kind = /^(set|kit)\b/i.test(line) ? "set" : "perfume";
