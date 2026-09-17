@@ -2,6 +2,7 @@ import { Astro } from "@/components/Astro";
 import { useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check, Play } from "lucide-react";
 import { useRef, useState } from "react";
+import { Deco } from "@/components/Deco";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { GlareCard } from "@/components/ui/glare-card";
 import { dox, doxProjects, doxServices, doxStats, type DoxProject } from "@/data/dox";
@@ -71,6 +72,8 @@ export function DoxDesigns() {
         className="pointer-events-none absolute -right-32 bottom-0 h-[420px] w-[420px] rounded-full blur-3xl"
         style={{ background: "radial-gradient(circle, rgba(242,196,109,0.1), transparent 70%)" }}
       />
+
+      <Deco name="malla" className="bottom-0 left-0 w-full" opacity={0.22} />
 
       <div className="relative mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-28">
         <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">

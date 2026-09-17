@@ -1,4 +1,5 @@
 import { Astro } from "@/components/Astro";
+import { Deco } from "@/components/Deco";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { site, waLink } from "@/data/site";
 import { Reveal } from "@/lib/anim";
@@ -15,6 +16,7 @@ export function Cta() {
             className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl"
             style={{ background: "var(--gold-soft)" }}
           />
+          <Deco name="llave" className="-left-10 -top-12 w-40 md:w-52" opacity={0.3} rotate={-18} />
           <p className="kicker">¿No lo encuentras?</p>
           <h2 className="display mt-3 max-w-lg text-[clamp(28px,4vw,42px)]">Pídelo y te lo conseguimos</h2>
           <p className="mt-4 max-w-md text-mute">

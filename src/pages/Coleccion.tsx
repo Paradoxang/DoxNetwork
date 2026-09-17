@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AgeGate } from "@/components/AgeGate";
 import { Astro } from "@/components/Astro";
+import { Deco, type DecoName } from "@/components/Deco";
 import { LineIcon } from "@/components/CategoryIcon";
 import { ProductCard } from "@/components/ProductCard";
 import { FaqItem, Select, useUrlFilters } from "@/components/ShopControls";
@@ -102,6 +103,9 @@ const configs: Record<LineaFisica, Config> = {
  * la perfumería: vitrina en el hero, atajos, filtros en la URL, rejilla con
  * "ver más", preguntas y un CTA para pedir lo que no está.
  */
+/** Atrezo del hero de cada colección. Vapes va sin adorno. */
+const adorno: Partial<Record<LineaFisica, DecoName>> = { relojeria: "boveda", tecnologia: "cristal-capas" };
+
 export function Coleccion({ linea }: { linea: LineaFisica }) {
   const config = configs[linea];
   const meta = lineas[linea];
@@ -198,12 +202,13 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
     <>
 
       {/* ── Hero ── */}
-      <section ref={hero} className="relative mx-auto max-w-[1200px] px-4 pb-10 pt-[140px] md:px-6 md:pt-[164px]">
+      <section ref={hero} className="relative mx-auto max-w-[1200px] overflow-hidden px-4 pb-10 pt-[140px] md:px-6 md:pt-[164px]">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute right-0 top-24 h-[420px] w-[420px] rounded-full blur-3xl"
           style={{ background: `radial-gradient(circle, ${meta.hue}30, transparent 70%)` }}
         />
+        {adorno[linea] && <Deco name={adorno[linea]!} className="-left-16 bottom-0 hidden w-56 lg:block" opacity={0.28} float />}
         <div className="relative grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <Reveal>
             <p className="kicker flex items-center gap-2">

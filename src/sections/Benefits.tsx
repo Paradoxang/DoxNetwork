@@ -1,4 +1,5 @@
 import { ShieldCheck, Truck, Wallet, Zap } from "lucide-react";
+import { Deco } from "@/components/Deco";
 import { tint } from "@/data/paleta";
 import { site } from "@/data/site";
 import { Reveal } from "@/lib/anim";
@@ -14,7 +15,8 @@ const items = [
 
 export function Benefits() {
   return (
-    <section aria-label="Por qué comprar aquí" className="border-y border-line bg-bg-soft">
+    <section aria-label="Por qué comprar aquí" className="relative overflow-hidden border-y border-line bg-bg-soft">
+      <Deco name="banda" className="right-0 top-1/2 hidden w-[560px] -translate-y-1/2 lg:block" opacity={0.16} />
       <ul className="mx-auto grid max-w-[1200px] grid-cols-1 gap-6 px-4 py-8 sm:grid-cols-2 md:px-6 lg:grid-cols-4">
         {items.map((it, i) => (
           <li key={it.title}>

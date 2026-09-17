@@ -1,6 +1,7 @@
 import { ArrowRight, Search } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
+import { Deco } from "@/components/Deco";
 import { LineIcon } from "@/components/CategoryIcon";
 import { Seo } from "@/components/Seo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -17,7 +18,9 @@ export function NotFound() {
   const { openSearch } = useUI();
 
   return (
-    <section className="mx-auto flex min-h-[80vh] max-w-[1200px] flex-col items-center justify-center px-4 pb-20 pt-28 text-center md:px-6">
+    <section className="relative mx-auto flex min-h-[80vh] max-w-[1200px] flex-col items-center justify-center overflow-hidden bg-bg px-4 pb-20 pt-28 text-center md:px-6">
+      <Deco name="estela" className="left-0 top-16 w-[680px]" opacity={0.35} />
+      <Deco name="nave" className="right-4 top-24 w-44 md:w-64" opacity={0.7} float />
       <Seo title={`Página no encontrada · ${site.name}`} description="Esta página no existe o cambió de lugar." path="/404" noindex />
       <Astro pose="404" eager className="h-56 md:h-72" />
       <p className="kicker mt-8">Error 404</p>

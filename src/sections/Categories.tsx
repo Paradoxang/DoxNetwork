@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { CategoryIcon, LineIcon } from "@/components/CategoryIcon";
+import { Deco, type DecoName } from "@/components/Deco";
 import { SectionHeading } from "@/components/SectionHeading";
 import { glowHandlers } from "@/components/ui/glowing-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
@@ -21,6 +22,13 @@ const stats = Object.fromEntries(
 ) as Record<LineaId, { count: number; min: number }>;
 
 const isNew: Partial<Record<LineaId, boolean>> = { relojeria: true, tecnologia: true };
+
+/** Atrezo por línea: el cristal para perfumería, el astrolabio para relojería… */
+const adorno: Partial<Record<LineaId, DecoName>> = {
+  perfumeria: "cristal-1",
+  relojeria: "astrolabio",
+  tecnologia: "modulo",
+};
 
 /**
  * 01 · La red, como Bento Grid (brief de rediseño, fase 2): el tamaño de cada
@@ -72,6 +80,7 @@ export function Categories() {
             </span>
             <p className="mt-auto pt-6 text-lg font-bold leading-tight">Páginas web</p>
             <p className="mt-1 text-[13px] leading-snug text-mute">A la medida, con Dox Designs</p>
+            <Deco name="diagrama" className="-bottom-6 -right-10 w-44" opacity={0.28} />
             <ArrowUpRight className="absolute right-4 top-4 h-4 w-4 text-faint" aria-hidden="true" />
           </Link>
         </li>
@@ -83,7 +92,8 @@ export function Categories() {
             className="glow-border card relative grid h-full gap-5 overflow-hidden p-5 md:p-6"
             style={{ background: `radial-gradient(90% 140% at 0% 0%, ${tint(lineas.digital.hue, 16)}, transparent 60%), var(--surface)`, borderColor: tint(lineas.digital.hue, 24) }}
           >
-            <Link to={lineas.digital.path} className="group flex items-start gap-4">
+            <Deco name="esfera" className="-right-12 -top-16 w-64" opacity={0.26} />
+            <Link to={lineas.digital.path} className="relative group flex items-start gap-4">
               <span
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
                 style={{ background: tint(lineas.digital.hue, 18), color: lineas.digital.hue }}
@@ -166,7 +176,8 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
       className={`glow-border card card-hover group relative flex h-full flex-col overflow-hidden ${compact ? "p-4 md:p-5" : "p-5 md:p-6"} ${className}`}
       style={{ background: `radial-gradient(120% 80% at 100% 0%, ${tint(l.hue, 20)}, transparent 62%), var(--surface)`, borderColor: tint(l.hue, 26) }}
     >
-      <div className="flex items-start justify-between gap-3">
+      {adorno[id] && <Deco name={adorno[id]!} className={`-right-8 -top-8 ${compact ? "w-28" : "w-40"}`} opacity={0.3} />}
+      <div className="relative flex items-start justify-between gap-3">
         <span
           className={`flex shrink-0 items-center justify-center rounded-2xl ${compact ? "h-10 w-10" : "h-11 w-11"}`}
           style={{ background: tint(l.hue, 18), color: l.hue }}

@@ -3,6 +3,7 @@ import { ArrowRight, BadgeCheck, Gift, Info, Plus, Search, Truck, X } from "luci
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Astro } from "@/components/Astro";
+import { Deco } from "@/components/Deco";
 import { ProductCard } from "@/components/ProductCard";
 import { FaqItem, Select } from "@/components/ShopControls";
 import { Seo } from "@/components/Seo";
@@ -159,7 +160,8 @@ export function Perfumeria() {
       />
 
       {/* ── Hero ── */}
-      <section ref={hero} className="relative mx-auto max-w-[1200px] px-4 pb-10 pt-[140px] md:px-6 md:pt-[164px]">
+      <section ref={hero} className="relative mx-auto max-w-[1200px] overflow-hidden px-4 pb-10 pt-[140px] md:px-6 md:pt-[164px]">
+        <Deco name="cristal-2" className="-left-14 bottom-4 hidden w-48 lg:block" opacity={0.3} float />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute right-0 top-24 -z-0 h-[420px] w-[420px] rounded-full blur-3xl"

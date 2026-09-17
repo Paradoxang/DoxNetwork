@@ -1,5 +1,6 @@
 import { BellRing, RefreshCcw, ShieldCheck } from "lucide-react";
 import { Astro } from "@/components/Astro";
+import { Deco } from "@/components/Deco";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { site, waLink } from "@/data/site";
 import { Reveal } from "@/lib/anim";
@@ -36,6 +37,7 @@ export function Guarantee() {
           className="pointer-events-none absolute -left-20 -top-20 h-72 w-72 rounded-full blur-3xl"
           style={{ background: "var(--mint-soft)" }}
         />
+        <Deco name="escudo" className="-bottom-14 -right-12 w-56 md:w-72" opacity={0.18} />
         <Reveal className="relative">
           <div className="flex items-end gap-4">
             <Astro pose="escudo" decorative className="h-40 shrink-0 md:h-48" />

@@ -3,6 +3,7 @@ import { ArrowRight, Check, Plus, Sparkles } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
+import { Deco } from "@/components/Deco";
 import { ProductArt } from "@/components/ProductArt";
 import { SectionHeading } from "@/components/SectionHeading";
 import { bestDiscount, cheapestPlan, planOf, productBySlug, products, type Product } from "@/data/catalog";
@@ -18,7 +19,9 @@ export function CombosSection() {
   const maxPct = comboTiers.length ? comboTiers[comboTiers.length - 1].pct : 0;
 
   return (
-    <section ref={scope} id="combos" className="border-y border-line bg-bg-soft">
+    <section ref={scope} id="combos" className="relative overflow-hidden border-y border-line bg-bg-soft">
+      <Deco name="destello" className="left-1/3 top-10 w-[620px]" opacity={0.2} />
+      <Deco name="orbe-2" className="-right-10 top-10 w-32 md:w-48" opacity={0.5} float />
       <div className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
         <SectionHeading
           kicker="02 · Combos"

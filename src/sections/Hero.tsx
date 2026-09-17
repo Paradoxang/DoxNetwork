@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
+import { Deco } from "@/components/Deco";
 import { glowHandlers } from "@/components/ui/glowing-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { products } from "@/data/catalog";
@@ -132,6 +133,7 @@ export function Hero() {
   return (
     <section ref={scope} className="relative isolate overflow-hidden">
       <div data-theme="dark" className="relative flex flex-col bg-[#05070d]">
+        <Deco name="polvo" className="-bottom-10 left-0 z-[1] w-[70%] max-w-[900px]" opacity={0.35} />
         {/* ── Texto ── */}
         <div data-intro className="relative z-10 mx-auto w-full max-w-[1200px] px-4 pt-[132px] md:flex md:min-h-[min(100svh,880px)] md:items-center md:px-6 md:pb-24 md:pt-[150px]">
           <div className="max-w-[600px]">

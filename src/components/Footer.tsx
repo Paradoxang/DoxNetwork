@@ -5,6 +5,7 @@ import { legalDocs } from "@/data/legal";
 import { lineaOrder, lineas } from "@/data/lineas";
 import { site, waLink } from "@/data/site";
 import { Astro } from "@/components/Astro";
+import { Deco } from "@/components/Deco";
 import { LogoDN } from "@/components/LogoDN";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
@@ -141,6 +142,7 @@ export function Footer() {
           aria-hidden="true"
           className="hole-echo pointer-events-none absolute -bottom-[38%] left-1/2 -z-10 w-[min(1500px,160vw)] -translate-x-1/2"
         />
+        <Deco name="polvo" className="inset-x-0 top-0 w-full" opacity={0.3} />
         {/* SVG y no texto: así la palabra encaja exacta al ancho en cualquier pantalla */}
         <svg viewBox="0 0 1000 118" className="block w-full" role="img" aria-label="DoxNetwork">
           <defs>

@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useId, useState } from "react";
 import { Link } from "react-router-dom";
+import { Deco } from "@/components/Deco";
 import { ProductCard } from "@/components/ProductCard";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -52,9 +53,10 @@ export function ProductTabs() {
 
       {/* El panel toma el color de la línea activa: cada pestaña cambia el ambiente */}
       <div
-        className="mt-6 rounded-[28px] border p-3 transition-colors duration-500 md:p-5"
+        className="relative mt-6 overflow-hidden rounded-[28px] border p-3 transition-colors duration-500 md:p-5"
         style={{ borderColor: tint(tab.hue, 34), background: `radial-gradient(120% 90% at 0% 0%, ${tint(tab.hue, 20)}, transparent 62%), var(--bg-soft)` }}
       >
+        <Deco name="reticula" className="-right-16 -top-16 w-72" opacity={0.22} />
       <AnimatePresence mode="wait" initial={false}>
         <motion.ul
           key={active}

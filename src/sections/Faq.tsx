@@ -3,6 +3,7 @@ import { CheckCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
+import { Deco } from "@/components/Deco";
 import { SectionHeading } from "@/components/SectionHeading";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { comboTiers, site, waLink } from "@/data/site";
@@ -78,7 +79,8 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="preguntas" className="relative">
+    <section id="preguntas" className="relative overflow-hidden bg-bg">
+      <Deco name="lente" className="-left-24 top-1/3 hidden w-[520px] lg:block" opacity={0.3} />
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_1.35fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading kicker="06 · Preguntas" title="Antes de comprar">

@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { CheckCheck, CreditCard, MessageCircle, MousePointerClick, ShoppingBag } from "lucide-react";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Astro } from "@/components/Astro";
+import { Deco } from "@/components/Deco";
 import { SectionHeading } from "@/components/SectionHeading";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { planLabel, type Product } from "@/data/catalog";
@@ -53,7 +54,8 @@ export function HowItWorks() {
   }, []);
 
   return (
-    <section id="como-comprar" className="border-y border-line bg-bg-soft">
+    <section id="como-comprar" className="relative overflow-hidden border-y border-line bg-bg-soft">
+      <Deco name="fibra" className="-left-32 bottom-0 hidden w-[620px] lg:block" opacity={0.22} />
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-20">
         <div>
           <SectionHeading kicker="04 · Cómo comprar" title="Tres pasos y listo">
@@ -97,6 +99,7 @@ export function HowItWorks() {
 
         {/* Escritorio: teléfono fijo que cambia con el paso */}
         <div className="relative hidden lg:block">
+          <Deco name="reticula" className="-right-24 top-0 w-72" opacity={0.28} />
           <div className="sticky top-[max(7rem,calc(50vh-300px))]">
             <Phone>
               <AnimatePresence mode="wait" initial={false}>
