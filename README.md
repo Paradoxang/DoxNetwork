@@ -52,11 +52,15 @@ Cada plan se describe por ejes: `access` (Pantalla / Completa), `tier`
 (Estándar, Premium, Platino, Go, Plus…) y `duration`. La ficha solo muestra los
 ejes que cambian dentro del producto.
 
-- `cost`: precio de proveedor. El precio de venta se calcula solo con
-  `MARKUP` (en `src/data/catalog.ts`), redondeado hacia arriba a terminación 900.
-  Sin `cost`, el plan lleva `price` fijo.
+- `cost`: precio de proveedor. El precio de venta se calcula solo, redondeado
+  a terminación 900: `cost × MARKUP` (o el `markup` del plan), sin pasar de la
+  mediana del mercado (`market`) ni del 80% del plan oficial (`official`), y sin
+  bajar de `cost × 1,5` (o `× 1,2` frente al oficial). La regla completa está en
+  la cabecera de `src/data/catalog.ts`. Sin `cost`, el plan lleva `price` fijo.
 - `per`: en planes de varios periodos, se tacha contra `n` veces el precio del
-  plan mensual.
+  plan mensual. Sin `cost` ni `price`, vale eso menos `per.off`.
+- Productos físicos: `goodsPrice` en `src/data/price.ts` (× 2 hasta $30.000 de
+  costo; encima, costo + $30.000; originales de más de $100.000, costo × 1,35).
 - Combos: `comboDiscount` (0.12 = 12%) sobre la suma de sus partes.
 - `stock`: si existe y es 5 o menos, se muestra "Quedan N". En 0, el producto
   aparece como agotado. Úsalo solo con inventario real.
@@ -70,7 +74,7 @@ Estudios de ZeroDelay, Torostream y Emprendered (16-sep-2026). Son documentos
 internos: están en `.gitignore` y no se suben al repositorio.
 
 **Aplicado**
-- Precio = costo de proveedor × `MARKUP` (3), redondeado a terminación 900. Costo de referencia: Torostream y, si falta, Emprendered.
+- Precio = costo de proveedor × `MARKUP` (3), limitado por la mediana del mercado y el plan oficial (17-sep-2026: el × 3 dejaba 21 de 26 planes por encima de la mediana). Costo de referencia: Torostream y, si falta, Emprendered.
 - Escalera por producto: acceso × calidad × duración.
 - 6 combos con identidad ("Universitario", "Fan del deporte"…), con ahorro real
   del 11% al 16%.

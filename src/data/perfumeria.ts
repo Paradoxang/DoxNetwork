@@ -5,20 +5,18 @@
  * proveedor). Aquí se convierten en `Product` para reutilizar carrito,
  * favoritos, buscador y fichas.
  *
- * PRECIO: costo de proveedor × PERFUME_MARKUP, redondeado a 900.
- * No es el ×3 de lo digital: en 157 de 158 perfumes el ×3 queda por encima
- * del precio "antes" que el mismo proveedor publica, y en perfumes el
- * cliente compara con facilidad. ×2 deja la réplica 1.1 base en $79.900.
+ * PRECIO: `goodsPrice` (price.ts): costo + $30.000, o × 2 si el costo no
+ * pasa de $30.000. En perfumes el cliente compara con facilidad y el
+ * proveedor publica los mismos productos con las mismas fotos: a costo × 2
+ * quedábamos por encima de la competencia (Yara 1.1 en $120.900 frente a
+ * $90.000).
  *
  * Sin precio tachado: el "antes" del proveedor no es comprobable (hay
  * errores como $1.600.000 o "antes" menor que el precio).
  */
 import type { Product } from "./catalog";
-import { up900 } from "./price";
+import { goodsPrice } from "./price";
 import { perfumeRows } from "./perfumes";
-
-/** TODO: margen de perfumería. 2 = se vende al doble del costo de proveedor. */
-export const PERFUME_MARKUP = 2;
 
 export type Para = "dama" | "hombre" | "unisex";
 export type Quality = "1.1" | "AAA";
@@ -108,7 +106,7 @@ function toProduct([id, cost, line, brand, para, quality, family, slug, photo]: 
     tagline: [brand, paraLabel[para], fam?.label].filter(Boolean).join(" · "),
     description,
     hue: fam?.hue ?? "#b89a6a",
-    plans: [{ id: "u", tier: q.label, duration: "", price: up900(cost * PERFUME_MARKUP), cost }],
+    plans: [{ id: "u", tier: q.label, duration: "", price: goodsPrice(cost), cost }],
     features: [q.label, shipping.short, "Confirmas tu pedido por WhatsApp"],
     image: `/perfumes/${slug}.webp`,
     perfume: { line, brand, para, quality, family: family ?? undefined, kind, photo: Boolean(photo), supplierId: id },

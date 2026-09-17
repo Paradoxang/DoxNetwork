@@ -3,11 +3,20 @@
  *
  * CÓMO SE CALCULA EL PRECIO
  * Cada plan guarda `cost`: el precio de proveedor. El precio de venta se
- * calcula solo: cost × MARKUP, redondeado hacia arriba a terminación 900.
+ * calcula solo, redondeado a terminación 900:
+ *   1. Base: cost × MARKUP (o el `markup` propio del plan).
+ *   2. Si el plan trae `market` (mediana de venta al público) y la base la
+ *      supera, baja a la mediana, sin quedar por debajo de cost × 1,5.
+ *   3. Si trae `official` (plan oficial de la plataforma, para cuentas
+ *      completas) y la base pasa del 80% del oficial, baja a ese 80%, sin
+ *      quedar por debajo de cost × 1,2: nunca más caro que pagarlo directo.
  *   · Costo de referencia: Torostream (versión "original"); si Torostream no
  *     tiene la variante, Emprendered. Datos del 16-sep-2026.
+ *   · Mercado: mediana de 10 tiendas colombianas y 4 grupos de WhatsApp,
+ *     consultados el 17-sep-2026. Actualízala cuando cambie la competencia.
  *   · Cuando tengas los costos reales de tu proveedor, cambia solo `cost`.
- *   · Un plan sin costo de referencia lleva `price` fijo y un TODO.
+ *   · Un plan de varios meses sin costo propio vale el mensual × meses menos
+ *     `per.off`. Un plan sin ninguna referencia lleva `price` fijo.
  *
  * Otras reglas (estudios de competencia):
  *   · Escalera por producto: tipo de acceso × calidad × duración.
@@ -67,12 +76,18 @@ export type Access = "Pantalla" | "Completa";
 export interface Plan {
   id: string;
   price: number;
-  /** Costo de proveedor. Si existe, `price` se calcula con MARKUP. */
+  /** Costo de proveedor. Si existe, `price` se calcula (ver la cabecera). */
   cost?: number;
+  /** Margen propio del plan en lugar de MARKUP. */
+  markup?: number;
+  /** Mediana del precio al público en el mercado (COP). */
+  market?: number;
+  /** Precio del plan oficial equivalente (COP), para cuentas completas. */
+  official?: number;
   /** Baldosa de marca propia del plan; si no hay, se usa la del producto. */
   logo?: string;
-  /** Plan de varios periodos: se tacha contra `n` veces el precio de `plan`. */
-  per?: { plan: string; n: number };
+  /** Plan de varios periodos: se tacha contra `n` veces el precio de `plan`. Sin costo ni precio, vale eso menos `off`. */
+  per?: { plan: string; n: number; off?: number };
   /** Precio comprobable tachado. En combos se calcula solo (suma de partes). */
   compareAt?: number;
   /** Ejes de la escalera. Solo se muestran los que varían dentro del producto. */
@@ -131,10 +146,10 @@ const baseInput: ProductInput[] = [
       "Un perfil para ti dentro de una cuenta Netflix, con PIN para que nadie más lo use. Elige cuántos días lo quieres.",
     hue: "#e5484d",
     plans: [
-      { id: "p13", access: "Pantalla", duration: "13 días", cost: 4500 },
-      { id: "p30", access: "Pantalla", duration: "30 días", cost: 8600 },
-      // Sin costo trimestral de referencia: precio fijo con 10% frente a 3 × el mensual
-      { id: "p90", access: "Pantalla", duration: "3 meses", price: 69900, per: { plan: "p30", n: 3 } },
+      { id: "p13", access: "Pantalla", duration: "13 días", cost: 4500, market: 5900 },
+      { id: "p30", access: "Pantalla", duration: "30 días", cost: 8600, market: 14000 },
+      // Sin costo trimestral de referencia: 10% menos que 3 × el mensual
+      { id: "p90", access: "Pantalla", duration: "3 meses", per: { plan: "p30", n: 3, off: 0.1 } },
     ],
     devices: "1 dispositivo a la vez",
     features: ["Perfil propio con PIN", "Calidad HD", "Reposición si falla durante la vigencia"],
@@ -151,10 +166,10 @@ const baseInput: ProductInput[] = [
       "Todo el universo Disney. Pantalla es un perfil para ti; Completa es la cuenta entera para compartir en casa. Premium suma 4K y ESPN.",
     hue: "#5b7cfa",
     plans: [
-      { id: "pe", access: "Pantalla", tier: "Estándar", duration: "30 días", cost: 2500 },
-      { id: "pp", access: "Pantalla", tier: "Premium", duration: "30 días", cost: 6500, logo: "/logos/disney-premium.webp" },
-      { id: "ce", access: "Completa", tier: "Estándar", duration: "30 días", cost: 9900 },
-      { id: "cp", access: "Completa", tier: "Premium", duration: "30 días", cost: 27900, logo: "/logos/disney-premium.webp" },
+      { id: "pe", access: "Pantalla", tier: "Estándar", duration: "30 días", cost: 2500, market: 10200 },
+      { id: "pp", access: "Pantalla", tier: "Premium", duration: "30 días", cost: 6500, market: 12000, logo: "/logos/disney-premium.webp" },
+      { id: "ce", access: "Completa", tier: "Estándar", duration: "30 días", cost: 9900, official: 36900 },
+      { id: "cp", access: "Completa", tier: "Premium", duration: "30 días", cost: 27900, official: 49900, logo: "/logos/disney-premium.webp" },
     ],
     devices: "Pantalla: 1 · Completa: hasta 4",
     features: ["Perfil propio", "Premium: 4K y deportes ESPN", "Reposición si falla durante la vigencia"],
@@ -170,9 +185,9 @@ const baseInput: ProductInput[] = [
       "Las series de HBO y el cine de Warner. Platino sube la calidad a 4K y suma más dispositivos a la vez.",
     hue: "#7a5cf5",
     plans: [
-      { id: "pe", access: "Pantalla", tier: "Estándar", duration: "30 días", cost: 3000 },
-      { id: "pp", access: "Pantalla", tier: "Platino", duration: "30 días", cost: 4200 },
-      { id: "ce", access: "Completa", tier: "Estándar", duration: "30 días", cost: 12000 },
+      { id: "pe", access: "Pantalla", tier: "Estándar", duration: "30 días", cost: 3000, market: 8000 },
+      { id: "pp", access: "Pantalla", tier: "Platino", duration: "30 días", cost: 4200, market: 9000 },
+      { id: "ce", access: "Completa", tier: "Estándar", duration: "30 días", cost: 12000, official: 23900 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 4",
     features: ["Perfil propio", "Platino en 4K", "Reposición si falla durante la vigencia"],
@@ -188,8 +203,8 @@ const baseInput: ProductInput[] = [
     description: "Películas, series originales de Amazon y estrenos de cine.",
     hue: "#2fa4d8",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 3500 },
-      { id: "c", access: "Completa", duration: "30 días", cost: 13900 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 3500, market: 8750 },
+      { id: "c", access: "Completa", duration: "30 días", cost: 13900, official: 24900 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 3",
     features: ["Perfil propio", "Calidad HD", "Reposición si falla durante la vigencia"],
@@ -203,8 +218,8 @@ const baseInput: ProductInput[] = [
     description: "El catálogo de Paramount, Nickelodeon y fútbol europeo en vivo.",
     hue: "#3d6df2",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 3200 },
-      { id: "c", access: "Completa", duration: "30 días", cost: 8900 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 3200, market: 9000 },
+      { id: "c", access: "Completa", duration: "30 días", cost: 8900, official: 19900 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 3",
     features: ["Perfil propio", "Deportes en vivo", "Reposición si falla durante la vigencia"],
@@ -218,7 +233,7 @@ const baseInput: ProductInput[] = [
     description: "Simulcasts desde Japón y miles de episodios sin anuncios.",
     hue: "#f5883a",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 3900 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 3900, market: 7500 },
       { id: "c", access: "Completa", duration: "30 días", cost: 8900 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 4",
@@ -233,7 +248,7 @@ const baseInput: ProductInput[] = [
     description: "Severance, Ted Lasso y el cine original de Apple.",
     hue: "#8b93a8",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 4900 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 4900, market: 11450 },
       { id: "c", access: "Completa", duration: "30 días", cost: 8000 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 6",
@@ -248,7 +263,7 @@ const baseInput: ProductInput[] = [
     description: "Contenido en español sin anuncios, novelas y deportes.",
     hue: "#f0a23a",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 2000 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 2000, market: 6950 },
       { id: "c", access: "Completa", duration: "30 días", cost: 5500 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 3",
@@ -261,7 +276,7 @@ const baseInput: ProductInput[] = [
     tagline: "Series de Universal, SyFy y E!",
     description: "Series y películas de los canales de Universal.",
     hue: "#4a7fe0",
-    plans: [{ id: "p", access: "Pantalla", duration: "30 días", cost: 5000 }],
+    plans: [{ id: "p", access: "Pantalla", duration: "30 días", cost: 5000, market: 9900 }],
     devices: "1 dispositivo a la vez",
     features: ["Perfil propio", "Calidad HD", "Reposición si falla durante la vigencia"],
   },
@@ -272,7 +287,7 @@ const baseInput: ProductInput[] = [
     tagline: "Cine de autor seleccionado a mano",
     description: "Cine independiente y de festival, curado por expertos.",
     hue: "#3a3f55",
-    plans: [{ id: "p", access: "Pantalla", duration: "30 días", cost: 3500 }],
+    plans: [{ id: "p", access: "Pantalla", duration: "30 días", cost: 3500, market: 8500 }],
     devices: "1 dispositivo a la vez",
     features: ["Cine de festival", "Sin anuncios", "Reposición si falla durante la vigencia"],
   },
@@ -285,7 +300,7 @@ const baseInput: ProductInput[] = [
     description: "Funciones premium de Plex para ver en cualquier dispositivo.",
     hue: "#e5a00d",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 2000 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 2000, market: 8500 },
       { id: "c", access: "Completa", duration: "30 días", cost: 6900 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 10",
@@ -301,7 +316,7 @@ const baseInput: ProductInput[] = [
     tagline: "TV en vivo y fútbol, plan Full",
     description: "Canales en vivo, deportes y Win Sports+ desde el celular o la TV.",
     hue: "#2f7fd6",
-    plans: [{ id: "full", access: "Pantalla", tier: "Plan Full", duration: "30 días", cost: 15900 }],
+    plans: [{ id: "full", access: "Pantalla", tier: "Plan Full", duration: "30 días", cost: 15900, market: 33500 }],
     devices: "1 dispositivo a la vez",
     features: ["Canales en vivo", "Fútbol colombiano", "Reposición si falla durante la vigencia"],
     badge: "nuevo",
@@ -328,8 +343,8 @@ const baseInput: ProductInput[] = [
     description: "Código digital para redimir en taquilla o en la app de Cine Colombia.",
     hue: "#d9364a",
     plans: [
-      { id: "entrada", tier: "Entrada 2D", duration: "Vence en 60 días", cost: 12900 },
-      { id: "combo", tier: "Combo confitería", duration: "Vence en 60 días", cost: 14900, logo: "/logos/cine-colombia-confiteria.webp" },
+      { id: "entrada", tier: "Entrada 2D", duration: "Vence en 60 días", cost: 12900, markup: 1.5 },
+      { id: "combo", tier: "Combo confitería", duration: "Vence en 60 días", cost: 14900, markup: 1.5, logo: "/logos/cine-colombia-confiteria.webp" },
     ],
     devices: "1 código por compra",
     features: ["Código oficial", "Redimible en todo el país", "Llega en minutos"],
@@ -344,8 +359,8 @@ const baseInput: ProductInput[] = [
     description: "Código digital para Cinemark: entrada 2D o combo de confitería.",
     hue: "#c2413b",
     plans: [
-      { id: "entrada", tier: "Entrada 2D", duration: "Vence en 60 días", cost: 12900 },
-      { id: "combo", tier: "Combo confitería", duration: "Vence en 60 días", cost: 15900, logo: "/logos/cinemark-confiteria.webp" },
+      { id: "entrada", tier: "Entrada 2D", duration: "Vence en 60 días", cost: 12900, markup: 1.5 },
+      { id: "combo", tier: "Combo confitería", duration: "Vence en 60 días", cost: 15900, markup: 1.5, logo: "/logos/cinemark-confiteria.webp" },
     ],
     devices: "1 código por compra",
     features: ["Código oficial", "Redimible en todo el país", "Llega en minutos"],
@@ -359,7 +374,7 @@ const baseInput: ProductInput[] = [
     tagline: "Entrada 2D en salas Procinal",
     description: "Código digital para redimir en cualquier sala Procinal.",
     hue: "#b8434f",
-    plans: [{ id: "entrada", tier: "Entrada 2D", duration: "Vence en 60 días", cost: 14900 }],
+    plans: [{ id: "entrada", tier: "Entrada 2D", duration: "Vence en 60 días", cost: 14900, markup: 1.5 }],
     devices: "1 código por compra",
     features: ["Código oficial", "Redimible en todo el país", "Llega en minutos"],
   },
@@ -374,8 +389,8 @@ const baseInput: ProductInput[] = [
     description: "Salta canciones sin límite, descarga para escuchar offline y olvídate de los anuncios.",
     hue: "#3fbf74",
     plans: [
-      { id: "1m", duration: "30 días", cost: 5000 },
-      { id: "3m", duration: "3 meses", cost: 13500, per: { plan: "1m", n: 3 }, logo: "/logos/spotify-3-meses.webp" },
+      { id: "1m", duration: "30 días", cost: 5000, market: 11000 },
+      { id: "3m", duration: "3 meses", cost: 13500, market: 28000, per: { plan: "1m", n: 3 }, logo: "/logos/spotify-3-meses.webp" },
     ],
     devices: "1 cuenta, escuchas en un dispositivo a la vez",
     features: ["Sin anuncios", "Descargas sin conexión", "Reposición si falla durante la vigencia"],
@@ -391,9 +406,9 @@ const baseInput: ProductInput[] = [
     description: "Videos sin anuncios, reproducción en segundo plano y YouTube Music incluido.",
     hue: "#ef5a5a",
     plans: [
-      { id: "1m", duration: "30 días", cost: 6900 },
-      // TODO: sin costo trimestral de referencia
-      { id: "3m", duration: "3 meses", price: 55900, per: { plan: "1m", n: 3 } },
+      { id: "1m", duration: "30 días", cost: 6900, market: 13000 },
+      // Sin costo trimestral de referencia: 10% menos que 3 × el mensual
+      { id: "3m", duration: "3 meses", per: { plan: "1m", n: 3, off: 0.1 } },
     ],
     devices: "Tu propia cuenta de Google",
     features: ["Sin anuncios", "Segundo plano", "YouTube Music incluido"],
@@ -410,8 +425,9 @@ const baseInput: ProductInput[] = [
       "Go amplía los límites del plan gratis. Plus desbloquea los modelos más avanzados, imágenes, voz y análisis de archivos.",
     hue: "#2fb38c",
     plans: [
-      { id: "go", tier: "Go", duration: "30 días", cost: 7000 },
-      { id: "plus", tier: "Plus", duration: "30 días", cost: 14900, logo: "/logos/chatgpt-plus.webp" },
+      // Sin precio al público: ~67% del plan oficial ($20.900)
+      { id: "go", tier: "Go", duration: "30 días", cost: 7000, market: 14000 },
+      { id: "plus", tier: "Plus", duration: "30 días", cost: 14900, market: 25000, logo: "/logos/chatgpt-plus.webp" },
     ],
     devices: "Tu propia cuenta",
     features: ["Modelos avanzados", "Imágenes y archivos", "Reposición si falla durante la vigencia"],
@@ -427,10 +443,10 @@ const baseInput: ProductInput[] = [
     description: "Gemini con funciones avanzadas y almacenamiento en Google One, sobre tu propio correo.",
     hue: "#5a8cf0",
     plans: [
-      { id: "1m", duration: "30 días", cost: 11500 },
-      // TODO: sin costo de referencia para 3 y 12 meses
-      { id: "3m", duration: "3 meses", price: 94900, per: { plan: "1m", n: 3 } },
-      { id: "12m", duration: "12 meses", price: 299900, per: { plan: "1m", n: 12 } },
+      { id: "1m", duration: "30 días", cost: 11500, market: 10000 },
+      // Sin costo de referencia para 3 y 12 meses: descuento sobre el mensual
+      { id: "3m", duration: "3 meses", per: { plan: "1m", n: 3, off: 0.1 } },
+      { id: "12m", duration: "12 meses", per: { plan: "1m", n: 12, off: 0.28 } },
     ],
     devices: "Tu propia cuenta de Google",
     features: ["Modelos avanzados", "Almacenamiento incluido", "Activación en tu correo"],
@@ -448,9 +464,9 @@ const baseInput: ProductInput[] = [
       "Todo Canva sin límites. Por invitación te unimos a un equipo Pro; a tu correo activamos Pro en tu propia cuenta.",
     hue: "#27b3c4",
     plans: [
-      { id: "inv45", tier: "Por invitación", duration: "45 días", cost: 2250 },
+      { id: "inv45", tier: "Por invitación", duration: "45 días", cost: 2250, market: 9000 },
       { id: "correo30", tier: "A tu correo", duration: "30 días", cost: 2500 },
-      { id: "inv12", tier: "Por invitación", duration: "12 meses", cost: 9900 },
+      { id: "inv12", tier: "Por invitación", duration: "12 meses", cost: 9900, market: 25000 },
     ],
     devices: "Todos tus dispositivos",
     features: ["Elementos premium", "Quitafondos", "Conservas tus diseños"],
@@ -465,7 +481,7 @@ const baseInput: ProductInput[] = [
     tagline: "Edición de video sin marca de agua",
     description: "Efectos, filtros y herramientas de IA para editar video para redes.",
     hue: "#4a4f63",
-    plans: [{ id: "1m", tier: "1 dispositivo", duration: "30 días", cost: 14000 }],
+    plans: [{ id: "1m", tier: "1 dispositivo", duration: "30 días", cost: 14000, market: 24000 }],
     devices: "1 dispositivo",
     features: ["Sin marca de agua", "Efectos premium", "Herramientas de IA"],
   },
@@ -477,8 +493,8 @@ const baseInput: ProductInput[] = [
     description: "Las apps de Office siempre actualizadas y almacenamiento en OneDrive por un año.",
     hue: "#e8663c",
     plans: [
-      { id: "1d", tier: "1 dispositivo", duration: "12 meses", cost: 9900 },
-      { id: "5d", tier: "5 dispositivos", duration: "12 meses", cost: 25500 },
+      { id: "1d", tier: "1 dispositivo", duration: "12 meses", cost: 9900, market: 20000 },
+      { id: "5d", tier: "5 dispositivos", duration: "12 meses", cost: 25500, market: 50000 },
     ],
     devices: "1 o 5 dispositivos",
     features: ["Apps de escritorio y móvil", "1 TB en OneDrive", "Un año completo"],
@@ -545,7 +561,7 @@ const baseInput: ProductInput[] = [
     tagline: "Aprende idiomas sin anuncios",
     description: "Vidas ilimitadas, sin anuncios y práctica de tus errores.",
     hue: "#58c24a",
-    plans: [{ id: "1m", duration: "30 días", cost: 1800 }],
+    plans: [{ id: "1m", duration: "30 días", cost: 1800, market: 8250 }],
     devices: "Tu propia cuenta",
     features: ["Vidas ilimitadas", "Sin anuncios", "Práctica de errores"],
   },
@@ -696,15 +712,27 @@ const combosInput: ProductInput[] = [
   },
 ];
 
+function planPrice(pl: PlanInput): number {
+  if (pl.cost === undefined) return pl.price ?? 0;
+  const base = up900(pl.cost * (pl.markup ?? MARKUP));
+  if (pl.market !== undefined && base > pl.market) return Math.max(up900(pl.cost * 1.5), down900(pl.market));
+  if (pl.official !== undefined) {
+    const cap = down900(pl.official * 0.8);
+    if (base > cap) return Math.max(up900(pl.cost * 1.2), cap);
+  }
+  return base;
+}
+
 function withPrices(input: ProductInput): Product {
-  const plans: Plan[] = input.plans.map((pl) => ({
-    ...pl,
-    price: pl.cost !== undefined ? up900(pl.cost * MARKUP) : pl.price ?? 0,
-  }));
-  // Tachado de planes de varios periodos: n × el precio del plan de referencia
+  const plans: Plan[] = input.plans.map((pl) => ({ ...pl, price: planPrice(pl) }));
   for (const pl of plans) {
     const ref = pl.per && plans.find((x) => x.id === pl.per!.plan);
-    if (ref && ref.price * pl.per!.n > pl.price) pl.compareAt = ref.price * pl.per!.n;
+    if (!ref) continue;
+    const full = ref.price * pl.per!.n;
+    // Varios periodos sin costo ni precio propio: el mensual × meses menos `off`
+    if (pl.cost === undefined && !pl.price) pl.price = down900(full * (1 - (pl.per!.off ?? 0.1)));
+    // Tachado: n × el precio del plan de referencia
+    if (full > pl.price) pl.compareAt = full;
   }
   return { ...input, plans };
 }

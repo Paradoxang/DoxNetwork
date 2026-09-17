@@ -12,7 +12,7 @@
  * inicio, el carrusel, los destacados ni el catálogo mezclado; solo tiene su
  * página con verificación de edad y enlaces en el menú y el pie.
  *
- * PRECIO: costo de proveedor × GOODS_MARKUP, redondeado a 900. Sin tachado:
+ * PRECIO: `goodsPrice` (price.ts), el mismo de perfumería. Sin tachado:
  * el "antes" del proveedor no es comprobable (hay "antes" de $110 o de
  * $1.000.000).
  */
@@ -20,10 +20,7 @@ import type { Product } from "./catalog";
 import { articuloRows } from "./articulos";
 import { vapeRows } from "./vapes";
 import { disclaimer, shipping } from "./perfumeria";
-import { up900 } from "./price";
-
-/** TODO: margen de relojería y tecnología. 2 = se vende al doble del costo. */
-export const GOODS_MARKUP = 2;
+import { goodsPrice } from "./price";
 
 export type LineaId = "digital" | "perfumeria" | "relojeria" | "tecnologia" | "vapes";
 export type LineaArticulo = "relojeria" | "tecnologia" | "vapes";
@@ -165,7 +162,7 @@ function toProduct([id, cost, name, brand, line, sub, condition, slug, soldOut]:
       .filter(Boolean)
       .join(" "),
     hue: subHue[sub],
-    plans: [{ id: "u", tier: cond ? conditionInfo[cond].label : lineName, duration: "", price: up900(cost * GOODS_MARKUP), cost }],
+    plans: [{ id: "u", tier: cond ? conditionInfo[cond].label : lineName, duration: "", price: goodsPrice(cost, cond === "original"), cost }],
     features:
       line === "vapes"
         ? ["Solo mayores de 18 años", shipping.short, "Confirmas tu pedido y tu edad por WhatsApp"]
