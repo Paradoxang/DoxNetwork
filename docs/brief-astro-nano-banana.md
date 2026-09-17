@@ -1,251 +1,279 @@
-# ASTRO · Prompts para Nano Banana (a partir de la imagen maestra)
+# ASTRO · Brief de poses para Nano Banana
 
-**Imagen maestra aprobada:** `astro-master.png` — ASTRO de cuerpo entero, de pie
-y de frente, estilo figura de vinilo 3D, sobre fondo gris claro.
+ASTRO es el avatar de DoxNetwork: astronauta 3D tipo figura de vinilo, traje
+morado mate con líneas naranjas y cara LED en el visor.
 
-Cada prompt de este documento se copia y pega; donde diga `[ADN]` o `[SALIDA]`,
-pega el bloque fijo con ese nombre (sección 1).
-**En cada generación adjunta `astro-master.png`** (o `astro-chibi-master.png`
-en los chibis). Adjunta una sola referencia por imagen.
+Este brief parte de las **referencias ya aprobadas** y sirve para generar el
+resto de poses y la versión chibi sin que el personaje cambie.
 
 ---
 
-## 1. Estructura de cada prompt
+## 1. Referencias aprobadas
 
-```
-[REFERENCIA]   Qué debe copiar de la imagen adjunta
-[ADN]          Descripción exacta de la maestra (fija)
-[POSE]         Qué hace ASTRO
-[CARA LED]     Qué expresión muestra el visor
-[SALIDA]       Encuadre, fondo y prohibiciones (fija)
-```
+Guárdalas con estos nombres. Son las únicas que se adjuntan.
 
-Los bloques REFERENCIA, ADN y SALIDA no cambian nunca. Solo cambian POSE y
-CARA LED. Abajo, cada prompt ya viene armado.
+| Archivo | Qué es |
+|---|---|
+| `astro-master.png` | Frente, cuerpo entero, cara LED sonriente (la maestra) |
+| `astro-vista-34.png` | Tres cuartos, cuerpo entero |
+| `astro-vista-perfil.png` | Perfil lateral |
+| `astro-vista-espalda.png` | Espalda, con la mochila |
+| `astro-expresiones.png` | Hoja de 8 caras LED (solo cascos) |
 
-### Bloques fijos (por si quieres armar poses nuevas)
+### Códigos de cara LED
 
-**REFERENCIA**
-```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
-```
+La hoja de expresiones, leída de izquierda a derecha y de arriba abajo:
 
-**ADN**
-```text
-Character: ASTRO, a stylized 3D astronaut mascot that looks like a premium vinyl toy rendered in Blender Cycles. Chunky rounded proportions with a big round helmet. Matte soft-touch purple suit in one muted violet tone. Thin glowing orange-amber trim lines outline the rounded chest plate, the shoulder pads, the forearm bands and the tops and soles of the boots. The chest plate has a small control box with two round knobs and two tiny pink lights, plus two small pink light slits at its top corners. Round shoulder pads with slotted circular bolts, a silver metallic neck ring with a small latch, a rounded backpack, a waist band, a triangular hip plate, rounded knee pads, chunky boots and chunky four-finger gloves with a small glowing wrist slot on the left forearm. Round purple helmet with two short orange LED slits on top and round ear discs on the sides. Large glossy black visor with a soft reflection, showing a dark purple nebula, tiny stars and a small black hole with an orange ring in the upper right corner. The face is displayed on the visor as a glowing pixel LED screen: rounded square lavender eyes and an orange dot-matrix mouth.
-```
-
-**SALIDA**
-```text
-Soft studio lighting identical to the reference, subtle rim light, soft contact shadow. Plain flat uniform light gray background (#d9d9d9), no gradient, no floor line, no props unless described. Full body visible with generous empty margin around the silhouette. No text, no letters, no numbers, no logos, no watermark. No human face inside the helmet. Correct anatomy: two arms, two legs, chunky gloves with four fingers.
-```
+| Código | Cara | Úsala para |
+|---|---|---|
+| **E1** | Ojos redondos + sonrisa pequeña | Neutral amable |
+| **E2** | Ojos ^ ^ + sonrisa grande abierta | Saludo, alegría |
+| **E3** | Guiño + sonrisa pequeña | Complicidad, "listo" |
+| **E4** | Ojos de anillo con pupila + boca en O | Sorpresa |
+| **E5** | Ojos de estrella + sonrisa abierta | Emoción, ofertas |
+| **E6** | Ojos de corazón + sonrisa pequeña | Favoritos, gracias |
+| **E7** | Ojos cuadrados mirando arriba + boca recta | Pensando |
+| **E8** | Ojos en espiral + boca ondulada | Mareado, error |
 
 ---
 
-## 2. Hojas de referencia (genéralas primero)
+## 2. Qué adjuntar en cada generación
 
-### 2.1 Turnaround · 16:9 · `astro-turnaround.png`
+Siempre **dos imágenes**, en este orden:
+
+1. **Imagen 1 · el cuerpo:** la vista más parecida al ángulo de la pose.
+   - Pose de frente → `astro-master.png`
+   - Pose girada → `astro-vista-34.png`
+   - Pose de lado → `astro-vista-perfil.png`
+   - Pose de espaldas → `astro-vista-espalda.png`
+2. **Imagen 2 · la cara:** `astro-expresiones.png`
+
+> No adjuntes más de dos. Con tres o más el modelo promedia los diseños y el
+> traje empieza a cambiar.
+
+---
+
+## 3. Bloques fijos
+
+Cada prompt = **REFERENCIAS + ADN + POSE + SALIDA**. En la sección 4 ya van
+armados; estos bloques sirven para inventar poses nuevas.
+
+### REFERENCIAS
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style.
-[ADN]
-Character turnaround sheet: the same character in the same relaxed standing pose shown four times in one row, evenly spaced and at the same scale: front view, three-quarter view facing left, side profile facing left, and back view showing the backpack. Neutral happy LED face on the visible views.
-Plain flat uniform light gray background (#d9d9d9). No text, no labels, no numbers, no logos, no watermark.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 ```
 
-### 2.1b Vistas sueltas · 3:4 (alternativa al turnaround en una sola imagen)
-
-Una imagen por vista, con `astro-master.png` adjunta. Cada prompt completo:
-REFERENCIA de vista + [ADN] + VISTA + [SALIDA].
-
-**`astro-vista-34.png` · tres cuartos**
+### ADN
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the camera angle.
-[ADN]
-View: three-quarter view, the whole body rotated about 45 degrees to the left of the camera, same relaxed standing pose and neutral arms as the reference. The visor is visible at an angle with the happy LED face, the left shoulder pad closer to the camera, and the side of the backpack visible behind the right shoulder.
-[SALIDA]
+Character: ASTRO, a stylized 3D astronaut mascot that looks like a premium vinyl toy rendered in Blender Cycles. Chunky rounded proportions with a big round helmet. Matte soft-touch purple suit in one muted violet tone. Thin glowing orange-amber trim lines outline the rounded chest plate, the shoulder pads, the forearm bands, the boot tops and the boot soles. The chest plate has a small control box with two round knobs and two tiny pink lights, plus two small pink light slits at its top corners. Round shoulder pads with slotted circular bolts, rounded elbow pads, a silver metallic neck ring with a small latch, a waist band, a triangular hip plate, rounded knee pads, chunky boots and chunky four-finger gloves with a small glowing slot on the forearm. Rounded rectangular backpack with soft panel lines, a small glowing orange slit at the top center and a round button on each side. Round purple helmet with two short orange LED slits on top, a small orange slit above the visor, and large round ear discs on the sides. Large glossy black visor with a soft reflection, showing a dark purple nebula, tiny stars and a small black hole with an orange ring in the upper right corner. The face is a glowing pixel LED screen on the visor: lavender eyes and an orange dot-matrix mouth.
 ```
 
-**`astro-vista-perfil.png` · perfil lateral**
+### SALIDA · cuerpo entero · 3:4
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the camera angle.
-[ADN]
-View: strict side profile facing left, exactly 90 degrees from the front, same relaxed standing pose with arms hanging naturally. Show the rounded curve of the visor from the side with only a hint of the LED glow, the round ear disc in the center of the helmet side, the depth of the rounded backpack behind the body, and the orange trim lines following the side of the shoulder pad, forearm and boot.
-[SALIDA]
-```
-
-**`astro-vista-espalda.png` · de espaldas**
-```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the camera angle.
-[ADN]
-View: back view, the character facing directly away from the camera, same relaxed standing pose. The visor and face are not visible. Show the back of the round helmet with the two orange LED slits continuing on top, the round ear discs on both sides, the rounded purple backpack as the main element with a few soft panel lines and small glowing orange trim details, the back of the silver neck ring, the waist band, and the backs of the gloves, knee area and boots with their orange trim lines.
-[SALIDA]
-```
-
-### 2.2 Hoja de expresiones LED · 16:9 · `astro-expresiones.png`
-```text
-Use the attached image as the exact character reference. Keep the exact helmet, visor, nebula and small black hole design.
-Close-up expression sheet of the character's helmet only, front view, shown eight times in two rows of four, same size and lighting. Each visor shows a different glowing pixel LED face with lavender eyes and an orange dot-matrix mouth: 1 happy smile, 2 big grin with curved ^ ^ eyes, 3 wink, 4 surprised round eyes with small O mouth, 5 star-shaped eyes with open smile, 6 heart-shaped eyes, 7 thinking eyes looking up with a flat line mouth, 8 dizzy spiral eyes with a wavy mouth.
-Plain flat uniform light gray background (#d9d9d9). No text, no labels, no numbers, no logos, no watermark.
+Soft studio lighting identical to the references, subtle rim light, soft contact shadow. Plain flat uniform light gray background (#d9d9d9), no gradient, no floor line, no props unless described. Full body visible with generous empty margin around the silhouette. No text, no letters, no numbers, no logos, no watermark. No human face inside the helmet. Correct anatomy: two arms, two legs, chunky gloves with four fingers.
 ```
 
 ---
 
-## 3. Poses · 3:4 · con `astro-master.png` adjunta
+## 4. Poses · 3:4 (salvo el busto)
 
-### 3.1 Saludo · `astro-saludo` · Hero / bienvenida
+### 4.1 `astro-saludo` · Hero / bienvenida
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E2
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
-Pose: waving hello with the right hand raised high above the helmet, open palm, left arm relaxed at the side, slight head tilt, weight on one leg, cheerful body language.
-LED face: happy curved ^ ^ eyes and a wide orange dot-matrix smile.
-[SALIDA]
+Pose: facing the camera, waving hello with the right hand raised high above the helmet with an open palm, left arm relaxed at the side, slight head tilt, weight on one leg, cheerful body language.
+LED face: E2 from image 2 (happy ^ ^ eyes and a big open smile).
+[SALIDA · cuerpo entero]
 ```
 
-### 3.2 Señala · `astro-senala` · Promos y llamados a la acción
+### 4.2 `astro-senala` · Promos y llamados a la acción
+**Adjuntar:** `astro-vista-34.png` + `astro-expresiones.png` · **Cara:** E1
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
-Pose: body turned three-quarters, pointing to the right edge of the frame with the whole right arm extended and index finger out, left hand resting on the hip, leaning slightly forward.
-LED face: bright open rounded eyes and a confident smile.
-[SALIDA]
+Pose: body in the same three-quarter angle as image 1, pointing to the right edge of the frame with the whole right arm extended and the index finger out, left glove resting on the hip, leaning slightly forward with a confident stance.
+LED face: E1 from image 2 (round eyes and a small smile).
+[SALIDA · cuerpo entero]
 ```
 
-### 3.3 Pulgar arriba · `astro-pulgar` · Aviso "agregado al carrito"
+### 4.3 `astro-pulgar` · Aviso "agregado al carrito"
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E3
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
-Pose: giving a big thumbs up toward the camera with the right glove held in front of the chest, left arm relaxed, small playful knee bend.
-LED face: left eye winking as a curved line, right eye open, and a smile.
-[SALIDA]
+Pose: facing the camera, giving a big thumbs up with the right glove held in front of the chest, left arm relaxed, small playful knee bend.
+LED face: E3 from image 2 (wink and a small smile).
+[SALIDA · cuerpo entero]
 ```
 
-### 3.4 Celebra · `astro-celebra` · Combos y descuentos
+### 4.4 `astro-celebra` · Combos y descuentos
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E5
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
-Pose: jumping in the air with both arms raised in celebration, knees bent, a few small golden sparkles around the character, soft shadow on the ground below.
-LED face: glowing star-shaped eyes and a big open orange smile.
-[SALIDA]
+Pose: facing the camera, jumping in the air with both arms raised in celebration, knees bent, a few small golden sparkles around the helmet, soft round shadow on the ground below.
+LED face: E5 from image 2 (star eyes and an open smile).
+[SALIDA · cuerpo entero]
 ```
 
-### 3.5 Piensa · `astro-piensa` · Buscador sin resultados
+### 4.5 `astro-piensa` · Buscador sin resultados
+**Adjuntar:** `astro-vista-34.png` + `astro-expresiones.png` · **Cara:** E7
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
-Pose: thinking, right glove touching the lower edge of the helmet, left arm crossed under it, head tilted, one small glowing orange spark floating next to the helmet.
-LED face: both eyes looking up to one side and a short flat orange line mouth.
-[SALIDA]
+Pose: body in the same three-quarter angle as image 1, thinking, right glove touching the lower edge of the helmet, left arm crossed under it, head slightly tilted up, one small glowing orange spark floating next to the helmet.
+LED face: E7 from image 2 (square eyes looking up and a flat line mouth).
+[SALIDA · cuerpo entero]
 ```
 
-### 3.6 Cine · `astro-cine` · Pines de cine
+### 4.6 `astro-sorpresa` · Ofertas nuevas / precio rebajado
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E4
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
-Pose: holding a red and white striped popcorn bucket with no branding in the left arm, a few popcorn pieces popping out, and holding up a blank cinema ticket with no printing in the right hand.
-LED face: excited wide eyes and an open smile.
-[SALIDA]
+Pose: facing the camera, leaning back in surprise with both gloves raised at shoulder height and fingers spread, one foot lifted slightly.
+LED face: E4 from image 2 (surprised ring eyes and a small O mouth).
+[SALIDA · cuerpo entero]
 ```
 
-### 3.7 Portátil · `astro-laptop` · IA y software
+### 4.7 `astro-cine` · Pines de cine
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E2
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
-Pose: floating in zero gravity sitting cross-legged in the air, typing on a small rounded laptop with a blank softly glowing screen resting on the legs.
-LED face: focused happy half-closed eyes and a small smile.
-[SALIDA]
+Pose: facing the camera, holding a red and white striped popcorn bucket with no branding in the left arm with a few popcorn pieces popping out, and holding up a blank cinema ticket with no printing in the right glove.
+LED face: E2 from image 2 (happy ^ ^ eyes and a big open smile).
+[SALIDA · cuerpo entero]
 ```
 
-### 3.8 Escudo · `astro-escudo` · Garantía
+### 4.8 `astro-laptop` · IA y software
+**Adjuntar:** `astro-vista-34.png` + `astro-expresiones.png` · **Cara:** E1
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
-Pose: standing proud and firm, holding a rounded glowing mint-green shield with a simple check mark shape in front of the chest with both gloves.
-LED face: calm confident eyes and a gentle smile.
-[SALIDA]
+Pose: body in the same three-quarter angle as image 1, floating in zero gravity sitting cross-legged in the air, typing on a small rounded laptop with a blank softly glowing screen resting on the legs, backpack visible behind.
+LED face: E1 from image 2 (round eyes and a small smile).
+[SALIDA · cuerpo entero]
 ```
 
-### 3.9 Soporte · `astro-soporte` · Botón de WhatsApp / ayuda
+### 4.9 `astro-escudo` · Garantía
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E1
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
-Pose: holding a smartphone with a blank glowing screen next to the side of the helmet as if on a phone call, waving with the free hand, friendly relaxed stance.
-LED face: friendly open eyes and an open talking mouth shape.
-[SALIDA]
+Pose: facing the camera, standing proud and firm with feet apart, holding a rounded glowing mint-green shield with a simple check mark shape in front of the chest with both gloves.
+LED face: E1 from image 2 (round eyes and a small smile).
+[SALIDA · cuerpo entero]
 ```
 
-### 3.10 Perdido · `astro-404` · Página no encontrada
+### 4.10 `astro-soporte` · Botón de WhatsApp / ayuda
+**Adjuntar:** `astro-vista-34.png` + `astro-expresiones.png` · **Cara:** E2
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the pose and the LED face expression.
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
+[ADN]
+Pose: body in the same three-quarter angle as image 1, holding a smartphone with a blank glowing screen next to the ear disc of the helmet as if on a phone call, waving toward the camera with the free glove, relaxed friendly stance.
+LED face: E2 from image 2 (happy ^ ^ eyes and a big open smile).
+[SALIDA · cuerpo entero]
+```
+
+### 4.11 `astro-favoritos` · Favoritos y "gracias"
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E6
+```text
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
+[ADN]
+Pose: facing the camera, hugging a big soft glowing orange heart shape against the chest with both arms, slight head tilt.
+LED face: E6 from image 2 (heart eyes and a small smile).
+[SALIDA · cuerpo entero]
+```
+
+### 4.12 `astro-404` · Página no encontrada
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E8
+```text
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
 Pose: floating upside down in zero gravity with arms and legs spread out, a loose silver safety cord curling around the body, no ground shadow.
-LED face: dizzy spiral eyes and a wavy orange mouth.
-[SALIDA]
+LED face: E8 from image 2 (spiral eyes and a wavy mouth), shown upside down together with the helmet.
+[SALIDA · cuerpo entero]
 ```
 
-### 3.11 Busto · `astro-busto` · Avatar de chat y redes · **1:1**
+### 4.13 `astro-despedida` · Pie de página / "vuelve pronto"
+**Adjuntar:** `astro-vista-espalda.png` + `astro-expresiones.png` · **Cara:** E3
 ```text
-Use the attached image as the exact character reference. Keep the same character design, proportions, materials, colors, lighting and render style. Only change the framing, pose and LED face expression.
+Image 1 is the exact character reference for ASTRO seen from behind: keep the same character design, backpack, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet.
+[ADN]
+Pose: walking away from the camera, seen mostly from behind with the backpack visible, turning the helmet over the right shoulder to look back at the camera and waving goodbye with the right glove raised.
+LED face: E3 from image 2 (wink and a small smile), visible on the part of the visor turned toward the camera.
+[SALIDA · cuerpo entero]
+```
+
+### 4.14 `astro-busto` · Avatar de chat y redes · **1:1**
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E2
+```text
+Image 1 is the exact character reference for ASTRO: keep the same character design, proportions, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style, displayed on the visor over the dark purple nebula with the small black hole in the upper right corner.
 [ADN]
 Framing and pose: upper body portrait from the waist up, facing the camera, slight head tilt, right glove waving next to the helmet.
-LED face: happy curved ^ ^ eyes and a smile.
-Soft studio lighting identical to the reference, subtle rim light. Plain flat uniform light gray background (#d9d9d9). Centered with even margin. No text, no letters, no numbers, no logos, no watermark. No human face inside the helmet.
+LED face: E2 from image 2 (happy ^ ^ eyes and a big open smile).
+Soft studio lighting identical to the references, subtle rim light. Plain flat uniform light gray background (#d9d9d9). Centered with even margin. No text, no letters, no numbers, no logos, no watermark. No human face inside the helmet.
 ```
 
 ---
 
-## 4. Versión chibi
+## 5. Versión chibi
 
-### 4.1 Chibi maestra · 1:1 · `astro-chibi-master.png` (con `astro-master.png` adjunta)
+### 5.1 Chibi maestra · 1:1 · `astro-chibi-master.png`
+**Adjuntar:** `astro-master.png` + `astro-expresiones.png` · **Cara:** E1
 ```text
-Use the attached image as the exact character reference for design, materials, colors and render style.
+Image 1 is the exact character reference for ASTRO: use it for design, materials, colors and render style. Image 2 is the approved LED face expression sheet.
 Create a chibi version of this character: super-deformed proportions where the round helmet is about half of the total height, a tiny rounded body, short stubby arms and legs, oversized chunky gloves and boots. Keep every signature detail but simplified and bigger: matte purple suit, glowing orange-amber trim lines on the chest plate, shoulders and boots, the chest control box with two knobs, the silver neck ring, the small backpack, the two orange LED slits on top of the helmet, the round ear discs, and the glossy black visor with purple nebula and a small black hole with an orange ring.
 Pose: standing and waving with one hand, slight head tilt.
-LED face: big rounded lavender pixel eyes and a small happy orange dot-matrix smile.
-Soft studio lighting identical to the reference, soft contact shadow. Plain flat uniform light gray background (#d9d9d9), full body centered with generous margin. No text, no letters, no numbers, no logos, no watermark.
+LED face: E1 from image 2, slightly larger on the visor.
+Soft studio lighting identical to the references, soft contact shadow. Plain flat uniform light gray background (#d9d9d9), full body centered with generous margin. No text, no letters, no numbers, no logos, no watermark.
 ```
 
-### 4.2 Stickers chibi · 1:1 · con `astro-chibi-master.png` adjunta
+### 5.2 Stickers chibi · 1:1
+**Adjuntar:** `astro-chibi-master.png` + `astro-expresiones.png`
 
-Plantilla fija (pega esto y cambia solo las dos últimas líneas de cada sticker):
+Plantilla (cambia solo las dos últimas líneas):
 ```text
-Use the attached image as the exact chibi character reference. Keep the same chibi proportions, design, materials, colors, lighting and render style. Only change the pose and the LED face expression.
-Soft studio lighting identical to the reference, soft contact shadow. Plain flat uniform light gray background (#d9d9d9), full body centered with generous margin. No text, no letters, no numbers, no logos, no watermark.
+Image 1 is the exact chibi character reference: keep the same chibi proportions, design, materials, colors, lighting and render style. Image 2 is the approved LED face expression sheet: copy the requested face exactly, in the same glowing pixel style.
+Soft studio lighting identical to the references, soft contact shadow. Plain flat uniform light gray background (#d9d9d9), full body centered with generous margin. No text, no letters, no numbers, no logos, no watermark.
 Pose: ...
 LED face: ...
 ```
 
 | Archivo | Pose | LED face |
 |---|---|---|
-| `chibi-hola` | `waving with both hands above the helmet, tiny hop` | `happy curved ^ ^ eyes and a big smile` |
-| `chibi-guino` | `giving a thumbs up with one oversized glove` | `one winking eye and a smile` |
-| `chibi-corazon` | `hugging a big soft glowing orange heart shape` | `heart-shaped pixel eyes and a smile` |
-| `chibi-sorpresa` | `both gloves on the sides of the helmet, leaning back` | `big round surprised eyes and a small O mouth` |
-| `chibi-duerme` | `sitting curled up asleep on a small glowing crescent moon, three tiny floating light bubbles` | `closed curved sleepy eyes and a tiny mouth` |
-| `chibi-combo` | `juggling three small glowing rounded tiles in coral, violet and sky blue` | `glowing star-shaped eyes and an open smile` |
-| `chibi-cohete` | `riding a tiny rounded purple and orange cartoon rocket with a soft flame` | `joyful wide eyes and an open smile` |
-| `chibi-gracias` | `small bow forward with both gloves together in front of the chest` | `closed happy curved eyes and a gentle smile` |
+| `chibi-hola` | `waving with both gloves above the helmet, tiny hop` | `E2 from image 2` |
+| `chibi-guino` | `giving a thumbs up with one oversized glove` | `E3 from image 2` |
+| `chibi-corazon` | `hugging a big soft glowing orange heart shape` | `E6 from image 2` |
+| `chibi-sorpresa` | `both gloves on the sides of the helmet, leaning back` | `E4 from image 2` |
+| `chibi-piensa` | `sitting on the ground, one glove on the chin area of the helmet` | `E7 from image 2` |
+| `chibi-combo` | `juggling three small glowing rounded tiles in coral, violet and sky blue` | `E5 from image 2` |
+| `chibi-cohete` | `riding a tiny rounded purple and orange cartoon rocket with a soft flame` | `E2 from image 2` |
+| `chibi-mareado` | `sitting dizzy on the ground with small orbiting stars around the helmet` | `E8 from image 2` |
 
 ---
 
-## 5. Si algo se desvía (correcciones conversando)
-
-No regeneres desde cero: responde sobre la última imagen.
+## 6. Si algo se desvía (corrige sobre la última imagen)
 
 | Problema | Frase para corregir |
 |---|---|
-| Cambió el traje | `Keep this pose, but restore the suit details exactly as in the reference: chest plate shape, control box, orange trim lines and knee pads.` |
-| Perdió el agujero negro | `Keep everything, but add the small black hole with an orange ring in the upper right corner of the visor, as in the reference.` |
-| La cara no es LED | `The face must be a glowing pixel LED screen on the visor, not a drawn or human face.` |
+| Cambió el traje | `Keep this pose, but restore the suit details exactly as in image 1: chest plate shape, control box, orange trim lines, knee pads and backpack.` |
+| Cara distinta a la hoja | `Keep everything, but replace the LED face with face E# from image 2, exactly the same shapes and pixel style.` |
+| Perdió la nebulosa o el agujero negro | `Keep everything, but restore the dark purple nebula and the small black hole with an orange ring in the upper right corner of the visor.` |
+| Cara no LED | `The face must be a glowing pixel LED screen on the visor, not a drawn or human face.` |
 | Muy realista | `More stylized, like a premium vinyl toy: rounder shapes and softer matte materials.` |
-| Se ve plano o dibujado | `3D render in Blender Cycles with soft global illumination and matte soft-touch plastic, same as the reference.` |
+| Se ve plano | `3D render in Blender Cycles with soft global illumination and matte soft-touch plastic, same as image 1.` |
+| Se giró hacia la cámara | `Keep the body angle of image 1; do not rotate the character to face the camera.` |
 | Salió texto o logo | `Remove all text, letters and logos. Keep everything else the same.` |
 | Fondo distinto | `Change only the background to plain flat uniform light gray #d9d9d9.` |
 
 ---
 
-## 6. Antes de pasarlas a la web
+## 7. Entrega para la web
 
-1. Revisa que traje, visor y agujero negro coincidan con la maestra (con zoom).
+1. Revisa con zoom traje, mochila, visor y cara contra las referencias.
 2. Recorta el fondo gris y exporta en PNG con transparencia.
-3. Guárdalas con el nombre de la tabla y pásamelas: las convierto a WebP y las
-   integro con sus animaciones en cada sección.
+3. Guarda cada imagen con el nombre de la sección 4 o 5 y pásamelas: las convierto
+   a WebP y las integro con sus animaciones.
