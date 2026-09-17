@@ -7,8 +7,10 @@ import { Deco } from "@/components/Deco";
 import { ProductCard } from "@/components/ProductCard";
 import { FaqItem, Select } from "@/components/ShopControls";
 import { Seo } from "@/components/Seo";
+import { SideRail, type RailGroup } from "@/components/SideRail";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { productBySlug, type Product } from "@/data/catalog";
+import { lineas } from "@/data/lineas";
 import {
   disclaimer,
   families,
@@ -151,14 +153,63 @@ export function Perfumeria() {
     { scope: hero }
   );
 
+  const railGrupos: RailGroup[] = [
+    {
+      label: "Para quién",
+      items: [
+        { key: "todos", label: "Todas", count: perfumes.length, active: !para, onSelect: () => update({ para: null }) },
+        ...paraOptions.map((o) => ({
+          key: o.id,
+          label: o.label,
+          count: perfumes.filter((p) => matchesPara(p, o.id)).length,
+          active: para === o.id,
+          onSelect: () => update({ para: para === o.id ? null : o.id }),
+        })),
+      ],
+    },
+    {
+      label: "Calidad",
+      items: [
+        { key: "cualquiera", label: "Cualquiera", active: !quality, onSelect: () => update({ calidad: null }) },
+        ...(Object.keys(qualityInfo) as Quality[]).map((k) => ({
+          key: k,
+          label: qualityInfo[k].label,
+          count: perfumes.filter((p) => p.perfume!.quality === k).length,
+          active: quality === k,
+          onSelect: () => update({ calidad: quality === k ? null : k }),
+        })),
+      ],
+    },
+    {
+      label: "Familia",
+      items: [
+        { key: "todas", label: "Todas", active: !family, onSelect: () => update({ familia: null }) },
+        ...(Object.keys(families) as Family[]).map((k) => ({
+          key: k,
+          label: families[k].label,
+          count: perfumes.filter((p) => p.perfume!.family === k).length,
+          active: family === k,
+          onSelect: () => update({ familia: family === k ? null : k }),
+        })),
+      ],
+    },
+  ];
+
   return (
     <>
+      <SideRail
+        linea={{ name: lineas.perfumeria.name, blurb: lineas.perfumeria.blurb, path: "/perfumeria", hue: lineas.perfumeria.hue }}
+        total={perfumes.length}
+        minPrice={perfumeMinPrice}
+        grupos={railGrupos}
+      />
       <Seo
         title={`Perfumería · ${site.name}`}
         description={`${perfumes.length} fragancias para ella, para él y unisex en réplica 1.1 y AAA, desde ${formatCOP(perfumeMinPrice)}. ${shipping.short}.`}
         path="/perfumeria"
       />
 
+      <div className="xl:pl-[228px]">
       {/* ── Hero ── */}
       <section ref={hero} className="relative mx-auto max-w-[1200px] overflow-hidden px-4 pb-10 pt-[140px] md:px-6 md:pt-[164px]">
         <Deco name="cristal-2" className="-left-14 bottom-4 hidden w-48 lg:block" opacity={0.3} float />
@@ -491,6 +542,7 @@ export function Perfumeria() {
           </a>
         </Reveal>
       </section>
+    </div>
     </>
   );
 }

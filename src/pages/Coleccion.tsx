@@ -7,6 +7,7 @@ import { Astro } from "@/components/Astro";
 import { Deco, type DecoName } from "@/components/Deco";
 import { LineIcon } from "@/components/CategoryIcon";
 import { ProductCard } from "@/components/ProductCard";
+import { SideRail, type RailGroup } from "@/components/SideRail";
 import { FaqItem, Select, useUrlFilters } from "@/components/ShopControls";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { Seo } from "@/components/Seo";
@@ -198,8 +199,69 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
     />
   );
 
+  const railGrupos: RailGroup[] = [
+    {
+      label: "Categorías",
+      items: [
+        { key: "todos", label: "Todos", count: pool.length, active: !sub, onSelect: () => update({ sub: null }) },
+        ...subs.map((s) => ({
+          key: s,
+          label: subLabel[s],
+          count: pool.filter((p) => p.articulo!.sub === s).length,
+          active: sub === s,
+          onSelect: () => update({ sub: sub === s ? null : s }),
+        })),
+      ],
+    },
+    {
+      label: "Condición",
+      items: hasConditions
+        ? [
+            { key: "cualquiera", label: "Cualquiera", active: !condition, onSelect: () => update({ condicion: null }) },
+            ...(Object.keys(conditionInfo) as Condicion[]).map((c) => ({
+              key: c,
+              label: c === "original" ? "Originales" : "Réplicas",
+              count: pool.filter((p) => p.articulo!.condition === c).length,
+              active: condition === c,
+              onSelect: () => update({ condicion: condition === c ? null : c }),
+            })),
+          ]
+        : [],
+    },
+    {
+      label: "Marca",
+      items:
+        brands.length > 1
+          ? [
+              { key: "todas", label: "Todas", active: !brand, onSelect: () => update({ marca: null }) },
+              ...brands.slice(0, 12).map((b) => ({
+                key: b,
+                label: b,
+                count: pool.filter((p) => p.articulo!.brand === b).length,
+                active: brand === b,
+                onSelect: () => update({ marca: brand === b ? null : b }),
+              })),
+            ]
+          : [],
+    },
+  ];
+
   const page = (
     <>
+      <SideRail
+        linea={{ name: meta.name, blurb: meta.blurb, path: meta.path, hue: meta.hue }}
+        total={pool.length}
+        minPrice={minPrice}
+        grupos={railGrupos}
+        nota={
+          config.restricted ? (
+            <p className="rounded-xl border border-gold/30 bg-gold-soft p-3 text-[11.5px] leading-relaxed text-gold">
+              Solo para mayores de 18 años. Contienen nicotina, una sustancia adictiva que afecta la salud.
+            </p>
+          ) : undefined
+        }
+      />
+      <div className="xl:pl-[228px]">
 
       {/* ── Hero ── */}
       <section ref={hero} className="relative mx-auto max-w-[1200px] overflow-hidden px-4 pb-10 pt-[140px] md:px-6 md:pt-[164px]">
@@ -476,6 +538,7 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
           </a>
         </Reveal>
       </section>
+      </div>
     </>
   );
 
