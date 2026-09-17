@@ -14,7 +14,7 @@ export const site = {
   whatsapp: "573189819384",
   whatsappDisplay: "+57 318 981 9384",
   /** TODO: métodos de pago reales (los tres competidores usan Nequi, Llaves y Bre-B). */
-  payments: ["Nequi", "Bre-B", "Llaves", "Daviplata"],
+  payments: ["Nequi", "Bre-B", "Llaves"],
   /** TODO: horario de atención real. */
   hours: "Lun a Dom · 7:00 a. m. – 10:00 p. m.",
   /** TODO: promesa de reposición que SÍ puedes cumplir. Torostream y ZeroDelay no la escriben: es tu ventaja. */
