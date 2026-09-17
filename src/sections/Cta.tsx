@@ -1,7 +1,7 @@
 import { Astro } from "@/components/Astro";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { site, waLink } from "@/data/site";
-import { Magnetic, Reveal } from "@/lib/anim";
+import { Reveal } from "@/lib/anim";
 
 export function Cta() {
   return (
@@ -20,7 +20,7 @@ export function Cta() {
           <p className="mt-4 max-w-md text-mute">
             Si buscas una plataforma, una licencia, una fragancia o un servicio que no está en la tienda, escríbenos y te cotizamos.
           </p>
-          <Magnetic className="mt-8">
+          <div className="mt-8">
             <a
               href={waLink(`Hola ${site.name}, estoy buscando un producto que no vi en el catálogo:`)}
               target="_blank"
@@ -29,7 +29,7 @@ export function Cta() {
             >
               <WhatsAppIcon /> Escribir por WhatsApp
             </a>
-          </Magnetic>
+          </div>
       </Reveal>
     </section>
   );

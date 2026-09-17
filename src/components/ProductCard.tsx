@@ -97,15 +97,11 @@ export function ProductCard({ product }: { product: Product }) {
   const badge: ProductCardProps["badge"] = !available
     ? { label: "Agotado", tone: "muted" }
     : perfume
-      ? { label: qualityInfo[perfume.quality].label, tone: "dark" }
+      ? undefined // la calidad va bajo el nombre (condition)
       : articulo
         ? articulo.line === "vapes"
           ? { label: "+18", tone: "dark" }
-          : articulo.condition === "original"
-          ? { label: conditionInfo.original.label, tone: "new" }
-          : articulo.condition === "replica"
-            ? { label: conditionInfo.replica.label, tone: "dark" }
-            : undefined
+          : undefined
         : off
         ? plan.compareAt
           ? undefined // el descuento ya va junto al precio
@@ -143,6 +139,15 @@ export function ProductCard({ product }: { product: Product }) {
       pricePrefix={product.plans.length > 1 ? "Desde" : undefined}
       formatPrice={formatCOP}
       badge={badge}
+      condition={
+        perfume
+          ? { label: qualityInfo[perfume.quality].label, tone: "replica", note: "no es original" }
+          : articulo?.condition === "original"
+            ? { label: conditionInfo.original.label, tone: "original" }
+            : articulo?.condition === "replica"
+              ? { label: conditionInfo.replica.label, tone: "replica", note: "no es original" }
+              : undefined
+      }
       wishlisted={favorites.includes(product.slug)}
       onWishlist={() => toggleFavorite(product.slug)}
       onAddToCart={() => add(product.slug, plan.id)}

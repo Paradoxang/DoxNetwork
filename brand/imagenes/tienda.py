@@ -161,11 +161,30 @@ def slugify(s):
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
+# Fotos con texto publicitario quemado (brief de rediseño): se recorta solo el
+# producto, en fracción del lado (izq, arriba, der, abajo), y se centra sobre
+# transparente para que la tarjeta lo pinte en su lecho común.
+CROP_PRODUCTO = {
+    1876: (0.20, 0.41, 1.00, 0.79),  # Parlante Kimiso KMS-374
+    1544: (0.19, 0.22, 0.78, 0.84),  # Smartwatch Mobulaa UB6 Pro
+    1879: (0.40, 0.43, 0.84, 0.836),  # Consola Retro Pro R36S
+}
+
+
 def process(pid, slug):
     src = os.path.join(SRC, "img", f"{pid}.webp")
-    im = Image.open(src).convert("RGB")
-    side = min(im.size)
-    im = im.crop(((im.width - side) // 2, (im.height - side) // 2, (im.width + side) // 2, (im.height + side) // 2))
+    if pid in CROP_PRODUCTO:
+        im = Image.open(src).convert("RGBA")
+        l, t, r, b = CROP_PRODUCTO[pid]
+        im = im.crop((int(im.width * l), int(im.height * t), int(im.width * r), int(im.height * b)))
+        side = int(max(im.size) * 1.04)
+        canvas = Image.new("RGBA", (side, side), (0, 0, 0, 0))
+        canvas.paste(im, ((side - im.width) // 2, (side - im.height) // 2))
+        im = canvas
+    else:
+        im = Image.open(src).convert("RGB")
+        side = min(im.size)
+        im = im.crop(((im.width - side) // 2, (im.height - side) // 2, (im.width + side) // 2, (im.height + side) // 2))
     for size, suffix in ((720, ""), (360, "-sm")):
         im.resize((size, size), Image.LANCZOS).save(os.path.join(OUT_IMG, f"{slug}{suffix}.webp"), "WEBP", quality=78, method=6)
 

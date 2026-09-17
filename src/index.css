@@ -71,6 +71,10 @@
   --lg-shine: #eaf7ff;
   --lg-shine-hot: #fff6d8;
   --lg-nglow: 0.55;
+
+  /* Lecho común de las fotos de producto (brief de rediseño) */
+  --media-bed: #10162a;
+  --media-glow: rgba(124, 92, 255, 0.16);
 }
 
 [data-theme="light"] {
@@ -128,6 +132,9 @@
   --lg-shine: #e6f3ff;
   --lg-shine-hot: #fff3cf;
   --lg-nglow: 0.28;
+
+  --media-bed: #e8ebf5;
+  --media-glow: rgba(124, 92, 255, 0.12);
 }
 
 @theme inline {
@@ -277,6 +284,39 @@
     letter-spacing: -0.01em;
   }
 
+  /* ── Lecho de imagen de producto ──
+     Mismo fondo, margen y viñeta para toda foto: la diferencia entre un logo
+     plano y una foto de marketplace deja de leerse. */
+  .product-media {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(120% 90% at 50% 0%, var(--media-glow), transparent 70%), var(--media-bed);
+  }
+  .product-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    box-shadow: inset 0 0 40px 12px color-mix(in srgb, var(--media-bed) 55%, transparent);
+  }
+  .product-media-img {
+    filter: saturate(0.92) contrast(1.02);
+    transition: transform 300ms ease;
+  }
+  .group:hover .product-media-img {
+    transform: scale(1.04);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .group:hover .product-media-img {
+      transform: none;
+    }
+  }
+
   /* ── Superficies ── */
   .card {
     background: var(--surface);
@@ -286,10 +326,44 @@
   .card-hover {
     transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
   }
+  /* Sin desplazamiento al pasar el puntero: el movimiento lo llevan las dos
+     firmas del sitio (borde luminoso y tilt). */
   .card-hover:hover {
-    transform: translateY(-3px);
     border-color: var(--line-strong);
     box-shadow: var(--shadow);
+  }
+
+  /* ── Firma 1: borde que se enciende alrededor del cursor ── */
+  .glow-border::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 30;
+    padding: 1px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      240px circle at var(--gx, 50%) var(--gy, 50%),
+      rgba(167, 139, 250, 0.95),
+      rgba(255, 154, 60, 0.55) 30%,
+      transparent 65%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: var(--ga, 0);
+    transition: opacity 0.3s ease;
+  }
+  .glow-border::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(320px circle at var(--gx, 50%) var(--gy, 50%), rgba(124, 92, 255, 0.1), transparent 70%);
+    opacity: var(--ga, 0);
+    transition: opacity 0.3s ease;
   }
 
   /* ── Botones ── */

@@ -43,8 +43,8 @@ export function Home() {
       />
       <Hero />
       <Benefits />
-      <PromoCarousel />
       <Categories />
+      <PromoCarousel />
       <CombosSection />
       <ProductTabs />
       <TiendaTeaser />

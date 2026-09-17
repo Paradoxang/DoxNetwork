@@ -23,7 +23,7 @@ const items = [
   {
     icon: WhatsAppIcon,
     title: "Soporte con personas",
-    text: `Te atiende alguien de verdad por WhatsApp. ${site.hours}.`,
+    text: `Te atiende alguien de verdad por WhatsApp, ${site.hours.replace(/\.$/, "")}.`,
   },
 ];
 

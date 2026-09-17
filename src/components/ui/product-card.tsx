@@ -1,7 +1,9 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useId, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { glowHandlers } from "@/components/ui/glowing-effect";
 import SmoothButton from "@/components/ui/smooth-button";
+import { Tilt } from "@/lib/anim";
 import { cn } from "@/lib/utils";
 
 /*
@@ -33,6 +35,8 @@ export interface ProductCardProps {
   pricePrefix?: string;
   formatPrice?: (n: number) => string;
   badge?: { label: string; tone?: "sale" | "new" | "popular" | "muted" | "dark" };
+  /** Original o réplica: va bajo el nombre, con el peso de lo segundo que se lee. */
+  condition?: { label: string; tone: "original" | "replica"; note?: string };
   rating?: number;
   wishlisted?: boolean;
   onWishlist?: () => void;
@@ -166,6 +170,7 @@ export default function ProductCard({
   pricePrefix,
   formatPrice = defaultFormat,
   badge,
+  condition,
   rating,
   wishlisted = false,
   onWishlist,
@@ -204,11 +209,15 @@ export default function ProductCard({
   const hasDiscount = originalPrice !== undefined && originalPrice > price;
   const discountPercent = hasDiscount ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
 
+  // Las dos firmas del sitio: tilt 3D sutil (nodo exterior) y borde luminoso (la tarjeta).
+  // Nodos distintos para no pelear por el mismo transform con la entrada.
   return (
+    <Tilt max={4} className="h-full">
     <motion.article
+      {...glowHandlers}
       aria-label={`${title}, ${pricePrefix ? `${pricePrefix.toLowerCase()} ` : ""}${formatPrice(price)}`}
       className={cn(
-        "group relative flex h-full w-full flex-col overflow-hidden rounded-[18px] border border-line bg-surface shadow-sm",
+        "glow-border group relative flex h-full w-full flex-col overflow-hidden rounded-[18px] border border-line bg-surface shadow-sm",
         "transition-[box-shadow,border-color] duration-300",
         isHoverDevice && "hover:border-line-strong hover:shadow-xl hover:shadow-black/20",
         className
@@ -220,14 +229,8 @@ export default function ProductCard({
     >
       {/* Imagen a sangre */}
       <div className="relative overflow-hidden">
-        <div
-          className={cn(
-            !shouldReduceMotion && "transition-transform duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
-            isHoverDevice && !shouldReduceMotion && "group-hover:scale-105"
-          )}
-        >
-          {media}
-        </div>
+        {/* El acercamiento al pasar el puntero lo hace el lecho de imagen (.product-media-img) */}
+        {media}
 
         {/* Degradado al pasar el puntero */}
         <div
@@ -278,6 +281,20 @@ export default function ProductCard({
             {title}
           </Link>
         </h3>
+        {condition && (
+          <p
+            className={cn(
+              "flex w-fit max-w-full items-center gap-1.5 rounded-md border px-2 py-1 text-[12.5px] font-semibold leading-none",
+              condition.tone === "original" ? "border-mint/40 bg-mint-soft text-mint" : "border-gold/40 bg-gold-soft text-gold"
+            )}
+          >
+            <span className={cn("h-1.5 w-1.5 shrink-0 rounded-full", condition.tone === "original" ? "bg-mint" : "bg-gold")} />
+            <span className="truncate">
+              {condition.label}
+              {condition.note && <span className="font-medium opacity-80"> · {condition.note}</span>}
+            </span>
+          </p>
+        )}
         {subtitle && <p className="line-clamp-1 text-[13px] text-mute">{subtitle}</p>}
         {meta}
         {rating !== undefined && <RatingStars rating={rating} title={title} />}
@@ -332,5 +349,6 @@ export default function ProductCard({
         </div>
       </div>
     </motion.article>
+    </Tilt>
   );
 }

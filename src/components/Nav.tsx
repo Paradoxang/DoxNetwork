@@ -179,22 +179,18 @@ export function Nav() {
           <nav className="hidden items-center lg:flex" aria-label="Principal">
             {trigger("categorias", "Tienda")}
             {trigger("combos", "Combos")}
-            {/* Una puerta por línea física; Ofertas y Arma tu combo viven en los paneles y en el menú móvil */}
-            {(["perfumeria", "relojeria", "tecnologia"] as const).map((id) => (
-              <Link
-                key={id}
-                to={lineas[id].path}
-                onPointerEnter={() => {
-                  setHover(id);
-                  leave();
-                }}
-                className="relative flex items-center gap-1.5 whitespace-nowrap rounded-full px-3 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink xl:px-3.5"
-              >
-                {hover === id && <Pill reduced={reduced} />}
-                <span className="relative">{lineas[id].name}</span>
-                {id !== "perfumeria" && <span className="relative h-1.5 w-1.5 rounded-full bg-gold" aria-label="Nuevo" />}
-              </Link>
-            ))}
+            {/* Brief de rediseño: perfumería, relojería y tecnología viven en el desplegable Tienda */}
+            <Link
+              to="/catalogo?ofertas=1"
+              onPointerEnter={() => {
+                setHover("ofertas");
+                leave();
+              }}
+              className="relative whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink"
+            >
+              {hover === "ofertas" && <Pill reduced={reduced} />}
+              <span className="relative">Ofertas</span>
+            </Link>
             {trigger("ayuda", "Ayuda")}
           </nav>
 

@@ -11,11 +11,13 @@ import { EASE } from "@/lib/anim";
 const KEY = "dn:peek";
 
 /**
- * La versión amable del popup de entrada de Emprendered: en vez de un modal
- * que tapa la página, una tarjeta pequeña en la esquina, una sola vez por
- * sesión, a los 15 s y solo cuando ya se bajó más allá del hero (así nunca
- * tapa el buscador), en pantallas medianas o grandes y nunca con el carrito
- * abierto.
+ * La versión amable del popup de entrada de Emprendered: una tarjeta pequeña
+ * en la esquina, a los 15 s y solo cuando ya se bajó más allá del hero, en
+ * pantallas medianas o grandes y nunca con el carrito abierto.
+ *
+ * Brief de rediseño: tapaba contenido durante el scroll. Ahora aparece UNA
+ * sola vez en este navegador (se recuerda aunque no la cierren), se retira
+ * sola a los 12 s y al navegar a otra página.
  */
 export function PromoPeek() {
   const [ready, setReady] = useState(false);
@@ -28,7 +30,7 @@ export function PromoPeek() {
   useEffect(() => {
     let seen = false;
     try {
-      seen = sessionStorage.getItem(KEY) === "1";
+      seen = localStorage.getItem(KEY) === "1";
     } catch {
       /* sin almacenamiento: se muestra igual una vez */
     }
@@ -45,11 +47,23 @@ export function PromoPeek() {
   const close = () => {
     setDismissed(true);
     try {
-      sessionStorage.setItem(KEY, "1");
+      localStorage.setItem(KEY, "1");
     } catch {
       /* modo privado */
     }
   };
+
+  // Al mostrarse queda recordada (una sola vez en este navegador) y se retira sola a los 12 s
+  useEffect(() => {
+    if (!show) return;
+    try {
+      localStorage.setItem(KEY, "1");
+    } catch {
+      /* modo privado */
+    }
+    const t = window.setTimeout(() => setDismissed(true), 12000);
+    return () => window.clearTimeout(t);
+  }, [show]);
 
   // Si el cliente ya navega hacia productos, se retira sola
   useEffect(() => {

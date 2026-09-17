@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { CategoryIcon, LineIcon } from "@/components/CategoryIcon";
 import { SectionHeading } from "@/components/SectionHeading";
+import { glowHandlers } from "@/components/ui/glowing-effect";
 import { allProducts, categories, fromPrice, products, upcoming } from "@/data/catalog";
 import { destacados, thumbOf } from "@/data/destacados";
 import { lineaOf, lineaOrder, lineas, type LineaId } from "@/data/lineas";
@@ -41,7 +42,8 @@ export function Categories() {
             <li key={id} data-reveal>
               <Link
                 to={l.path}
-                className="card card-hover group relative flex h-full flex-col overflow-hidden p-5"
+                {...glowHandlers}
+                className="glow-border card card-hover group relative flex h-full flex-col overflow-hidden p-5"
                 style={{ background: `radial-gradient(120% 80% at 100% 0%, ${l.hue}22, transparent 60%), var(--surface)` }}
               >
                 <div className="flex items-start justify-between">

@@ -1,13 +1,12 @@
-import { ArrowRight, ArrowUpRight, Check, Code2, Headphones, Search, Sparkles, SprayCan, Tv, Watch } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Code2, Headphones, Search, Sparkles, SprayCan, Tv, Watch } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
+import { glowHandlers } from "@/components/ui/glowing-effect";
 import { products } from "@/data/catalog";
 import { relojes, tecnologia } from "@/data/lineas";
 import { perfumes } from "@/data/perfumeria";
-import { site } from "@/data/site";
-import { Magnetic } from "@/lib/anim";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { useUI } from "@/lib/ui";
 
@@ -159,11 +158,9 @@ export function Hero() {
                   autoComplete="off"
                 />
               </div>
-              <Magnetic>
                 <button type="submit" className="btn btn-primary shrink-0">
                   Buscar
                 </button>
-              </Magnetic>
             </form>
 
             {/* Los nodos de la red: una puerta por línea de negocio */}
@@ -172,7 +169,8 @@ export function Hero() {
                 <li key={n.title} data-node>
                   <Link
                     to={n.to}
-                    className="group relative flex h-full flex-col items-start gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3 backdrop-blur-md transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.08] sm:p-3.5"
+                    {...glowHandlers}
+                    className="glow-border group relative flex h-full flex-col items-start gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3 backdrop-blur-md transition-[border-color,background-color] duration-300 hover:border-white/25 hover:bg-white/[0.08] sm:p-3.5"
                   >
                     <span
                       className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors ${
@@ -190,14 +188,6 @@ export function Hero() {
                     </span>
                     <ArrowUpRight className="absolute right-2.5 top-2.5 h-3.5 w-3.5 text-faint opacity-0 transition-opacity group-hover:opacity-100" />
                   </Link>
-                </li>
-              ))}
-            </ul>
-
-            <ul data-hero-in className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-mute">
-              {["Atención por WhatsApp", `Pagos con ${site.payments.slice(0, 2).join(" y ")}`, "Garantía por escrito"].map((t) => (
-                <li key={t} className="flex items-center gap-2">
-                  <Check className="h-4 w-4 text-mint" strokeWidth={2.5} /> {t}
                 </li>
               ))}
             </ul>

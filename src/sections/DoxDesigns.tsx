@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { dox, doxProjects, doxServices, doxStats, type DoxProject } from "@/data/dox";
 import { waLink } from "@/data/site";
-import { Magnetic, Reveal, Tilt } from "@/lib/anim";
+import { Reveal, Tilt } from "@/lib/anim";
 import { gsap, useGSAP } from "@/lib/gsap";
 
 /**
@@ -116,11 +116,9 @@ export function DoxDesigns() {
             </ul>
 
             <Reveal delay={0.3} className="mt-8 flex flex-wrap gap-3">
-              <Magnetic>
                 <a href={dox.url} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                   Visitar doxdesigns.dev <ArrowUpRight className="h-4 w-4" />
                 </a>
-              </Magnetic>
               <a href={waLink(dox.whatsappText)} target="_blank" rel="noopener noreferrer" className="btn btn-buy">
                 <WhatsAppIcon /> Cotizar mi página
               </a>
