@@ -1,10 +1,11 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, CornerDownLeft, Search, X } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { CategoryIcon } from "@/components/CategoryIcon";
-import { allProducts, categories, categoryById, fromPrice, type CategoryId } from "@/data/catalog";
+import { ProductArt } from "@/components/ProductArt";
+import { allProducts, categories, categoryById, fromPrice, type CategoryId, type Product } from "@/data/catalog";
 import { destacadosRed } from "@/data/destacados";
 import { isRestricted, lineaOf, lineaOrder, lineas, subLabel, type LineaId } from "@/data/lineas";
 import { formatCOP } from "@/data/site";
@@ -18,12 +19,16 @@ interface Result {
   to: string;
   icon: CategoryId;
   price?: number;
+  group: string;
+  product?: Product;
 }
 
 /**
- * Buscador tipo paleta de comandos (Ctrl/Cmd + K o "/"). Busca en vivo sobre
- * nombre, descripción corta y categoría, sin tildes. Flechas para moverse,
- * Enter para ir, Esc para cerrar. Vacío muestra los más vendidos.
+ * Buscador tipo Spotlight (Ctrl/Cmd + K o "/"): panel translúcido, resultados
+ * agrupados por tipo y una vista previa del resultado activo a la derecha.
+ * Busca en vivo sobre nombre, descripción corta y categoría, sin tildes.
+ * Flechas para moverse, Enter para ir, Esc para cerrar. Vacío muestra los
+ * destacados de la red. La vista previa se oculta en móvil: ahí manda la lista.
  */
 export function SearchPalette() {
   const { searchOpen: open, setSearchOpen: setOpen, searchSeed } = useUI();
@@ -49,18 +54,25 @@ export function SearchPalette() {
   const results = useMemo<Result[]>(() => {
     const nq = normalize(q.trim());
     if (!nq) {
-      return destacadosRed
-        .slice(0, 8)
-        .map((p) => ({ key: p.slug, label: p.name, hint: lineas[lineaOf(p)].name, to: `/producto/${p.slug}`, icon: p.category, price: fromPrice(p) }));
+      return destacadosRed.slice(0, 8).map((p) => ({
+        key: p.slug,
+        label: p.name,
+        hint: lineas[lineaOf(p)].name,
+        to: `/producto/${p.slug}`,
+        icon: p.category,
+        price: fromPrice(p),
+        group: "Destacados de la red",
+        product: p,
+      }));
     }
     const lines = ([...lineaOrder, "vapes"] as LineaId[])
       .filter((id) => id !== "digital" && normalize(`${lineas[id].name} ${lineas[id].blurb} ${id === "vapes" ? "vape vapeador" : ""}`).includes(nq))
-      .map((id) => ({ key: `l-${id}`, label: lineas[id].name, hint: "Línea de la red", to: lineas[id].path, icon: id as CategoryId }));
+      .map((id) => ({ key: `l-${id}`, label: lineas[id].name, hint: lineas[id].blurb, to: lineas[id].path, icon: id as CategoryId, group: "Líneas" }));
     const cats = [
       ...lines,
       ...categories
         .filter((c) => normalize(`${c.name} ${c.blurb}`).includes(nq))
-        .map((c) => ({ key: `c-${c.id}`, label: c.name, hint: "Categoría digital", to: `/catalogo?categoria=${c.id}`, icon: c.id })),
+        .map((c) => ({ key: `c-${c.id}`, label: c.name, hint: c.blurb, to: `/catalogo?categoria=${c.id}`, icon: c.id, group: "Categorías" })),
     ].slice(0, 3);
     // Todas las palabras, en cualquier orden: "sauvage dior" encuentra "Dior Sauvage"
     const words = nq.split(/\s+/);
@@ -82,6 +94,8 @@ export function SearchPalette() {
         to: `/producto/${p.slug}`,
         icon: p.category,
         price: fromPrice(p),
+        group: "Productos",
+        product: p,
       }));
     return [...cats, ...prods];
   }, [q]);
@@ -131,7 +145,7 @@ export function SearchPalette() {
             role="dialog"
             aria-modal="true"
             aria-label="Buscar en la tienda"
-            className="relative w-full max-w-[600px] overflow-hidden rounded-3xl border border-line-strong bg-bg shadow-2xl"
+            className="spotlight relative w-full max-w-[760px] overflow-hidden rounded-[26px] border border-line-strong shadow-2xl"
             initial={reduced ? { opacity: 0 } : { opacity: 0, y: -16, scale: 0.97 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: -10, scale: 0.98, transition: { duration: 0.15 } }}
@@ -145,7 +159,7 @@ export function SearchPalette() {
                 onChange={(e) => setQ(e.target.value)}
                 onKeyDown={onKey}
                 placeholder="Busca Netflix, un perfume, un reloj, AirPods…"
-                className="h-16 w-full bg-transparent text-[17px] text-ink outline-none placeholder:text-faint"
+                className="h-[64px] w-full bg-transparent text-[18px] text-ink outline-none placeholder:text-faint"
                 role="combobox"
                 aria-expanded="true"
                 aria-controls="search-results"
@@ -157,11 +171,14 @@ export function SearchPalette() {
               </button>
             </div>
 
-            <ul ref={list} id="search-results" role="listbox" className="max-h-[55vh] overflow-y-auto p-2">
-              {!q.trim() && <li className="px-3 pb-1 pt-2 text-xs font-bold uppercase tracking-wider text-faint">Destacados de la red</li>}
-              {results.map((r, i) => (
+            <div className="flex">
+              <ul ref={list} id="search-results" role="listbox" className="max-h-[55vh] flex-1 overflow-y-auto p-2 sm:max-h-[420px]">
+                {results.map((r, i) => (
+                  <Fragment key={r.key}>
+                  {(i === 0 || results[i - 1].group !== r.group) && (
+                    <li className="px-3 pb-1 pt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-faint first:pt-1">{r.group}</li>
+                  )}
                 <li
-                  key={r.key}
                   id={`sr-${r.key}`}
                   data-i={i}
                   role="option"
@@ -191,7 +208,8 @@ export function SearchPalette() {
                   )}
                   {i === active && <CornerDownLeft className="relative h-4 w-4 text-faint" />}
                 </li>
-              ))}
+                  </Fragment>
+                ))}
               {q.trim() && results.length === 0 && (
                 <li className="flex flex-col items-center px-3 py-6 text-center text-mute">
                   <Astro pose="piensa" small enter={false} float={false} decorative className="mb-3 h-28" />
@@ -201,7 +219,31 @@ export function SearchPalette() {
                   </button>
                 </li>
               )}
-            </ul>
+              </ul>
+
+              {/* Vista previa del resultado activo, como en Spotlight */}
+              {results[active] && (
+                <div className="hidden w-[260px] shrink-0 flex-col items-center border-l border-line p-5 text-center sm:flex" aria-hidden="true">
+                  {results[active].product ? (
+                    <ProductArt product={results[active].product!} size="sm" bare className="w-full rounded-2xl" />
+                  ) : (
+                    <span className="flex h-28 w-full items-center justify-center rounded-2xl bg-neb-soft text-neb">
+                      <CategoryIcon id={results[active].icon} className="h-10 w-10" />
+                    </span>
+                  )}
+                  <p className="mt-4 text-[15px] font-bold leading-tight">{results[active].label}</p>
+                  <p className="mt-1 text-xs leading-snug text-mute">{results[active].hint}</p>
+                  {results[active].price !== undefined && (
+                    <p className="num mt-3 text-lg font-semibold">
+                      {results[active].price === 0 ? "A cotizar" : formatCOP(results[active].price!)}
+                    </p>
+                  )}
+                  <p className="mt-auto pt-4 text-[11px] text-faint">
+                    <kbd className="rounded border border-line px-1">Enter</kbd> para abrir
+                  </p>
+                </div>
+              )}
+            </div>
 
             <div className="hidden items-center gap-4 border-t border-line px-4 py-2.5 text-xs text-faint sm:flex">
               <span><kbd className="rounded border border-line px-1">↑</kbd> <kbd className="rounded border border-line px-1">↓</kbd> moverse</span>

@@ -558,6 +558,63 @@
   animation: typing-dot 1s ease-in-out infinite;
 }
 
+/* Spotlight: el panel del buscador deja ver el fondo, como el de macOS */
+.spotlight {
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: blur(22px) saturate(1.3);
+}
+
+/* Glare Card: reflejo holográfico del logo de Dox Designs (un solo sitio) */
+.glare-card {
+  --ga: 0;
+  --mx: 50%;
+  --my: 50%;
+}
+.glare-card::before,
+.glare-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--ga);
+  transition: opacity 0.35s ease;
+}
+.glare-card::before {
+  background: radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, 0.4), transparent 45%);
+  mix-blend-mode: overlay;
+}
+.glare-card::after {
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(154, 169, 255, 0.55) 42%,
+    rgba(242, 196, 109, 0.45) 50%,
+    rgba(116, 216, 176, 0.45) 58%,
+    transparent 70%
+  );
+  background-size: 260% 260%;
+  background-position: var(--mx) var(--my);
+  mix-blend-mode: color-dodge;
+  filter: blur(6px);
+  opacity: calc(var(--ga) * 0.55);
+}
+@media (prefers-reduced-motion: reduce) {
+  .glare-card::before,
+  .glare-card::after {
+    transition: none;
+  }
+}
+
+/* Large Name Footer: la marca gigante como cierre de la página */
+.large-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 120px;
+  letter-spacing: -0.02em;
+}
+
 /* ── Eco del hero (brief: "el agujero negro morado debe reaparecer") ──
    Núcleo oscuro con un disco de acreción violeta y un filo dorado, en CSS
    puro: nada de un segundo WebGL. Se usa en la sección de físicos y en el pie. */

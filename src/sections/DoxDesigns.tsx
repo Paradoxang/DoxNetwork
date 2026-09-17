@@ -3,6 +3,7 @@ import { useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check, Play } from "lucide-react";
 import { useRef, useState } from "react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { GlareCard } from "@/components/ui/glare-card";
 import { dox, doxProjects, doxServices, doxStats, type DoxProject } from "@/data/dox";
 import { waLink } from "@/data/site";
 import { Reveal, Tilt } from "@/lib/anim";
@@ -138,16 +139,18 @@ export function DoxDesigns() {
             />
             <Tilt max={8}>
               <a href={dox.url} target="_blank" rel="noopener noreferrer" aria-label="Ir a Dox Designs" className="relative block">
-                <img
-                  data-dox-logo
-                  src="/dox/logo-principal.webp"
-                  alt="Dox Designs"
-                  width="900"
-                  height="972"
-                  loading="lazy"
-                  decoding="async"
-                  className="relative mx-auto w-[78%] rounded-[32px] shadow-[0_30px_80px_rgba(3,6,15,0.55)]"
-                />
+                <GlareCard className="mx-auto w-[78%] overflow-hidden rounded-[32px] shadow-[0_30px_80px_rgba(3,6,15,0.55)]">
+                  <img
+                    data-dox-logo
+                    src="/dox/logo-principal.webp"
+                    alt="Dox Designs"
+                    width="900"
+                    height="972"
+                    loading="lazy"
+                    decoding="async"
+                    className="relative block w-full"
+                  />
+                </GlareCard>
               </a>
             </Tilt>
             <div className="pointer-events-none absolute -left-6 top-[46%] z-10 h-36 sm:-left-10 md:h-48">

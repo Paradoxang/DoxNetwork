@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
 import { glowHandlers } from "@/components/ui/glowing-effect";
+import { NumberTicker } from "@/components/ui/number-ticker";
 import { products } from "@/data/catalog";
 import { relojes, tecnologia } from "@/data/lineas";
 import { perfumes } from "@/data/perfumeria";
@@ -17,7 +18,8 @@ const nodes = [
   {
     icon: Tv,
     title: "Streaming y TV",
-    text: `${count("streaming", "cine-tv", "musica")} plataformas y cine`,
+    n: count("streaming", "cine-tv", "musica"),
+    text: "plataformas y cine",
     to: "/catalogo?categoria=streaming",
   },
   {
@@ -29,20 +31,23 @@ const nodes = [
   {
     icon: SprayCan,
     title: "Perfumería",
-    text: `${perfumes.length} fragancias`,
+    n: perfumes.length,
+    text: "fragancias",
     to: "/perfumeria",
   },
   {
     icon: Watch,
     title: "Relojería",
-    text: `${relojes.length} originales y réplicas`,
+    n: relojes.length,
+    text: "originales y réplicas",
     to: "/relojeria",
     isNew: true,
   },
   {
     icon: Headphones,
     title: "Tecnología",
-    text: `${tecnologia.length} gadgets y accesorios`,
+    n: tecnologia.length,
+    text: "gadgets y accesorios",
     to: "/tecnologia",
     isNew: true,
   },
@@ -184,7 +189,9 @@ export function Hero() {
                         {n.title}
                         {n.isNew && <span className="h-1.5 w-1.5 rounded-full bg-gold" aria-label="Nuevo" />}
                       </span>
-                      <span className="mt-0.5 block text-[12.5px] leading-snug text-mute">{n.text}</span>
+                      <span className="mt-0.5 block text-[12.5px] leading-snug text-mute">
+                        {n.n !== undefined && <NumberTicker value={n.n} className="text-ink" />} {n.text}
+                      </span>
                     </span>
                     <ArrowUpRight className="absolute right-2.5 top-2.5 h-3.5 w-3.5 text-faint opacity-0 transition-opacity group-hover:opacity-100" />
                   </Link>

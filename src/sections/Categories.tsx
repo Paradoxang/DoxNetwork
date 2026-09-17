@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { CategoryIcon, LineIcon } from "@/components/CategoryIcon";
 import { SectionHeading } from "@/components/SectionHeading";
 import { glowHandlers } from "@/components/ui/glowing-effect";
+import { NumberTicker } from "@/components/ui/number-ticker";
 import { allProducts, categories, fromPrice, products, upcoming, type Product } from "@/data/catalog";
 import { destacados, thumbOf } from "@/data/destacados";
 import { lineaOf, lineaOrder, lineas, type LineaId } from "@/data/lineas";
@@ -98,7 +99,8 @@ export function Categories() {
                 </span>
                 <span className="mt-1 block text-sm leading-snug text-mute">{lineas.digital.blurb}</span>
                 <span className="num mt-2 block text-xs text-faint">
-                  {stats.digital.count} productos · desde <span className="text-ink">{formatCOP(stats.digital.min)}</span>
+                  <NumberTicker value={stats.digital.count} className="text-ink" /> productos · desde{" "}
+                  <span className="text-ink">{formatCOP(stats.digital.min)}</span>
                 </span>
               </span>
             </Link>
@@ -155,7 +157,8 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
       <div className="relative mt-5 flex flex-1 items-end">{children}</div>
 
       <p className="num mt-4 text-xs text-faint">
-        {stats[id].count} productos · desde <span className="text-ink">{formatCOP(stats[id].min)}</span>
+        <NumberTicker value={stats[id].count} className="text-ink" /> productos · desde{" "}
+        <span className="text-ink">{formatCOP(stats[id].min)}</span>
       </p>
     </Link>
   );

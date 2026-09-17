@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ProductArt } from "@/components/ProductArt";
 import { InfiniteDragScroll } from "@/components/ui/infinite-drag-scroll";
+import { NumberTicker } from "@/components/ui/number-ticker";
 import type { Product } from "@/data/catalog";
 import { destacados } from "@/data/destacados";
 import { relojes, tecnologia } from "@/data/lineas";
@@ -62,7 +63,7 @@ export function TiendaTeaser() {
           <div className="mt-5 flex flex-wrap gap-2">
             {shortcuts.map((s) => (
               <Link key={s.to} to={s.to} className="chip">
-                {s.label} <span className="num text-xs text-faint">{s.count}</span>
+                {s.label} <NumberTicker value={s.count} className="text-xs text-faint" />
               </Link>
             ))}
           </div>

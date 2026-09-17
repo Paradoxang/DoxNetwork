@@ -134,8 +134,34 @@ export function Footer() {
         sus respectivos dueños y se usan solo para identificar los productos.
       </p>
 
-      <div className="border-t border-line">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-2 px-4 py-5 text-center text-xs text-faint sm:flex-row sm:text-left md:px-6">
+      {/* Large Name Footer: la marca gigante cierra la página, con el segundo
+          eco del agujero negro del hero detrás (brief de rediseño, fase 3) */}
+      <div className="echo-section relative isolate overflow-hidden border-t border-line pt-10">
+        <div
+          aria-hidden="true"
+          className="hole-echo pointer-events-none absolute -bottom-[38%] left-1/2 -z-10 w-[min(1500px,160vw)] -translate-x-1/2"
+        />
+        {/* SVG y no texto: así la palabra encaja exacta al ancho en cualquier pantalla */}
+        <svg viewBox="0 0 1000 118" className="block w-full" role="img" aria-label="DoxNetwork">
+          <defs>
+            <linearGradient id="large-name-fade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="4%" stopColor="var(--ink)" stopOpacity="0.92" />
+              <stop offset="100%" stopColor="var(--ink)" stopOpacity="0.12" />
+            </linearGradient>
+          </defs>
+          <text
+            className="large-name"
+            x="500"
+            y="100"
+            textAnchor="middle"
+            textLength="984"
+            lengthAdjust="spacingAndGlyphs"
+            fill="url(#large-name-fade)"
+          >
+            DOXNETWORK
+          </text>
+        </svg>
+        <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-2 px-4 pb-20 pt-5 text-center text-xs text-faint sm:flex-row sm:pb-5 sm:text-left md:px-6">
           <p>© {ANIO} DoxNetwork · Todos los derechos reservados</p>
           <p>
             Diseñado y desarrollado por{" "}
