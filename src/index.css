@@ -35,6 +35,10 @@
   --gold: #f2c46d;
   --gold-ink: #3a2806;
   --gold-soft: rgba(242, 196, 109, 0.13);
+  /* Degradado del botón "candy" de las tarjetas: la nebulosa, lo bastante
+     oscura para llevar texto blanco */
+  --brand: #7384f2;
+  --brand-secondary: #5162d9;
 
   --shadow: 0 18px 44px rgba(3, 6, 15, 0.38);
   --glow-a: rgba(154, 169, 255, 0.13);
@@ -91,6 +95,8 @@
   --gold: #946010;
   --gold-ink: #ffffff;
   --gold-soft: rgba(212, 150, 43, 0.14);
+  --brand: #5b6be0;
+  --brand-secondary: #3f4fc4;
 
   --shadow: 0 18px 40px rgba(26, 33, 64, 0.1);
   --glow-a: rgba(74, 91, 212, 0.09);
@@ -143,6 +149,8 @@
   --color-gold: var(--gold);
   --color-gold-ink: var(--gold-ink);
   --color-gold-soft: var(--gold-soft);
+  --color-brand: var(--brand);
+  --color-brand-secondary: var(--brand-secondary);
 }
 
 @theme {

@@ -17,15 +17,18 @@ export function ProductArt({
   product,
   plan,
   size = "md",
+  bare = false,
   className = "",
 }: {
   product: Product;
+  /** Sin las etiquetas superpuestas (la tarjeta pone las suyas). */
+  bare?: boolean;
   /** En la ficha, el plan elegido puede cambiar la baldosa. */
   plan?: Plan;
   size?: Size;
   className?: string;
 }) {
-  if (product.perfume) return <PerfumeArt product={product} size={size} className={className} />;
+  if (product.perfume) return <PerfumeArt product={product} size={size} bare={bare} className={className} />;
 
   const big = size === "lg";
   const small = size === "sm";
@@ -96,7 +99,7 @@ export function ProductArt({
       {/* z-10: los círculos de las iniciales llevan z-index propio y se pintarían encima */}
       {!logo && <SmartImage src={product.image} eager={big} className="absolute inset-0 z-10 h-full w-full object-cover" />}
 
-      {!small && (
+      {!small && !bare && (
         <span
           className={`absolute left-3 top-3 z-20 flex items-center justify-center rounded-full bg-bg/70 text-ink backdrop-blur-sm ${big ? "h-10 w-10" : "h-8 w-8"}`}
         >
@@ -113,7 +116,7 @@ export function ProductArt({
  * clara en ambos temas y la foto se multiplica sobre ella (el blanco toma el
  * color de la vitrina y las sombras quedan naturales).
  */
-function PerfumeArt({ product, size, className }: { product: Product; size: Size; className: string }) {
+function PerfumeArt({ product, size, bare, className }: { product: Product; size: Size; bare: boolean; className: string }) {
   const info = product.perfume!;
   const big = size === "lg";
   const small = size === "sm";
@@ -137,13 +140,13 @@ function PerfumeArt({ product, size, className }: { product: Product; size: Size
         className={
           info.photo
             ? "absolute inset-0 h-full w-full object-cover"
-            : `absolute inset-0 h-full w-full object-contain mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-[1.05] ${small ? "p-1" : "p-[6%]"}`
+            : `absolute inset-0 h-full w-full object-contain mix-blend-multiply ${small ? "p-1" : "p-[6%]"}`
         }
       />
       {/* Brillo de vitrina: una línea de luz arriba y un borde interior suave */}
       <span className="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_1px_0_rgba(255,255,255,0.9),inset_0_-30px_60px_-40px_rgba(20,16,10,0.25)]" />
 
-      {!small && (
+      {!small && !bare && (
         <span
           className={`absolute left-3 top-3 z-20 rounded-full bg-[#1a1712]/85 font-extrabold tracking-wide text-[#f6ead2] backdrop-blur-sm ${
             big ? "px-3 py-1.5 text-xs" : "px-2.5 py-1 text-[11px]"
