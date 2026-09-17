@@ -6,6 +6,7 @@ import { Astro, type AstroPose } from "@/components/Astro";
 import { CategoryIcon, LineIcon } from "@/components/CategoryIcon";
 import { ProductCard } from "@/components/ProductCard";
 import { Select, useUrlFilters } from "@/components/ShopControls";
+import { SideRail, type RailGroup } from "@/components/SideRail";
 import { Seo } from "@/components/Seo";
 import {
   allProducts,
@@ -51,6 +52,8 @@ const mixed: Product[] = (() => {
   return out;
 })();
 
+const catalogoMin = Math.min(...mixed.map(fromPrice).filter((n) => n > 0));
+
 export function Catalog() {
   const reduced = useReducedMotion();
   const [limit, setLimit] = useState(PAGE);
@@ -89,13 +92,66 @@ export function Catalog() {
   const hasFilters = Boolean(q || cat || onlySale || linea);
   const visible = list.slice(0, limit);
 
+  // El rail de las colecciones, aquí con las líneas de la red y las categorías
+  // digitales. Una categoría implica la línea digital, igual que en los filtros.
+  const railGrupos: RailGroup[] = [
+    {
+      label: "Líneas",
+      items: [
+        {
+          key: "todas",
+          label: "Toda la tienda",
+          count: mixed.length,
+          active: !linea && !cat && !onlySale,
+          onSelect: () => update({ linea: null, categoria: null, ofertas: null }),
+        },
+        ...lineaOrder.map((id) => ({
+          key: id,
+          label: lineas[id].name,
+          count: byLine[id].length,
+          active: linea === id && !cat && !onlySale,
+          onSelect: () => update({ linea: linea === id && !cat ? null : id, categoria: null, ofertas: null }),
+        })),
+      ],
+    },
+    {
+      label: "Categorías digitales",
+      items: categories.map((c) => ({
+        key: c.id,
+        label: c.name,
+        count: byLine.digital.filter((p) => p.category === c.id).length,
+        active: cat === c.id,
+        onSelect: () => update({ categoria: cat === c.id ? null : c.id, linea: null, ofertas: null }),
+      })),
+    },
+    {
+      label: "Precio",
+      items: [
+        { key: "todo", label: "Todo", active: !onlySale, onSelect: () => update({ ofertas: null }) },
+        { key: "ofertas", label: "Solo con ahorro", active: onlySale, onSelect: () => update({ ofertas: onlySale ? null : "1", linea: null, categoria: null }) },
+      ],
+    },
+  ];
+
   return (
     <>
+      <SideRail
+        linea={{
+          name: line ? line.name : "Toda la tienda",
+          blurb: line ? line.blurb : "Digital, perfumería, relojería y tecnología",
+          path: "/catalogo",
+          hue: line ? line.hue : "#9aa9ff",
+        }}
+        total={mixed.length}
+        minPrice={catalogoMin}
+        grupos={railGrupos}
+      />
       <Seo
         title={`Catálogo · ${site.name}`}
         description="Toda la red en un lugar: streaming, IA y software, perfumería, relojería y tecnología. Precios claros y pedido por WhatsApp."
         path="/catalogo"
       />
+      <div className="xl:pl-[228px]">
       <section className="mx-auto max-w-[1200px] px-4 pb-24 pt-[140px] md:px-6 md:pt-[164px]">
         <div className="flex items-end justify-between gap-6">
           <Reveal>
@@ -271,6 +327,7 @@ export function Catalog() {
           )}
         </AnimatePresence>
       </section>
+      </div>
     </>
   );
 }
