@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Astro } from "@/components/Astro";
 import { ProductCard } from "@/components/ProductCard";
 import { Seo } from "@/components/Seo";
 import { productBySlug } from "@/data/catalog";
@@ -25,9 +25,7 @@ export function Favorites() {
 
       {list.length === 0 ? (
         <Reveal delay={0.06} className="card mt-10 flex flex-col items-center gap-3 px-6 py-16 text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-neb-soft text-neb">
-            <Heart className="h-7 w-7" />
-          </span>
+          <Astro pose="favoritos" small decorative className="h-44" />
           <p className="text-lg font-bold">Aún no tienes favoritos</p>
           <Link to="/catalogo" className="btn btn-primary mt-2">Explorar catálogo</Link>
         </Reveal>

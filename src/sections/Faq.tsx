@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Astro } from "@/components/Astro";
 import { SectionHeading } from "@/components/SectionHeading";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { comboTiers, site, waLink } from "@/data/site";
@@ -83,6 +84,9 @@ export function Faq() {
             </a>
             <Link to="/terminos" className="btn btn-ghost">Términos</Link>
           </Reveal>
+          <div className="mt-8 hidden h-64 lg:block">
+            <Astro pose="busto" small decorative className="h-full" />
+          </div>
         </div>
 
         <Reveal>

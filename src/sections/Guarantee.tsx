@@ -38,7 +38,7 @@ export function Guarantee() {
         />
         <Reveal className="relative">
           <div className="flex items-end gap-4">
-            <Astro pose="pulgar" decorative className="h-40 shrink-0 md:h-48" />
+            <Astro pose="escudo" decorative className="h-40 shrink-0 md:h-48" />
             <span className="mb-6 inline-flex items-center gap-2 rounded-full bg-mint-soft px-3 py-1.5 text-sm font-bold text-mint">
               <ShieldCheck className="h-4 w-4" /> Garantía escrita
             </span>

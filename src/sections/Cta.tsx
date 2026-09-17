@@ -1,3 +1,4 @@
+import { Astro } from "@/components/Astro";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { site, waLink } from "@/data/site";
 import { Magnetic, Reveal } from "@/lib/anim";
@@ -6,6 +7,9 @@ export function Cta() {
   return (
     <section className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
       <Reveal className="card relative overflow-hidden p-8 md:p-12">
+          <div className="pointer-events-none absolute bottom-0 right-10 hidden h-[88%] md:block lg:right-16">
+            <Astro pose="soporte" decorative className="h-full" />
+          </div>
           <div
             aria-hidden="true"
             className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl"

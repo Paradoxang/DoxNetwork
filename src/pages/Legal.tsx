@@ -1,5 +1,6 @@
 import { ArrowRight, FileText, Lock, RefreshCcw, Truck } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Astro } from "@/components/Astro";
 import { Seo } from "@/components/Seo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { legalDocs, legalUpdated, type LegalDoc } from "@/data/legal";
@@ -104,6 +105,7 @@ export function Legal({ slug }: { slug: LegalDoc["slug"] }) {
           </div>
 
           <div className="card mt-14 flex flex-col items-start gap-4 p-6 sm:flex-row sm:items-center">
+            <Astro pose="soporte" small decorative className="hidden h-24 shrink-0 sm:block" />
             <div className="flex-1">
               <p className="font-bold">¿Tienes dudas sobre este documento?</p>
               <p className="mt-1 text-sm text-mute">Escríbenos y te respondemos en horario de atención.</p>

@@ -10,7 +10,22 @@ import { EASE, SSR } from "@/lib/anim";
  * la reacción al puntero; la flotación va en CSS (`.flota`) en un nodo
  * interior para no pelear por el mismo `transform`.
  */
-export type AstroPose = "saludo" | "senala" | "pulgar" | "celebra" | "piensa" | "cine" | "sorpresa";
+export type AstroPose =
+  | "saludo"
+  | "senala"
+  | "pulgar"
+  | "celebra"
+  | "piensa"
+  | "cine"
+  | "sorpresa"
+  | "404"
+  | "busto"
+  | "chibi"
+  | "despedida"
+  | "escudo"
+  | "favoritos"
+  | "laptop"
+  | "soporte";
 
 const dims: Record<AstroPose, [number, number]> = {
   celebra: [617, 901],
@@ -20,6 +35,14 @@ const dims: Record<AstroPose, [number, number]> = {
   saludo: [607, 900],
   senala: [646, 902],
   sorpresa: [671, 902],
+  "404": [713, 837],
+  busto: [748, 955],
+  chibi: [639, 871],
+  despedida: [594, 899],
+  escudo: [558, 904],
+  favoritos: [548, 902],
+  laptop: [606, 904],
+  soporte: [610, 902],
 };
 
 const alts: Record<AstroPose, string> = {
@@ -30,6 +53,14 @@ const alts: Record<AstroPose, string> = {
   piensa: "ASTRO pensando",
   cine: "ASTRO con crispetas y una entrada de cine",
   sorpresa: "ASTRO sorprendido",
+  "404": "ASTRO flotando de cabeza, perdido en el espacio",
+  busto: "ASTRO saludando",
+  chibi: "ASTRO en versión chibi, saludando",
+  despedida: "ASTRO despidiéndose de espaldas",
+  escudo: "ASTRO con un escudo de garantía",
+  favoritos: "ASTRO abrazando un corazón",
+  laptop: "ASTRO trabajando en un portátil",
+  soporte: "ASTRO hablando por teléfono",
 };
 
 export function Astro({

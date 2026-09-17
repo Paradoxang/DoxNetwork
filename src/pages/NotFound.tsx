@@ -19,7 +19,7 @@ export function NotFound() {
   return (
     <section className="mx-auto flex min-h-[80vh] max-w-[1200px] flex-col items-center justify-center px-4 pb-20 pt-28 text-center md:px-6">
       <Seo title={`Página no encontrada · ${site.name}`} description="Esta página no existe o cambió de lugar." path="/404" noindex />
-      <Astro pose="piensa" eager className="h-56 md:h-64" />
+      <Astro pose="404" eager className="h-56 md:h-72" />
       <p className="kicker mt-8">Error 404</p>
       <h1 className="display mt-3 text-[clamp(30px,5vw,48px)]">Esto se salió de órbita</h1>
       <p className="mt-3 max-w-md text-mute">La página que buscas no existe o cambió de lugar. Busca lo que necesitas o sigue por alguna de estas rutas.</p>

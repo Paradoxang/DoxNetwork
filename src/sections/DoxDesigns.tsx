@@ -1,3 +1,4 @@
+import { Astro } from "@/components/Astro";
 import { useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Check, Play } from "lucide-react";
 import { useRef, useState } from "react";
@@ -151,6 +152,9 @@ export function DoxDesigns() {
                 />
               </a>
             </Tilt>
+            <div className="pointer-events-none absolute -left-6 top-[46%] z-10 h-36 sm:-left-10 md:h-48">
+              <Astro pose="laptop" small decorative className="h-full" />
+            </div>
             <dl className="relative mt-8 grid grid-cols-3 gap-2 text-center">
               {doxStats.map((s) => (
                 <div key={s.label} className="rounded-2xl border border-line bg-surface px-2 py-4">

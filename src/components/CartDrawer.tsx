@@ -1,11 +1,12 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Minus, Plus, ShoppingBag, Trash2, Truck, X } from "lucide-react";
+import { Minus, Plus, Trash2, Truck, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { planLabel } from "@/data/catalog";
 import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
 import { EASE, lockScroll } from "@/lib/anim";
+import { Astro } from "@/components/Astro";
 import { ProductArt } from "@/components/ProductArt";
 import { isPhysical } from "@/data/lineas";
 import { shipping } from "@/data/perfumeria";
@@ -91,9 +92,7 @@ export function CartDrawer() {
 
             {cart.lines.length === 0 ? (
               <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
-                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-neb-soft text-neb">
-                  <ShoppingBag className="h-7 w-7" />
-                </span>
+                <Astro pose="chibi" small enter={false} decorative className="h-36" />
                 <p className="text-lg font-bold">Tu carrito está vacío</p>
                 <p className="text-sm text-mute">Agrega productos y te armamos el pedido por WhatsApp.</p>
                 <Link to="/catalogo" className="btn btn-primary mt-2" onClick={() => setOpen(false)}>

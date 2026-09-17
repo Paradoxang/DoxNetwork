@@ -13,7 +13,8 @@ Cómo funciona:
 2. Sombra = píxeles grises más oscuros que el fondo, conectados a él. Se
    convierten en negro semitransparente: en la web la sombra se funde con el
    fondo oscuro o claro en vez de dejar una mancha gris.
-3. Borde = anillo de 2 px del personaje junto al fondo: se estima el alfa por
+3. Huecos = gris de fondo encerrado y grande (dentro de un lazo): también fuera.
+4. Borde = anillo de 2 px del personaje junto al fondo: se estima el alfa por
    distancia al gris y se le resta el gris mezclado (decontaminación).
 """
 import pathlib
@@ -27,6 +28,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 BG_TOL = 16        # distancia máxima al gris del fondo
 SHADOW_CHROMA = 10  # una sombra es gris: casi sin croma
 EDGE_FULL = 60     # a esta distancia del gris el borde ya es opaco
+POCKET_MIN = 300   # área mínima (px) de un hueco de fondo encerrado para quitarlo
 
 
 def dilate(m: np.ndarray) -> np.ndarray:
@@ -67,6 +69,19 @@ def key(path: pathlib.Path) -> Image.Image:
     # las esquinas y un umbral fijo lo dejaba como mancha.
     neutral = (chroma < SHADOW_CHROMA) & (lum > bg_l * 0.35)
     region = grow(border, (dist < BG_TOL) | neutral)
+    # Huecos encerrados (el lazo del cable en la pose 404): gris de fondo que no
+    # toca el borde. Solo se quitan si son grandes, para no comerse brillos
+    # pequeños del traje o del cuello plateado.
+    pocket_mask = (dist < BG_TOL * 2) & (chroma < SHADOW_CHROMA) & (np.abs(lum - bg_l) < 24) & ~region
+    todo = pocket_mask.copy()
+    while todo.any():
+        ys, xs = np.nonzero(todo)
+        seed = np.zeros_like(todo)
+        seed[ys[0], xs[0]] = True
+        comp = grow(seed, pocket_mask)
+        todo &= ~comp
+        if comp.sum() > POCKET_MIN:
+            region |= comp
     background = region & (lum >= bg_l - 8)
     shadow = region & ~background
 
