@@ -7,7 +7,7 @@ const maxPct = comboTiers.length ? comboTiers[comboTiers.length - 1].pct : 0;
 // Barra de confianza justo debajo del hero (estructura mínima de los tres estudios).
 // TODO: confirma que cada promesa es real en tu operación antes de publicarla.
 const items = [
-  { icon: Zap, title: "Entrega en minutos", text: `Por WhatsApp, ~${site.deliveryMinutes} min en horario de atención.` },
+  { icon: Zap, title: "Digital en minutos", text: `Plataformas y software por WhatsApp, ~${site.deliveryMinutes} min. Perfumes con envío nacional.` },
   { icon: ShieldCheck, title: "Garantía escrita", text: `Reponemos en menos de ${site.warrantyHours} h si algo falla.` },
   { icon: Wallet, title: "Pagos locales", text: `${site.payments.slice(0, 3).join(", ")}. Sin tarjeta.` },
   ...(maxPct ? [{ icon: Percent, title: `Combos hasta ${maxPct}%`, text: "El descuento se aplica solo al combinar." }] : []),

@@ -14,7 +14,7 @@ export function Cta() {
           <p className="kicker">¿No lo encuentras?</p>
           <h2 className="display mt-3 max-w-lg text-[clamp(28px,4vw,42px)]">Pídelo y te lo conseguimos</h2>
           <p className="mt-4 max-w-md text-mute">
-            Si buscas una plataforma, licencia o recarga que no está en el catálogo, escríbenos y te cotizamos.
+            Si buscas una plataforma, una licencia, una fragancia o un servicio que no está en la tienda, escríbenos y te cotizamos.
           </p>
           <Magnetic className="mt-8">
             <a

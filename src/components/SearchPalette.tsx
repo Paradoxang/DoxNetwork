@@ -25,7 +25,7 @@ interface Result {
  * Enter para ir, Esc para cerrar. Vacío muestra los más vendidos.
  */
 export function SearchPalette() {
-  const { searchOpen: open, setSearchOpen: setOpen } = useUI();
+  const { searchOpen: open, setSearchOpen: setOpen, searchSeed } = useUI();
   const [q, setQ] = useState("");
   const [active, setActive] = useState(0);
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ export function SearchPalette() {
 
   useEffect(() => {
     if (!open) return;
-    setQ("");
+    setQ(searchSeed);
     setActive(0);
     lockScroll(true);
     const t = window.setTimeout(() => input.current?.focus(), 40);
@@ -43,7 +43,7 @@ export function SearchPalette() {
       window.clearTimeout(t);
       lockScroll(false);
     };
-  }, [open]);
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const results = useMemo<Result[]>(() => {
     const nq = normalize(q.trim());

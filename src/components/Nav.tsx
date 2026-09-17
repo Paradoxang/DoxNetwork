@@ -154,6 +154,8 @@ export function Nav() {
   return (
     <>
     <motion.header
+      // Sobre el hero del inicio (espacio oscuro en los dos temas) la cabecera usa los tokens oscuros
+      data-theme={location.pathname === "/" && atTop && !menu && !mobile ? "dark" : undefined}
       className="fixed inset-x-0 top-0 z-50"
       initial={false}
       animate={{ y: show ? 0 : "-100%" }}

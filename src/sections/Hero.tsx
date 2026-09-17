@@ -1,42 +1,88 @@
-import { ArrowRight, Check, Search } from "lucide-react";
-import { useRef, useState, type FormEvent } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { ArrowRight, ArrowUpRight, Check, Code2, Search, Sparkles, SprayCan, Tv } from "lucide-react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
-import { LogoDN } from "@/components/LogoDN";
-import { minPrice } from "@/data/catalog";
-import { formatCOP, site } from "@/data/site";
-import { Magnetic, Tilt } from "@/lib/anim";
+import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
+import { products } from "@/data/catalog";
+import { perfumes } from "@/data/perfumeria";
+import { site } from "@/data/site";
+import { Magnetic } from "@/lib/anim";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { useUI } from "@/lib/ui";
 
-const populares = [
-  { label: "Netflix", to: "/producto/netflix" },
-  { label: "Disney+", to: "/producto/disney-plus" },
-  { label: "ChatGPT", to: "/producto/chatgpt" },
-  { label: "Canva", to: "/producto/canva-pro" },
-  { label: "Pines de cine", to: "/catalogo?categoria=cine-tv" },
+const count = (...cats: string[]) => products.filter((p) => cats.includes(p.category)).length;
+
+/** Las líneas de la red. El orden va de lo que más se vende a lo más nuevo. */
+const nodes = [
+  {
+    icon: Tv,
+    title: "Streaming y TV",
+    text: `${count("streaming", "cine-tv", "musica")} plataformas, música y cine`,
+    to: "/catalogo?categoria=streaming",
+  },
+  {
+    icon: Sparkles,
+    title: "IA y software",
+    text: "ChatGPT, Gemini, Canva, Office",
+    to: "/catalogo?categoria=ia",
+  },
+  {
+    icon: SprayCan,
+    title: "Perfumería",
+    text: `${perfumes.length} fragancias con envío`,
+    to: "/perfumeria",
+    isNew: true,
+  },
+  {
+    icon: Code2,
+    title: "Páginas web",
+    text: "A la medida, con Dox Designs",
+    to: "/#dox-designs",
+  },
 ];
 
+/** Estrecho = el agujero negro va debajo del texto y no detrás. */
+function useNarrow(query = "(max-width: 767px)") {
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const m = window.matchMedia(query);
+    const sync = () => setNarrow(m.matches);
+    sync();
+    m.addEventListener("change", sync);
+    return () => m.removeEventListener("change", sync);
+  }, [query]);
+  return narrow;
+}
+
+/**
+ * Hero de la red. El fondo es un agujero negro renderizado en WebGL
+ * (components/ui/blackhole-hero-section): la "red" que atrae todo lo que
+ * vendemos, con el disco en el dorado y el azul nebulosa del isotipo.
+ *
+ * El hero es espacio en los dos temas: va con data-theme="dark" para que los
+ * tokens de color de su contenido sean siempre los oscuros, y el Nav hace lo
+ * mismo mientras está encima. Abajo se funde con el fondo del tema activo.
+ *
+ * Escritorio: el agujero a la derecha, velo a la izquierda bajo el texto.
+ * Móvil: el texto arriba y el agujero en su propio bloque debajo, con menos
+ * pasos por rayo porque el teléfono paga cada uno.
+ */
 export function Hero() {
   const scope = useRef<HTMLElement>(null);
   const [q, setQ] = useState("");
-  const navigate = useNavigate();
-  const { setSearchOpen } = useUI();
+  const { openSearch } = useUI();
+  const narrow = useNarrow();
 
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
-    navigate(q.trim() ? `/catalogo?q=${encodeURIComponent(q.trim())}` : "/catalogo");
+    openSearch(q.trim());
   };
 
   /* Coreografía de entrada con GSAP:
-     1. el titular sube palabra a palabra (SplitText con máscara por palabra:
-        no depende de dónde corten las líneas, así da igual si Kenney aún no
-        ha cargado cuando se parte el texto),
-     2. el resto del texto y el buscador llegan escalonados,
-     3. en paralelo el isotipo se dibuja: trazo de la D, trazo de la N, se
-        enciende el halo de la N, aparecen el planeta y la luna, los anillos se
-        abren desde el centro y los nodos de la red se encienden uno a uno,
-     4. ASTRO sale del portal y aparece su globo de diálogo.
+     1. el titular sube palabra a palabra (SplitText con máscara por palabra),
+     2. el texto y el buscador llegan escalonados,
+     3. los nodos de la red se encienden uno a uno,
+     4. ASTRO flota hacia el frente del agujero y aparece su globo.
      Con movimiento reducido no se anima nada: el CSS ya lo deja visible. */
   useGSAP(
     () => {
@@ -45,9 +91,7 @@ export function Hero() {
         const el = scope.current!;
         const title = el.querySelector<HTMLElement>("[data-hero-title]")!;
         const split = SplitText.create(title, { type: "words", mask: "words" });
-        // La máscara recorta al alto de línea (leading 1) y se comía los
-        // descendentes: la "g" de "digital". Se le da aire por abajo y se
-        // compensa con margen negativo para que el titular no crezca.
+        // La máscara recorta al alto de línea y se comía los descendentes
         split.masks.forEach((m) => {
           (m as HTMLElement).style.paddingBottom = "0.18em";
           (m as HTMLElement).style.marginBottom = "-0.18em";
@@ -56,22 +100,11 @@ export function Hero() {
         gsap.set(el.querySelectorAll("[data-intro]"), { autoAlpha: 1 });
         const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
         tl.from(split.words, { yPercent: 110, duration: 1, stagger: 0.06 })
-          .from(el.querySelectorAll("[data-hero-in]"), { y: 18, autoAlpha: 0, duration: 0.8, stagger: 0.08 }, "-=0.7");
+          .from(el.querySelectorAll("[data-hero-in]"), { y: 18, autoAlpha: 0, duration: 0.8, stagger: 0.08 }, "-=0.7")
+          .from(el.querySelectorAll("[data-node]"), { y: 24, autoAlpha: 0, scale: 0.96, duration: 0.7, stagger: 0.09 }, "-=0.5");
 
-        const logo = el.querySelector("[data-hero-logo]");
-        if (logo) {
-          const lt = gsap.timeline({ delay: 0.15 });
-          lt.from(logo.querySelector(".dn-d"), { drawSVG: "0%", duration: 1.3, ease: "power2.inOut" })
-            .from(logo.querySelectorAll(".dn-n"), { drawSVG: "0%", duration: 0.9, stagger: 0.25, ease: "power2.inOut" }, "-=0.9")
-            .from(logo.querySelectorAll(".dn-n-fx"), { autoAlpha: 0, duration: 0.8, ease: "power1.out" }, "-=0.3")
-            .from(logo.querySelector(".dn-sphere"), { scale: 0.4, autoAlpha: 0, svgOrigin: "500 420", duration: 0.9, ease: "back.out(1.6)" }, "-=1.3")
-            .from(logo.querySelector(".dn-moon"), { scale: 0, autoAlpha: 0, svgOrigin: "910 420", duration: 0.8, ease: "back.out(2)" }, "-=0.5")
-            .from(logo.querySelectorAll(".dn-ring"), { scale: 0.2, autoAlpha: 0, svgOrigin: "500 420", duration: 1.1, ease: "expo.out" }, "-=0.6")
-            .from(logo.querySelectorAll(".dn-node"), { scale: 0, transformOrigin: "50% 50%", duration: 0.5, stagger: 0.12, ease: "back.out(2.2)" }, "-=0.7");
-        }
-        // ASTRO sale del portal cuando el logo ya se está dibujando, y luego saluda con su globo
-        gsap.from(el.querySelector("[data-hero-astro]"), { y: 90, autoAlpha: 0, scale: 0.8, duration: 1.2, delay: 0.8, ease: "back.out(1.4)" });
-        gsap.from(el.querySelector("[data-hero-bubble]"), { scale: 0, autoAlpha: 0, duration: 0.6, delay: 1.7, ease: "back.out(2)" });
+        gsap.from(el.querySelector("[data-hero-astro]"), { y: 70, x: -30, rotate: -14, autoAlpha: 0, duration: 1.6, delay: 0.9, ease: "power3.out" });
+        gsap.from(el.querySelector("[data-hero-bubble]"), { scale: 0, autoAlpha: 0, duration: 0.6, delay: 2, ease: "back.out(2)" });
         return () => split.revert();
       });
     },
@@ -79,105 +112,133 @@ export function Hero() {
   );
 
   return (
-    <section ref={scope} className="relative overflow-hidden pt-[148px] pb-16 md:pt-[172px] md:pb-20">
-      <div className="mx-auto grid max-w-[1200px] items-center gap-12 px-4 md:px-6 lg:grid-cols-[1.15fr_1fr]">
-        <div data-intro>
-          <p className="kicker" data-hero-in>
-            Tienda digital · Entrega por WhatsApp
-          </p>
-          <h1 data-hero-title className="display mt-5 text-[clamp(40px,6.4vw,72px)] leading-[1]">
-            Todo lo digital, sin vueltas.
-          </h1>
-          <p data-hero-in className="mt-6 max-w-xl text-[17px] leading-relaxed text-mute md:text-lg">
-            Streaming, música, IA, pines de cine, software y gaming desde {formatCOP(minPrice)}. Eliges, pagas y lo
-            recibes en tu WhatsApp, con garantía durante toda la vigencia.
-          </p>
+    <section ref={scope} className="relative isolate overflow-hidden">
+      <div data-theme="dark" className="relative flex flex-col bg-[#05070d]">
+        {/* ── Texto ── */}
+        <div data-intro className="relative z-10 mx-auto w-full max-w-[1200px] px-4 pt-[132px] md:flex md:min-h-[min(100svh,880px)] md:items-center md:px-6 md:pb-24 md:pt-[150px]">
+          <div className="max-w-[600px]">
+            <p className="kicker" data-hero-in>
+              Dox Network · Software Solutions
+            </p>
+            <h1 data-hero-title className="display mt-5 text-[clamp(40px,6.2vw,74px)] leading-[1] text-white">
+              Todo lo que usas, en una sola red.
+            </h1>
+            <p data-hero-in className="mt-6 max-w-xl text-[17px] leading-relaxed text-mute md:text-lg">
+              Streaming, IA y software, perfumería con envío a toda Colombia y páginas web a la medida. Una sola tienda, pagos
+              locales y atención de personas por WhatsApp.
+            </p>
 
-          <form data-hero-in onSubmit={onSearch} role="search" className="mt-8 flex max-w-xl gap-2">
-            <label htmlFor="hero-q" className="sr-only">
-              Buscar productos
-            </label>
-            <div className="relative flex-1">
-              <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-faint" />
-              <input
-                id="hero-q"
-                type="search"
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder="¿Qué estás buscando?"
-                className="field pl-11"
-                autoComplete="off"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary shrink-0">
-              Buscar
-            </button>
-          </form>
+            <form data-hero-in onSubmit={onSearch} role="search" className="mt-8 flex max-w-xl gap-2">
+              <label htmlFor="hero-q" className="sr-only">
+                Buscar en la tienda
+              </label>
+              <div className="relative flex-1">
+                {/* z-10: el backdrop-blur del campo lo pintaría encima */}
+                <Search className="pointer-events-none absolute left-4 top-1/2 z-10 h-[18px] w-[18px] -translate-y-1/2 text-faint" />
+                <input
+                  id="hero-q"
+                  type="search"
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder="Una plataforma, un perfume, un servicio…"
+                  className="field bg-white/[0.06] pl-11 backdrop-blur-md"
+                  autoComplete="off"
+                />
+              </div>
+              <Magnetic>
+                <button type="submit" className="btn btn-primary shrink-0">
+                  Buscar
+                </button>
+              </Magnetic>
+            </form>
 
-          <div data-hero-in className="mt-4 flex flex-wrap items-center gap-2">
-            <span className="text-sm text-faint">Lo más buscado:</span>
-            {populares.map((p) => (
-              <Link key={p.label} to={p.to} className="chip min-h-[34px] text-[13px]">
-                {p.label}
-              </Link>
-            ))}
-          </div>
+            {/* Los nodos de la red: una puerta por línea de negocio */}
+            <ul className="mt-8 grid max-w-xl grid-cols-2 gap-2.5" aria-label="Explora la red">
+              {nodes.map((n) => (
+                <li key={n.title} data-node>
+                  <Link
+                    to={n.to}
+                    className="group relative flex h-full flex-col items-start gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3 backdrop-blur-md transition-[border-color,background-color,transform] duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.08] sm:flex-row sm:gap-3 sm:p-3.5"
+                  >
+                    <span
+                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors ${
+                        n.isNew ? "bg-gold-soft text-gold group-hover:bg-gold group-hover:text-gold-ink" : "bg-neb-soft text-neb group-hover:bg-neb group-hover:text-neb-ink"
+                      }`}
+                    >
+                      <n.icon className="h-[18px] w-[18px]" strokeWidth={1.9} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="flex items-center gap-1.5 text-[14px] font-bold leading-tight text-white sm:text-[15px]">
+                        {n.title}
+                        {n.isNew && <span className="h-1.5 w-1.5 rounded-full bg-gold" aria-label="Nuevo" />}
+                      </span>
+                      <span className="mt-0.5 block text-[12.5px] leading-snug text-mute">{n.text}</span>
+                    </span>
+                    <ArrowUpRight className="absolute right-2.5 top-2.5 h-3.5 w-3.5 text-faint opacity-0 transition-opacity group-hover:opacity-100" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-          <div data-hero-in className="mt-8 flex flex-wrap gap-3">
-            <Magnetic>
-              <Link to="/catalogo" className="btn btn-primary">
-                Ver catálogo <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Magnetic>
-            <Link to="/arma-tu-combo" className="btn btn-ghost">
-              Arma tu combo
+            <ul data-hero-in className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-mute">
+              {["Atención por WhatsApp", `Pagos con ${site.payments.slice(0, 2).join(" y ")}`, "Garantía por escrito"].map((t) => (
+                <li key={t} className="flex items-center gap-2">
+                  <Check className="h-4 w-4 text-mint" strokeWidth={2.5} /> {t}
+                </li>
+              ))}
+            </ul>
+
+            <Link data-hero-in to="/catalogo" className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-neb hover:underline md:hidden">
+              Ver todo el catálogo <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-
-          <ul data-hero-in className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-mute">
-            {[`Entrega en ~${site.deliveryMinutes} min`, `Garantía de ${site.warrantyHours} h`, "Sin cobros automáticos"].map((t) => (
-              <li key={t} className="flex items-center gap-2">
-                <Check className="h-4 w-4 text-mint" strokeWidth={2.5} /> {t}
-              </li>
-            ))}
-          </ul>
         </div>
 
-        <div data-intro className="relative isolate mx-auto w-full max-w-[360px] lg:max-w-[540px]">
-          <div
+        {/* ── Agujero negro ── En móvil es un bloque bajo el texto; desde md cubre todo el hero. */}
+        <div className="relative -mt-6 h-[380px] md:absolute md:inset-0 md:mt-0 md:h-auto">
+          <BlackHoleHeroSection
             aria-hidden="true"
-            className="absolute inset-[8%] -z-10 rounded-full blur-3xl"
-            style={{ background: "radial-gradient(circle, var(--glow-a), transparent 70%)" }}
+            focus={narrow ? [0.62, 0.4] : [0.74, 0.46]}
+            scrim={narrow ? "none" : "left"}
+            scrimStrength={0.85}
+            distance={24}
+            elevation={narrow ? -7 : -5.5}
+            roll={-20}
+            fov={narrow ? 50 : 42}
+            glow={narrow ? 0.85 : 1}
+            steps={narrow ? 180 : 300}
+            resolution={narrow ? 0.6 : 0.7}
+            hotColor="#FFF6E0"
+            midColor="#F2B24F"
+            coolColor="#3B4FC4"
+            doppler={0.4}
+            starBrightness={0.35}
+            className="bg-[#05070d]"
           />
-          <div className="relative aspect-square">
-            {/* El isotipo DN queda detrás, como portal de donde sale ASTRO */}
-            <Tilt className="absolute inset-x-0 top-0">
-              <div data-hero-logo className="opacity-45">
-                <LogoDN className="h-auto w-full" />
-              </div>
-            </Tilt>
-            {/* Brillo en el piso bajo los pies */}
-            <div
-              aria-hidden="true"
-              className="absolute bottom-[1%] left-1/2 h-[7%] w-[46%] -translate-x-1/2 rounded-[50%] blur-xl"
-              style={{ background: "var(--neb-soft)" }}
-            />
-            <div data-hero-astro className="absolute inset-x-0 bottom-[3%] flex h-[84%] justify-center">
-              <Astro pose="saludo" eager enter={false} className="h-full" />
-            </div>
-            {/* Globo de ASTRO: abre el buscador */}
+          {/* Móvil: el bloque se funde con el texto de arriba */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#05070d] to-transparent md:hidden" />
+
+          {/* ASTRO flota frente al disco; su globo (anclado a él) abre el buscador */}
+          <div
+            data-hero-astro
+            className="absolute bottom-[4%] left-[4%] z-10 h-[56%] md:bottom-[7%] md:left-[60%] md:h-[32%] lg:left-[59%] lg:h-[36%]"
+          >
+            <Astro pose="saludo" eager enter={false} decorative className="h-full" />
             <button
               type="button"
               data-hero-bubble
-              onClick={() => setSearchOpen(true)}
-              className="absolute left-0 top-[30%] max-w-[46%] origin-bottom-right rounded-2xl rounded-br-sm border border-line-strong bg-surface/95 px-3.5 py-2.5 text-left shadow-[var(--shadow)] backdrop-blur-sm transition-colors hover:border-neb sm:px-4 sm:py-3"
+              onClick={() => openSearch()}
+              className="absolute left-[74%] top-[40%] z-20 w-max max-w-[170px] origin-bottom-left md:left-[78%] md:top-[22%] md:max-w-[180px] rounded-2xl rounded-bl-sm border border-white/15 bg-[#0f1424]/85 px-3.5 py-2.5 text-left shadow-[0_18px_44px_rgba(3,6,15,0.5)] backdrop-blur-md transition-colors hover:border-neb"
             >
-              <span className="block text-[13px] font-extrabold text-ink sm:text-sm">¡Hola! Soy ASTRO</span>
-              <span className="mt-0.5 block text-xs text-mute sm:text-[13px]">¿Te ayudo a encontrar algo?</span>
+              <span className="block text-[13px] font-extrabold text-white sm:text-sm">¡Hola! Soy ASTRO</span>
+              <span className="mt-0.5 block text-xs text-mute sm:text-[13px]">¿Qué buscas hoy en la red?</span>
             </button>
           </div>
         </div>
       </div>
+
+      {/* Fuera del alcance de data-theme: se funde con el fondo del tema activo */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-[5] h-28 bg-gradient-to-b from-transparent to-bg [[data-theme=light]_&]:h-10" />
     </section>
   );
 }

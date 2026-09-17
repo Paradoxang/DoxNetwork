@@ -1,15 +1,23 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 /** Estado de interfaz compartido entre el nav y el resto: por ahora, el buscador. */
 interface UIState {
   searchOpen: boolean;
   setSearchOpen: (v: boolean) => void;
+  /** Texto con el que abre el buscador (lo escrito en el buscador del hero). */
+  searchSeed: string;
+  openSearch: (q?: string) => void;
 }
 
 const UICtx = createContext<UIState | null>(null);
 
 export function UIProvider({ children }: { children: ReactNode }) {
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchSeed, setSearchSeed] = useState("");
+  const openSearch = useCallback((q = "") => {
+    setSearchSeed(q);
+    setSearchOpen(true);
+  }, []);
 
   // Atajos globales: Ctrl/Cmd + K y "/" (si no se está escribiendo en un campo)
   useEffect(() => {
@@ -27,7 +35,18 @@ export function UIProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const value = useMemo(() => ({ searchOpen, setSearchOpen }), [searchOpen]);
+  const value = useMemo(
+    () => ({
+      searchOpen,
+      setSearchOpen: (v: boolean) => {
+        if (v) setSearchSeed("");
+        setSearchOpen(v);
+      },
+      searchSeed,
+      openSearch,
+    }),
+    [searchOpen, searchSeed, openSearch]
+  );
   return <UICtx.Provider value={value}>{children}</UICtx.Provider>;
 }
 
