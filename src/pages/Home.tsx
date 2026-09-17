@@ -1,4 +1,6 @@
+import { ChapterNav } from "@/components/ChapterNav";
 import { Deco } from "@/components/Deco";
+import { MarqueeBand } from "@/components/MarqueeBand";
 import { Seo } from "@/components/Seo";
 import { site } from "@/data/site";
 import { Benefits } from "@/sections/Benefits";
@@ -46,6 +48,7 @@ export function Home() {
       <Benefits />
       <Categories />
       <PromoCarousel />
+      <MarqueeBand />
       <CombosSection />
       <ProductTabs />
       {/* Cambio de mundo: de lo digital a lo físico, con el cromo líquido a sangre */}
@@ -59,6 +62,7 @@ export function Home() {
       <Reviews />
       <Faq />
       <Cta />
+      <ChapterNav />
     </>
   );
 }

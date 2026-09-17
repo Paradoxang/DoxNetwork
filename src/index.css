@@ -605,6 +605,49 @@
   animation: typing-dot 1s ease-in-out infinite;
 }
 
+/* Marquesina de promesas: dos copias seguidas, se desplaza media pista */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee 34s linear infinite;
+}
+.marquee:hover,
+.marquee:focus-within {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    animation: none;
+  }
+}
+
+/* Marcas de recorte: cuatro esquinas dibujadas con bordes, como en una
+   retícula de taller. Solo decoración, el contenedor sigue siendo normal. */
+.brackets::before,
+.brackets::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  border: 1px solid var(--line-strong);
+}
+.brackets::before {
+  top: 10px;
+  left: 10px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.brackets::after {
+  right: 10px;
+  bottom: 10px;
+  border-left: 0;
+  border-top: 0;
+}
+
 /* ── Aurora ──
    Dos manchas enormes de luz que orbitan muy despacio detrás del contenido.
    Es CSS puro: cero archivos y cero JavaScript. Va en las secciones sólidas

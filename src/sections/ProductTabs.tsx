@@ -32,7 +32,7 @@ export function ProductTabs() {
   const tab = tabs.find((t) => t.id === active)!;
 
   return (
-    <section className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
+    <section id="productos" className="mx-auto max-w-[1200px] scroll-mt-24 px-4 py-20 md:px-6 md:py-24">
       <SectionHeading kicker="03 · Productos" title="Lo mejor de cada línea" />
 
       <Reveal delay={0.05} className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -53,7 +53,7 @@ export function ProductTabs() {
 
       {/* El panel toma el color de la línea activa: cada pestaña cambia el ambiente */}
       <div
-        className="relative mt-6 overflow-hidden rounded-[28px] border p-3 transition-colors duration-500 md:p-5"
+        className="brackets relative mt-6 overflow-hidden rounded-[28px] border p-3 transition-colors duration-500 md:p-5"
         style={{ borderColor: tint(tab.hue, 34), background: `radial-gradient(120% 90% at 0% 0%, ${tint(tab.hue, 20)}, transparent 62%), var(--bg-soft)` }}
       >
         <Deco name="reticula" className="-right-16 -top-16 w-72" opacity={0.22} />

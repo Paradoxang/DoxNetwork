@@ -99,7 +99,7 @@ export function Faq() {
         </div>
 
         <Reveal>
-          <div className="card overflow-hidden rounded-[28px]">
+          <div className="brackets relative overflow-hidden rounded-[28px] border border-line bg-surface">
             <div className="flex items-center gap-3 border-b border-line px-5 py-3.5">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-neb-soft">
                 <img src="/favicon-192.png" alt="" width={26} height={26} className="h-[26px] w-[26px]" />
