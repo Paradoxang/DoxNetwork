@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { SectionHeading } from "@/components/SectionHeading";
 import { categories, fromPrice, products, upcoming } from "@/data/catalog";
+import { perfumeCategory, perfumeMinPrice, perfumes } from "@/data/perfumeria";
 import { formatCOP } from "@/data/site";
 import { useBatchReveal } from "@/lib/useBatchReveal";
 
@@ -41,6 +42,27 @@ export function Categories() {
             </li>
           );
         })}
+        <li data-reveal>
+          <Link
+            to="/perfumeria"
+            className="card card-hover group relative flex h-full flex-col gap-4 overflow-hidden p-4 md:p-5"
+            style={{ background: "radial-gradient(120% 90% at 100% 0%, var(--gold-soft), transparent 60%), var(--surface)" }}
+          >
+            <div className="flex items-start justify-between">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gold-soft text-gold transition-colors group-hover:bg-gold group-hover:text-gold-ink">
+                <CategoryIcon id="perfumeria" />
+              </span>
+              <span className="rounded-full bg-gold-soft px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider text-gold">Nuevo</span>
+            </div>
+            <div>
+              <p className="font-bold leading-snug">{perfumeCategory.name}</p>
+              <p className="mt-1 hidden text-sm text-mute sm:block">{perfumeCategory.blurb}</p>
+              <p className="mt-1.5 text-xs font-semibold text-faint">
+                {perfumes.length} fragancias · desde <span className="text-ink">{formatCOP(perfumeMinPrice)}</span>
+              </p>
+            </div>
+          </Link>
+        </li>
         {/* "Próximamente": catálogo que crece, sin enlaces rotos */}
         {upcoming.map((u) => (
           <li key={u.name} data-reveal>

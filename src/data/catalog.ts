@@ -14,15 +14,18 @@
  *   · Solo se tacha un precio comprobable: el combo frente a la suma de sus
  *     partes y el plan de varios meses frente al mensual × meses (`per`).
  *   · Sin nivel "genérica": cuentas recicladas de origen dudoso.
+ *
+ * IMÁGENES: `logo` apunta a /public/logos (baldosas de marca del proveedor,
+ * brand/imagenes/logos.py). Un plan puede traer su propio `logo` (Disney
+ * Estándar/Premium, Spotify 1/3 meses...). La perfumería vive aparte, en
+ * perfumeria.ts, y solo se une aquí para carrito, buscador y fichas.
  */
+
+import { perfumeCategory, perfumes, type PerfumeInfo } from "./perfumeria";
+import { down900, up900 } from "./price";
 
 /** Margen sobre el costo de proveedor. 3 = se vende a 3 veces lo que cuesta. */
 export const MARKUP = 3;
-
-/** Redondea hacia arriba a la siguiente terminación 900: 7.500 → 7.900. */
-const up900 = (n: number) => Math.max(900, Math.ceil((n - 900) / 1000) * 1000 + 900);
-/** Redondea hacia abajo a terminación 900: 41.096 → 40.900. */
-const down900 = (n: number) => Math.max(900, Math.floor((n - 900) / 1000) * 1000 + 900);
 
 export type CategoryId =
   | "combos"
@@ -32,7 +35,8 @@ export type CategoryId =
   | "ia"
   | "creatividad"
   | "gaming"
-  | "aprende";
+  | "aprende"
+  | "perfumeria";
 
 export interface Category {
   id: CategoryId;
@@ -64,6 +68,8 @@ export interface Plan {
   price: number;
   /** Costo de proveedor. Si existe, `price` se calcula con MARKUP. */
   cost?: number;
+  /** Baldosa de marca propia del plan; si no hay, se usa la del producto. */
+  logo?: string;
   /** Plan de varios periodos: se tacha contra `n` veces el precio de `plan`. */
   per?: { plan: string; n: number };
   /** Precio comprobable tachado. En combos se calcula solo (suma de partes). */
@@ -96,8 +102,12 @@ export interface Product {
   includes?: { slug: string; planId: string }[];
   /** Solo combos: a quién va dirigido. */
   forWho?: string;
-  /** Imagen propia opcional (ver docs/brief-imagenes-nano-banana.md). */
+  /** Imagen propia opcional que cubre la miniatura (ver docs/brief-imagenes-nano-banana.md). */
   image?: string;
+  /** Baldosa cuadrada con el logo de la marca, flotando sobre el tono del producto. */
+  logo?: string;
+  /** Solo perfumería. */
+  perfume?: PerfumeInfo;
   /** Solo combos: descuento frente a la suma de sus partes (0.12 = 12%). */
   comboDiscount?: number;
 }
@@ -110,6 +120,7 @@ const baseInput: ProductInput[] = [
   // ── Series y películas ──
   {
     slug: "netflix",
+    logo: "/logos/netflix.webp",
     name: "Netflix",
     category: "streaming",
     tagline: "Tu perfil propio, listo en minutos",
@@ -129,6 +140,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "disney-plus",
+    logo: "/logos/disney-estandar.webp",
     name: "Disney+",
     category: "streaming",
     tagline: "Disney, Pixar, Marvel, Star Wars y ESPN",
@@ -137,9 +149,9 @@ const baseInput: ProductInput[] = [
     hue: "#5b7cfa",
     plans: [
       { id: "pe", access: "Pantalla", tier: "Estándar", duration: "30 días", cost: 2500 },
-      { id: "pp", access: "Pantalla", tier: "Premium", duration: "30 días", cost: 6500 },
+      { id: "pp", access: "Pantalla", tier: "Premium", duration: "30 días", cost: 6500, logo: "/logos/disney-premium.webp" },
       { id: "ce", access: "Completa", tier: "Estándar", duration: "30 días", cost: 9900 },
-      { id: "cp", access: "Completa", tier: "Premium", duration: "30 días", cost: 27900 },
+      { id: "cp", access: "Completa", tier: "Premium", duration: "30 días", cost: 27900, logo: "/logos/disney-premium.webp" },
     ],
     devices: "Pantalla: 1 · Completa: hasta 4",
     features: ["Perfil propio", "Premium: 4K y deportes ESPN", "Reposición si falla durante la vigencia"],
@@ -147,6 +159,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "max",
+    logo: "/logos/max.webp",
     name: "Max",
     category: "streaming",
     tagline: "HBO, Warner, DC y Discovery",
@@ -165,6 +178,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "prime-video",
+    logo: "/logos/prime-video.webp",
     name: "Prime Video",
     category: "streaming",
     tagline: "Originales de Amazon y estrenos",
@@ -179,6 +193,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "paramount-plus",
+    logo: "/logos/paramount.webp",
     name: "Paramount+",
     category: "streaming",
     tagline: "Series, películas y Champions League",
@@ -193,6 +208,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "crunchyroll",
+    logo: "/logos/crunchyroll.webp",
     name: "Crunchyroll",
     category: "streaming",
     tagline: "El anime más grande, sin anuncios",
@@ -207,6 +223,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "apple-tv",
+    logo: "/logos/apple-tv.webp",
     name: "Apple TV+",
     category: "streaming",
     tagline: "Originales premiados de Apple",
@@ -221,6 +238,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "vix-plus",
+    logo: "/logos/vix.webp",
     name: "ViX Premium",
     category: "streaming",
     tagline: "Novelas, series y fútbol en español",
@@ -257,6 +275,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "plex",
+    logo: "/logos/plex.webp",
     name: "Plex Premium",
     category: "streaming",
     tagline: "Tu videoteca en todas tus pantallas",
@@ -273,6 +292,7 @@ const baseInput: ProductInput[] = [
   // ── Cine, TV y deportes ──
   {
     slug: "directv-go",
+    logo: "/logos/directv-go.webp",
     name: "DirecTV GO",
     category: "cine-tv",
     tagline: "TV en vivo y fútbol, plan Full",
@@ -286,6 +306,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "claro-video-win",
+    logo: "/logos/claro-video-win.webp",
     name: "Claro Video + Win+",
     category: "cine-tv",
     tagline: "Películas y todo el fútbol colombiano",
@@ -297,6 +318,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "pin-cine-colombia",
+    logo: "/logos/cine-colombia-entrada.webp",
     name: "Pin Cine Colombia",
     category: "cine-tv",
     tagline: "Entrada 2D para cualquier función",
@@ -304,7 +326,7 @@ const baseInput: ProductInput[] = [
     hue: "#d9364a",
     plans: [
       { id: "entrada", tier: "Entrada 2D", duration: "Vence en 60 días", cost: 12900 },
-      { id: "combo", tier: "Combo confitería", duration: "Vence en 60 días", cost: 14900 },
+      { id: "combo", tier: "Combo confitería", duration: "Vence en 60 días", cost: 14900, logo: "/logos/cine-colombia-confiteria.webp" },
     ],
     devices: "1 código por compra",
     features: ["Código oficial", "Redimible en todo el país", "Llega en minutos"],
@@ -312,6 +334,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "pin-cinemark",
+    logo: "/logos/cinemark-entrada.webp",
     name: "Pin Cinemark",
     category: "cine-tv",
     tagline: "Tu entrada al cine a mejor precio",
@@ -319,7 +342,7 @@ const baseInput: ProductInput[] = [
     hue: "#c2413b",
     plans: [
       { id: "entrada", tier: "Entrada 2D", duration: "Vence en 60 días", cost: 12900 },
-      { id: "combo", tier: "Combo confitería", duration: "Vence en 60 días", cost: 15900 },
+      { id: "combo", tier: "Combo confitería", duration: "Vence en 60 días", cost: 15900, logo: "/logos/cinemark-confiteria.webp" },
     ],
     devices: "1 código por compra",
     features: ["Código oficial", "Redimible en todo el país", "Llega en minutos"],
@@ -327,6 +350,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "pin-procinal",
+    logo: "/logos/procinal-entrada.webp",
     name: "Pin Procinal",
     category: "cine-tv",
     tagline: "Entrada 2D en salas Procinal",
@@ -340,6 +364,7 @@ const baseInput: ProductInput[] = [
   // ── Música ──
   {
     slug: "spotify",
+    logo: "/logos/spotify-1-mes.webp",
     name: "Spotify Premium",
     category: "musica",
     tagline: "Música sin anuncios y sin conexión",
@@ -347,7 +372,7 @@ const baseInput: ProductInput[] = [
     hue: "#3fbf74",
     plans: [
       { id: "1m", duration: "30 días", cost: 5000 },
-      { id: "3m", duration: "3 meses", cost: 13500, per: { plan: "1m", n: 3 } },
+      { id: "3m", duration: "3 meses", cost: 13500, per: { plan: "1m", n: 3 }, logo: "/logos/spotify-3-meses.webp" },
     ],
     devices: "1 cuenta, escuchas en un dispositivo a la vez",
     features: ["Sin anuncios", "Descargas sin conexión", "Reposición si falla durante la vigencia"],
@@ -356,6 +381,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "youtube-premium",
+    logo: "/logos/youtube-premium.webp",
     name: "YouTube Premium",
     category: "musica",
     tagline: "YouTube y YouTube Music sin anuncios",
@@ -373,6 +399,7 @@ const baseInput: ProductInput[] = [
   // ── IA ──
   {
     slug: "chatgpt",
+    logo: "/logos/chatgpt-go.webp",
     name: "ChatGPT",
     category: "ia",
     tagline: "Go para el día a día, Plus para todo",
@@ -381,7 +408,7 @@ const baseInput: ProductInput[] = [
     hue: "#2fb38c",
     plans: [
       { id: "go", tier: "Go", duration: "30 días", cost: 7000 },
-      { id: "plus", tier: "Plus", duration: "30 días", cost: 14900 },
+      { id: "plus", tier: "Plus", duration: "30 días", cost: 14900, logo: "/logos/chatgpt-plus.webp" },
     ],
     devices: "Tu propia cuenta",
     features: ["Modelos avanzados", "Imágenes y archivos", "Reposición si falla durante la vigencia"],
@@ -390,6 +417,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "gemini-pro",
+    logo: "/logos/gemini-pro.webp",
     name: "Gemini Pro",
     category: "ia",
     tagline: "La IA de Google con almacenamiento incluido",
@@ -409,6 +437,7 @@ const baseInput: ProductInput[] = [
   // ── Diseño y productividad ──
   {
     slug: "canva-pro",
+    logo: "/logos/canva.webp",
     name: "Canva Pro",
     category: "creatividad",
     tagline: "Plantillas premium, quitafondos y kit de marca",
@@ -427,6 +456,7 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "capcut-pro",
+    logo: "/logos/capcut.webp",
     name: "CapCut Pro",
     category: "creatividad",
     tagline: "Edición de video sin marca de agua",
@@ -452,9 +482,10 @@ const baseInput: ProductInput[] = [
   },
   {
     slug: "vpn-premium",
+    logo: "/logos/hma-vpn.webp",
     name: "VPN Premium",
     category: "creatividad",
-    tagline: "Navega privado desde cualquier red",
+    tagline: "HMA VPN: navega privado desde cualquier red",
     description: "Protege tu conexión en redes públicas y navega con privacidad.",
     hue: "#4b6cd6",
     plans: [
@@ -678,12 +709,19 @@ function withPrices(input: ProductInput): Product {
 const base = baseInput.map(withPrices);
 const combos = combosInput.map(withPrices);
 
+/** Catálogo digital: lo que recorren catálogo, combos, categorías y el inicio. */
 export const products: Product[] = [...combos, ...base];
+
+/** Digital + perfumería: para carrito, favoritos, buscador y fichas. */
+export const allProducts: Product[] = [...products, ...perfumes];
 
 // ── Utilidades ──
 
-export const categoryById = (id: string) => categories.find((c) => c.id === id);
-export const productBySlug = (slug: string) => products.find((p) => p.slug === slug);
+const bySlug = new Map(allProducts.map((p) => [p.slug, p]));
+
+export const categoryById = (id: string): Category | undefined =>
+  id === perfumeCategory.id ? perfumeCategory : categories.find((c) => c.id === id);
+export const productBySlug = (slug: string) => bySlug.get(slug);
 export const planOf = (slug: string, planId: string) =>
   productBySlug(slug)?.plans.find((pl) => pl.id === planId);
 
@@ -696,6 +734,9 @@ export const discountPct = (pl: Plan) =>
   pl.compareAt && pl.compareAt > pl.price ? Math.round((1 - pl.price / pl.compareAt) * 100) : 0;
 /** Mayor descuento comprobable del producto (para el badge de la tarjeta). */
 export const bestDiscount = (p: Product) => Math.max(0, ...p.plans.map(discountPct));
+
+/** Baldosa de marca del plan, o la del producto. */
+export const logoOf = (p: Product, pl?: Plan) => pl?.logo ?? p.logo;
 
 /** Nombre corto del plan a partir de sus ejes: "Pantalla · Premium · 30 días". */
 export const planLabel = (pl: Plan) => [pl.access, pl.tier, pl.duration].filter(Boolean).join(" · ");

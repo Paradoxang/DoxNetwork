@@ -127,7 +127,7 @@ export function Nav() {
         if (e.pointerType === "mouse") enter(id);
       }}
       onPointerLeave={(e) => e.pointerType === "mouse" && leave()}
-      className={`relative flex items-center gap-1 rounded-full px-3.5 py-2 text-[15px] font-semibold transition-colors ${
+      className={`relative flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold transition-colors ${
         menu === id ? "text-ink" : "text-mute hover:text-ink"
       }`}
     >
@@ -137,14 +137,14 @@ export function Nav() {
     </button>
   );
 
-  const link = (to: string, label: string, key: string) => (
+  const link = (to: string, label: string, key: string, className = "") => (
     <Link
       to={to}
       onPointerEnter={() => {
         setHover(key);
         leave();
       }}
-      className="relative rounded-full px-3.5 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink"
+      className={`relative whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink ${className}`}
     >
       {hover === key && <Pill reduced={reduced} />}
       <span className="relative">{label}</span>
@@ -194,8 +194,21 @@ export function Nav() {
           <nav className="hidden items-center lg:flex" aria-label="Principal">
             {trigger("categorias", "Categorías")}
             {trigger("combos", "Combos")}
-            {link("/catalogo?ofertas=1", "Ofertas", "ofertas")}
-            {link("/arma-tu-combo", "Arma tu combo", "arma")}
+            <Link
+              to="/perfumeria"
+              onPointerEnter={() => {
+                setHover("perfumeria");
+                leave();
+              }}
+              className="relative flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink"
+            >
+              {hover === "perfumeria" && <Pill reduced={reduced} />}
+              <span className="relative">Perfumería</span>
+              <span className="relative h-1.5 w-1.5 rounded-full bg-gold" aria-label="Nuevo" />
+            </Link>
+            {/* Con Perfumería no caben todos en lg: Ofertas y Arma tu combo siguen en el menú móvil y en Combos */}
+            {link("/catalogo?ofertas=1", "Ofertas", "ofertas", "hidden xl:block")}
+            {link("/arma-tu-combo", "Arma tu combo", "arma", "hidden xl:block")}
             {trigger("ayuda", "Ayuda")}
           </nav>
 
@@ -203,11 +216,11 @@ export function Nav() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="icon-btn lg:w-auto lg:gap-2 lg:px-3.5"
+              className="icon-btn 2xl:w-auto 2xl:gap-2 2xl:px-3.5"
               aria-label="Buscar (Ctrl + K)"
             >
               <Search className="h-[18px] w-[18px]" />
-              <kbd className="hidden rounded-md border border-line px-1.5 py-0.5 font-sans text-[11px] text-faint lg:inline">Ctrl K</kbd>
+              <kbd className="hidden rounded-md border border-line px-1.5 py-0.5 font-sans text-[11px] text-faint 2xl:inline">Ctrl K</kbd>
             </button>
             <Link to="/favoritos" className="icon-btn relative hidden sm:inline-flex" aria-label={`Favoritos, ${favorites.length}`}>
               <Heart className="h-[18px] w-[18px]" />
@@ -537,6 +550,7 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
             </Accordion>
 
             {[
+              { to: "/perfumeria", label: "Perfumería" },
               { to: "/catalogo?ofertas=1", label: "Ofertas" },
               { to: "/arma-tu-combo", label: "Arma tu combo" },
               { to: "/favoritos", label: "Favoritos" },

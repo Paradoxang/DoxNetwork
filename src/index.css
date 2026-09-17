@@ -399,3 +399,22 @@
     animation: none;
   }
 }
+
+/* Cinta de perfumes del inicio: dos copias seguidas, se desplaza media pista */
+@keyframes cinta {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.cinta {
+  animation: cinta 60s linear infinite;
+}
+.cinta:hover,
+.cinta:focus-within {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinta {
+    animation: none;
+  }
+}

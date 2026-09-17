@@ -6,6 +6,7 @@ import {
   Music2,
   Palette,
   Sparkles,
+  SprayCan,
   Ticket,
   type LucideIcon,
 } from "lucide-react";
@@ -20,6 +21,7 @@ const icons: Record<CategoryId, LucideIcon> = {
   creatividad: Palette,
   gaming: Gamepad2,
   aprende: GraduationCap,
+  perfumeria: SprayCan,
 };
 
 export function CategoryIcon({ id, className = "h-5 w-5" }: { id: CategoryId; className?: string }) {

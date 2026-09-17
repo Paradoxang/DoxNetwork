@@ -24,3 +24,6 @@ vite.config.d.ts
 # ASTRO: originales con fondo y másteres recortados (se regeneran con brand/astro/key_astro.py)
 /M_astro-*.png
 brand/astro/png/
+
+# Exports del proveedor (imágenes y CSV de origen)
+/*.zip

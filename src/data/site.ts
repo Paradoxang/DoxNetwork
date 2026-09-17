@@ -41,6 +41,7 @@ export const comboTiers = [
 /** Mensajes de la barra superior rotativa (la de Emprendered, sin promesas vacías). */
 export const announcements = [
   `Entrega por WhatsApp en ~${site.deliveryMinutes} minutos`,
+  "Nuevo: perfumería con envío a toda Colombia",
   "Arma tu combo y ahorra hasta 15%",
   `Garantía: reponemos en menos de ${site.warrantyHours} h`,
 ];

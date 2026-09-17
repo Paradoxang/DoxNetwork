@@ -14,12 +14,14 @@ export function SmartImage({
   className = "",
   eager = false,
   sizes,
+  srcSet,
 }: {
   src?: string;
   alt?: string;
   className?: string;
   eager?: boolean;
   sizes?: string;
+  srcSet?: string;
 }) {
   const ref = useRef<HTMLImageElement>(null);
   const [ok, setOk] = useState(false);
@@ -35,6 +37,7 @@ export function SmartImage({
       ref={ref}
       src={src}
       alt={alt}
+      srcSet={srcSet}
       sizes={sizes}
       loading={eager ? "eager" : "lazy"}
       decoding="async"

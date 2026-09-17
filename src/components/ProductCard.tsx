@@ -10,6 +10,7 @@ import {
   planLabel,
   type Product,
 } from "@/data/catalog";
+import { families, paraLabel } from "@/data/perfumeria";
 import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
 import { ProductArt } from "@/components/ProductArt";
@@ -95,6 +96,12 @@ export function ProductCard({ product }: { product: Product }) {
   const plan = cheapestPlan(product);
   const quote = plan.price === 0;
   const category = categoryById(product.category);
+  const perfume = product.perfume;
+  const kicker = perfume ? perfume.brand || "Perfumería" : category?.name;
+  const title = perfume ? perfume.line : product.name;
+  const tagline = perfume
+    ? [paraLabel[perfume.para], perfume.family && families[perfume.family].label].filter(Boolean).join(" · ")
+    : product.tagline;
 
   const onAdd = () => {
     add(product.slug, plan.id);
@@ -110,11 +117,11 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
         <div className="flex flex-1 flex-col gap-1.5 p-4 pb-2">
           <div className="flex items-center justify-between gap-2">
-            <span className="truncate text-xs font-semibold text-faint">{category?.name}</span>
+            <span className={`truncate text-xs font-semibold text-faint ${perfume ? "uppercase tracking-[0.08em]" : ""}`}>{kicker}</span>
             <ProductBadge product={product} />
           </div>
-          <h3 className="text-[17px] font-bold leading-snug text-ink">{product.name}</h3>
-          <p className="line-clamp-2 text-sm text-mute">{product.tagline}</p>
+          <h3 className="text-[17px] font-bold leading-snug text-ink">{title}</h3>
+          <p className="line-clamp-2 text-sm text-mute">{tagline}</p>
           <StockHint product={product} />
         </div>
       </Link>

@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
+import { Minus, Plus, ShoppingBag, Trash2, Truck, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { planLabel } from "@/data/catalog";
@@ -7,6 +7,7 @@ import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
 import { EASE, lockScroll } from "@/lib/anim";
 import { ProductArt } from "@/components/ProductArt";
+import { shipping } from "@/data/perfumeria";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 export function CartDrawer() {
@@ -112,7 +113,7 @@ export function CartDrawer() {
                         transition={{ duration: 0.3, ease: EASE }}
                         className="card flex gap-3 p-3"
                       >
-                        <ProductArt product={l.product} size="sm" className="w-20 shrink-0 self-start rounded-xl" />
+                        <ProductArt product={l.product} plan={l.plan} size="sm" className="w-20 shrink-0 self-start rounded-xl" />
                         <div className="flex min-w-0 flex-1 flex-col">
                           <div className="flex items-start justify-between gap-2">
                             <div className="min-w-0">
@@ -190,6 +191,11 @@ export function CartDrawer() {
                     </div>
                   </dl>
                   {hasQuote && <p className="text-xs text-faint">Los servicios a cotizar se confirman por WhatsApp.</p>}
+                  {cart.lines.some((l) => l.product.perfume) && (
+                    <p className="flex items-start gap-2 text-xs text-faint">
+                      <Truck className="h-3.5 w-3.5 shrink-0" /> Perfumes: {shipping.detail.charAt(0).toLowerCase() + shipping.detail.slice(1)}
+                    </p>
+                  )}
                   <a href={cart.checkoutUrl} target="_blank" rel="noopener noreferrer" className="btn btn-buy w-full">
                     <WhatsAppIcon className="h-5 w-5" />
                     Finalizar pedido por WhatsApp

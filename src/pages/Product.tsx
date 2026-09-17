@@ -1,12 +1,18 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
+  BadgeCheck,
   CalendarClock,
   Check,
   ChevronRight,
+  Info,
   MonitorSmartphone,
   ShieldCheck,
   ShoppingBag,
+  Sparkles,
+  Tag,
+  Truck,
   UserRound,
+  Wallet,
   Zap,
 } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -26,6 +32,7 @@ import {
   productBySlug,
   products,
 } from "@/data/catalog";
+import { disclaimer, families, paraLabel, perfumes, qualityInfo, shipping } from "@/data/perfumeria";
 import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, Reveal } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
@@ -52,9 +59,17 @@ export function Product() {
   const combo = isCombo(product);
   const off = discountPct(plan);
   const url = `${site.url}/producto/${product.slug}`;
-  const related = products
-    .filter((p) => p.category === product.category && p.slug !== product.slug)
-    .slice(0, 4);
+  const perfume = product.perfume;
+  const related = perfume
+    ? // Primero misma familia y mismo público, luego solo misma familia o mismo público
+      perfumes
+        .filter((p) => p.slug !== product.slug)
+        .map((p) => ({ p, score: (p.perfume!.family === perfume.family ? 2 : 0) + (p.perfume!.para === perfume.para ? 1 : 0) }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 4)
+        .map((x) => x.p)
+    : products.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 4);
+  const listPath = perfume ? "/perfumeria" : `/catalogo?categoria=${product.category}`;
 
   // Mensaje precargado con nombre, plan y enlace (lo mejor de Torostream)
   const buyNow = waLink(
@@ -63,7 +78,16 @@ export function Product() {
       : `Hola ${site.name}, quiero comprar: ${product.name} (${planLabel(plan)}) por ${formatCOP(plan.price)}.\n${url}`
   );
 
-  const details = [
+  const details = perfume
+    ? ([
+        perfume.brand && { icon: Tag, label: "Fragancia de referencia", value: perfume.brand },
+        { icon: UserRound, label: "Para", value: paraLabel[perfume.para] },
+        { icon: BadgeCheck, label: "Calidad", value: qualityInfo[perfume.quality].label },
+        perfume.family && { icon: Sparkles, label: "Familia olfativa", value: families[perfume.family].label },
+        { icon: Truck, label: "Envío", value: shipping.short },
+        { icon: Wallet, label: "Pago", value: site.payments.slice(0, 2).join(" · ") },
+      ].filter(Boolean) as { icon: typeof Zap; label: string; value: string }[])
+    : [
     plan.access && {
       icon: UserRound,
       label: "Tipo de acceso",
@@ -105,7 +129,7 @@ export function Product() {
         <nav aria-label="Ruta" className="mb-6 flex flex-wrap items-center gap-1 text-sm text-faint">
           <Link to="/" className="hover:text-ink">Inicio</Link>
           <ChevronRight className="h-3.5 w-3.5" />
-          <Link to={`/catalogo?categoria=${product.category}`} className="hover:text-ink">{category?.name}</Link>
+          <Link to={listPath} className="hover:text-ink">{category?.name}</Link>
           <ChevronRight className="h-3.5 w-3.5" />
           <span className="text-mute" aria-current="page">{product.name}</span>
         </nav>
@@ -113,7 +137,7 @@ export function Product() {
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
           <Reveal className="lg:sticky lg:top-28 lg:self-start">
             <div className="relative">
-              <ProductArt product={product} size="lg" className="card rounded-[22px]" />
+              <ProductArt product={product} plan={plan} size="lg" className="card rounded-[22px]" />
               <FavoriteButton product={product} className="absolute right-4 top-4 h-11 w-11" />
             </div>
             {combo && (
@@ -161,7 +185,9 @@ export function Product() {
 
           <Reveal delay={0.08} className="flex flex-col">
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-sm font-semibold text-faint">{combo ? product.forWho : category?.name}</span>
+              <span className={`text-sm font-semibold text-faint ${perfume ? "uppercase tracking-[0.08em]" : ""}`}>
+                {combo ? product.forWho : perfume ? perfume.brand || category?.name : category?.name}
+              </span>
               <ProductBadge product={product} />
               <StockHint product={product} />
             </div>
@@ -249,11 +275,21 @@ export function Product() {
               ))}
             </ul>
 
-            <p className="mt-6 text-sm text-faint">
-              ¿Dudas con el plan? Revisa las{" "}
-              <Link to="/#preguntas" className="font-semibold text-neb hover:underline">preguntas frecuentes</Link> o{" "}
-              <Link to="/arma-tu-combo" className="font-semibold text-neb hover:underline">combínalo y ahorra</Link>.
-            </p>
+            {perfume ? (
+              <>
+                <p className="mt-6 text-sm text-faint">{shipping.detail}</p>
+                <p className="mt-4 flex gap-3 rounded-2xl border border-line bg-surface p-4 text-sm text-mute">
+                  <Info className="mt-0.5 h-4 w-4 shrink-0 text-faint" />
+                  {disclaimer}
+                </p>
+              </>
+            ) : (
+              <p className="mt-6 text-sm text-faint">
+                ¿Dudas con el plan? Revisa las{" "}
+                <Link to="/#preguntas" className="font-semibold text-neb hover:underline">preguntas frecuentes</Link> o{" "}
+                <Link to="/arma-tu-combo" className="font-semibold text-neb hover:underline">combínalo y ahorra</Link>.
+              </p>
+            )}
           </Reveal>
         </div>
       </section>
@@ -261,8 +297,8 @@ export function Product() {
       {related.length > 0 && (
         <section className="border-t border-line bg-bg-soft">
           <div className="mx-auto max-w-[1200px] px-4 py-16 md:px-6">
-            <h2 className="display text-[clamp(24px,3vw,32px)]">También te puede interesar</h2>
-            <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <h2 className="display text-[clamp(24px,3vw,32px)]">{perfume ? "Fragancias parecidas" : "También te puede interesar"}</h2>
+            <ul className={`mt-8 grid gap-4 lg:grid-cols-4 ${perfume ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2"}`}>
               {related.map((p) => (
                 <li key={p.slug}>
                   <ProductCard product={p} />

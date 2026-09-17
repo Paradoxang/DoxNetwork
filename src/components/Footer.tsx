@@ -1,6 +1,7 @@
 import { Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import { categories } from "@/data/catalog";
+import { perfumeCategory } from "@/data/perfumeria";
 import { site, waLink } from "@/data/site";
 import { LogoDN } from "@/components/LogoDN";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -36,6 +37,11 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link to="/perfumeria" className="text-mute transition-colors hover:text-neb">
+                {perfumeCategory.name}
+              </Link>
+            </li>
           </ul>
         </div>
 

@@ -10,7 +10,7 @@ import { PromoPeek } from "@/components/PromoPeek";
 import { SearchPalette } from "@/components/SearchPalette";
 import { Toast } from "@/components/Toast";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import { products } from "@/data/catalog";
+import { allProducts } from "@/data/catalog";
 import { site, waLink } from "@/data/site";
 import { EASE, scrollToTarget, useLenis } from "@/lib/anim";
 import { CartProvider, useCart } from "@/lib/cart";
@@ -20,6 +20,7 @@ import { ComboBuilder } from "@/pages/ComboBuilder";
 import { Favorites } from "@/pages/Favorites";
 import { Home } from "@/pages/Home";
 import { NotFound } from "@/pages/NotFound";
+import { Perfumeria } from "@/pages/Perfumeria";
 import { Product } from "@/pages/Product";
 import { Terms } from "@/pages/Terms";
 
@@ -60,7 +61,7 @@ function Shell() {
   // Burbuja de WhatsApp con contexto: en una ficha, el mensaje ya lleva el producto y su enlace
   useEffect(() => {
     const m = location.pathname.match(/^\/producto\/([^/]+)/);
-    const p = m && products.find((x) => x.slug === m[1]);
+    const p = m && allProducts.find((x) => x.slug === m[1]);
     setWaHref(
       waLink(
         p
@@ -136,8 +137,9 @@ export const routes: RouteRecord[] = [
       {
         path: "producto/:slug",
         element: <Product />,
-        getStaticPaths: () => products.map((p) => `producto/${p.slug}`),
+        getStaticPaths: () => allProducts.map((p) => `producto/${p.slug}`),
       },
+      { path: "perfumeria", element: <Perfumeria /> },
       { path: "arma-tu-combo", element: <ComboBuilder /> },
       { path: "favoritos", element: <Favorites /> },
       { path: "terminos", element: <Terms /> },
