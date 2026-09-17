@@ -71,7 +71,7 @@ export function PromoCarousel() {
         onFocusCapture={() => setHoverPaused(true)}
         onBlurCapture={() => setHoverPaused(false)}
       >
-        <div className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[21/8]">
+        <div className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-[64/27]">
           <AnimatePresence initial={false} custom={dir} mode="popLayout">
             <motion.div
               key={p.id}
@@ -102,8 +102,10 @@ export function PromoCarousel() {
                 <ellipse cx="300" cy="300" rx="280" ry="70" fill="none" stroke="var(--gold)" strokeWidth="1.5" transform="rotate(30 300 300)" />
                 <circle cx="300" cy="300" r="70" fill={p.hue} opacity="0.35" />
               </svg>
-              {/* Dirección de arte: 21:9 en escritorio, 4:5 en móvil (docs/brief-imagenes-nano-banana.md) */}
-              <SmartImage src={p.image} eager={index === 0} className={`absolute inset-0 h-full w-full object-cover ${p.imageMobile ? "hidden sm:block" : ""}`} />
+              {/* Dirección de arte: banner ~2,37:1 en escritorio (el contenedor usa esa misma proporción
+                  para no recortar) y 4:5 en móvil. En tablet el banner se ancla a la derecha,
+                  donde está el sujeto. */}
+              <SmartImage src={p.image} eager={index === 0} className={`absolute inset-0 h-full w-full object-cover object-[80%_50%] ${p.imageMobile ? "hidden sm:block" : ""}`} />
               {p.imageMobile && <SmartImage src={p.imageMobile} eager={index === 0} className="absolute inset-0 h-full w-full object-cover sm:hidden" />}
               {/* Velo para que el texto se lea sobre cualquier imagen */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#060912]/85 via-[#060912]/35 to-transparent sm:bg-gradient-to-r sm:from-[#060912]/80 sm:via-[#060912]/40" />

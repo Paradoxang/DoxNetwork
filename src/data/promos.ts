@@ -16,7 +16,7 @@ export interface Promo {
   cta: { label: string; to: string };
   /** Tono principal del fondo de respaldo. */
   hue: string;
-  /** Escritorio y tablet, 21:9. */
+  /** Escritorio y tablet, banner ~2,37:1 (21:9). */
   image?: string;
   /** Móvil, 4:5. Si falta, se usa `image` recortada. */
   imageMobile?: string;

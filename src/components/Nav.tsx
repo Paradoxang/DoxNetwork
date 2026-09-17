@@ -183,10 +183,10 @@ export function Nav() {
           if (e.pointerType === "mouse") leave();
         }}
       >
-        <div className="mx-auto flex h-[72px] max-w-[1200px] items-center justify-between gap-4 px-4 md:px-6">
-          <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="DoxNetwork, inicio">
-            <LogoDN className="h-9 w-auto transition-transform duration-300 group-hover:scale-105" />
-            <span className="font-display text-[19px] leading-none tracking-[0.08em] text-ink transition-colors group-hover:text-neb">
+        <div className="mx-auto flex h-[72px] max-w-[1200px] items-center justify-between gap-2 px-3 sm:gap-4 sm:px-4 md:px-6">
+          <Link to="/" className="group flex min-w-0 shrink items-center gap-2 sm:gap-2.5" aria-label="DoxNetwork, inicio">
+            <LogoDN className="h-8 w-auto shrink-0 transition-transform duration-300 group-hover:scale-105 sm:h-9" />
+            <span className="truncate font-display text-[15px] leading-none tracking-[0.06em] text-ink transition-colors group-hover:text-neb min-[400px]:text-[17px] sm:text-[19px] sm:tracking-[0.08em]">
               DOX<span className="text-neb">NETWORK</span>
             </span>
           </Link>
@@ -199,7 +199,7 @@ export function Nav() {
             {trigger("ayuda", "Ayuda")}
           </nav>
 
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex shrink-0 items-center gap-1 sm:gap-2">
             <button
               type="button"
               onClick={() => setSearchOpen(true)}

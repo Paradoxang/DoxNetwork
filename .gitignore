@@ -15,3 +15,8 @@ vite.config.d.ts
 /*.docx
 /*.pdf
 /*.xlsx
+
+# Originales de assets y exportaciones de logo sueltas en la raíz: la web usa
+# las versiones optimizadas de public/promos y brand/export
+/PD_asset_*.png
+/Logo*.png

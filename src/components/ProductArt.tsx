@@ -25,7 +25,7 @@ export function ProductArt({
 
   return (
     <div
-      className={`relative isolate flex ${size === "md" ? "aspect-[16/9] sm:aspect-[4/3]" : size === "wide" ? "aspect-[16/7]" : "aspect-[4/3]"} items-center justify-center overflow-hidden ${className}`}
+      className={`relative isolate flex ${size === "md" ? "aspect-[16/9] sm:aspect-[4/3]" : size === "wide" ? "aspect-[16/9]" : "aspect-[4/3]"} items-center justify-center overflow-hidden ${className}`}
       style={{
         background: `radial-gradient(120% 90% at 20% 0%, ${product.hue}55, transparent 60%),
           radial-gradient(90% 80% at 100% 100%, ${product.hue}33, transparent 65%),
@@ -37,7 +37,8 @@ export function ProductArt({
         <ellipse cx="200" cy="150" rx="170" ry="44" fill="none" stroke={product.hue} strokeWidth="1.2" transform="rotate(-18 200 150)" />
       </svg>
 
-      {parts.length > 0 ? (
+      {/* Con imagen propia no se dibujan iniciales: se verían a través del fundido de entrada */}
+      {product.image ? null : parts.length > 0 ? (
         <div className="flex items-center">
           {parts.map((p, i) => (
             <span
@@ -60,11 +61,12 @@ export function ProductArt({
         </span>
       )}
 
-      <SmartImage src={product.image} className="absolute inset-0 h-full w-full object-cover" />
+      {/* z-10: los círculos de las iniciales llevan z-index propio y se pintarían encima */}
+      <SmartImage src={product.image} eager={big} className="absolute inset-0 z-10 h-full w-full object-cover" />
 
       {!small && (
         <span
-          className={`absolute left-3 top-3 flex items-center justify-center rounded-full bg-bg/70 text-ink backdrop-blur-sm ${big ? "h-10 w-10" : "h-8 w-8"}`}
+          className={`absolute left-3 top-3 z-20 flex items-center justify-center rounded-full bg-bg/70 text-ink backdrop-blur-sm ${big ? "h-10 w-10" : "h-8 w-8"}`}
         >
           <CategoryIcon id={product.category} className={big ? "h-5 w-5" : "h-4 w-4"} />
         </span>
