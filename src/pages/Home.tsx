@@ -1,6 +1,5 @@
 import { Seo } from "@/components/Seo";
-import { minPrice } from "@/data/catalog";
-import { formatCOP, site } from "@/data/site";
+import { site } from "@/data/site";
 import { Benefits } from "@/sections/Benefits";
 import { Categories } from "@/sections/Categories";
 import { CombosSection } from "@/sections/CombosSection";
@@ -22,7 +21,7 @@ export function Home() {
   return (
     <>
       <Seo
-        title={`${site.name} · Streaming, IA y pines de cine desde ${formatCOP(minPrice)}`}
+        title="Dox Network Software Solutions"
         description={site.description}
         path="/"
         jsonLd={{
