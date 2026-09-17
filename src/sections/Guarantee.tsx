@@ -35,7 +35,7 @@ const items = [
 
 export function Guarantee() {
   return (
-    <section id="garantia" className="relative isolate overflow-hidden border-y border-mint-ink/10 bg-mint text-mint-ink">
+    <section id="garantia" className="slant relative isolate overflow-hidden bg-mint text-mint-ink">
       <Deco name="escudo" className="-right-16 -top-10 w-72 md:w-[420px]" opacity={0.16} />
 
       <div className="relative mx-auto grid max-w-[1200px] gap-10 px-4 py-16 md:px-6 md:py-20 lg:grid-cols-[minmax(0,1fr)_1.05fr] lg:items-center lg:gap-16">

@@ -34,7 +34,7 @@ export function MarqueeBand() {
   );
 
   return (
-    <section aria-label="Cómo compras en Dox Network" className="relative overflow-hidden border-y border-line bg-bg-soft py-3.5">
+    <section aria-label="Cómo compras en Dox Network" className="relative overflow-hidden border-y border-line bg-surface py-3.5">
       <Deco name="banda" className="left-1/2 top-1/2 w-[1400px] -translate-x-1/2 -translate-y-1/2" opacity={0.12} />
       <div className="relative flex w-max marquee">
         {fila(false)}

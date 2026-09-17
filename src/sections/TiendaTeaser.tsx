@@ -50,7 +50,7 @@ export function TiendaTeaser() {
   );
 
   return (
-    <section ref={scope} id="envios" className="echo-section relative isolate overflow-hidden border-y border-line py-20 md:py-28">
+    <section ref={scope} id="envios" className="echo-section slant relative isolate overflow-hidden py-20 md:py-28">
       {/* Eco del agujero negro: núcleo oscuro con disco violeta */}
       <div data-halo aria-hidden="true" className="hole-echo pointer-events-none absolute -right-[18%] -top-[12%] -z-10 w-[min(1100px,120vw)]" />
       <Deco name="nebulosa" className="-left-32 -top-24 -z-10 w-[760px]" opacity={0.22} />

@@ -648,6 +648,29 @@
   border-top: 0;
 }
 
+/* ── Cortes inclinados ──
+   Las franjas con fondo propio no terminan en horizontal sino con un corte de
+   unos 2°, siempre en la misma dirección (sube hacia la derecha) para que se
+   lea como un sistema y no como un adorno suelto. Va con clip-path y no con
+   pseudo-elementos para que el corte respete el fondo, el atrezo y el borde
+   redondeado de lo que haya dentro.
+
+   Ojo: clip-path recorta lo que se sale, así que no se usa en secciones con
+   elementos fijos por scroll (el teléfono de "Cómo comprar" y la columna de
+   preguntas van rectas a propósito). */
+.slant {
+  --slant: clamp(14px, 2vw, 40px);
+  clip-path: polygon(0 var(--slant), 100% 0, 100% calc(100% - var(--slant)), 0 100%);
+  border: 0 !important;
+}
+/* El margen negativo mete la sección medio corte en sus vecinas, para que la
+   cuña de fondo que deja el recorte no se lea como un hueco. El relleno lo
+   sigue poniendo cada sección: si lo fijara aquí pisaría su propio py-* y el
+   contenido se saldría por el corte. */
+.slant {
+  margin-block: calc(var(--slant) * -0.5);
+}
+
 /* ── Aurora ──
    Dos manchas enormes de luz que orbitan muy despacio detrás del contenido.
    Es CSS puro: cero archivos y cero JavaScript. Va en las secciones sólidas

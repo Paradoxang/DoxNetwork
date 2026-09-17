@@ -11,7 +11,7 @@ import { Reveal } from "@/lib/anim";
  */
 export function Cta() {
   return (
-    <section className="relative isolate overflow-hidden border-y border-gold-ink/10 bg-gold text-gold-ink">
+    <section className="slant relative isolate overflow-hidden bg-gold text-gold-ink">
       <Deco name="llave" className="-left-12 -top-14 w-44 md:w-64" opacity={0.22} rotate={-18} />
 
       <div className="relative mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-16 md:flex-row md:items-center md:justify-between md:px-6 md:py-20 2xl:pr-56">

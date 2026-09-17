@@ -60,7 +60,7 @@ export function DoxDesigns() {
   );
 
   return (
-    <section ref={scope} id="dox-designs" className="relative overflow-hidden border-y border-line bg-bg-soft">
+    <section ref={scope} id="dox-designs" className="slant relative overflow-hidden bg-bg-soft">
       {/* Luces de fondo */}
       <div
         aria-hidden="true"
