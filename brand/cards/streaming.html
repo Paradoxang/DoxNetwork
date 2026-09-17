@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Card</title>
+
+  <style>
+@font-face { font-family: "Manrope"; src: url("../../node_modules/@fontsource/manrope/files/manrope-latin-500-normal.woff2") format("woff2"); font-weight: 500; font-display: block; }
+@font-face { font-family: "Manrope"; src: url("../../node_modules/@fontsource/manrope/files/manrope-latin-600-normal.woff2") format("woff2"); font-weight: 600; font-display: block; }
+@font-face { font-family: "Manrope"; src: url("../../node_modules/@fontsource/manrope/files/manrope-latin-700-normal.woff2") format("woff2"); font-weight: 700; font-display: block; }
+@font-face { font-family: "Manrope"; src: url("../../node_modules/@fontsource/manrope/files/manrope-latin-800-normal.woff2") format("woff2"); font-weight: 800; font-display: block; }
+</style>
+  <style>
+    @font-face { font-family: "Oxanium"; src: url("../../public/fonts/oxanium-600.woff2") format("woff2"); font-weight: 600; font-display: block; }
+    @font-face { font-family: "Oxanium"; src: url("../../public/fonts/oxanium-700.woff2") format("woff2"); font-weight: 700 800; font-display: block; }
+    @font-face { font-family: "Sono"; src: url("../../public/fonts/sono-variable.woff2") format("woff2"); font-weight: 200 800; font-display: block; }
+    body { margin: 0; background: #0f1424; }
+    a { color: #0b2a1f; text-decoration: none; } a:hover { color: #0b2a1f; }
+    .stars { background-image: radial-gradient(3px 3px at 7% 5%, rgba(233,237,247,.7) 50%, transparent 52%), radial-gradient(2px 2px at 23% 11%, rgba(233,237,247,.5) 50%, transparent 52%), radial-gradient(3px 3px at 41% 4%, rgba(242,196,109,.7) 50%, transparent 52%), radial-gradient(2px 2px at 63% 9%, rgba(233,237,247,.55) 50%, transparent 52%), radial-gradient(3px 3px at 88% 6%, rgba(154,169,255,.8) 50%, transparent 52%), radial-gradient(2px 2px at 94% 30%, rgba(233,237,247,.5) 50%, transparent 52%), radial-gradient(2px 2px at 4% 42%, rgba(233,237,247,.45) 50%, transparent 52%), radial-gradient(3px 3px at 52% 38%, rgba(154,169,255,.5) 50%, transparent 52%), radial-gradient(2px 2px at 81% 52%, rgba(233,237,247,.45) 50%, transparent 52%), radial-gradient(2px 2px at 14% 66%, rgba(242,196,109,.5) 50%, transparent 52%), radial-gradient(2px 2px at 33% 74%, rgba(233,237,247,.4) 50%, transparent 52%); }
+  </style>
+<style>html,body{margin:0;padding:0;background:#0f1424;} .card{width:1080px;height:1350px;}</style>
+</head>
+<body>
+<div class="card">
+
+<div style="width: 1080px; height: 1350px; box-sizing: border-box; padding: 56px 64px; position: relative; overflow: hidden; background: #0f1424; font-family: Manrope, system-ui, sans-serif; color: #e9edf7; display: flex; flex-direction: column;">
+  <div class="stars" style="position: absolute; left: 0; top: 0; width: 1080px; height: 1350px;"></div>
+  <div style="position: absolute; right: -30px; top: 30px; width: 440px; height: 440px; border-radius: 50%; background: radial-gradient(circle, rgba(115,132,242,.32) 0%, rgba(15,20,36,0) 66%);"></div>
+  <img src="../../public/astro/astro-cine.webp" alt="ASTRO con crispetas" style="position: absolute; right: 50px; top: 90px; height: 280px; width: auto; z-index: 1;">
+  <div style="position: relative; z-index: 2; display: flex; flex-direction: column; flex-grow: 1;">
+    <div style="display: flex; align-items: center; gap: 24px;"><img src="../../public/brand/doxnetwork-color.svg" alt="DoxNetwork" style="height: 76px; width: auto;"><span style="font-family: Sono, ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 44px; letter-spacing: .04em; color: #c9d1ff;">PANTALLA · 30 DÍAS</span></div>
+    <h1 style="margin: 34px 0 0; font-family: Oxanium, Manrope, sans-serif; font-weight: 700; letter-spacing: -0.01em; font-size: 96px; line-height: 1; color: #ffffff;">Tu perfil,<br><span style="color: #f2c46d;">con tu PIN</span></h1>
+    <div style="margin-top: 30px; display: flex; flex-direction: column;">
+      <div style="display: flex; align-items: center; gap: 24px; padding: 14px 0; border-bottom: 2px solid rgba(233,237,247,.08);"><img src="../../public/logos/netflix.webp" alt="" style="width: 84px; height: 84px; border-radius: 20px; object-fit: cover;"><span style="flex-grow: 1; font-size: 54px; font-weight: 700;">Netflix</span><span style="font-family: Sono, ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 64px; color: #f2c46d;">$13.900</span></div>
+      <div style="display: flex; align-items: center; gap: 24px; padding: 14px 0; border-bottom: 2px solid rgba(233,237,247,.08);"><img src="../../public/logos/disney-premium.webp" alt="" style="width: 84px; height: 84px; border-radius: 20px; object-fit: cover;"><span style="flex-grow: 1; font-size: 54px; font-weight: 700;">Disney+ Premium</span><span style="font-family: Sono, ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 64px; color: #f2c46d;">$11.900</span></div>
+      <div style="display: flex; align-items: center; gap: 24px; padding: 14px 0; border-bottom: 2px solid rgba(233,237,247,.08);"><img src="../../public/logos/max.webp" alt="" style="width: 84px; height: 84px; border-radius: 20px; object-fit: cover;"><span style="flex-grow: 1; font-size: 54px; font-weight: 700;">Max</span><span style="font-family: Sono, ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 64px; color: #f2c46d;">$7.900</span></div>
+      <div style="display: flex; align-items: center; gap: 24px; padding: 14px 0; border-bottom: 2px solid rgba(233,237,247,.08);"><img src="../../public/logos/prime-video.webp" alt="" style="width: 84px; height: 84px; border-radius: 20px; object-fit: cover;"><span style="flex-grow: 1; font-size: 54px; font-weight: 700;">Prime Video</span><span style="font-family: Sono, ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 64px; color: #f2c46d;">$7.900</span></div>
+      <div style="display: flex; align-items: center; gap: 24px; padding: 14px 0; border-bottom: 2px solid rgba(233,237,247,.08);"><img src="../../public/logos/paramount.webp" alt="" style="width: 84px; height: 84px; border-radius: 20px; object-fit: cover;"><span style="flex-grow: 1; font-size: 54px; font-weight: 700;">Paramount+</span><span style="font-family: Sono, ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 64px; color: #f2c46d;">$8.900</span></div>
+      <div style="display: flex; align-items: center; gap: 24px; padding: 14px 0; border-bottom: 2px solid rgba(233,237,247,.08);"><img src="../../public/logos/spotify-1-mes.webp" alt="" style="width: 84px; height: 84px; border-radius: 20px; object-fit: cover;"><span style="flex-grow: 1; font-size: 54px; font-weight: 700;">Spotify</span><span style="font-family: Sono, ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 64px; color: #f2c46d;">$10.900</span></div>
+    </div>
+    <p style="margin: 18px 0 0; font-size: 44px; font-weight: 600; color: #a7b0c6;">Sin afiliación con las plataformas.</p>
+    <a href="https://wa.me/573189819384" style="margin-top: auto; height: 116px; flex-shrink: 0; box-sizing: border-box; border-radius: 999px; background: #74d8b0; display: flex; align-items: center; justify-content: center; gap: 18px; font-family: Oxanium, Manrope, sans-serif; font-weight: 700; letter-spacing: -0.01em; font-size: 50px; color: #0b2a1f;"><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#0b2a1f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5z"></path></svg>Escribe al 318 981 9384</a>
+  </div>
+</div>
+</div>
+</body>
+</html>
