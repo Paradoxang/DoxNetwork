@@ -75,6 +75,12 @@
   /* Lecho común de las fotos de producto (brief de rediseño) */
   --media-bed: #10162a;
   --media-glow: rgba(124, 92, 255, 0.16);
+
+  --echo-bg: #0a0e1b;
+  --echo-core: #05070e;
+  --echo-ring: rgba(146, 112, 255, 0.34);
+  --echo-gold: rgba(242, 196, 109, 0.12);
+  --echo-glow: rgba(124, 92, 255, 0.16);
 }
 
 [data-theme="light"] {
@@ -135,6 +141,12 @@
 
   --media-bed: #e8ebf5;
   --media-glow: rgba(124, 92, 255, 0.12);
+
+  --echo-bg: #e9ebf7;
+  --echo-core: rgba(26, 33, 64, 0.14);
+  --echo-ring: rgba(124, 92, 255, 0.2);
+  --echo-gold: rgba(212, 150, 43, 0.1);
+  --echo-glow: rgba(124, 92, 255, 0.08);
 }
 
 @theme inline {
@@ -523,21 +535,42 @@
   }
 }
 
-/* Cinta de perfumes del inicio: dos copias seguidas, se desplaza media pista */
-@keyframes cinta {
-  to {
-    transform: translateX(-50%);
-  }
-}
-.cinta {
-  animation: cinta 60s linear infinite;
-}
-.cinta:hover,
-.cinta:focus-within {
-  animation-play-state: paused;
+/* Animated Tabs: el recorte de la capa rellena se desliza entre pestañas */
+.animated-tabs-clip {
+  transition: clip-path 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @media (prefers-reduced-motion: reduce) {
-  .cinta {
-    animation: none;
+  .animated-tabs-clip {
+    transition: none;
   }
+}
+
+/* FAQ como chat: fondo de puntos tipo WhatsApp y los tres puntos de "escribiendo" */
+.chat-wall {
+  background-image: radial-gradient(var(--line) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+@keyframes typing-dot {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-3px); opacity: 1; }
+}
+.typing-dot {
+  animation: typing-dot 1s ease-in-out infinite;
+}
+
+/* ── Eco del hero (brief: "el agujero negro morado debe reaparecer") ──
+   Núcleo oscuro con un disco de acreción violeta y un filo dorado, en CSS
+   puro: nada de un segundo WebGL. Se usa en la sección de físicos y en el pie. */
+.echo-section {
+  background: var(--echo-bg);
+}
+.hole-echo {
+  aspect-ratio: 1 / 0.62;
+  background:
+    radial-gradient(closest-side, var(--echo-core) 34%, transparent 35.5%),
+    radial-gradient(50% 50% at 50% 50%, transparent 30%, var(--echo-ring) 38%, var(--echo-gold) 42%, transparent 58%),
+    radial-gradient(closest-side, var(--echo-glow), transparent 100%);
+  transform: rotate(-14deg);
+  filter: blur(10px);
+  opacity: 0.9;
 }

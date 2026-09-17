@@ -1,6 +1,6 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { Plus } from "lucide-react";
-import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { CheckCheck } from "lucide-react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -68,15 +68,21 @@ export const faqs = [
   },
 ];
 
+/**
+ * 06 · Preguntas como FAQ Chat Accordion (brief de rediseño, fase 2): toda la
+ * compra pasa por WhatsApp, así que las preguntas se ven como un chat. Cada
+ * pregunta es un mensaje del cliente; al tocarla, Dox "escribe" un instante y
+ * llega la respuesta. Una abierta a la vez.
+ */
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="preguntas" className="border-t border-line bg-bg-soft">
-      <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_1.4fr]">
+    <section id="preguntas" className="relative">
+      <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_1.35fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading kicker="06 · Preguntas" title="Antes de comprar">
-            Lo que más nos preguntan, sin letra pequeña.
+            Lo que más nos preguntan, sin letra pequeña. Toca una pregunta y te respondemos como en el chat.
           </SectionHeading>
           <Reveal delay={0.1} className="mt-6 flex flex-wrap gap-3">
             <a href={waLink(`Hola ${site.name}, tengo una pregunta.`)} target="_blank" rel="noopener noreferrer" className="btn btn-buy">
@@ -90,53 +96,92 @@ export function Faq() {
         </div>
 
         <Reveal>
-          <ul className="space-y-3">
-            {faqs.map((f, i) => {
-              const isOpen = open === i;
-              return (
-                <li key={f.q} className={`card overflow-hidden transition-colors ${isOpen ? "border-line-strong" : ""}`}>
-                  <h3>
-                    <button
-                      type="button"
-                      id={`faq-btn-${i}`}
-                      aria-expanded={isOpen}
-                      aria-controls={`faq-panel-${i}`}
-                      onClick={() => setOpen(isOpen ? null : i)}
-                      className="flex min-h-[56px] w-full items-center justify-between gap-4 px-5 py-4 text-left font-bold transition-colors hover:text-neb"
-                    >
-                      {f.q}
-                      <motion.span
-                        animate={{ rotate: isOpen ? 45 : 0 }}
-                        transition={{ duration: 0.3, ease: EASE }}
-                        className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                          isOpen ? "bg-neb text-neb-ink" : "bg-neb-soft text-neb"
-                        }`}
-                      >
-                        <Plus className="h-4 w-4" />
-                      </motion.span>
-                    </button>
-                  </h3>
-                  <AnimatePresence initial={false}>
-                    {isOpen && (
-                      <motion.div
-                        id={`faq-panel-${i}`}
-                        role="region"
-                        aria-labelledby={`faq-btn-${i}`}
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.35, ease: EASE }}
-                      >
-                        <p className="px-5 pb-5 text-[15px] leading-relaxed text-mute">{f.a}</p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </li>
-              );
-            })}
-          </ul>
+          <div className="card overflow-hidden rounded-[28px]">
+            <div className="flex items-center gap-3 border-b border-line px-5 py-3.5">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-neb-soft">
+                <img src="/favicon-192.png" alt="" width={26} height={26} className="h-[26px] w-[26px]" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate font-semibold">{site.name}</span>
+                <span className="block text-xs text-mint">en línea · te responde una persona</span>
+              </span>
+              <WhatsAppIcon className="h-5 w-5 text-mint" />
+            </div>
+
+            <ul className="chat-wall space-y-2.5 px-3 py-5 sm:px-5">
+              <li className="flex justify-center pb-2" aria-hidden="true">
+                <span className="rounded-full bg-surface-2 px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-faint">Preguntas frecuentes</span>
+              </li>
+              {faqs.map((f, i) => (
+                <ChatItem key={f.q} i={i} q={f.q} a={f.a} open={open === i} onToggle={() => setOpen(open === i ? null : i)} />
+              ))}
+            </ul>
+          </div>
         </Reveal>
       </div>
     </section>
+  );
+}
+
+function ChatItem({ i, q, a, open, onToggle }: { i: number; q: string; a: string; open: boolean; onToggle: () => void }) {
+  const reduced = useReducedMotion();
+  const [typing, setTyping] = useState(false);
+
+  // Al abrir, un instante de "escribiendo…" antes de la respuesta
+  useEffect(() => {
+    if (!open || reduced) return setTyping(false);
+    setTyping(true);
+    const t = window.setTimeout(() => setTyping(false), 650);
+    return () => window.clearTimeout(t);
+  }, [open, reduced]);
+
+  return (
+    <li>
+      <h3 className="flex justify-end">
+        <button
+          type="button"
+          id={`faq-btn-${i}`}
+          aria-expanded={open}
+          aria-controls={`faq-panel-${i}`}
+          onClick={onToggle}
+          className={`max-w-[88%] rounded-2xl rounded-br-md px-4 py-2.5 text-left text-[15px] font-semibold leading-snug transition-colors ${
+            open ? "bg-mint text-mint-ink" : "bg-mint-soft text-ink hover:bg-mint/25"
+          }`}
+        >
+          {q}
+          <span className={`mt-1 flex justify-end ${open ? "text-mint-ink/70" : "text-faint"}`} aria-hidden="true">
+            <CheckCheck className="h-3.5 w-3.5" />
+          </span>
+        </button>
+      </h3>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            id={`faq-panel-${i}`}
+            role="region"
+            aria-labelledby={`faq-btn-${i}`}
+            aria-busy={typing}
+            className="overflow-hidden"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: reduced ? 0 : 0.3, ease: EASE }}
+          >
+            <div className="flex items-end gap-2 pt-2.5">
+              <img src="/favicon-192.png" alt="" width={24} height={24} className="mb-1 h-6 w-6 shrink-0 rounded-full bg-neb-soft p-0.5" />
+              {typing ? (
+                <span className="flex h-9 items-center gap-1 rounded-2xl rounded-bl-md bg-surface-2 px-4" aria-label="Escribiendo">
+                  {[0, 1, 2].map((d) => (
+                    <span key={d} className="typing-dot h-1.5 w-1.5 rounded-full bg-mute" style={{ animationDelay: `${d * 0.15}s` }} />
+                  ))}
+                </span>
+              ) : (
+                <p className="max-w-[88%] rounded-2xl rounded-bl-md bg-surface-2 px-4 py-3 text-[15px] leading-relaxed text-ink">{a}</p>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </li>
   );
 }

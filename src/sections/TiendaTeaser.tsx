@@ -1,6 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { ProductArt } from "@/components/ProductArt";
+import { InfiniteDragScroll } from "@/components/ui/infinite-drag-scroll";
 import type { Product } from "@/data/catalog";
 import { destacados } from "@/data/destacados";
 import { relojes, tecnologia } from "@/data/lineas";
@@ -9,7 +11,7 @@ import { formatCOP } from "@/data/site";
 import { Reveal } from "@/lib/anim";
 import { gsap, useGSAP } from "@/lib/gsap";
 
-// Perfume, reloj, tecnología, perfume…: la cinta muestra las tres líneas físicas
+// Perfume, reloj, tecnología, perfume…: la fila muestra las tres líneas físicas
 const picks: Product[] = [];
 for (let i = 0; i < 8; i++) for (const id of ["perfumeria", "relojeria", "tecnologia"] as const) if (destacados[id][i]) picks.push(destacados[id][i]);
 
@@ -19,10 +21,13 @@ const shortcuts = [
   { to: "/tecnologia", label: "Tecnología", count: tecnologia.length },
 ];
 
+const lineLabel = (p: Product) => (p.perfume ? "Perfumería" : p.articulo!.line === "relojeria" ? "Relojería" : "Tecnología");
+
 /**
- * Las líneas físicas en el inicio: una banda cálida (el dorado del logo) con
- * una cinta de perfumes, relojes y tecnología que corre sola y se pausa al
- * pasar el puntero. GSAP solo mueve el halo con el scroll; la cinta es CSS.
+ * Las líneas físicas en el inicio, a sangre (brief de rediseño): es la
+ * sección "full-bleed" del ritmo de fondos y la primera vez que vuelve el
+ * agujero negro del hero, como resplandor violeta detrás de la fila.
+ * La fila es un Infinite Drag Scroll: corre sola y se arrastra.
  */
 export function TiendaTeaser() {
   const scope = useRef<HTMLElement>(null);
@@ -33,8 +38,8 @@ export function TiendaTeaser() {
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.fromTo(
           "[data-halo]",
-          { yPercent: -20 },
-          { yPercent: 25, ease: "none", scrollTrigger: { trigger: scope.current, start: "top bottom", end: "bottom top", scrub: true } }
+          { yPercent: -12 },
+          { yPercent: 12, ease: "none", scrollTrigger: { trigger: scope.current, start: "top bottom", end: "bottom top", scrub: true } }
         );
       });
       return () => mm.revert();
@@ -43,77 +48,55 @@ export function TiendaTeaser() {
   );
 
   return (
-    <section ref={scope} id="envios" className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
-      <div className="card relative overflow-hidden">
-        <div
-          data-halo
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full blur-3xl"
-          style={{ background: "radial-gradient(circle, rgba(242,196,109,0.28), transparent 70%)" }}
-        />
-        <div className="relative grid gap-6 p-6 md:grid-cols-[1fr_auto] md:items-end md:p-10">
-          <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full bg-gold-soft px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-gold">
-              <span className="h-1.5 w-1.5 rounded-full bg-gold" /> Nuevo
-            </span>
-            <h2 className="display mt-4 text-[clamp(30px,4.6vw,50px)]">Perfumes, relojes y tecnología</h2>
-            <p className="mt-3 max-w-lg leading-relaxed text-mute">
-              {perfumes.length + relojes.length + tecnologia.length} productos físicos que confirmas por WhatsApp. {shipping.short}.
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {shortcuts.map((s) => (
-                <Link key={s.to} to={s.to} className="chip">
-                  {s.label} <span className="text-xs text-faint">{s.count}</span>
-                </Link>
-              ))}
-            </div>
-          </Reveal>
-          <Reveal delay={0.08}>
-            <Link to="/catalogo" className="btn btn-primary">
-              Ver toda la tienda <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Reveal>
-        </div>
+    <section ref={scope} id="envios" className="echo-section relative isolate overflow-hidden border-y border-line py-20 md:py-28">
+      {/* Eco del agujero negro: núcleo oscuro con disco violeta */}
+      <div data-halo aria-hidden="true" className="hole-echo pointer-events-none absolute -right-[18%] -top-[12%] -z-10 w-[min(1100px,120vw)]" />
 
-        {/* Cinta: se duplica la lista para que el bucle no tenga salto */}
-        <div className="relative overflow-hidden pb-8 [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]">
-          <ul className="cinta flex w-max gap-4 px-2">
-            {[...picks, ...picks].map((p, i) => (
-              <li key={`${p.slug}-${i}`} aria-hidden={i >= picks.length || undefined}>
-                <Link
-                  to={`/producto/${p.slug}`}
-                  tabIndex={i >= picks.length ? -1 : undefined}
-                  className="group block w-40 md:w-48"
-                >
-                  <span
-                    className="block aspect-square overflow-hidden rounded-[22px] transition-transform duration-500 ease-out group-hover:-translate-y-2"
-                    style={{
-                      background: p.perfume
-                        ? `radial-gradient(70% 38% at 50% 96%, ${p.hue}40, transparent 75%), linear-gradient(180deg, #f7f5f1, #ece8e1)`
-                        : "var(--surface-2)",
-                    }}
-                  >
-                    <img
-                      src={p.image!.replace(/\.webp$/, "-sm.webp")}
-                      alt=""
-                      width={360}
-                      height={360}
-                      loading="lazy"
-                      decoding="async"
-                      className={`h-full w-full ${p.perfume ? "object-contain p-2 mix-blend-multiply" : "object-cover"}`}
-                    />
-                  </span>
-                  <span className="mt-3 block truncate px-1 text-xs font-semibold uppercase tracking-[0.08em] text-faint">
-                    {p.perfume ? "Perfumería" : p.articulo!.line === "relojeria" ? "Relojería" : "Tecnología"}
-                  </span>
-                  <span className="block truncate px-1 font-bold group-hover:text-gold">{p.name}</span>
-                  <span className="num block px-1 text-sm text-mute">{formatCOP(p.plans[0].price)}</span>
-                </Link>
-              </li>
+      <div className="mx-auto grid max-w-[1200px] gap-6 px-4 md:grid-cols-[1fr_auto] md:items-end md:px-6">
+        <Reveal>
+          <p className="kicker">Tienda física · Nuevo</p>
+          <h2 className="display mt-4 text-[clamp(30px,4.6vw,52px)]">Perfumes, relojes y tecnología</h2>
+          <p className="mt-3 max-w-lg leading-relaxed text-mute">
+            {perfumes.length + relojes.length + tecnologia.length} productos físicos que confirmas por WhatsApp. {shipping.short}.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            {shortcuts.map((s) => (
+              <Link key={s.to} to={s.to} className="chip">
+                {s.label} <span className="num text-xs text-faint">{s.count}</span>
+              </Link>
             ))}
-          </ul>
-        </div>
+          </div>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <Link to="/catalogo" className="btn btn-primary">
+            Ver toda la tienda <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Reveal>
       </div>
+
+      <InfiniteDragScroll
+        label="Productos físicos destacados. Arrastra para ver más."
+        items={picks}
+        getKey={(p) => p.slug}
+        className="mt-12 [mask-image:linear-gradient(90deg,transparent,#000_5%,#000_95%,transparent)]"
+        itemClassName="pr-3 md:pr-4"
+        renderItem={(p, decorative) => (
+          <Link
+            to={`/producto/${p.slug}`}
+            tabIndex={decorative ? -1 : undefined}
+            draggable={false}
+            className="group block w-44 rounded-[22px] md:w-56"
+          >
+            <ProductArt product={p} size="sm" bare className="rounded-[22px] border border-line" />
+            <span className="mt-3 block truncate px-1 font-mono text-[11px] uppercase tracking-[0.12em] text-faint">{lineLabel(p)}</span>
+            <span className="block truncate px-1 font-semibold group-hover:text-neb">{p.name}</span>
+            <span className="num block px-1 text-sm text-mute">{formatCOP(p.plans[0].price)}</span>
+          </Link>
+        )}
+      />
+      <p className="mx-auto mt-4 max-w-[1200px] px-4 text-xs text-faint md:px-6" aria-hidden="true">
+        Arrastra la fila para ver más
+      </p>
     </section>
   );
 }
