@@ -76,6 +76,9 @@
   --media-bed: #10162a;
   --media-glow: rgba(124, 92, 255, 0.16);
 
+  --aurora-a: rgba(124, 92, 255, 0.28);
+  --aurora-b: rgba(116, 216, 176, 0.16);
+
   --echo-bg: #0a0e1b;
   --echo-core: #05070e;
   --echo-ring: rgba(146, 112, 255, 0.34);
@@ -141,6 +144,9 @@
 
   --media-bed: #e8ebf5;
   --media-glow: rgba(124, 92, 255, 0.12);
+
+  --aurora-a: rgba(124, 92, 255, 0.16);
+  --aurora-b: rgba(19, 128, 90, 0.1);
 
   --echo-bg: #e9ebf7;
   --echo-core: rgba(26, 33, 64, 0.14);
@@ -233,6 +239,35 @@
     overflow-x: hidden;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+  /* ── Dos texturas globales (brief de capas grandes) ──
+     Órbitas: las curvas del agujero negro recorridas por toda la página, fijas
+     y al 6 %. Grano: ruido de 128 px repetido sobre todo, que iguala fotos de
+     proveedor con calidades muy distintas. Las dos son decorativas y no
+     capturan el puntero. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -10vmax;
+    z-index: -1;
+    pointer-events: none;
+    background: url("/deco/orbitas.svg") center / cover no-repeat;
+    opacity: 0.07;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    background: url("/deco/grano.png") repeat;
+    background-size: 128px 128px;
+    mix-blend-mode: overlay;
+    opacity: 0.05;
+  }
+  [data-theme="light"] body::after {
+    opacity: 0.035;
+  }
+
   ::selection {
     background: var(--neb-soft);
     color: var(--ink);
@@ -568,6 +603,36 @@
 }
 .typing-dot {
   animation: typing-dot 1s ease-in-out infinite;
+}
+
+/* ── Aurora ──
+   Dos manchas enormes de luz que orbitan muy despacio detrás del contenido.
+   Es CSS puro: cero archivos y cero JavaScript. Va en las secciones sólidas
+   que no tienen eco del agujero negro ni telón. */
+.aurora {
+  position: absolute;
+  inset: -20% -10%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.55;
+  background:
+    radial-gradient(38% 46% at 22% 36%, var(--aurora-a), transparent 70%),
+    radial-gradient(34% 40% at 76% 62%, var(--aurora-b), transparent 70%);
+  filter: blur(18px);
+  animation: aurora 42s ease-in-out infinite alternate;
+}
+@keyframes aurora {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(1);
+  }
+  to {
+    transform: translate3d(4%, 3%, 0) scale(1.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aurora {
+    animation: none;
+  }
 }
 
 /* Spotlight: el panel del buscador deja ver el fondo, como el de macOS */

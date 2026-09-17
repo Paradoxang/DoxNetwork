@@ -1,3 +1,4 @@
+import { Deco } from "@/components/Deco";
 import { Seo } from "@/components/Seo";
 import { site } from "@/data/site";
 import { Benefits } from "@/sections/Benefits";
@@ -47,6 +48,10 @@ export function Home() {
       <PromoCarousel />
       <CombosSection />
       <ProductTabs />
+      {/* Cambio de mundo: de lo digital a lo físico, con el cromo líquido a sangre */}
+      <div aria-hidden="true" className="relative h-24 overflow-hidden md:h-36">
+        <Deco name="vortice" className="left-1/2 top-1/2 w-[150vw] max-w-none -translate-x-1/2 -translate-y-1/2" opacity={0.4} fade />
+      </div>
       <TiendaTeaser />
       <HowItWorks />
       <Guarantee />

@@ -4,35 +4,43 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { site, waLink } from "@/data/site";
 import { Reveal } from "@/lib/anim";
 
+/**
+ * Cierre de la página, como segunda franja invertida (dorado sobre texto
+ * oscuro). La primera es la garantía en menta: entre las dos parten el navy
+ * continuo en tres tramos y el final de la página deja de desvanecerse.
+ */
 export function Cta() {
   return (
-    <section className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
-      <Reveal className="card relative overflow-hidden border-gold/25 p-8 md:p-12">
-          <div className="pointer-events-none absolute bottom-0 right-10 hidden h-[88%] md:block lg:right-16">
-            <Astro pose="soporte" decorative className="h-full" />
-          </div>
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl"
-            style={{ background: "var(--gold-soft)" }}
-          />
-          <Deco name="llave" className="-left-10 -top-12 w-40 md:w-52" opacity={0.3} rotate={-18} />
-          <p className="kicker">¿No lo encuentras?</p>
-          <h2 className="display mt-3 max-w-lg text-[clamp(28px,4vw,42px)]">Pídelo y te lo conseguimos</h2>
-          <p className="mt-4 max-w-md text-mute">
+    <section className="relative isolate overflow-hidden border-y border-gold-ink/10 bg-gold text-gold-ink">
+      <Deco name="llave" className="-left-12 -top-14 w-44 md:w-64" opacity={0.22} rotate={-18} />
+
+      <div className="relative mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-16 md:flex-row md:items-center md:justify-between md:px-6 md:py-20 2xl:pr-56">
+        <Reveal>
+          <p className="kicker text-gold-ink/70">¿No lo encuentras?</p>
+          <h2 className="display mt-3 max-w-xl text-[clamp(30px,4.4vw,52px)] text-gold-ink">Pídelo y te lo conseguimos</h2>
+          <p className="mt-4 max-w-md leading-relaxed text-gold-ink/80">
             Si buscas una plataforma, una licencia, una fragancia o un servicio que no está en la tienda, escríbenos y te cotizamos.
           </p>
-          <div className="mt-8">
-            <a
-              href={waLink(`Hola ${site.name}, estoy buscando un producto que no vi en el catálogo:`)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-buy"
-            >
-              <WhatsAppIcon /> Escribir por WhatsApp
-            </a>
-          </div>
-      </Reveal>
+        </Reveal>
+
+        <Reveal delay={0.08} className="shrink-0">
+          <a
+            href={waLink(`Hola ${site.name}, estoy buscando un producto que no vi en el catálogo:`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-[52px] items-center gap-2 rounded-full bg-gold-ink px-6 font-bold text-gold transition-transform hover:brightness-110"
+          >
+            <WhatsAppIcon /> Escribir por WhatsApp
+          </a>
+          <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-gold-ink/65">
+            Te responde una persona · {site.hours.replace(/\.$/, "")}
+          </p>
+        </Reveal>
+      </div>
+
+      <div className="pointer-events-none absolute -bottom-2 right-2 hidden h-52 2xl:block">
+        <Astro pose="soporte" decorative className="h-full" />
+      </div>
     </section>
   );
 }

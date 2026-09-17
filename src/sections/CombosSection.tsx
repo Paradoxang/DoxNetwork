@@ -20,9 +20,9 @@ export function CombosSection() {
 
   return (
     <section ref={scope} id="combos" className="relative overflow-hidden border-y border-line bg-bg-soft">
-      <Deco name="destello" className="left-1/3 top-10 w-[620px]" opacity={0.2} />
-      <Deco name="orbe-2" className="-right-10 top-10 w-32 md:w-48" opacity={0.5} float />
-      <div className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
+      <div className="aurora" aria-hidden="true" />
+      <Deco name="orbe-2" className="-right-20 top-6 w-56 md:-right-28 md:w-[420px]" opacity={0.42} float />
+      <div className="relative mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
         <SectionHeading
           kicker="02 · Combos"
           title="Un combo para cada plan"

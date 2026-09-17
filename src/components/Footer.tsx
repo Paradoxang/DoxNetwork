@@ -150,7 +150,14 @@ export function Footer() {
               <stop offset="4%" stopColor="var(--ink)" stopOpacity="0.92" />
               <stop offset="100%" stopColor="var(--ink)" stopOpacity="0.12" />
             </linearGradient>
+            {/* La palabra recorta la nebulosa: el universo se ve por dentro de las letras */}
+            <mask id="large-name-mask">
+              <text className="large-name" x="500" y="100" textAnchor="middle" textLength="984" lengthAdjust="spacingAndGlyphs" fill="#fff">
+                DOXNETWORK
+              </text>
+            </mask>
           </defs>
+          {/* Debajo, el degradado de siempre: si la imagen no carga, la palabra sigue ahí */}
           <text
             className="large-name"
             x="500"
@@ -162,6 +169,17 @@ export function Footer() {
           >
             DOXNETWORK
           </text>
+          <image
+            href="/deco/nebulosa.webp"
+            x="0"
+            y="-30"
+            width="1000"
+            height="178"
+            preserveAspectRatio="xMidYMid slice"
+            mask="url(#large-name-mask)"
+            opacity="0.85"
+            style={{ mixBlendMode: "screen" }}
+          />
         </svg>
         <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-2 px-4 pb-20 pt-5 text-center text-xs text-faint sm:flex-row sm:pb-5 sm:text-left md:px-6">
           <p>© {ANIO} DoxNetwork · Todos los derechos reservados</p>

@@ -59,9 +59,14 @@ export function TiendaTeaser() {
         <Reveal>
           <p className="kicker">Tienda física · Nuevo</p>
           <h2 className="display mt-4 text-[clamp(30px,4.6vw,52px)]">Perfumes, relojes y tecnología</h2>
-          <p className="mt-3 max-w-lg leading-relaxed text-mute">
-            {perfumes.length + relojes.length + tecnologia.length} productos físicos que confirmas por WhatsApp. {shipping.short}.
-          </p>
+          <div className="mt-4 flex items-end gap-4">
+            <span className="display text-[clamp(64px,10vw,140px)] leading-[0.82]">
+              <NumberTicker value={perfumes.length + relojes.length + tecnologia.length} />
+            </span>
+            <p className="mb-2 max-w-[260px] text-sm leading-snug text-mute md:mb-4">
+              productos físicos que confirmas por WhatsApp. {shipping.short}.
+            </p>
+          </div>
           <div className="mt-5 flex flex-wrap gap-2">
             {shortcuts.map((s) => (
               <Link key={s.to} to={s.to} className="chip">
@@ -74,6 +79,7 @@ export function TiendaTeaser() {
           <Link to="/catalogo" className="btn btn-primary">
             Ver toda la tienda <ArrowRight className="h-4 w-4" />
           </Link>
+          <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.14em] text-faint">Sin registro · pagas al confirmar</p>
         </Reveal>
       </div>
 

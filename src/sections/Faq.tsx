@@ -80,8 +80,9 @@ export function Faq() {
 
   return (
     <section id="preguntas" className="relative overflow-hidden bg-bg">
-      <Deco name="lente" className="-left-24 top-1/3 hidden w-[520px] lg:block" opacity={0.3} />
-      <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_1.35fr]">
+      <div className="aurora" aria-hidden="true" />
+      <Deco name="lente" className="-left-40 top-1/4 hidden w-[760px] lg:block" opacity={0.26} />
+      <div className="relative mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_1.35fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHeading kicker="06 · Preguntas" title="Antes de comprar">
             Lo que más nos preguntan, sin letra pequeña. Toca una pregunta y te respondemos como en el chat.
