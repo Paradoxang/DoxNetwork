@@ -20,6 +20,14 @@ const sections = [
     p: "Cada producto indica su duración. Durante la vigencia te damos soporte por WhatsApp si presentas algún inconveniente con tu compra.",
   },
   {
+    t: "Garantía de reposición",
+    p: `Si tu cuenta, perfil o código falla durante la vigencia contratada, repórtalo por WhatsApp con tu número de pedido. Lo reponemos sin costo en menos de ${site.warrantyHours} horas en horario de atención.`,
+  },
+  {
+    t: "Sin renovaciones automáticas",
+    p: "Ningún producto se renueva solo ni guardamos datos de pago. Al vencer, decides si renuevas.",
+  },
+  {
     t: "Cambios y devoluciones",
     p: "Por la naturaleza digital de los productos, una vez entregados no se admiten devoluciones, salvo que el producto no funcione y no podamos solucionarlo.",
   },
@@ -31,7 +39,7 @@ const sections = [
 
 export function Terms() {
   return (
-    <section className="mx-auto max-w-3xl px-4 pb-24 pt-[112px] md:px-6 md:pt-[136px]">
+    <section className="mx-auto max-w-3xl px-4 pb-24 pt-[140px] md:px-6 md:pt-[164px]">
       <Seo title={`Términos y condiciones · ${site.name}`} description={`Condiciones de compra en ${site.name}.`} path="/terminos" />
       <Reveal>
         <p className="kicker">Legal</p>

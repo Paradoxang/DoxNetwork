@@ -1,39 +1,61 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { SectionHeading } from "@/components/SectionHeading";
-import { comboTiers, site } from "@/data/site";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { comboTiers, site, waLink } from "@/data/site";
 import { EASE, Reveal } from "@/lib/anim";
 
-// TODO: ajusta las respuestas a tus condiciones reales (tiempos, garantía, reembolsos).
+/**
+ * Preguntas que responden objeciones, no que informan (lección de ZeroDelay).
+ * Torostream y Emprendered tienen el FAQ vacío: aquí está la ventaja.
+ * TODO: ajusta cada respuesta a tus condiciones reales.
+ */
 export const faqs = [
   {
-    q: "¿Cómo recibo lo que compro?",
-    a: "Todo es digital: cuando confirmamos tu pago te enviamos los datos de acceso, la clave o la recarga por el mismo chat de WhatsApp.",
+    q: "¿Qué diferencia hay entre Pantalla y Completa?",
+    a: "Pantalla es un perfil propio dentro de una cuenta compartida: lo usas tú solo, en un dispositivo a la vez. Completa es la cuenta entera con todos sus perfiles, ideal para compartir en casa.",
+  },
+  {
+    q: "¿Qué cambia entre Estándar, Premium y Platino?",
+    a: "La calidad y lo que incluye el plan oficial de cada plataforma. Premium y Platino suelen sumar 4K, más dispositivos a la vez o extras como ESPN en Disney+. En cada ficha lo ves detallado.",
   },
   {
     q: "¿Cuánto tarda la entrega?",
-    a: `En horario de atención (${site.hours}) normalmente entregamos en pocos minutos después de confirmar el pago.`,
+    a: `En horario de atención (${site.hours}) entregamos en unos ${site.deliveryMinutes} minutos después de confirmar el pago, por el mismo chat de WhatsApp.`,
+  },
+  {
+    q: "¿Qué pasa si deja de funcionar?",
+    a: `Escríbenos con tu número de pedido. Te reponemos la cuenta o el perfil en menos de ${site.warrantyHours} horas y sin costo, durante toda la vigencia de tu plan.`,
+  },
+  {
+    q: "¿Hay cobros o renovaciones automáticas?",
+    a: "No. Nada se renueva solo ni guardamos tarjetas. Antes de que venza te escribimos y tú decides si renuevas.",
   },
   {
     q: "¿Qué medios de pago aceptan?",
-    a: `Aceptamos ${site.payments.join(", ")}. Te compartimos los datos al confirmar el pedido.`,
+    a: `${site.payments.join(", ")}. Al confirmar el pedido te compartimos los datos para pagar.`,
   },
   {
     q: "¿Cómo funcionan los combos?",
     a: comboTiers.length
-      ? `Al llevar productos distintos el descuento se aplica solo en el carrito: ${comboTiers
-          .map((t) => `${t.pct}% desde ${t.min} productos`)
-          .join(" y ")}.`
-      : "Escríbenos por WhatsApp y te armamos un combo a tu medida.",
+      ? `Hay dos formas: los combos armados, que ya vienen con precio rebajado, o armar el tuyo. Al combinar productos distintos el descuento se aplica solo: ${comboTiers
+          .map((t) => `${t.pct}% con ${t.min}`)
+          .join(", ")} o más.`
+      : "Tenemos combos armados con precio rebajado frente a comprar cada plataforma por separado.",
   },
   {
-    q: "¿Qué pasa si algo deja de funcionar?",
-    a: "Escríbenos por WhatsApp con tu número de pedido. Revisamos el caso y te damos solución durante la vigencia de tu plan.",
+    q: "¿Los pines de cine y las recargas son oficiales?",
+    a: "Sí. Son códigos oficiales que redimes directamente en la taquilla, la app del cine o el juego. Para las recargas de juegos solo necesitamos tu ID, nunca tu contraseña.",
   },
   {
     q: "¿Necesito crear una cuenta en la tienda?",
-    a: "No. Armas tu carrito, lo envías por WhatsApp y listo. Tu carrito queda guardado en este navegador por si vuelves.",
+    a: "No. Armas tu carrito, lo envías por WhatsApp y listo. Tu carrito y tus favoritos quedan guardados en este navegador.",
+  },
+  {
+    q: "¿Puedo revender o comprar al por mayor?",
+    a: "Sí. Escríbenos por WhatsApp y te compartimos precios por volumen para distribuidores.",
   },
 ];
 
@@ -43,16 +65,24 @@ export function Faq() {
   return (
     <section id="preguntas" className="border-t border-line bg-bg-soft">
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_1.4fr]">
-        <SectionHeading kicker="04 · Preguntas" title="Lo que más nos preguntan">
-          ¿No está tu duda? Escríbenos y te respondemos en el chat.
-        </SectionHeading>
+        <div className="lg:sticky lg:top-28 lg:self-start">
+          <SectionHeading kicker="06 · Preguntas" title="Antes de comprar">
+            Lo que más nos preguntan, sin letra pequeña.
+          </SectionHeading>
+          <Reveal delay={0.1} className="mt-6 flex flex-wrap gap-3">
+            <a href={waLink(`Hola ${site.name}, tengo una pregunta.`)} target="_blank" rel="noopener noreferrer" className="btn btn-buy">
+              <WhatsAppIcon /> Preguntar por WhatsApp
+            </a>
+            <Link to="/terminos" className="btn btn-ghost">Términos</Link>
+          </Reveal>
+        </div>
 
         <Reveal>
           <ul className="space-y-3">
             {faqs.map((f, i) => {
               const isOpen = open === i;
               return (
-                <li key={f.q} className="card overflow-hidden">
+                <li key={f.q} className={`card overflow-hidden transition-colors ${isOpen ? "border-line-strong" : ""}`}>
                   <h3>
                     <button
                       type="button"

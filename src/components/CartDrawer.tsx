@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { planLabel } from "@/data/catalog";
 import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
 import { EASE, lockScroll } from "@/lib/anim";
@@ -12,7 +13,7 @@ export function CartDrawer() {
   const cart = useCart();
   const { open, setOpen } = cart;
   const reduced = useReducedMotion();
-  const panel = useRef<HTMLDivElement>(null);
+  const panel = useRef<HTMLElement>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -116,7 +117,7 @@ export function CartDrawer() {
                           <div className="flex items-start justify-between gap-2">
                             <div className="min-w-0">
                               <p className="truncate font-bold">{l.product.name}</p>
-                              <p className="truncate text-xs text-mute">{l.plan.label}</p>
+                              <p className="truncate text-xs text-mute">{planLabel(l.plan)}</p>
                             </div>
                             <button
                               type="button"
@@ -179,7 +180,7 @@ export function CartDrawer() {
                     </div>
                     {cart.discount > 0 && (
                       <div className="flex justify-between text-gold">
-                        <dt>Descuento combo ({cart.discountPct}%)</dt>
+                        <dt>Descuento por combinar ({cart.discountPct}%)</dt>
                         <dd>-{formatCOP(cart.discount)}</dd>
                       </div>
                     )}

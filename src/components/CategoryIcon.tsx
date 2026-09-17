@@ -2,24 +2,24 @@ import {
   Clapperboard,
   Gamepad2,
   GraduationCap,
-  KeyRound,
-  LayoutTemplate,
+  Layers,
   Music2,
   Palette,
   Sparkles,
+  Ticket,
   type LucideIcon,
 } from "lucide-react";
 import type { CategoryId } from "@/data/catalog";
 
 const icons: Record<CategoryId, LucideIcon> = {
+  combos: Layers,
   streaming: Clapperboard,
+  "cine-tv": Ticket,
   musica: Music2,
   ia: Sparkles,
-  software: KeyRound,
-  diseno: Palette,
+  creatividad: Palette,
   gaming: Gamepad2,
-  cursos: GraduationCap,
-  recursos: LayoutTemplate,
+  aprende: GraduationCap,
 };
 
 export function CategoryIcon({ id, className = "h-5 w-5" }: { id: CategoryId; className?: string }) {

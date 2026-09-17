@@ -8,27 +8,41 @@ export const site = {
   url: "https://doxnetwork.vercel.app",
   tagline: "Todo lo digital, sin vueltas.",
   description:
-    "Tienda de productos digitales: streaming, música, inteligencia artificial, software, gaming y cursos. Eliges, pagas y lo recibes por WhatsApp.",
+    "Streaming, música, IA, pines de cine, software y gaming a buen precio. Eliges, pagas y lo recibes por WhatsApp en minutos, con garantía durante toda la vigencia.",
 
   /** TODO: número de WhatsApp de la tienda, solo dígitos con indicativo. */
   whatsapp: "573189819384",
   whatsappDisplay: "+57 318 981 9384",
-  /** TODO: métodos de pago reales que aceptas. */
-  payments: ["Nequi", "Daviplata", "Bre-B", "Transferencia"],
+  /** TODO: métodos de pago reales (los tres competidores usan Nequi, Llaves y Bre-B). */
+  payments: ["Nequi", "Bre-B", "Llaves", "Daviplata"],
   /** TODO: horario de atención real. */
-  hours: "Lun a Sáb · 8:00 a. m. – 9:00 p. m.",
+  hours: "Lun a Dom · 7:00 a. m. – 10:00 p. m.",
+  /** TODO: promesa de reposición que SÍ puedes cumplir. Torostream y ZeroDelay no la escriben: es tu ventaja. */
+  warrantyHours: 12,
+  /** TODO: tiempo típico de entrega en horario de atención. */
+  deliveryMinutes: 15,
   instagram: "https://instagram.com/paradoxxan",
+  tiktok: "",
   dox: "https://doxdesigns.dev",
 };
 
 /**
- * Descuento por combo: se aplica según cuántos productos distintos hay en el
- * carrito. Ordenado de menor a mayor. TODO: ajusta los porcentajes a tu margen
- * (o deja el array vacío para desactivarlo).
+ * Descuento automático al combinar productos distintos (mecánica "arma tu
+ * combo" de ZeroDelay). Cuenta solo productos sueltos: los combos ya traen su
+ * descuento y no se acumulan. Entre 5% y 15%, nunca más de 20% (recomendación
+ * de los estudios). TODO: ajústalo a tu margen; array vacío lo desactiva.
  */
 export const comboTiers = [
   { min: 2, pct: 5 },
   { min: 3, pct: 10 },
+  { min: 4, pct: 15 },
+];
+
+/** Mensajes de la barra superior rotativa (la de Emprendered, sin promesas vacías). */
+export const announcements = [
+  `Entrega por WhatsApp en ~${site.deliveryMinutes} minutos`,
+  "Arma tu combo y ahorra hasta 15%",
+  `Garantía: reponemos en menos de ${site.warrantyHours} h`,
 ];
 
 export function waLink(text: string) {

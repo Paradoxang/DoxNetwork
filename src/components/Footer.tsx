@@ -62,6 +62,26 @@ export function Footer() {
                 <Instagram className="h-4 w-4" /> Instagram
               </a>
             </li>
+            <li>
+              <a
+                href={waLink(`Hola ${site.name}, quiero información para revender.`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-mute transition-colors hover:text-neb"
+              >
+                Revendedores y por mayor
+              </a>
+            </li>
+            <li>
+              <Link to="/arma-tu-combo" className="text-mute transition-colors hover:text-neb">
+                Arma tu combo
+              </Link>
+            </li>
+            <li>
+              <Link to="/#garantia" className="text-mute transition-colors hover:text-neb">
+                Garantía
+              </Link>
+            </li>
             <li className="text-faint">{site.hours}</li>
             <li>
               <Link to="/terminos" className="text-mute transition-colors hover:text-neb">
@@ -71,6 +91,11 @@ export function Footer() {
           </ul>
         </div>
       </div>
+
+      <p className="mx-auto max-w-[1200px] px-4 pb-6 text-xs leading-relaxed text-faint md:px-6">
+        {site.name} no está afiliada ni patrocinada por las plataformas mencionadas. Los nombres y marcas pertenecen a
+        sus respectivos dueños y se usan solo para identificar los productos.
+      </p>
 
       <div className="border-t border-line">
         <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-2 px-4 py-5 text-center text-xs text-faint sm:flex-row sm:text-left md:px-6">

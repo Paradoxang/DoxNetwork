@@ -2,17 +2,26 @@ import { Seo } from "@/components/Seo";
 import { site } from "@/data/site";
 import { Benefits } from "@/sections/Benefits";
 import { Categories } from "@/sections/Categories";
+import { CombosSection } from "@/sections/CombosSection";
 import { Cta } from "@/sections/Cta";
 import { Faq, faqs } from "@/sections/Faq";
-import { Featured } from "@/sections/Featured";
+import { Guarantee } from "@/sections/Guarantee";
 import { Hero } from "@/sections/Hero";
 import { HowItWorks } from "@/sections/HowItWorks";
+import { ProductTabs } from "@/sections/ProductTabs";
+import { PromoCarousel } from "@/sections/PromoCarousel";
+import { Reviews } from "@/sections/Reviews";
 
+/**
+ * Orden del inicio, cruzando los tres estudios:
+ * propuesta de valor → confianza → promos → categorías → combos (el gancho
+ * de ticket) → productos → cómo comprar → garantía → reseñas → objeciones.
+ */
 export function Home() {
   return (
     <>
       <Seo
-        title={`${site.name} · ${site.tagline}`}
+        title={`${site.name} · Streaming, IA y pines de cine desde $2.900`}
         description={site.description}
         path="/"
         jsonLd={{
@@ -32,9 +41,13 @@ export function Home() {
       />
       <Hero />
       <Benefits />
+      <PromoCarousel />
       <Categories />
-      <Featured />
+      <CombosSection />
+      <ProductTabs />
       <HowItWorks />
+      <Guarantee />
+      <Reviews />
       <Faq />
       <Cta />
     </>

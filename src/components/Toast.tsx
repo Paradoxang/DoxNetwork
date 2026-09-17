@@ -2,27 +2,51 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { useCart } from "@/lib/cart";
 
-/** Confirmación breve al agregar al carrito; toca para abrir el carrito. */
+/** Confirmación al agregar, con "Deshacer" (mecánica de ZeroDelay) y acceso al carrito. */
 export function Toast() {
-  const { toast, setOpen } = useCart();
+  const { toast, setOpen, dismissToast, count } = useCart();
   return (
-    <div className="pointer-events-none fixed inset-x-0 bottom-5 z-[65] flex justify-center px-4" aria-live="polite">
+    <div
+      className={`pointer-events-none fixed inset-x-0 z-[65] flex justify-center px-4 ${
+        count > 0 ? "bottom-[92px] md:bottom-5" : "bottom-5"
+      }`}
+      aria-live="polite"
+    >
       <AnimatePresence>
         {toast && (
-          <motion.button
+          <motion.div
             key={toast.id}
-            type="button"
-            onClick={() => setOpen(true)}
             initial={{ opacity: 0, y: 24, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 12, scale: 0.98, transition: { duration: 0.18 } }}
             transition={{ type: "spring", stiffness: 380, damping: 28 }}
-            className="pointer-events-auto flex items-center gap-3 rounded-full border border-line-strong bg-surface py-2.5 pl-3 pr-5 text-sm font-semibold text-ink shadow-[var(--shadow)]"
+            className="pointer-events-auto flex max-w-full items-center gap-3 rounded-full border border-line-strong bg-surface py-1.5 pl-3 pr-1.5 text-sm font-semibold text-ink shadow-[var(--shadow)]"
           >
-            <CheckCircle2 className="h-5 w-5 text-mint" />
-            {toast.text}
-            <span className="text-neb">Ver carrito</span>
-          </motion.button>
+            <CheckCircle2 className="h-5 w-5 shrink-0 text-mint" />
+            <span className="truncate">{toast.text}</span>
+            {toast.undo && (
+              <button
+                type="button"
+                onClick={() => {
+                  toast.undo?.();
+                  dismissToast();
+                }}
+                className="min-h-[36px] shrink-0 rounded-full px-3 text-mute hover:bg-surface-2 hover:text-ink"
+              >
+                Deshacer
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(true);
+                dismissToast();
+              }}
+              className="min-h-[36px] shrink-0 rounded-full bg-neb px-3.5 text-neb-ink"
+            >
+              Ver carrito
+            </button>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

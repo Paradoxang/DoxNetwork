@@ -1,128 +1,598 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { Menu, Search, ShoppingBag, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+  ArrowRight,
+  ChevronDown,
+  Heart,
+  HelpCircle,
+  Menu,
+  MessageCircle,
+  Search,
+  ShieldCheck,
+  ShoppingBag,
+  Sparkles,
+  Store,
+  X,
+} from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { CategoryIcon } from "@/components/CategoryIcon";
 import { LogoDN } from "@/components/LogoDN";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import {
+  bestDiscount,
+  categories,
+  fromPrice,
+  products,
+  upcoming,
+} from "@/data/catalog";
+import { formatCOP, site, waLink } from "@/data/site";
+import { EASE, lockScroll } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
-import { EASE } from "@/lib/anim";
+import { useUI } from "@/lib/ui";
 
-const links = [
-  { label: "Inicio", to: "/" },
-  { label: "Catálogo", to: "/catalogo" },
-  { label: "Ofertas", to: "/catalogo?ofertas=1" },
-  { label: "Preguntas", to: "/#preguntas" },
-];
+type MenuId = "categorias" | "combos" | "ayuda";
 
+const combos = products.filter((p) => p.category === "combos");
+const countIn = (id: string) => products.filter((p) => p.category === id).length;
+
+/**
+ * Cabecera interactiva:
+ *  · barra de anuncios rotativa,
+ *  · menús desplegables con intención de hover (abre a los 70 ms, cierra a los
+ *    180 ms) y también por clic y teclado; Esc cierra y devuelve el foco,
+ *  · una píldora que sigue al puntero entre los items (layoutId),
+ *  · se esconde al bajar y reaparece al subir,
+ *  · en móvil, panel a pantalla completa con acordeones.
+ */
 export function Nav() {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
-  const { count, setOpen: openCart } = useCart();
+  const reduced = useReducedMotion();
+  const { count, favorites, setOpen: openCart } = useCart();
+  const { setSearchOpen } = useUI();
 
+  const [menu, setMenu] = useState<MenuId | null>(null);
+  const [hover, setHover] = useState<string | null>(null);
+  const [mobile, setMobile] = useState(false);
+  const [atTop, setAtTop] = useState(true);
+  const [hidden, setHidden] = useState(false);
+  const openTimer = useRef<number>();
+  const closeTimer = useRef<number>();
+  const triggers = useRef<Partial<Record<MenuId, HTMLButtonElement | null>>>({});
+
+  // Cabecera inteligente
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    let last = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setAtTop(y < 24);
+      if (Math.abs(y - last) > 6) {
+        setHidden(y > last && y > 240);
+        last = y;
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => setOpen(false), [location]);
+  // Cerrar todo al navegar
+  useEffect(() => {
+    setMenu(null);
+    setMobile(false);
+  }, [location.pathname, location.search, location.hash]);
 
-  return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-300 ${
-        scrolled || open ? "border-b border-line bg-bg/85 backdrop-blur-md" : "border-b border-transparent"
+  useEffect(() => {
+    if (!mobile) return;
+    lockScroll(true);
+    return () => lockScroll(false);
+  }, [mobile]);
+
+  const closeMenu = useCallback((returnFocus = false) => {
+    setMenu((m) => {
+      if (returnFocus && m) triggers.current[m]?.focus();
+      return null;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!menu) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && closeMenu(true);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [menu, closeMenu]);
+
+  const enter = (id: MenuId) => {
+    window.clearTimeout(closeTimer.current);
+    window.clearTimeout(openTimer.current);
+    openTimer.current = window.setTimeout(() => setMenu(id), menu ? 0 : 70);
+  };
+  const leave = () => {
+    window.clearTimeout(openTimer.current);
+    closeTimer.current = window.setTimeout(() => setMenu(null), 180);
+  };
+
+  const show = !hidden || Boolean(menu) || mobile;
+
+  const trigger = (id: MenuId, label: string) => (
+    <button
+      ref={(el) => (triggers.current[id] = el)}
+      type="button"
+      aria-expanded={menu === id}
+      aria-controls={`menu-${id}`}
+      onClick={() => setMenu((m) => (m === id ? null : id))}
+      onPointerEnter={(e) => {
+        setHover(id);
+        if (e.pointerType === "mouse") enter(id);
+      }}
+      onPointerLeave={(e) => e.pointerType === "mouse" && leave()}
+      className={`relative flex items-center gap-1 rounded-full px-3.5 py-2 text-[15px] font-semibold transition-colors ${
+        menu === id ? "text-ink" : "text-mute hover:text-ink"
       }`}
     >
-      <div className="mx-auto flex h-[72px] max-w-[1200px] items-center justify-between gap-4 px-4 md:px-6">
-        <Link to="/" className="group flex items-center gap-2.5" aria-label="DoxNetwork, inicio">
-          <LogoDN className="h-9 w-auto transition-transform duration-300 group-hover:scale-105" />
-          <span className="font-display text-[19px] leading-none tracking-[0.08em] text-ink transition-colors group-hover:text-neb">
-            DOX<span className="text-neb">NETWORK</span>
-          </span>
-        </Link>
+      {hover === id && <Pill reduced={reduced} />}
+      <span className="relative">{label}</span>
+      <ChevronDown className={`relative h-4 w-4 transition-transform duration-300 ${menu === id ? "rotate-180" : ""}`} />
+    </button>
+  );
 
-        <nav className="hidden items-center gap-1 md:flex" aria-label="Principal">
-          {links.map((l) => (
-            <NavLink
-              key={l.label}
-              to={l.to}
-              end
-              className={({ isActive }) =>
-                `rounded-full px-4 py-2 text-[15px] font-semibold transition-colors ${
-                  isActive && !l.to.includes("?") && !l.to.includes("#") ? "text-neb" : "text-mute hover:text-ink"
-                }`
-              }
-            >
-              {l.label}
-            </NavLink>
-          ))}
-        </nav>
+  const link = (to: string, label: string, key: string) => (
+    <Link
+      to={to}
+      onPointerEnter={() => {
+        setHover(key);
+        leave();
+      }}
+      className="relative rounded-full px-3.5 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink"
+    >
+      {hover === key && <Pill reduced={reduced} />}
+      <span className="relative">{label}</span>
+    </Link>
+  );
 
-        <div className="flex items-center gap-2">
-          <Link to="/catalogo" className="icon-btn hidden sm:inline-flex" aria-label="Buscar en el catálogo">
-            <Search className="h-[18px] w-[18px]" />
+  return (
+    <>
+    <motion.header
+      className="fixed inset-x-0 top-0 z-50"
+      initial={false}
+      animate={{ y: show ? 0 : "-100%" }}
+      transition={{ duration: reduced ? 0 : 0.35, ease: EASE }}
+    >
+      <AnimatePresence initial={false}>
+        {atTop && !mobile && (
+          <motion.div
+            key="bar"
+            initial={{ height: 0 }}
+            animate={{ height: 36 }}
+            exit={{ height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="overflow-hidden"
+          >
+            <AnnouncementBar />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div
+        className={`border-b transition-[background-color,border-color] duration-300 ${
+          atTop && !menu && !mobile ? "border-transparent" : "border-line bg-bg/90 backdrop-blur-md"
+        }`}
+        onPointerLeave={(e) => {
+          setHover(null);
+          if (e.pointerType === "mouse") leave();
+        }}
+      >
+        <div className="mx-auto flex h-[72px] max-w-[1200px] items-center justify-between gap-4 px-4 md:px-6">
+          <Link to="/" className="group flex shrink-0 items-center gap-2.5" aria-label="DoxNetwork, inicio">
+            <LogoDN className="h-9 w-auto transition-transform duration-300 group-hover:scale-105" />
+            <span className="font-display text-[19px] leading-none tracking-[0.08em] text-ink transition-colors group-hover:text-neb">
+              DOX<span className="text-neb">NETWORK</span>
+            </span>
           </Link>
-          <ThemeToggle />
-          <button
-            type="button"
-            onClick={() => openCart(true)}
-            className="icon-btn relative"
-            aria-label={`Abrir carrito, ${count} ${count === 1 ? "producto" : "productos"}`}
-          >
-            <ShoppingBag className="h-[18px] w-[18px]" />
-            <AnimatePresence>
-              {count > 0 && (
+
+          <nav className="hidden items-center lg:flex" aria-label="Principal">
+            {trigger("categorias", "Categorías")}
+            {trigger("combos", "Combos")}
+            {link("/catalogo?ofertas=1", "Ofertas", "ofertas")}
+            {link("/arma-tu-combo", "Arma tu combo", "arma")}
+            {trigger("ayuda", "Ayuda")}
+          </nav>
+
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              className="icon-btn lg:w-auto lg:gap-2 lg:px-3.5"
+              aria-label="Buscar (Ctrl + K)"
+            >
+              <Search className="h-[18px] w-[18px]" />
+              <kbd className="hidden rounded-md border border-line px-1.5 py-0.5 font-sans text-[11px] text-faint lg:inline">Ctrl K</kbd>
+            </button>
+            <Link to="/favoritos" className="icon-btn relative hidden sm:inline-flex" aria-label={`Favoritos, ${favorites.length}`}>
+              <Heart className="h-[18px] w-[18px]" />
+              <CountBubble n={favorites.length} tone="neb" />
+            </Link>
+            <div className="hidden sm:block">
+              <ThemeToggle />
+            </div>
+            <button
+              type="button"
+              onClick={() => openCart(true)}
+              className="icon-btn relative"
+              aria-label={`Abrir carrito, ${count} ${count === 1 ? "producto" : "productos"}`}
+            >
+              <ShoppingBag className="h-[18px] w-[18px]" />
+              <CountBubble n={count} tone="mint" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setMobile((v) => !v)}
+              className="icon-btn lg:hidden"
+              aria-label={mobile ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={mobile}
+              aria-controls="menu-movil"
+            >
+              <AnimatePresence mode="wait" initial={false}>
                 <motion.span
-                  key={count}
-                  initial={{ scale: 0.3, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.3, opacity: 0 }}
-                  transition={{ type: "spring", stiffness: 500, damping: 20 }}
-                  className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-mint px-1 text-[11px] font-extrabold text-mint-ink"
+                  key={mobile ? "x" : "menu"}
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.18 }}
                 >
-                  {count}
+                  {mobile ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
                 </motion.span>
-              )}
-            </AnimatePresence>
-          </button>
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="icon-btn md:hidden"
-            aria-label={open ? "Cerrar menú" : "Abrir menú"}
-            aria-expanded={open}
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
+              </AnimatePresence>
+            </button>
+          </div>
+        </div>
+
+        {/* Panel de escritorio: un solo contenedor que cambia de alto al pasar de un menú a otro */}
+        <AnimatePresence>
+          {menu && (
+            <motion.div
+              key="panel"
+              id={`menu-${menu}`}
+              layout={!reduced}
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8, transition: { duration: 0.15 } }}
+              transition={{ duration: 0.28, ease: EASE }}
+              className="hidden border-t border-line lg:block"
+              onPointerEnter={(e) => e.pointerType === "mouse" && window.clearTimeout(closeTimer.current)}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={menu}
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -8 }}
+                  transition={{ duration: 0.18 }}
+                  className="mx-auto max-w-[1200px] px-6 py-6"
+                >
+                  {menu === "categorias" && <CategoriesPanel />}
+                  {menu === "combos" && <CombosPanel />}
+                  {menu === "ayuda" && <HelpPanel />}
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+    </motion.header>
+
+    {/* Hermanos del header y no hijos: el header se desplaza con transform y
+        eso convertiría en relativos a él a los elementos fixed de dentro. */}
+    <AnimatePresence>
+      {menu && (
+        <motion.div
+          key="scrim"
+          aria-hidden="true"
+          className="fixed inset-0 z-40 hidden bg-[#060912]/35 lg:block"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setMenu(null)}
+        />
+      )}
+    </AnimatePresence>
+
+    <MobileMenu open={mobile} onSearch={() => setSearchOpen(true)} />
+    </>
+  );
+}
+
+function Pill({ reduced }: { reduced: boolean | null }) {
+  return (
+    <motion.span
+      layoutId={reduced ? undefined : "nav-pill"}
+      className="absolute inset-0 rounded-full bg-surface"
+      transition={{ type: "spring", stiffness: 500, damping: 40 }}
+    />
+  );
+}
+
+function CountBubble({ n, tone }: { n: number; tone: "mint" | "neb" }) {
+  return (
+    <AnimatePresence>
+      {n > 0 && (
+        <motion.span
+          key={n}
+          initial={{ scale: 0.3, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.3, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 500, damping: 20 }}
+          className={`absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full px-1 text-[11px] font-extrabold ${
+            tone === "mint" ? "bg-mint text-mint-ink" : "bg-neb text-neb-ink"
+          }`}
+        >
+          {n}
+        </motion.span>
+      )}
+    </AnimatePresence>
+  );
+}
+
+// ── Paneles ──
+
+function CategoriesPanel() {
+  const star = products.find((p) => p.slug === "combo-universitario")!;
+  return (
+    <div className="grid grid-cols-[1fr_300px] gap-6">
+      <div>
+        <p className="kicker">Explora por categoría</p>
+        <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-4">
+          {categories.map((c) => (
+            <li key={c.id}>
+              <Link
+                to={`/catalogo?categoria=${c.id}`}
+                className="group flex h-full items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-surface"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-neb-soft text-neb transition-colors group-hover:bg-neb group-hover:text-neb-ink">
+                  <CategoryIcon id={c.id} />
+                </span>
+                <span>
+                  <span className="block font-bold leading-snug">{c.name}</span>
+                  <span className="mt-0.5 block text-[13px] leading-snug text-mute">{c.blurb}</span>
+                  <span className="mt-1 block text-xs font-semibold text-faint">{countIn(c.id)} productos</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
+          <span className="text-faint">Próximamente:</span>
+          {upcoming.map((u) => (
+            <span key={u.name} className="rounded-full border border-dashed border-line-strong px-3 py-1 text-mute">
+              {u.name}
+            </span>
+          ))}
+          <Link to="/catalogo" className="ml-auto flex items-center gap-1.5 font-semibold text-neb hover:underline">
+            Ver todo el catálogo <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
 
-      <AnimatePresence>
+      <Link
+        to={`/producto/${star.slug}`}
+        className="group relative flex flex-col justify-end overflow-hidden rounded-2xl border border-line p-5"
+        style={{ background: `radial-gradient(120% 80% at 100% 0%, ${star.hue}55, transparent 60%), var(--surface)` }}
+      >
+        <span className="kicker">Combo destacado</span>
+        <span className="mt-2 text-xl font-extrabold leading-tight">{star.name}</span>
+        <span className="mt-1 text-sm text-mute">{star.tagline}</span>
+        <span className="mt-4 flex items-baseline gap-2">
+          <span className="text-2xl font-extrabold">{formatCOP(fromPrice(star))}</span>
+          <span className="rounded-full bg-gold-soft px-2 py-0.5 text-xs font-bold text-gold">Ahorra {bestDiscount(star)}%</span>
+        </span>
+        <span className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-neb">
+          Ver combo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+        </span>
+      </Link>
+    </div>
+  );
+}
+
+function CombosPanel() {
+  return (
+    <div className="grid grid-cols-[1fr_280px] gap-6">
+      <div>
+        <p className="kicker">Combos con identidad</p>
+        <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-3">
+          {combos.map((c) => (
+            <li key={c.slug}>
+              <Link to={`/producto/${c.slug}`} className="group flex h-full flex-col rounded-2xl p-3 transition-colors hover:bg-surface">
+                <span className="flex items-center justify-between gap-2">
+                  <span className="font-bold group-hover:text-neb">{c.name}</span>
+                  <span className="text-xs font-bold text-gold">-{bestDiscount(c)}%</span>
+                </span>
+                <span className="mt-0.5 text-[13px] text-mute">{c.tagline}</span>
+                <span className="mt-1.5 text-sm font-extrabold">{formatCOP(fromPrice(c))}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Link
+        to="/arma-tu-combo"
+        className="group flex flex-col justify-between rounded-2xl border border-line bg-neb-soft p-5 transition-colors hover:border-neb"
+      >
+        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-neb text-neb-ink">
+          <Sparkles className="h-5 w-5" />
+        </span>
+        <span>
+          <span className="mt-6 block text-xl font-extrabold leading-tight">Arma tu propio combo</span>
+          <span className="mt-1 block text-sm text-mute">Elige lo que quieras: 2 productos 5%, 3 productos 10%, 4 o más 15%.</span>
+          <span className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-neb">
+            Empezar <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </span>
+        </span>
+      </Link>
+    </div>
+  );
+}
+
+function HelpPanel() {
+  const items: { icon: ReactNode; title: string; text: string; to?: string; href?: string }[] = [
+    { icon: <HelpCircle className="h-5 w-5" />, title: "Cómo comprar", text: "Tres pasos, todo por WhatsApp", to: "/#como-comprar" },
+    { icon: <ShieldCheck className="h-5 w-5" />, title: "Garantía", text: `Reponemos en menos de ${site.warrantyHours} h`, to: "/#garantia" },
+    { icon: <MessageCircle className="h-5 w-5" />, title: "Preguntas frecuentes", text: "Pantalla, completa, pagos y más", to: "/#preguntas" },
+    {
+      icon: <Store className="h-5 w-5" />,
+      title: "¿Quieres revender?",
+      text: "Precios por volumen para distribuidores",
+      href: waLink(`Hola ${site.name}, quiero información para revender.`),
+    },
+  ];
+  return (
+    <div className="grid grid-cols-[1fr_280px] gap-6">
+      <ul className="grid grid-cols-2 gap-1.5">
+        {items.map((it) => {
+          const inner = (
+            <>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-neb-soft text-neb">{it.icon}</span>
+              <span>
+                <span className="block font-bold">{it.title}</span>
+                <span className="block text-[13px] text-mute">{it.text}</span>
+              </span>
+            </>
+          );
+          const cls = "flex items-center gap-3 rounded-2xl p-3 transition-colors hover:bg-surface";
+          return (
+            <li key={it.title}>
+              {it.to ? (
+                <Link to={it.to} className={cls}>{inner}</Link>
+              ) : (
+                <a href={it.href} target="_blank" rel="noopener noreferrer" className={cls}>{inner}</a>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      <a
+        href={waLink(`Hola ${site.name}, necesito ayuda.`)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex flex-col justify-between rounded-2xl border border-line bg-mint-soft p-5 transition-colors hover:border-mint"
+      >
+        <WhatsAppIcon className="h-8 w-8 text-mint" />
+        <span>
+          <span className="mt-6 block text-lg font-extrabold">Habla con una persona</span>
+          <span className="mt-1 block text-sm text-mute">{site.hours}</span>
+        </span>
+      </a>
+    </div>
+  );
+}
+
+// ── Menú móvil ──
+
+function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void }) {
+  const [section, setSection] = useState<"cat" | "combos" | null>("cat");
+  const reduced = useReducedMotion();
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          id="menu-movil"
+          data-lenis-prevent
+          className="fixed inset-x-0 bottom-0 top-[72px] z-[45] overflow-y-auto border-t border-line bg-bg lg:hidden"
+          initial={reduced ? { opacity: 0 } : { opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={reduced ? { opacity: 0 } : { opacity: 0, y: -12 }}
+          transition={{ duration: 0.28, ease: EASE }}
+        >
+          <div className="space-y-2 px-4 pb-10 pt-4">
+            <button type="button" onClick={onSearch} className="field flex items-center gap-3 text-left text-faint">
+              <Search className="h-[18px] w-[18px]" /> Buscar productos
+            </button>
+
+            <Accordion label="Categorías" open={section === "cat"} onToggle={() => setSection((s) => (s === "cat" ? null : "cat"))}>
+              <ul className="grid grid-cols-2 gap-2">
+                {categories.map((c) => (
+                  <li key={c.id}>
+                    <Link to={`/catalogo?categoria=${c.id}`} className="flex min-h-[52px] items-center gap-2.5 rounded-xl bg-surface p-3 text-sm font-semibold">
+                      <CategoryIcon id={c.id} className="h-[18px] w-[18px] shrink-0 text-neb" />
+                      {c.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Accordion>
+
+            <Accordion label="Combos" open={section === "combos"} onToggle={() => setSection((s) => (s === "combos" ? null : "combos"))}>
+              <ul className="space-y-1">
+                {combos.map((c) => (
+                  <li key={c.slug}>
+                    <Link to={`/producto/${c.slug}`} className="flex min-h-[48px] items-center justify-between rounded-xl px-3 py-2 hover:bg-surface">
+                      <span className="font-semibold">{c.name}</span>
+                      <span className="text-sm font-bold">{formatCOP(fromPrice(c))}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Accordion>
+
+            {[
+              { to: "/catalogo?ofertas=1", label: "Ofertas" },
+              { to: "/arma-tu-combo", label: "Arma tu combo" },
+              { to: "/favoritos", label: "Favoritos" },
+              { to: "/#garantia", label: "Garantía" },
+              { to: "/#preguntas", label: "Preguntas frecuentes" },
+            ].map((l) => (
+              <Link key={l.to} to={l.to} className="flex min-h-[52px] items-center justify-between rounded-2xl px-4 text-base font-bold hover:bg-surface">
+                {l.label} <ArrowRight className="h-4 w-4 text-faint" />
+              </Link>
+            ))}
+
+            <div className="flex items-center justify-between rounded-2xl px-4 py-2">
+              <span className="font-bold">Tema</span>
+              <ThemeToggle />
+            </div>
+
+            <a href={waLink(`Hola ${site.name}, necesito ayuda.`)} target="_blank" rel="noopener noreferrer" className="btn btn-buy mt-4 w-full">
+              <WhatsAppIcon /> Hablar por WhatsApp
+            </a>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+function Accordion({
+  label,
+  open,
+  onToggle,
+  children,
+}: {
+  label: string;
+  open: boolean;
+  onToggle: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <div className="rounded-2xl border border-line">
+      <button type="button" onClick={onToggle} aria-expanded={open} className="flex min-h-[52px] w-full items-center justify-between px-4 text-base font-bold">
+        {label}
+        <ChevronDown className={`h-5 w-5 text-faint transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+      </button>
+      <AnimatePresence initial={false}>
         {open && (
-          <motion.nav
+          <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: EASE }}
-            className="overflow-hidden md:hidden"
-            aria-label="Menú móvil"
+            className="overflow-hidden"
           >
-            <div className="flex flex-col gap-1 px-4 pb-4">
-              {links.map((l) => (
-                <Link
-                  key={l.label}
-                  to={l.to}
-                  className="rounded-xl px-4 py-3 text-base font-semibold text-mute transition-colors hover:bg-surface hover:text-ink"
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </div>
-          </motion.nav>
+            <div className="px-3 pb-3">{children}</div>
+          </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </div>
   );
 }

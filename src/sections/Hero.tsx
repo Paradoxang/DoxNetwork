@@ -1,4 +1,4 @@
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Check, Search } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LogoDN } from "@/components/LogoDN";
@@ -6,7 +6,13 @@ import { site } from "@/data/site";
 import { Magnetic, Tilt } from "@/lib/anim";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 
-const populares = ["Netflix", "Spotify", "ChatGPT", "Canva", "Game Pass"];
+const populares = [
+  { label: "Netflix", to: "/producto/netflix" },
+  { label: "Disney+", to: "/producto/disney-plus" },
+  { label: "ChatGPT", to: "/producto/chatgpt" },
+  { label: "Canva", to: "/producto/canva-pro" },
+  { label: "Pines de cine", to: "/catalogo?categoria=cine-tv" },
+];
 
 export function Hero() {
   const scope = useRef<HTMLElement>(null);
@@ -56,7 +62,7 @@ export function Hero() {
   );
 
   return (
-    <section ref={scope} className="relative overflow-hidden pt-[112px] pb-16 md:pt-[136px] md:pb-24">
+    <section ref={scope} className="relative overflow-hidden pt-[148px] pb-16 md:pt-[172px] md:pb-20">
       <div className="mx-auto grid max-w-[1200px] items-center gap-12 px-4 md:px-6 lg:grid-cols-[1.15fr_1fr]">
         <div data-intro>
           <p className="kicker" data-hero-in>
@@ -66,8 +72,8 @@ export function Hero() {
             Todo lo digital, sin vueltas.
           </h1>
           <p data-hero-in className="mt-6 max-w-xl text-[17px] leading-relaxed text-mute md:text-lg">
-            Streaming, música, inteligencia artificial, software, gaming y cursos a buen precio. Eliges,
-            pagas y lo recibes en tu WhatsApp.
+            Streaming, música, IA, pines de cine, software y gaming desde $2.900. Eliges, pagas y lo
+            recibes en tu WhatsApp, con garantía durante toda la vigencia.
           </p>
 
           <form data-hero-in onSubmit={onSearch} role="search" className="mt-8 flex max-w-xl gap-2">
@@ -94,8 +100,8 @@ export function Hero() {
           <div data-hero-in className="mt-4 flex flex-wrap items-center gap-2">
             <span className="text-sm text-faint">Lo más buscado:</span>
             {populares.map((p) => (
-              <Link key={p} to={`/catalogo?q=${encodeURIComponent(p)}`} className="chip min-h-[34px] text-[13px]">
-                {p}
+              <Link key={p.label} to={p.to} className="chip min-h-[34px] text-[13px]">
+                {p.label}
               </Link>
             ))}
           </div>
@@ -106,10 +112,18 @@ export function Hero() {
                 Ver catálogo <ArrowRight className="h-4 w-4" />
               </Link>
             </Magnetic>
-            <Link to="/catalogo?ofertas=1" className="btn btn-ghost">
-              Ofertas de la semana
+            <Link to="/arma-tu-combo" className="btn btn-ghost">
+              Arma tu combo
             </Link>
           </div>
+
+          <ul data-hero-in className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm text-mute">
+            {[`Entrega en ~${site.deliveryMinutes} min`, `Garantía de ${site.warrantyHours} h`, "Sin cobros automáticos"].map((t) => (
+              <li key={t} className="flex items-center gap-2">
+                <Check className="h-4 w-4 text-mint" strokeWidth={2.5} /> {t}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div data-intro className="relative isolate mx-auto w-full max-w-[340px] lg:max-w-[520px]">

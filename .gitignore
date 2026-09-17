@@ -10,3 +10,8 @@ Thumbs.db
 .claude
 vite.config.js
 vite.config.d.ts
+
+# Estudios de competencia y documentos internos: no se publican
+/*.docx
+/*.pdf
+/*.xlsx

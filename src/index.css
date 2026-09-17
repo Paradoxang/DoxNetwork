@@ -187,11 +187,15 @@
   }
 
   /* ── Tipografía de marca ── */
+  /* Manrope y no Kenney: en Kenney "VEZ" se lee "UEZ" y "EXPLORA" se lee
+     "EHPLORA". Kenney queda solo en el logotipo, donde la forma se reconoce
+     como marca y no se lee letra a letra. */
   .kicker {
-    font-family: var(--font-display);
-    font-size: 11px;
-    line-height: 1;
-    letter-spacing: 0.24em;
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-size: 11.5px;
+    line-height: 1.2;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--neb);
   }

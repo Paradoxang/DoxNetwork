@@ -8,17 +8,17 @@ const steps = [
   {
     icon: MousePointerClick,
     title: "Elige",
-    text: "Agrega al carrito lo que quieras. Si combinas varios productos, el descuento se aplica solo.",
+    text: "Agrega al carrito lo que quieras, o arma tu combo. Al combinar productos el descuento se aplica solo.",
   },
   {
     icon: MessageCircle,
     title: "Confirma por WhatsApp",
-    text: "Enviamos tu pedido armado a nuestro WhatsApp y te respondemos con los datos de pago.",
+    text: "Tu pedido llega armado a nuestro WhatsApp y te respondemos con los datos de pago.",
   },
   {
     icon: CreditCard,
     title: "Paga y recibe",
-    text: `Pagas por ${site.payments.slice(0, 3).join(", ")} y recibes tu producto en el mismo chat.`,
+    text: `Pagas por ${site.payments.slice(0, 3).join(", ")} y lo recibes en el mismo chat en ~${site.deliveryMinutes} minutos.`,
   },
 ];
 
@@ -59,8 +59,8 @@ export function HowItWorks() {
   );
 
   return (
-    <section ref={scope} className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
-      <SectionHeading kicker="03 · Cómo comprar" title="Tres pasos y listo" center>
+    <section ref={scope} id="como-comprar" className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
+      <SectionHeading kicker="04 · Cómo comprar" title="Tres pasos y listo" center>
         Sin registros ni formularios largos. Todo pasa en un chat.
       </SectionHeading>
 

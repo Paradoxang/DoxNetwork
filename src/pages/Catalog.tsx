@@ -6,6 +6,7 @@ import { CategoryIcon } from "@/components/CategoryIcon";
 import { ProductCard } from "@/components/ProductCard";
 import { Seo } from "@/components/Seo";
 import {
+  bestDiscount,
   categories,
   categoryById,
   fromPrice,
@@ -16,14 +17,10 @@ import {
 } from "@/data/catalog";
 import { site } from "@/data/site";
 import { EASE, Reveal } from "@/lib/anim";
+import { normalize } from "@/lib/ui";
 
-type Sort = "relevancia" | "menor" | "mayor" | "az";
+type Sort = "relevancia" | "menor" | "mayor" | "ahorro" | "az";
 
-const normalize = (s: string) =>
-  s
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{Diacritic}/gu, "");
 
 const EMPTY = new URLSearchParams();
 
@@ -73,6 +70,7 @@ export function Catalog() {
     out = [...out].sort((a, b) => Number(isAvailable(b)) - Number(isAvailable(a)));
     if (sort === "menor") out.sort((a, b) => fromPrice(a) - fromPrice(b));
     if (sort === "mayor") out.sort((a, b) => fromPrice(b) - fromPrice(a));
+    if (sort === "ahorro") out.sort((a, b) => bestDiscount(b) - bestDiscount(a));
     if (sort === "az") out.sort((a, b) => a.name.localeCompare(b.name, "es"));
     return out;
   }, [q, cat, onlySale, sort]);
@@ -87,11 +85,11 @@ export function Catalog() {
         description="Streaming, música, IA, software, gaming, cursos y más. Precios claros y entrega por WhatsApp."
         path="/catalogo"
       />
-      <section className="mx-auto max-w-[1200px] px-4 pb-24 pt-[112px] md:px-6 md:pt-[136px]">
+      <section className="mx-auto max-w-[1200px] px-4 pb-24 pt-[140px] md:px-6 md:pt-[164px]">
         <Reveal>
           <p className="kicker">Catálogo</p>
           <h1 className="display mt-3 text-[clamp(34px,5.5vw,60px)]">
-            {onlySale ? "Ofertas" : current ? current.name : "Todos los productos"}
+            {onlySale ? "Con ahorro" : current ? current.name : "Todos los productos"}
           </h1>
           <p className="mt-3 max-w-xl text-mute">
             {current ? current.blurb + "." : "Elige, agrega al carrito y confirma tu pedido por WhatsApp."}
@@ -111,7 +109,7 @@ export function Catalog() {
                 type="search"
                 value={q}
                 onChange={(e) => update({ q: e.target.value || null })}
-                placeholder="Buscar: Netflix, Canva, Game Pass…"
+                placeholder="Buscar: Netflix, Canva, pines de cine…"
                 className="field pl-11"
                 autoComplete="off"
               />
@@ -126,6 +124,7 @@ export function Catalog() {
                 <option value="relevancia">Relevancia</option>
                 <option value="menor">Precio: menor a mayor</option>
                 <option value="mayor">Precio: mayor a menor</option>
+                <option value="ahorro">Mayor ahorro</option>
                 <option value="az">Nombre: A–Z</option>
               </select>
               <span aria-hidden="true" className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-faint">
