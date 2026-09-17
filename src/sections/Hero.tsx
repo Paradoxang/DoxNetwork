@@ -1,11 +1,13 @@
 import { ArrowRight, Check, Search } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Astro } from "@/components/Astro";
 import { LogoDN } from "@/components/LogoDN";
 import { minPrice } from "@/data/catalog";
 import { formatCOP, site } from "@/data/site";
 import { Magnetic, Tilt } from "@/lib/anim";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { useUI } from "@/lib/ui";
 
 const populares = [
   { label: "Netflix", to: "/producto/netflix" },
@@ -19,6 +21,7 @@ export function Hero() {
   const scope = useRef<HTMLElement>(null);
   const [q, setQ] = useState("");
   const navigate = useNavigate();
+  const { setSearchOpen } = useUI();
 
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -32,7 +35,8 @@ export function Hero() {
      2. el resto del texto y el buscador llegan escalonados,
      3. en paralelo el isotipo se dibuja: trazo de la D, trazo de la N, se
         enciende el halo de la N, aparecen el planeta y la luna, los anillos se
-        abren desde el centro y los nodos de la red se encienden uno a uno.
+        abren desde el centro y los nodos de la red se encienden uno a uno,
+     4. ASTRO sale del portal y aparece su globo de diálogo.
      Con movimiento reducido no se anima nada: el CSS ya lo deja visible. */
   useGSAP(
     () => {
@@ -65,6 +69,9 @@ export function Hero() {
             .from(logo.querySelectorAll(".dn-ring"), { scale: 0.2, autoAlpha: 0, svgOrigin: "500 420", duration: 1.1, ease: "expo.out" }, "-=0.6")
             .from(logo.querySelectorAll(".dn-node"), { scale: 0, transformOrigin: "50% 50%", duration: 0.5, stagger: 0.12, ease: "back.out(2.2)" }, "-=0.7");
         }
+        // ASTRO sale del portal cuando el logo ya se está dibujando, y luego saluda con su globo
+        gsap.from(el.querySelector("[data-hero-astro]"), { y: 90, autoAlpha: 0, scale: 0.8, duration: 1.2, delay: 0.8, ease: "back.out(1.4)" });
+        gsap.from(el.querySelector("[data-hero-bubble]"), { scale: 0, autoAlpha: 0, duration: 0.6, delay: 1.7, ease: "back.out(2)" });
         return () => split.revert();
       });
     },
@@ -136,17 +143,39 @@ export function Hero() {
           </ul>
         </div>
 
-        <div data-intro className="relative isolate mx-auto w-full max-w-[340px] lg:max-w-[520px]">
+        <div data-intro className="relative isolate mx-auto w-full max-w-[360px] lg:max-w-[540px]">
           <div
             aria-hidden="true"
             className="absolute inset-[8%] -z-10 rounded-full blur-3xl"
             style={{ background: "radial-gradient(circle, var(--glow-a), transparent 70%)" }}
           />
-          <Tilt>
-            <div className="flota" data-hero-logo>
-              <LogoDN title={site.name} className="h-auto w-full" />
+          <div className="relative aspect-square">
+            {/* El isotipo DN queda detrás, como portal de donde sale ASTRO */}
+            <Tilt className="absolute inset-x-0 top-0">
+              <div data-hero-logo className="opacity-45">
+                <LogoDN className="h-auto w-full" />
+              </div>
+            </Tilt>
+            {/* Brillo en el piso bajo los pies */}
+            <div
+              aria-hidden="true"
+              className="absolute bottom-[1%] left-1/2 h-[7%] w-[46%] -translate-x-1/2 rounded-[50%] blur-xl"
+              style={{ background: "var(--neb-soft)" }}
+            />
+            <div data-hero-astro className="absolute inset-x-0 bottom-[3%] flex h-[84%] justify-center">
+              <Astro pose="saludo" eager enter={false} className="h-full" />
             </div>
-          </Tilt>
+            {/* Globo de ASTRO: abre el buscador */}
+            <button
+              type="button"
+              data-hero-bubble
+              onClick={() => setSearchOpen(true)}
+              className="absolute left-0 top-[30%] max-w-[46%] origin-bottom-right rounded-2xl rounded-br-sm border border-line-strong bg-surface/95 px-3.5 py-2.5 text-left shadow-[var(--shadow)] backdrop-blur-sm transition-colors hover:border-neb sm:px-4 sm:py-3"
+            >
+              <span className="block text-[13px] font-extrabold text-ink sm:text-sm">¡Hola! Soy ASTRO</span>
+              <span className="mt-0.5 block text-xs text-mute sm:text-[13px]">¿Te ayudo a encontrar algo?</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>

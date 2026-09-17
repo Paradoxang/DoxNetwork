@@ -1,5 +1,6 @@
 import { CreditCard, MessageCircle, MousePointerClick } from "lucide-react";
 import { useRef } from "react";
+import { Astro } from "@/components/Astro";
 import { SectionHeading } from "@/components/SectionHeading";
 import { site } from "@/data/site";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -60,9 +61,15 @@ export function HowItWorks() {
 
   return (
     <section ref={scope} id="como-comprar" className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
-      <SectionHeading kicker="04 · Cómo comprar" title="Tres pasos y listo" center>
-        Sin registros ni formularios largos. Todo pasa en un chat.
-      </SectionHeading>
+      <div className="relative">
+        <SectionHeading kicker="04 · Cómo comprar" title="Tres pasos y listo" center>
+          Sin registros ni formularios largos. Todo pasa en un chat.
+        </SectionHeading>
+        {/* ASTRO señala los pasos (solo escritorio, a la izquierda del titular) */}
+        <div className="absolute -top-10 left-0 hidden lg:block">
+          <Astro pose="senala" decorative className="h-52" />
+        </div>
+      </div>
 
       <div data-steps className="relative mt-14">
         {/* Trazo horizontal (escritorio) */}

@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check, Plus, Sparkles } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { Astro } from "@/components/Astro";
 import { ProductArt } from "@/components/ProductArt";
 import { SectionHeading } from "@/components/SectionHeading";
 import { bestDiscount, cheapestPlan, planOf, productBySlug, products, type Product } from "@/data/catalog";
@@ -41,11 +42,12 @@ export function CombosSection() {
             <li data-reveal>
               <Link
                 to="/arma-tu-combo"
-                className="card card-hover group flex h-full min-h-[280px] flex-col justify-between border-dashed bg-neb-soft p-6"
+                className="card card-hover group relative flex h-full min-h-[280px] flex-col justify-between overflow-hidden border-dashed bg-neb-soft p-6"
               >
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-neb text-neb-ink">
                   <Sparkles className="h-5 w-5" />
                 </span>
+                <Astro pose="celebra" decorative small className="absolute -right-3 top-1 h-32 md:h-36" />
                 <span>
                   <span className="kicker">A tu medida</span>
                   <span className="mt-2 block text-2xl font-extrabold leading-tight">Arma tu propio combo</span>

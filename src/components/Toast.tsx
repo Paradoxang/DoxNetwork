@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
 import { useCart } from "@/lib/cart";
 
 /** Confirmación al agregar, con "Deshacer" (mecánica de ZeroDelay) y acceso al carrito. */
@@ -22,7 +21,9 @@ export function Toast() {
             transition={{ type: "spring", stiffness: 380, damping: 28 }}
             className="pointer-events-auto flex max-w-full items-center gap-3 rounded-full border border-line-strong bg-surface py-1.5 pl-3 pr-1.5 text-sm font-semibold text-ink shadow-[var(--shadow)]"
           >
-            <CheckCircle2 className="h-5 w-5 shrink-0 text-mint" />
+            <span className="relative -my-1 flex h-10 w-10 shrink-0 items-start justify-center overflow-hidden rounded-full bg-mint-soft" aria-hidden="true">
+              <img src="/astro/astro-pulgar-sm.webp" alt="" width="217" height="360" className="mt-0.5 h-[86px] w-auto max-w-none" />
+            </span>
             <span className="truncate">{toast.text}</span>
             {toast.undo && (
               <button

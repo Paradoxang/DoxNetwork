@@ -2,6 +2,7 @@ import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-m
 import { Search, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Astro, type AstroPose } from "@/components/Astro";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { ProductCard } from "@/components/ProductCard";
 import { Seo } from "@/components/Seo";
@@ -76,6 +77,7 @@ export function Catalog() {
   }, [q, cat, onlySale, sort]);
 
   const current = cat ? categoryById(cat) : undefined;
+  const astroPose: AstroPose = onlySale ? "sorpresa" : cat === "combos" ? "celebra" : cat === "cine-tv" ? "cine" : "senala";
   const hasFilters = Boolean(q || cat || onlySale);
 
   return (
@@ -86,15 +88,32 @@ export function Catalog() {
         path="/catalogo"
       />
       <section className="mx-auto max-w-[1200px] px-4 pb-24 pt-[140px] md:px-6 md:pt-[164px]">
-        <Reveal>
-          <p className="kicker">Catálogo</p>
-          <h1 className="display mt-3 text-[clamp(34px,5.5vw,60px)]">
-            {onlySale ? "Con ahorro" : current ? current.name : "Todos los productos"}
-          </h1>
-          <p className="mt-3 max-w-xl text-mute">
-            {current ? current.blurb + "." : "Elige, agrega al carrito y confirma tu pedido por WhatsApp."}
-          </p>
-        </Reveal>
+        <div className="flex items-end justify-between gap-6">
+          <Reveal>
+            <p className="kicker">Catálogo</p>
+            <h1 className="display mt-3 text-[clamp(34px,5.5vw,60px)]">
+              {onlySale ? "Con ahorro" : current ? current.name : "Todos los productos"}
+            </h1>
+            <p className="mt-3 max-w-xl text-mute">
+              {current ? current.blurb + "." : "Elige, agrega al carrito y confirma tu pedido por WhatsApp."}
+            </p>
+          </Reveal>
+          {/* ASTRO cambia de pose según lo que se está viendo */}
+          <div className="relative -mb-4 hidden h-44 w-40 shrink-0 md:block">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={astroPose}
+                className="absolute inset-0 flex justify-center"
+                initial={reduced ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={reduced ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.95, transition: { duration: 0.15 } }}
+                transition={{ type: "spring", stiffness: 220, damping: 20 }}
+              >
+                <Astro pose={astroPose} small enter={false} decorative className="h-full" />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
 
         {/* Controles */}
         <Reveal delay={0.06} className="mt-8 space-y-4">
@@ -201,8 +220,9 @@ export function Catalog() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="card mt-4 flex flex-col items-center gap-3 px-6 py-16 text-center"
+              className="card mt-4 flex flex-col items-center gap-3 px-6 py-12 text-center"
             >
+              <Astro pose="piensa" small decorative className="h-40" />
               <p className="text-lg font-bold">No encontramos resultados</p>
               <p className="max-w-sm text-mute">Prueba con otra palabra o escríbenos: si no está, te lo conseguimos.</p>
               <button

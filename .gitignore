@@ -20,3 +20,7 @@ vite.config.d.ts
 # las versiones optimizadas de public/promos y brand/export
 /PD_asset_*.png
 /Logo*.png
+
+# ASTRO: originales con fondo y másteres recortados (se regeneran con brand/astro/key_astro.py)
+/M_astro-*.png
+brand/astro/png/

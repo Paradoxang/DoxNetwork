@@ -2,6 +2,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, CornerDownLeft, Search, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Astro } from "@/components/Astro";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { categories, categoryById, fromPrice, products, type CategoryId } from "@/data/catalog";
 import { formatCOP } from "@/data/site";
@@ -176,7 +177,8 @@ export function SearchPalette() {
                 </li>
               ))}
               {q.trim() && results.length === 0 && (
-                <li className="px-3 py-8 text-center text-mute">
+                <li className="flex flex-col items-center px-3 py-6 text-center text-mute">
+                  <Astro pose="piensa" small enter={false} float={false} decorative className="mb-3 h-28" />
                   Sin resultados para “{q}”.
                   <button type="button" onClick={() => go()} className="mt-3 flex w-full items-center justify-center gap-1.5 font-semibold text-neb">
                     Buscar en todo el catálogo <ArrowRight className="h-4 w-4" />

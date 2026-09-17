@@ -1,9 +1,8 @@
 import { BellRing, RefreshCcw, ShieldCheck } from "lucide-react";
-import { useRef } from "react";
+import { Astro } from "@/components/Astro";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { site, waLink } from "@/data/site";
 import { Reveal } from "@/lib/anim";
-import { gsap, useGSAP } from "@/lib/gsap";
 
 /**
  * Garantía escrita: lo que ningún competidor pone en su web y lo que, según
@@ -29,40 +28,8 @@ const items = [
 ];
 
 export function Guarantee() {
-  const scope = useRef<HTMLElement>(null);
-
-  // El escudo se dibuja y hace un pulso cuando la sección entra en pantalla
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const shield = scope.current!.querySelector("[data-shield] path");
-        if (!shield) return;
-        gsap.from(shield, {
-          drawSVG: "0%",
-          duration: 1.4,
-          ease: "power2.inOut",
-          scrollTrigger: { trigger: scope.current, start: "top 75%", once: true },
-        });
-        gsap.fromTo(
-          "[data-shield-ring]",
-          { scale: 0.6, autoAlpha: 0.7 },
-          {
-            scale: 1.6,
-            autoAlpha: 0,
-            duration: 1.8,
-            repeat: 2,
-            ease: "power1.out",
-            scrollTrigger: { trigger: scope.current, start: "top 75%", once: true },
-          }
-        );
-      });
-    },
-    { scope }
-  );
-
   return (
-    <section ref={scope} id="garantia" className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
+    <section id="garantia" className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
       <div className="card relative grid gap-10 overflow-hidden p-6 md:p-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div
           aria-hidden="true"
@@ -70,10 +37,10 @@ export function Guarantee() {
           style={{ background: "var(--mint-soft)" }}
         />
         <Reveal className="relative">
-          <div className="relative flex h-20 w-20 items-center justify-center">
-            <span data-shield-ring className="absolute inset-0 rounded-full border-2 border-mint" aria-hidden="true" />
-            <span data-shield className="flex h-20 w-20 items-center justify-center rounded-full bg-mint-soft text-mint">
-              <ShieldCheck className="h-10 w-10" strokeWidth={1.8} />
+          <div className="flex items-end gap-4">
+            <Astro pose="pulgar" decorative className="h-40 shrink-0 md:h-48" />
+            <span className="mb-6 inline-flex items-center gap-2 rounded-full bg-mint-soft px-3 py-1.5 text-sm font-bold text-mint">
+              <ShieldCheck className="h-4 w-4" /> Garantía escrita
             </span>
           </div>
           <p className="kicker mt-6">05 · Garantía</p>

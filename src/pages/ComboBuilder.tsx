@@ -1,6 +1,7 @@
 import { AnimatePresence, animate, motion, useReducedMotion } from "framer-motion";
 import { Check, Plus, ShoppingBag, Sparkles, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Astro, type AstroPose } from "@/components/Astro";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { Seo } from "@/components/Seo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -46,6 +47,8 @@ export function ComboBuilder() {
   const maxPct = comboTiers.length ? comboTiers[comboTiers.length - 1].pct : 0;
   const maxMin = comboTiers.length ? comboTiers[comboTiers.length - 1].min : 1;
   const shown = pool.filter((p) => cat === "todas" || p.category === cat);
+  // ASTRO piensa sin productos, señala mientras eliges y celebra al conseguir descuento
+  const builderPose: AstroPose = t.discountPct > 0 ? "celebra" : lines.length ? "senala" : "piensa";
 
   const toggle = (slug: string) =>
     setPicked((prev) => {
@@ -169,7 +172,23 @@ export function ComboBuilder() {
           {/* Resumen: pegado al lado en escritorio, barra inferior en móvil */}
           <aside className="lg:sticky lg:top-28 lg:self-start">
             <div className="card p-5">
-              <p className="kicker">Tu combo</p>
+              <div className="flex items-start justify-between gap-3">
+                <p className="kicker">Tu combo</p>
+                <div className="relative -my-5 h-24 w-20 shrink-0">
+                  <AnimatePresence mode="wait" initial={false}>
+                    <motion.div
+                      key={builderPose}
+                      className="absolute inset-0 flex justify-center"
+                      initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.12 } }}
+                      transition={{ type: "spring", stiffness: 320, damping: 18 }}
+                    >
+                      <Astro pose={builderPose} small enter={false} float={false} decorative className="h-full" />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
               {lines.length === 0 ? (
                 <p className="mt-4 text-sm text-mute">Agrega al menos dos productos para empezar a ahorrar.</p>
               ) : (
