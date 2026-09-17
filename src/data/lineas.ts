@@ -7,28 +7,35 @@
  * compartir carrito, favoritos, buscador y fichas. No importa catalog.ts en
  * tiempo de ejecución para no crear un ciclo.
  *
+ * VAPES: línea restringida (Ley 2354 de 2024: venta solo a mayores de edad y
+ * publicidad restringida). No está en `lineaOrder`, así que no aparece en el
+ * inicio, el carrusel, los destacados ni el catálogo mezclado; solo tiene su
+ * página con verificación de edad y enlaces en el menú y el pie.
+ *
  * PRECIO: costo de proveedor × GOODS_MARKUP, redondeado a 900. Sin tachado:
  * el "antes" del proveedor no es comprobable (hay "antes" de $110 o de
  * $1.000.000).
  */
 import type { Product } from "./catalog";
 import { articuloRows } from "./articulos";
+import { vapeRows } from "./vapes";
 import { disclaimer, shipping } from "./perfumeria";
 import { up900 } from "./price";
 
 /** TODO: margen de relojería y tecnología. 2 = se vende al doble del costo. */
 export const GOODS_MARKUP = 2;
 
-export type LineaId = "digital" | "perfumeria" | "relojeria" | "tecnologia";
+export type LineaId = "digital" | "perfumeria" | "relojeria" | "tecnologia" | "vapes";
+export type LineaArticulo = "relojeria" | "tecnologia" | "vapes";
 export type Condicion = "original" | "replica";
-export type SubId = "relojes" | "accesorios" | "smartwatches" | "audio" | "carga" | "gaming" | "soportes" | "hogar" | "otros";
+export type SubId = "relojes" | "accesorios" | "smartwatches" | "audio" | "carga" | "gaming" | "soportes" | "hogar" | "otros" | "vapes";
 
 export type ArticuloRow = [
   id: number,
   cost: number,
   name: string,
   brand: string,
-  line: "relojeria" | "tecnologia",
+  line: LineaArticulo,
   sub: SubId,
   condition: Condicion | null,
   slug: string,
@@ -36,7 +43,7 @@ export type ArticuloRow = [
 ];
 
 export interface ArticuloInfo {
-  line: "relojeria" | "tecnologia";
+  line: LineaArticulo;
   sub: SubId;
   brand: string;
   condition?: Condicion;
@@ -81,9 +88,23 @@ export const lineas: Record<LineaId, Linea> = {
     path: "/tecnologia",
     hue: "#5fb8e8",
   },
+  vapes: {
+    id: "vapes",
+    name: "Vapes",
+    blurb: "Solo para mayores de 18 años",
+    path: "/vapes",
+    hue: "#8b93a8",
+  },
 };
 
+/** Líneas que se muestran y promocionan en toda la tienda. Vapes queda fuera a propósito. */
 export const lineaOrder: LineaId[] = ["digital", "perfumeria", "relojeria", "tecnologia"];
+
+/** Advertencia que acompaña a todo producto de vapeo. */
+export const vapeWarning =
+  "Venta exclusiva para mayores de 18 años. Estos productos pueden contener nicotina, una sustancia adictiva que afecta la salud. No se recomienda su uso a mujeres embarazadas ni a personas que no fuman.";
+
+export const isRestricted = (p: Product) => p.articulo?.line === "vapes";
 
 export const lineaOf = (p: Product): LineaId => (p.perfume ? "perfumeria" : p.articulo ? p.articulo.line : "digital");
 export const isPhysical = (p: Product) => Boolean(p.perfume || p.articulo);
@@ -98,6 +119,7 @@ export const subLabel: Record<SubId, string> = {
   soportes: "Soportes y creadores",
   hogar: "Luces y hogar",
   otros: "Gadgets",
+  vapes: "Vapes desechables",
 };
 
 const subText: Record<SubId, string> = {
@@ -110,6 +132,7 @@ const subText: Record<SubId, string> = {
   soportes: "Para grabar, trabajar o manejar con el celular a la mano.",
   hogar: "Luz y ambiente para tu espacio.",
   otros: "Un gadget práctico para el día a día.",
+  vapes: "Vape desechable, listo para usar.",
 };
 
 const subHue: Record<SubId, string> = {
@@ -122,6 +145,7 @@ const subHue: Record<SubId, string> = {
   soportes: "#8b93a8",
   hogar: "#f2c46d",
   otros: "#a78bfa",
+  vapes: "#8b93a8",
 };
 
 export const conditionInfo: Record<Condicion, { label: string; text: string }> = {
@@ -142,13 +166,17 @@ function toProduct([id, cost, name, brand, line, sub, condition, slug, soldOut]:
       .join(" "),
     hue: subHue[sub],
     plans: [{ id: "u", tier: cond ? conditionInfo[cond].label : lineName, duration: "", price: up900(cost * GOODS_MARKUP), cost }],
-    features: [cond ? conditionInfo[cond].label : subLabel[sub], shipping.short, "Confirmas tu pedido por WhatsApp"],
+    features:
+      line === "vapes"
+        ? ["Solo mayores de 18 años", shipping.short, "Confirmas tu pedido y tu edad por WhatsApp"]
+        : [cond ? conditionInfo[cond].label : subLabel[sub], shipping.short, "Confirmas tu pedido por WhatsApp"],
     image: `/tienda/${slug}.webp`,
     stock: soldOut ? 0 : undefined,
     articulo: { line, sub, brand, condition: cond, supplierId: id },
   };
 }
 
-export const articulos: Product[] = articuloRows.map(toProduct);
+export const articulos: Product[] = [...articuloRows, ...vapeRows].map(toProduct);
 export const relojes = articulos.filter((p) => p.articulo!.line === "relojeria");
 export const tecnologia = articulos.filter((p) => p.articulo!.line === "tecnologia");
+export const vapes = articulos.filter((p) => p.articulo!.line === "vapes");

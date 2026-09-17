@@ -32,7 +32,8 @@ import {
   productBySlug,
   products,
 } from "@/data/catalog";
-import { articulos, conditionInfo, lineas, subLabel } from "@/data/lineas";
+import { articulos, conditionInfo, isRestricted, lineas, subLabel, vapeWarning } from "@/data/lineas";
+import { AgeGate } from "@/components/AgeGate";
 import { disclaimer, families, paraLabel, perfumes, qualityInfo, shipping } from "@/data/perfumeria";
 import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, Reveal } from "@/lib/anim";
@@ -63,6 +64,7 @@ export function Product() {
   const perfume = product.perfume;
   const articulo = product.articulo;
   const physical = Boolean(perfume || articulo);
+  const restricted = isRestricted(product);
   const related = articulo
     ? // Misma subcategoría primero; entre ellos, misma marca
       articulos
@@ -118,13 +120,14 @@ export function Product() {
     { icon: ShieldCheck, label: "Garantía", value: `Reposición en < ${site.warrantyHours} h` },
   ].filter(Boolean) as { icon: typeof Zap; label: string; value: string }[];
 
-  return (
+  const body = (
     <>
       <Seo
         title={`${product.name}${quote ? "" : ` desde ${formatCOP(Math.min(...product.plans.map((p) => p.price)))}`} · ${site.name}`}
         description={`${product.tagline}. ${product.description}`}
         path={`/producto/${product.slug}`}
-        jsonLd={{
+        noindex={restricted}
+        jsonLd={restricted ? undefined : {
           "@context": "https://schema.org",
           "@type": "Product",
           name: product.name,
@@ -305,9 +308,11 @@ export function Product() {
                 <p className="mt-6 text-sm text-faint">{shipping.detail}</p>
                 <p className="mt-4 flex gap-3 rounded-2xl border border-line bg-surface p-4 text-sm text-mute">
                   <Info className="mt-0.5 h-4 w-4 shrink-0 text-faint" />
-                  {articulo && articulo.condition !== "replica"
-                    ? "Las fotos son del proveedor. Si tienes dudas del modelo, color o garantía, pregúntanos por WhatsApp antes de pagar."
-                    : disclaimer}
+                  {restricted
+                    ? vapeWarning
+                    : articulo && articulo.condition !== "replica"
+                      ? "Las fotos son del proveedor. Si tienes dudas del modelo, color o garantía, pregúntanos por WhatsApp antes de pagar."
+                      : disclaimer}
                 </p>
               </>
             ) : (
@@ -335,6 +340,14 @@ export function Product() {
           </div>
         </section>
       )}
+    </>
+  );
+
+  if (!restricted) return body;
+  return (
+    <>
+      <Seo title={`${lineas.vapes.name} · ${site.name}`} description="Sección para mayores de 18 años." path={`/producto/${product.slug}`} noindex />
+      <AgeGate>{body}</AgeGate>
     </>
   );
 }

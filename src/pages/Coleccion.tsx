@@ -1,7 +1,8 @@
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, BadgeCheck, Info, Plus, Search, Truck, X } from "lucide-react";
+import { ArrowRight, BadgeCheck, Info, Plus, Search, ShieldAlert, Truck, X } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { AgeGate } from "@/components/AgeGate";
 import { Astro } from "@/components/Astro";
 import { LineIcon } from "@/components/CategoryIcon";
 import { ProductCard } from "@/components/ProductCard";
@@ -10,14 +11,14 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { Seo } from "@/components/Seo";
 import { productBySlug, type Product } from "@/data/catalog";
 import { destacados } from "@/data/destacados";
-import { articulos, conditionInfo, lineas, subLabel, type Condicion, type SubId } from "@/data/lineas";
+import { articulos, conditionInfo, lineas, subLabel, vapeWarning, type Condicion, type SubId } from "@/data/lineas";
 import { disclaimer, shipping } from "@/data/perfumeria";
 import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, Reveal, scrollToTarget } from "@/lib/anim";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { normalize } from "@/lib/ui";
 
-type LineaFisica = "relojeria" | "tecnologia";
+type LineaFisica = "relojeria" | "tecnologia" | "vapes";
 type Sort = "destacados" | "menor" | "mayor" | "az";
 
 const PAGE = 24;
@@ -30,6 +31,8 @@ interface Config {
   /** Atajos del hero: filtros prearmados. */
   tiles: { label: string; hint: string; params: Record<string, string> }[];
   faqs: { q: string; a: string }[];
+  /** Venta solo a mayores de edad: verificación, sin vitrina y fuera de buscadores. */
+  restricted?: boolean;
 }
 
 const replicaFaq = {
@@ -68,6 +71,29 @@ const configs: Record<LineaFisica, Config> = {
       { label: "Gaming y TV", hint: "Consolas, proyectores y TV", params: { sub: "gaming" } },
     ],
     faqs: [shippingFaq, replicaFaq, { q: "¿Tienen garantía?", a: "Depende del producto. Antes de pagar te confirmamos por escrito la garantía que aplica." }, mixFaq],
+  },
+  vapes: {
+    kicker: "Vapes · Solo mayores de 18",
+    title: ["Vapes", "desechables"],
+    text: "Venta exclusiva para mayores de 18 años. Eliges, confirmas tu pedido y tu edad por WhatsApp y te lo enviamos.",
+    showcase: [],
+    tiles: [],
+    restricted: true,
+    faqs: [
+      {
+        q: "¿Cómo verifican la edad?",
+        a: "Además de la confirmación en esta página, al hacer el pedido por WhatsApp te pedimos confirmar que eres mayor de 18 años. Podemos pedirte un documento antes de enviar. No vendemos a menores de edad.",
+      },
+      shippingFaq,
+      {
+        q: "¿Y si llega con fallas?",
+        a: "Repórtalo por WhatsApp apenas lo recibas, con fotos o un video corto, y revisamos el caso contigo.",
+      },
+      {
+        q: "¿Por qué los vapes no aparecen en el inicio?",
+        a: "La ley colombiana restringe la publicidad y la promoción de estos productos. Por eso solo están en esta sección, para mayores de edad.",
+      },
+    ],
   },
 };
 
@@ -155,13 +181,21 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
     { scope: hero, dependencies: [linea], revertOnUpdate: true }
   );
 
-  return (
+  const seo = (
+    <Seo
+      title={`${meta.name} · ${site.name}`}
+      description={
+        config.restricted
+          ? `${meta.name}: sección para mayores de 18 años.`
+          : `${pool.length} productos de ${meta.name.toLowerCase()} desde ${formatCOP(minPrice)}. ${meta.blurb}. ${shipping.short}.`
+      }
+      path={meta.path}
+      noindex={config.restricted}
+    />
+  );
+
+  const page = (
     <>
-      <Seo
-        title={`${meta.name} · ${site.name}`}
-        description={`${pool.length} productos de ${meta.name.toLowerCase()} desde ${formatCOP(minPrice)}. ${meta.blurb}. ${shipping.short}.`}
-        path={meta.path}
-      />
 
       {/* ── Hero ── */}
       <section ref={hero} className="relative mx-auto max-w-[1200px] px-4 pb-10 pt-[140px] md:px-6 md:pt-[164px]">
@@ -209,7 +243,16 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
             </ul>
           </Reveal>
 
-          {/* Vitrina: tres productos en abanico que se abren al pasar el puntero */}
+          {config.restricted ? (
+            <div className="card flex gap-4 p-6 md:p-8">
+              <ShieldAlert className="mt-0.5 h-6 w-6 shrink-0 text-gold" />
+              <div>
+                <p className="font-bold">Advertencia</p>
+                <p className="mt-2 leading-relaxed text-mute">{vapeWarning}</p>
+              </div>
+            </div>
+          ) : (
+          /* Vitrina: tres productos en abanico que se abren al pasar el puntero */
           <div className="group/vitrina relative mx-auto h-[300px] w-full max-w-[520px] sm:h-[380px]" aria-hidden="true">
             <div className="absolute inset-x-6 bottom-2 h-10 rounded-[50%] bg-black/30 blur-2xl" />
             {showcase.map((p, i) => {
@@ -234,9 +277,11 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
               );
             })}
           </div>
+          )}
         </div>
 
         {/* Atajos */}
+        {config.tiles.length > 0 && (
         <Reveal delay={0.1} className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4">
           {config.tiles.map((t) => {
             const on = Object.entries(t.params).every(([k, v]) => params.get(k) === v);
@@ -260,6 +305,7 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
             );
           })}
         </Reveal>
+        )}
       </section>
 
       {/* ── Productos ── */}
@@ -276,7 +322,9 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
                 type="search"
                 value={q}
                 onChange={(e) => update({ q: e.target.value || null })}
-                placeholder={linea === "relojeria" ? "Buscar: Kairos, Rolex, dama…" : "Buscar: AirPods, parlante, cargador…"}
+                placeholder={
+                  linea === "relojeria" ? "Buscar: Kairos, Rolex, dama…" : linea === "vapes" ? "Buscar: Lost Mary, puffs…" : "Buscar: AirPods, parlante, cargador…"
+                }
                 className="field pl-11"
                 autoComplete="off"
               />
@@ -402,10 +450,10 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
             <FaqItem key={f.q} q={f.q} a={f.a} />
           ))}
         </ul>
-        {hasConditions && (
+        {(hasConditions || config.restricted) && (
           <p className="mt-6 flex gap-3 rounded-2xl border border-line bg-surface p-4 text-sm text-mute">
             <Info className="mt-0.5 h-4 w-4 shrink-0 text-faint" />
-            {disclaimer}
+            {config.restricted ? vapeWarning : disclaimer}
           </p>
         )}
         <Reveal className="card mt-10 flex flex-col items-center gap-4 p-8 text-center md:flex-row md:text-left">
@@ -423,6 +471,13 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
           </a>
         </Reveal>
       </section>
+    </>
+  );
+
+  return (
+    <>
+      {seo}
+      {config.restricted ? <AgeGate>{page}</AgeGate> : page}
     </>
   );
 }

@@ -1,6 +1,7 @@
 import { Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
 import { categories } from "@/data/catalog";
+import { legalDocs } from "@/data/legal";
 import { lineaOrder, lineas } from "@/data/lineas";
 import { site, waLink } from "@/data/site";
 import { LogoDN } from "@/components/LogoDN";
@@ -37,6 +38,11 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link to={lineas.vapes.path} className="text-mute transition-colors hover:text-neb">
+                {lineas.vapes.name} · +18
+              </Link>
+            </li>
           </ul>
           <p className="kicker mt-8">Digital</p>
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm md:grid-cols-1">
@@ -99,10 +105,20 @@ export function Footer() {
               </Link>
             </li>
             <li className="text-faint">{site.hours}</li>
+          </ul>
+          <p className="kicker mt-8">Legal</p>
+          <ul className="mt-4 space-y-2 text-sm">
+            {legalDocs.map((d) => (
+              <li key={d.slug}>
+                <Link to={d.path} className="text-mute transition-colors hover:text-neb">
+                  {d.title}
+                </Link>
+              </li>
+            ))}
             <li>
-              <Link to="/terminos" className="text-mute transition-colors hover:text-neb">
-                Términos y condiciones
-              </Link>
+              <a href="https://www.sic.gov.co" target="_blank" rel="noopener noreferrer" className="text-mute transition-colors hover:text-neb">
+                Superintendencia de Industria y Comercio
+              </a>
             </li>
           </ul>
         </div>

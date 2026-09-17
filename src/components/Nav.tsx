@@ -379,6 +379,7 @@ function CategoriesPanel() {
           <Link to="/catalogo?ofertas=1" className="chip min-h-[34px] text-[13px]">Ofertas</Link>
           <Link to="/arma-tu-combo" className="chip min-h-[34px] text-[13px]">Arma tu combo</Link>
           <Link to="/#dox-designs" className="chip min-h-[34px] text-[13px]">Páginas web</Link>
+          <Link to={lineas.vapes.path} className="chip min-h-[34px] text-[13px] text-faint">{lineas.vapes.name} · +18</Link>
           <Link to="/catalogo" className="ml-auto flex items-center gap-1.5 font-semibold text-neb hover:underline">
             Ver toda la tienda <ArrowRight className="h-4 w-4" />
           </Link>
@@ -575,6 +576,7 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
 
             {[
               { to: "/catalogo", label: "Toda la tienda" },
+              { to: lineas.vapes.path, label: `${lineas.vapes.name} · +18` },
               { to: "/catalogo?ofertas=1", label: "Ofertas" },
               { to: "/arma-tu-combo", label: "Arma tu combo" },
               { to: "/favoritos", label: "Favoritos" },

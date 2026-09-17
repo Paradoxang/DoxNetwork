@@ -61,7 +61,9 @@ export function Catalog() {
   const cat = (params.get("categoria") ?? "") as CategoryId | "";
   const onlySale = params.get("ofertas") === "1";
   // Una categoría digital o "ofertas" implican la línea digital (enlaces viejos siguen sirviendo)
-  const linea = ((cat || onlySale ? "digital" : params.get("linea")) ?? "") as LineaId | "";
+  const rawLinea = (cat || onlySale ? "digital" : params.get("linea")) ?? "";
+  // Solo líneas públicas: vapes tiene su propia sección con verificación de edad
+  const linea = (lineaOrder.includes(rawLinea as LineaId) ? rawLinea : "") as LineaId | "";
   const sort = (params.get("orden") as Sort) || "relevancia";
 
   const list = useMemo(() => {
@@ -177,6 +179,10 @@ export function Catalog() {
                 <span className="text-xs text-faint">{byLine[id].length}</span>
               </button>
             ))}
+            <Link to={lineas.vapes.path} className="chip whitespace-nowrap text-faint">
+              <LineIcon id="vapes" className="h-4 w-4" />
+              {lineas.vapes.name} · +18
+            </Link>
           </div>
 
           {/* Categorías digitales, solo dentro de Digital */}

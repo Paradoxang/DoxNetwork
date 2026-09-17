@@ -9,7 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import { isCombo, planLabel, productBySlug, type Plan, type Product } from "@/data/catalog";
-import { isPhysical } from "@/data/lineas";
+import { isPhysical, isRestricted } from "@/data/lineas";
 import { comboTiers, formatCOP, site, waLink } from "@/data/site";
 
 export interface CartLine {
@@ -110,6 +110,9 @@ export function buildOrderMessage(lines: ResolvedLine[], t: Totals) {
     out.push(`Descuento por combinar (${t.discountPct}%): -${formatCOP(t.discount)}`);
   }
   out.push(`Total: ${formatCOP(t.total)}`);
+  if (lines.some((l) => isRestricted(l.product))) {
+    out.push("", "Confirmo que soy mayor de 18 años.");
+  }
   if (lines.some((l) => isPhysical(l.product))) {
     out.push("", "Envío a (ciudad y dirección): ");
   }

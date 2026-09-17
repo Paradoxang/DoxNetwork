@@ -39,6 +39,8 @@ export const destacados: Record<LineaId, Product[]> = {
     "tecnologia-diadema-g-tide-c1",
     "tecnologia-drone-e99-pro-con-camara-full-hd",
   ]),
+  // Sin destacados: los vapes no se promocionan (Ley 2354 de 2024)
+  vapes: [],
 };
 
 /** Una muestra de toda la red, intercalada: digital, perfume, reloj, tecnología… */

@@ -23,7 +23,7 @@ import { Home } from "@/pages/Home";
 import { NotFound } from "@/pages/NotFound";
 import { Perfumeria } from "@/pages/Perfumeria";
 import { Product } from "@/pages/Product";
-import { Terms } from "@/pages/Terms";
+import { Legal } from "@/pages/Legal";
 
 function Layout() {
   return (
@@ -143,9 +143,13 @@ export const routes: RouteRecord[] = [
       { path: "perfumeria", element: <Perfumeria /> },
       { path: "relojeria", element: <Coleccion linea="relojeria" /> },
       { path: "tecnologia", element: <Coleccion linea="tecnologia" /> },
+      { path: "vapes", element: <Coleccion linea="vapes" /> },
       { path: "arma-tu-combo", element: <ComboBuilder /> },
       { path: "favoritos", element: <Favorites /> },
-      { path: "terminos", element: <Terms /> },
+      { path: "terminos", element: <Legal slug="terminos" /> },
+      { path: "privacidad", element: <Legal slug="privacidad" /> },
+      { path: "envios", element: <Legal slug="envios" /> },
+      { path: "cambios-y-garantias", element: <Legal slug="cambios-y-garantias" /> },
       // Se prerenderiza como dist/404.html: Vercel la sirve sola en rutas inexistentes
       { path: "404", element: <NotFound /> },
       { path: "*", element: <NotFound /> },

@@ -6,7 +6,7 @@ import { Astro } from "@/components/Astro";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { allProducts, categories, categoryById, fromPrice, type CategoryId } from "@/data/catalog";
 import { destacadosRed } from "@/data/destacados";
-import { lineaOf, lineaOrder, lineas, subLabel } from "@/data/lineas";
+import { isRestricted, lineaOf, lineaOrder, lineas, subLabel, type LineaId } from "@/data/lineas";
 import { formatCOP } from "@/data/site";
 import { EASE, lockScroll } from "@/lib/anim";
 import { normalize, useUI } from "@/lib/ui";
@@ -53,8 +53,8 @@ export function SearchPalette() {
         .slice(0, 8)
         .map((p) => ({ key: p.slug, label: p.name, hint: lineas[lineaOf(p)].name, to: `/producto/${p.slug}`, icon: p.category, price: fromPrice(p) }));
     }
-    const lines = lineaOrder
-      .filter((id) => id !== "digital" && normalize(`${lineas[id].name} ${lineas[id].blurb}`).includes(nq))
+    const lines = ([...lineaOrder, "vapes"] as LineaId[])
+      .filter((id) => id !== "digital" && normalize(`${lineas[id].name} ${lineas[id].blurb} ${id === "vapes" ? "vape vapeador" : ""}`).includes(nq))
       .map((id) => ({ key: `l-${id}`, label: lineas[id].name, hint: "Línea de la red", to: lineas[id].path, icon: id as CategoryId }));
     const cats = [
       ...lines,
@@ -66,6 +66,7 @@ export function SearchPalette() {
     const words = nq.split(/\s+/);
     const prods = allProducts
       .filter((p) => {
+        if (isRestricted(p)) return false;
         const hay = normalize(`${p.name} ${p.tagline} ${categoryById(p.category)?.name}`);
         return words.every((w) => hay.includes(w));
       })

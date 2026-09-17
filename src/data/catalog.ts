@@ -39,7 +39,8 @@ export type CategoryId =
   | "aprende"
   | "perfumeria"
   | "relojeria"
-  | "tecnologia";
+  | "tecnologia"
+  | "vapes";
 
 export interface Category {
   id: CategoryId;
@@ -724,7 +725,7 @@ const bySlug = new Map(allProducts.map((p) => [p.slug, p]));
 export const categoryById = (id: string): Category | undefined =>
   id === perfumeCategory.id
     ? perfumeCategory
-    : id === "relojeria" || id === "tecnologia"
+    : id === "relojeria" || id === "tecnologia" || id === "vapes"
       ? { id, name: lineas[id].name, blurb: lineas[id].blurb }
       : categories.find((c) => c.id === id);
 export const productBySlug = (slug: string) => bySlug.get(slug);

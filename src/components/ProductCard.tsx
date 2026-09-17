@@ -99,7 +99,9 @@ export function ProductCard({ product }: { product: Product }) {
     : perfume
       ? { label: qualityInfo[perfume.quality].label, tone: "dark" }
       : articulo
-        ? articulo.condition === "original"
+        ? articulo.line === "vapes"
+          ? { label: "+18", tone: "dark" }
+          : articulo.condition === "original"
           ? { label: conditionInfo.original.label, tone: "new" }
           : articulo.condition === "replica"
             ? { label: conditionInfo.replica.label, tone: "dark" }
@@ -123,8 +125,8 @@ export function ProductCard({ product }: { product: Product }) {
         perfume
           ? perfume.brand || "Perfumería"
           : articulo
-            ? articulo.sub === "relojes"
-              ? lineas.relojeria.name
+            ? articulo.sub === "relojes" || articulo.sub === "vapes"
+              ? lineas[articulo.line].name
               : `${lineas[articulo.line].name} · ${subLabel[articulo.sub]}`
             : category?.name
       }

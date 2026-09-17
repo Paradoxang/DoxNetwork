@@ -201,6 +201,11 @@ export function CartDrawer() {
                     <WhatsAppIcon className="h-5 w-5" />
                     Finalizar pedido por WhatsApp
                   </a>
+                  <p className="text-center text-xs leading-relaxed text-faint">
+                    Al enviar tu pedido aceptas los{" "}
+                    <Link to="/terminos" onClick={() => setOpen(false)} className="underline hover:text-ink">términos</Link> y la{" "}
+                    <Link to="/privacidad" onClick={() => setOpen(false)} className="underline hover:text-ink">política de privacidad</Link>.
+                  </p>
                   <button type="button" onClick={cart.clear} className="w-full py-2 text-sm font-semibold text-faint hover:text-ink">
                     Vaciar carrito
                   </button>

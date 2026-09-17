@@ -11,11 +11,14 @@ export function Seo({
   description,
   path,
   jsonLd,
+  noindex = false,
 }: {
   title: string;
   description: string;
   path: string;
   jsonLd?: object;
+  /** Páginas que no deben aparecer en buscadores (vapes: publicidad restringida). */
+  noindex?: boolean;
 }) {
   const url = site.url + path;
   useEffect(() => {
@@ -26,6 +29,7 @@ export function Seo({
       <title>{title}</title>
       <meta name="description" content={description} />
       <link rel="canonical" href={url} />
+      {noindex && <meta name="robots" content="noindex, nofollow" />}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
