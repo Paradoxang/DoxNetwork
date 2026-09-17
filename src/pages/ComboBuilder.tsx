@@ -348,5 +348,5 @@ function Ticker({ value }: { value: number }) {
     return () => controls.stop();
   }, [value, reduced]);
 
-  return <span ref={ref}>{formatCOP(value)}</span>;
+  return <span ref={ref} className="num">{formatCOP(value)}</span>;
 }

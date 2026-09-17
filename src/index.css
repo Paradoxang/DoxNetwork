@@ -154,17 +154,48 @@
 }
 
 @theme {
-  /* Kenney Future Narrow (CC0), la del portafolio. Solo caja alta: se reserva
-     para marca, titulares y etiquetas. El cuerpo va en Manrope. */
-  --font-display: "Kenney Future", "Manrope", system-ui, sans-serif;
+  /* Sistema tipográfico de Dox Network, tres roles (todas OFL):
+       · display (Oxanium): titulares h1–h3 y botones
+       · mono (Sono): precios, badges, kickers, datos y la barra de anuncios
+       · sans (Manrope): párrafos, etiquetas y UI
+     Kenney Future (CC0) queda solo en el logotipo: en texto corrido la K y la
+     X se leen como H y la V como U. WOFF2 en /public/fonts, generados con
+     brand/fonts/build_fonts.py a partir de los ZIP. */
+  --font-brand: "Kenney Future", "Oxanium", system-ui, sans-serif;
+  --font-display: "Oxanium", "Manrope", system-ui, sans-serif;
+  --font-mono: "Sono", ui-monospace, "SFMono-Regular", Menlo, monospace;
   --font-sans: "Manrope", system-ui, -apple-system, sans-serif;
-  --font-heading: "Manrope", system-ui, -apple-system, sans-serif;
+  --font-heading: var(--font-display);
 }
 
 @font-face {
   font-family: "Kenney Future";
   src: url("/fonts/kenney-future-narrow.ttf") format("truetype");
   font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Oxanium";
+  src: url("/fonts/oxanium-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Oxanium";
+  src: url("/fonts/oxanium-600.woff2") format("woff2");
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Oxanium";
+  src: url("/fonts/oxanium-700.woff2") format("woff2");
+  font-weight: 700 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sono";
+  src: url("/fonts/sono-variable.woff2") format("woff2");
+  font-weight: 200 800;
   font-display: swap;
 }
 
@@ -195,6 +226,12 @@
     font-family: inherit;
     cursor: pointer;
   }
+  /* Regla de los tres roles: todo titular va en display */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-heading);
+  }
   :focus-visible {
     outline: 2px solid var(--neb);
     outline-offset: 3px;
@@ -213,29 +250,31 @@
   }
 
   /* ── Tipografía de marca ── */
-  /* Manrope y no Kenney: en Kenney "VEZ" se lee "UEZ" y "EXPLORA" se lee
-     "EHPLORA". Kenney queda solo en el logotipo, donde la forma se reconoce
-     como marca y no se lee letra a letra. */
+  /* Kicker: la etiqueta mono en caja alta del sistema (el "SYS://DOX" del
+     portafolio), sobre cada titular. */
   .kicker {
-    font-family: var(--font-sans);
-    font-weight: 800;
+    font-family: var(--font-mono);
+    font-weight: 500;
     font-size: 11.5px;
     line-height: 1.2;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--neb);
   }
-  /* Titulares en Manrope y no en Kenney: en Kenney la K y la X se leen como
-     H y la V como U ("UUELTAS"), aceptable en un portafolio pero no en una
-     tienda. Kenney se queda en la marca y en los kickers. Para volver al
-     titular de portafolio basta con cambiar --font-heading por
-     var(--font-display) y añadir text-transform: uppercase. */
+  /* Titulares en Oxanium: square futurista, lee bien en español (tildes, ñ,
+     ¿¡) y le da el tono espacial a la marca sin sonar a videojuego. */
   .display {
     font-family: var(--font-heading);
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    line-height: 1.04;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
     color: var(--ink);
+  }
+  /* Precios y cifras: Sono con dígitos tabulares, así las columnas alinean. */
+  .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
   }
 
   /* ── Superficies ── */
@@ -262,8 +301,10 @@
     min-height: 44px;
     padding: 0 1.25rem;
     border-radius: 9999px;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-weight: 600;
     font-size: 15px;
+    letter-spacing: 0.01em;
     transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease,
       box-shadow 0.2s ease, transform 0.15s ease;
   }

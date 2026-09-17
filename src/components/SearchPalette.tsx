@@ -185,7 +185,7 @@ export function SearchPalette() {
                     <span className="block truncate text-xs text-faint">{r.hint}</span>
                   </span>
                   {r.price !== undefined && (
-                    <span className="relative text-sm font-bold text-mute">
+                    <span className="num relative text-sm font-semibold text-mute">
                       {r.price === 0 ? "A cotizar" : `desde ${formatCOP(r.price)}`}
                     </span>
                   )}

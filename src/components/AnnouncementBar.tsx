@@ -20,7 +20,7 @@ export function AnnouncementBar() {
 
   return (
     <div
-      className="relative flex h-9 items-center justify-center overflow-hidden border-b border-line bg-neb-soft px-4 text-[13px] font-semibold text-ink"
+      className="relative flex h-9 items-center justify-center overflow-hidden border-b border-line bg-neb-soft px-4 font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-ink"
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}

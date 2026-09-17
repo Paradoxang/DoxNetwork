@@ -171,7 +171,7 @@ export function Nav() {
         <div className="mx-auto flex h-[72px] max-w-[1200px] items-center justify-between gap-2 px-3 sm:gap-4 sm:px-4 md:px-6">
           <Link to="/" className="group flex min-w-0 shrink items-center gap-2 sm:gap-2.5" aria-label="DoxNetwork, inicio">
             <LogoDN className="h-8 w-auto shrink-0 transition-transform duration-300 group-hover:scale-105 sm:h-9" />
-            <span className="truncate font-display text-[15px] leading-none tracking-[0.06em] text-ink transition-colors group-hover:text-neb min-[400px]:text-[17px] sm:text-[19px] sm:tracking-[0.08em]">
+            <span className="truncate font-brand text-[15px] leading-none tracking-[0.06em] text-ink transition-colors group-hover:text-neb min-[400px]:text-[17px] sm:text-[19px] sm:tracking-[0.08em]">
               DOX<span className="text-neb">NETWORK</span>
             </span>
           </Link>
@@ -429,7 +429,7 @@ function CombosPanel() {
                   <span className="text-xs font-bold text-gold">-{bestDiscount(c)}%</span>
                 </span>
                 <span className="mt-0.5 text-[13px] text-mute">{c.tagline}</span>
-                <span className="mt-1.5 text-sm font-extrabold">{formatCOP(fromPrice(c))}</span>
+                <span className="num mt-1.5 text-sm font-semibold">{formatCOP(fromPrice(c))}</span>
               </Link>
             </li>
           ))}
@@ -567,7 +567,7 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
                   <li key={c.slug}>
                     <Link to={`/producto/${c.slug}`} className="flex min-h-[48px] items-center justify-between rounded-xl px-3 py-2 hover:bg-surface">
                       <span className="font-semibold">{c.name}</span>
-                      <span className="text-sm font-bold">{formatCOP(fromPrice(c))}</span>
+                      <span className="num text-sm font-semibold">{formatCOP(fromPrice(c))}</span>
                     </Link>
                   </li>
                 ))}

@@ -137,7 +137,7 @@ function ArticuloArt({ product, size, bare, className }: { product: Product; siz
       />
       {!small && !bare && info.condition && (
         <span
-          className={`absolute left-3 top-3 z-20 rounded-full bg-[#1a1712]/85 font-extrabold tracking-wide text-[#f6ead2] backdrop-blur-sm ${
+          className={`absolute left-3 top-3 z-20 rounded-full bg-[#1a1712]/85 font-mono font-semibold tracking-[0.04em] text-[#f6ead2] backdrop-blur-sm ${
             big ? "px-3 py-1.5 text-xs" : "px-2.5 py-1 text-[11px]"
           }`}
         >
@@ -186,7 +186,7 @@ function PerfumeArt({ product, size, bare, className }: { product: Product; size
 
       {!small && !bare && (
         <span
-          className={`absolute left-3 top-3 z-20 rounded-full bg-[#1a1712]/85 font-extrabold tracking-wide text-[#f6ead2] backdrop-blur-sm ${
+          className={`absolute left-3 top-3 z-20 rounded-full bg-[#1a1712]/85 font-mono font-semibold tracking-[0.04em] text-[#f6ead2] backdrop-blur-sm ${
             big ? "px-3 py-1.5 text-xs" : "px-2.5 py-1 text-[11px]"
           }`}
         >

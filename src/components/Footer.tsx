@@ -19,7 +19,7 @@ export function Footer() {
         <div className="max-w-sm">
           <Link to="/" className="flex items-center gap-2.5" aria-label="DoxNetwork, inicio">
             <LogoDN className="h-9 w-auto" />
-            <span className="font-display text-[19px] tracking-[0.08em]">
+            <span className="font-brand text-[19px] tracking-[0.08em]">
               DOX<span className="text-neb">NETWORK</span>
             </span>
           </Link>

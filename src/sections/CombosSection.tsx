@@ -103,8 +103,8 @@ export function ComboCard({ combo }: { combo: Product }) {
       <div className="flex items-end justify-between gap-3 border-t border-line p-5 pt-4">
         <div>
           <p className="flex items-baseline gap-2">
-            <span className="text-2xl font-extrabold">{formatCOP(plan.price)}</span>
-            {plan.compareAt && <span className="text-sm text-faint line-through">{formatCOP(plan.compareAt)}</span>}
+            <span className="num text-2xl font-semibold">{formatCOP(plan.price)}</span>
+            {plan.compareAt && <span className="num text-sm text-faint line-through">{formatCOP(plan.compareAt)}</span>}
           </p>
           {saving > 0 && <p className="text-xs font-bold text-gold">Ahorras {formatCOP(saving)}</p>}
         </div>

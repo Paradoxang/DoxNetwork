@@ -151,7 +151,7 @@ export function CartDrawer() {
                                 <Plus className="h-3.5 w-3.5" />
                               </button>
                             </div>
-                            <span className="font-bold">{l.plan.price === 0 ? "A cotizar" : formatCOP(l.total)}</span>
+                            <span className={l.plan.price === 0 ? "font-bold" : "num font-semibold"}>{l.plan.price === 0 ? "A cotizar" : formatCOP(l.total)}</span>
                           </div>
                         </div>
                       </motion.li>
@@ -174,7 +174,7 @@ export function CartDrawer() {
                       </motion.p>
                     )}
                   </AnimatePresence>
-                  <dl className="space-y-1.5 text-sm">
+                  <dl className="space-y-1.5 text-sm [&_dd]:font-mono [&_dd]:tabular-nums">
                     <div className="flex justify-between text-mute">
                       <dt>Subtotal</dt>
                       <dd>{formatCOP(cart.subtotal)}</dd>

@@ -241,7 +241,7 @@ export default function ProductCard({
           <motion.span
             animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, transform: "scale(1)" }}
             className={cn(
-              "absolute left-3 top-3 rounded-full px-2.5 py-1 text-xs font-bold shadow-sm",
+              "absolute left-3 top-3 rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold tracking-[0.04em] shadow-sm",
               badgeTone[badge.tone ?? "popular"]
             )}
             initial={animateIn ? { opacity: 0, transform: "scale(0.6)" } : false}
@@ -271,8 +271,8 @@ export default function ProductCard({
 
       {/* Contenido */}
       <div className="flex flex-1 flex-col gap-1.5 p-3.5 sm:p-4">
-        {kicker && <span className="truncate text-[11px] font-bold uppercase tracking-[0.08em] text-faint">{kicker}</span>}
-        <h3 className="line-clamp-2 text-[15px] font-bold leading-snug tracking-tight text-ink sm:text-base">
+        {kicker && <span className="truncate font-mono text-[10.5px] font-medium uppercase tracking-[0.16em] text-faint">{kicker}</span>}
+        <h3 className="line-clamp-2 text-base font-semibold leading-snug tracking-[-0.01em] text-ink sm:text-[17px]">
           {/* El enlace cubre toda la tarjeta con ::after; corazón y botón van por encima */}
           <Link to={href} className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:rounded-[18px] focus-visible:after:outline-2 focus-visible:after:outline-neb">
             {title}
@@ -283,12 +283,12 @@ export default function ProductCard({
         {rating !== undefined && <RatingStars rating={rating} title={title} />}
 
         <div className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-          {pricePrefix && <span className="text-xs font-semibold text-faint">{pricePrefix}</span>}
-          <span className="text-lg font-extrabold tracking-tight text-ink sm:text-xl">{formatPrice(price)}</span>
+          {pricePrefix && <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">{pricePrefix}</span>}
+          <span className="num text-lg font-semibold text-ink sm:text-xl">{formatPrice(price)}</span>
           {hasDiscount ? (
             <>
-              <span className="text-[13px] text-faint line-through">{formatPrice(originalPrice)}</span>
-              <span className="rounded-md bg-gold-soft px-1.5 py-0.5 text-xs font-bold text-gold">-{discountPercent}%</span>
+              <span className="num text-[13px] text-faint line-through">{formatPrice(originalPrice)}</span>
+              <span className="num rounded-md bg-gold-soft px-1.5 py-0.5 text-xs font-semibold text-gold">-{discountPercent}%</span>
             </>
           ) : null}
         </div>

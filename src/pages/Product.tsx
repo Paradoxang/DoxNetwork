@@ -180,7 +180,7 @@ export function Product() {
                             <span className="block truncate text-xs text-faint">{planLabel(pl)}</span>
                           </span>
                         </Link>
-                        <span className="shrink-0 text-sm text-mute">{formatCOP(pl.price)}</span>
+                        <span className="num shrink-0 text-sm text-mute">{formatCOP(pl.price)}</span>
                       </li>
                     );
                   })}
@@ -233,11 +233,11 @@ export function Product() {
                   transition={{ duration: 0.25, ease: EASE }}
                   className="flex flex-wrap items-baseline gap-x-3 gap-y-1"
                 >
-                  <span className="text-[38px] font-extrabold leading-none">{quote ? "A cotizar" : formatCOP(plan.price)}</span>
+                  <span className={`text-[38px] leading-none ${quote ? "font-display font-bold" : "num font-semibold"}`}>{quote ? "A cotizar" : formatCOP(plan.price)}</span>
                   {plan.compareAt && (
                     <>
-                      <span className="text-lg text-faint line-through">{formatCOP(plan.compareAt)}</span>
-                      <span className="rounded-full bg-gold-soft px-2.5 py-1 text-xs font-bold text-gold">Ahorras {off}%</span>
+                      <span className="num text-lg text-faint line-through">{formatCOP(plan.compareAt)}</span>
+                      <span className="rounded-full bg-gold-soft px-2.5 py-1 font-mono text-xs font-semibold text-gold">Ahorras {off}%</span>
                     </>
                   )}
                 </motion.div>

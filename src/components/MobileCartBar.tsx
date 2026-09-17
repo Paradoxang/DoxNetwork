@@ -24,7 +24,7 @@ export function MobileCartBar() {
                 {count} {count === 1 ? "producto" : "productos"}
                 {discount > 0 && <span className="ml-1.5 font-bold text-gold">· ahorras {formatCOP(discount)}</span>}
               </p>
-              <p className="text-lg font-extrabold leading-tight">{formatCOP(total)}</p>
+              <p className="num text-lg font-semibold leading-tight">{formatCOP(total)}</p>
             </div>
             <button type="button" onClick={() => setOpen(true)} className="btn btn-buy shrink-0">
               <ShoppingBag className="h-[18px] w-[18px]" /> Ver carrito

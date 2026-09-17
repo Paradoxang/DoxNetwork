@@ -107,7 +107,7 @@ export function TiendaTeaser() {
                     {p.perfume ? "Perfumería" : p.articulo!.line === "relojeria" ? "Relojería" : "Tecnología"}
                   </span>
                   <span className="block truncate px-1 font-bold group-hover:text-gold">{p.name}</span>
-                  <span className="block px-1 text-sm text-mute">{formatCOP(p.plans[0].price)}</span>
+                  <span className="num block px-1 text-sm text-mute">{formatCOP(p.plans[0].price)}</span>
                 </Link>
               </li>
             ))}

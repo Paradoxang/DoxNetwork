@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
  *  · "candy" toma su degradado de --brand / --brand-secondary (index.css).
  */
 const smoothButtonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full font-semibold text-sm transition-[transform,background-color,color] duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neb active:scale-[0.97] disabled:pointer-events-none disabled:opacity-60",
+  "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full font-display font-semibold text-[15px] tracking-[0.01em] transition-[transform,background-color,color] duration-150 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neb active:scale-[0.97] disabled:pointer-events-none disabled:opacity-60",
   {
     variants: {
       variant: {

@@ -83,7 +83,7 @@ export function Categories() {
                   ))}
                 </div>
 
-                <p className="mt-auto pt-5 text-xs font-semibold text-faint">
+                <p className="num mt-auto pt-5 text-xs text-faint">
                   {stats[id].count} productos · desde <span className="text-ink">{formatCOP(stats[id].min)}</span>
                 </p>
               </Link>
