@@ -1,0 +1,29 @@
+node_modules
+dist
+.vite
+*.tsbuildinfo
+.vercel
+.env*
+!.env.example
+.DS_Store
+Thumbs.db
+.claude
+vite.config.js
+vite.config.d.ts
+
+# Estudios de competencia y documentos internos: no se publican
+/*.docx
+/*.pdf
+/*.xlsx
+
+# Originales de assets y exportaciones de logo sueltas en la raíz: la web usa
+# las versiones optimizadas de public/promos y brand/export
+/PD_asset_*.png
+/Logo*.png
+
+# ASTRO: originales con fondo y másteres recortados (se regeneran con brand/astro/key_astro.py)
+/M_astro-*.png
+brand/astro/png/
+
+# Exports del proveedor (imágenes y CSV de origen)
+/*.zip
