@@ -1,7 +1,6 @@
 import { initials, isCombo, logoOf, productBySlug, type Plan, type Product } from "@/data/catalog";
 import { conditionInfo } from "@/data/lineas";
 import { qualityInfo } from "@/data/perfumeria";
-import { recortes } from "@/data/recortes";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { SmartImage } from "@/components/SmartImage";
 
@@ -21,8 +20,7 @@ const aspect: Record<Size, string> = {
  * mismo margen para todo, así un logo plano, un frasco y una foto de
  * marketplace dejan de pelearse en la misma fila.
  *
- *  · foto con versión sin fondo (recortes.ts) → el producto flota en el lecho,
- *  · foto con fondo propio → contenida y con esquinas suaves,
+ *  · foto de producto → contenida y con esquinas suaves,
  *  · logo de plataforma → baldosa con más aire que un frasco,
  *  · combo con arte propio → a sangre (ya está hecho para ese fondo),
  *  · sin imagen → iniciales en el tono del producto.
@@ -50,9 +48,7 @@ export function ProductArt({
     ? [...new Set(product.includes!.map((i) => i.slug))].map((s) => productBySlug(s)!).filter(Boolean)
     : [];
 
-  const photo = physical ? product.image! : undefined;
-  const cut = photo && recortes.has(photo) ? photo.replace(/\.webp$/, "-cut.webp") : undefined;
-  const src = cut ?? photo;
+  const src = physical ? product.image! : undefined;
   const base = src?.replace(/\.webp$/, "");
   const sizes = big ? "(min-width: 1024px) 560px, 100vw" : "(min-width: 1024px) 280px, (min-width: 640px) 45vw, 50vw";
 
@@ -65,14 +61,14 @@ export function ProductArt({
   return (
     <div className={`product-media ${physical ? "aspect-square" : aspect[size]} ${className}`} aria-hidden="true">
       {src ? (
-        // Margen óptico: el recorte flota con aire; la foto con fondo propio, un poco más adentro
-        <div className="absolute inset-0 z-[1]" style={{ padding: small ? "6%" : cut ? "10%" : "12%" }}>
+        // Margen óptico: la foto respira dentro del lecho
+        <div className="absolute inset-0 z-[1]" style={{ padding: small ? "6%" : "12%" }}>
           <SmartImage
             src={`${base}${small ? "-sm" : ""}.webp`}
             srcSet={small ? undefined : `${base}-sm.webp 360w, ${base}.webp 720w`}
             sizes={sizes}
             eager={big}
-            className={`product-media-img h-full w-full object-contain ${cut ? "" : "rounded-[10px]"}`}
+            className="product-media-img h-full w-full rounded-[10px] object-contain"
           />
         </div>
       ) : logo ? (

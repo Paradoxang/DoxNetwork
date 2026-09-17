@@ -345,6 +345,18 @@
     box-shadow: var(--shadow);
   }
 
+  /* ── Acento por producto ──
+     Cada tarjeta recibe --accent (el tono de su línea o categoría). El lecho
+     de la foto, el borde y el kicker lo usan, así una rejilla de doce
+     productos deja de ser doce cajas del mismo gris. */
+  .accent-card {
+    border-color: color-mix(in srgb, var(--accent, var(--line)) 30%, var(--line));
+    --media-glow: color-mix(in srgb, var(--accent, #7c5cff) 34%, transparent);
+  }
+  .accent-card:hover {
+    border-color: color-mix(in srgb, var(--accent, var(--line-strong)) 45%, var(--line-strong));
+  }
+
   /* ── Firma 1: borde que se enciende alrededor del cursor ── */
   .glow-border::before {
     content: "";

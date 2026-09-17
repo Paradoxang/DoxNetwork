@@ -64,7 +64,7 @@ export function PromoCarousel() {
   const p = promos[index];
 
   return (
-    <section aria-roledescription="carrusel" aria-label="Promociones" className="mx-auto max-w-[1200px] px-4 pt-14 md:px-6 md:pt-20">
+    <section aria-roledescription="carrusel" aria-label="Promociones" className="mx-auto max-w-[1200px] px-4 pb-4 pt-2 md:px-6">
       <div
         className="relative overflow-hidden rounded-[28px] border border-line"
         onPointerEnter={(e) => e.pointerType === "mouse" && setHoverPaused(true)}

@@ -6,6 +6,8 @@ import { ProductCard } from "@/components/ProductCard";
 import { AnimatedTabs } from "@/components/ui/animated-tabs";
 import { SectionHeading } from "@/components/SectionHeading";
 import { destacados, destacadosRed } from "@/data/destacados";
+import { lineas } from "@/data/lineas";
+import { tint } from "@/data/paleta";
 import { EASE, Reveal } from "@/lib/anim";
 
 /**
@@ -15,11 +17,11 @@ import { EASE, Reveal } from "@/lib/anim";
  * Animated Tabs (brief, fase 2) lleva el indicador; framer, el cruce de rejillas.
  */
 const tabs = [
-  { id: "red", label: "Destacados", list: destacadosRed.slice(0, 8), more: { to: "/catalogo", label: "Ver toda la tienda" } },
-  { id: "digital", label: "Digital", list: destacados.digital, more: { to: "/catalogo?linea=digital", label: "Ver digital" } },
-  { id: "perfumeria", label: "Perfumería", list: destacados.perfumeria, more: { to: "/perfumeria", label: "Ver perfumería" } },
-  { id: "relojeria", label: "Relojería", list: destacados.relojeria, more: { to: "/relojeria", label: "Ver relojería" } },
-  { id: "tecnologia", label: "Tecnología", list: destacados.tecnologia, more: { to: "/tecnologia", label: "Ver tecnología" } },
+  { id: "red", label: "Destacados", hue: "#9aa9ff", list: destacadosRed.slice(0, 8), more: { to: "/catalogo", label: "Ver toda la tienda" } },
+  { id: "digital", label: "Digital", hue: lineas.digital.hue, list: destacados.digital, more: { to: "/catalogo?linea=digital", label: "Ver digital" } },
+  { id: "perfumeria", label: "Perfumería", hue: lineas.perfumeria.hue, list: destacados.perfumeria, more: { to: "/perfumeria", label: "Ver perfumería" } },
+  { id: "relojeria", label: "Relojería", hue: lineas.relojeria.hue, list: destacados.relojeria, more: { to: "/relojeria", label: "Ver relojería" } },
+  { id: "tecnologia", label: "Tecnología", hue: lineas.tecnologia.hue, list: destacados.tecnologia, more: { to: "/tecnologia", label: "Ver tecnología" } },
 ].filter((t) => t.list.length > 0);
 
 export function ProductTabs() {
@@ -48,13 +50,18 @@ export function ProductTabs() {
         </Link>
       </Reveal>
 
+      {/* El panel toma el color de la línea activa: cada pestaña cambia el ambiente */}
+      <div
+        className="mt-6 rounded-[28px] border p-3 transition-colors duration-500 md:p-5"
+        style={{ borderColor: tint(tab.hue, 34), background: `radial-gradient(120% 90% at 0% 0%, ${tint(tab.hue, 20)}, transparent 62%), var(--bg-soft)` }}
+      >
       <AnimatePresence mode="wait" initial={false}>
         <motion.ul
           key={active}
           id={`${uid}-panel`}
           role="tabpanel"
           aria-labelledby={`${uid}-tab-${active}`}
-          className="mt-6 grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4"
+          className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4"
           initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8, transition: { duration: 0.15 } }}
@@ -67,6 +74,7 @@ export function ProductTabs() {
           ))}
         </motion.ul>
       </AnimatePresence>
+      </div>
     </section>
   );
 }

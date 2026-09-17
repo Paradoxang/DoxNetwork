@@ -8,8 +8,8 @@ import { glowHandlers } from "@/components/ui/glowing-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { allProducts, categories, fromPrice, products, upcoming, type Product } from "@/data/catalog";
 import { destacados, thumbOf } from "@/data/destacados";
-import { lineaOf, lineaOrder, lineas, type LineaId } from "@/data/lineas";
-import { recortes } from "@/data/recortes";
+import { lineaOf, lineaOrder, lineas, vapes, type LineaId } from "@/data/lineas";
+import { categoryHue, tint } from "@/data/paleta";
 import { formatCOP } from "@/data/site";
 import { useBatchReveal } from "@/lib/useBatchReveal";
 
@@ -22,9 +22,6 @@ const stats = Object.fromEntries(
 
 const isNew: Partial<Record<LineaId, boolean>> = { relojeria: true, tecnologia: true };
 
-/** Miniatura sin fondo cuando existe, así flota en el lecho común. */
-const cutThumb = (p: Product) => (p.image && recortes.has(p.image) ? p.image.replace(/\.webp$/, "-cut-sm.webp") : thumbOf(p));
-
 /**
  * 01 · La red, como Bento Grid (brief de rediseño, fase 2): el tamaño de cada
  * baldosa sigue al peso de la línea. Perfumería (176) y Tecnología (204) van
@@ -36,7 +33,7 @@ export function Categories() {
   useBatchReveal(scope);
 
   return (
-    <section ref={scope} id="categorias" className="mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
+    <section ref={scope} id="categorias" className="mx-auto max-w-[1200px] px-4 pb-10 pt-20 md:px-6 md:pb-12 md:pt-24">
       <SectionHeading kicker="01 · La red" title="Todo lo que encuentras aquí">
         Cuatro líneas en una sola tienda, con el mismo carrito y el mismo WhatsApp.
       </SectionHeading>
@@ -79,17 +76,17 @@ export function Categories() {
           </Link>
         </li>
 
-        {/* Digital: franja completa con sus categorías */}
-        <li data-reveal className="col-span-2 lg:col-span-6">
+        {/* Digital: franja ancha con sus categorías */}
+        <li data-reveal className="col-span-2 lg:col-span-4">
           <div
             {...glowHandlers}
-            className="glow-border card relative grid gap-5 overflow-hidden p-5 md:p-6 lg:grid-cols-[minmax(0,300px)_1fr] lg:items-center lg:gap-8"
-            style={{ background: `radial-gradient(90% 140% at 0% 0%, ${lineas.digital.hue}1f, transparent 60%), var(--surface)` }}
+            className="glow-border card relative grid h-full gap-5 overflow-hidden p-5 md:p-6"
+            style={{ background: `radial-gradient(90% 140% at 0% 0%, ${tint(lineas.digital.hue, 16)}, transparent 60%), var(--surface)`, borderColor: tint(lineas.digital.hue, 24) }}
           >
             <Link to={lineas.digital.path} className="group flex items-start gap-4">
               <span
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
-                style={{ background: `${lineas.digital.hue}22`, color: lineas.digital.hue }}
+                style={{ background: tint(lineas.digital.hue, 18), color: lineas.digital.hue }}
               >
                 <LineIcon id="digital" />
               </span>
@@ -107,10 +104,14 @@ export function Categories() {
             <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0">
               {categories.map((c) => (
                 <li key={c.id} className="shrink-0">
-                  <Link to={`/catalogo?categoria=${c.id}`} className="chip whitespace-nowrap">
-                    <CategoryIcon id={c.id} className="h-4 w-4" />
+                  <Link
+                    to={`/catalogo?categoria=${c.id}`}
+                    className="chip whitespace-nowrap"
+                    style={{ borderColor: tint(categoryHue[c.id] ?? lineas.digital.hue, 30) }}
+                  >
+                    <CategoryIcon id={c.id} className="h-4 w-4" style={{ color: categoryHue[c.id] }} />
                     {c.name}
-                    <span className="text-xs text-faint">{products.filter((p) => p.category === c.id).length}</span>
+                    <span className="num text-xs text-faint">{products.filter((p) => p.category === c.id).length}</span>
                   </Link>
                 </li>
               ))}
@@ -124,6 +125,33 @@ export function Categories() {
             </ul>
           </div>
         </li>
+        {/* Vapes: su propia baldosa, sin fotos ni precios y con la verificación de edad */}
+        <li data-reveal className="col-span-2 lg:col-span-2">
+          <Link
+            to={lineas.vapes.path}
+            {...glowHandlers}
+            className="glow-border card card-hover group relative flex h-full flex-col overflow-hidden p-5 md:p-6"
+            style={{ background: `radial-gradient(120% 80% at 100% 0%, ${tint(lineas.vapes.hue, 16)}, transparent 60%), var(--surface)` }}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <span
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
+                style={{ background: tint(lineas.vapes.hue, 18), color: lineas.vapes.hue }}
+              >
+                <LineIcon id="vapes" />
+              </span>
+              <span className="rounded-full border border-gold/40 bg-gold-soft px-2.5 py-0.5 font-mono text-[12px] font-bold text-gold">+18</span>
+            </div>
+            <p className="mt-4 text-2xl font-bold leading-tight">{lineas.vapes.name}</p>
+            <p className="mt-1 text-sm leading-snug text-mute">{lineas.vapes.blurb}</p>
+            <p className="mt-4 text-[13px] leading-relaxed text-faint">
+              Al entrar se verifica tu edad. Contienen nicotina, una sustancia adictiva que afecta la salud.
+            </p>
+            <p className="num mt-auto pt-5 text-xs text-faint">
+              <NumberTicker value={vapes.length} className="text-ink" /> referencias
+            </p>
+          </Link>
+        </li>
       </ul>
     </section>
   );
@@ -136,12 +164,12 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
       to={l.path}
       {...glowHandlers}
       className={`glow-border card card-hover group relative flex h-full flex-col overflow-hidden ${compact ? "p-4 md:p-5" : "p-5 md:p-6"} ${className}`}
-      style={{ background: `radial-gradient(120% 80% at 100% 0%, ${l.hue}22, transparent 60%), var(--surface)` }}
+      style={{ background: `radial-gradient(120% 80% at 100% 0%, ${tint(l.hue, 20)}, transparent 62%), var(--surface)`, borderColor: tint(l.hue, 26) }}
     >
       <div className="flex items-start justify-between gap-3">
         <span
           className={`flex shrink-0 items-center justify-center rounded-2xl ${compact ? "h-10 w-10" : "h-11 w-11"}`}
-          style={{ background: `${l.hue}22`, color: l.hue }}
+          style={{ background: tint(l.hue, 18), color: l.hue }}
         >
           <LineIcon id={id} />
         </span>
@@ -154,7 +182,7 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
       <p className={`mt-4 font-bold leading-tight ${compact ? "text-lg" : "text-2xl"}`}>{l.name}</p>
       <p className={`mt-1 leading-snug text-mute ${compact ? "text-[13px]" : "text-sm"}`}>{l.blurb}</p>
 
-      <div className="relative mt-5 flex flex-1 items-end">{children}</div>
+      <div className="relative mt-5 flex flex-1 items-center">{children}</div>
 
       <p className="num mt-4 text-xs text-faint">
         <NumberTicker value={stats[id].count} className="text-ink" /> productos · desde{" "}
@@ -172,7 +200,7 @@ function Showcase({ items, layout, small = false }: { items: Product[]; layout: 
       {items.map((p, i) => (
         <span key={p.slug} className={`product-media aspect-square rounded-2xl ${small && i === 2 ? "max-lg:hidden" : ""}`}>
           <img
-            src={cutThumb(p)}
+            src={thumbOf(p)}
             alt=""
             width={180}
             height={180}

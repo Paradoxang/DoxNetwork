@@ -11,6 +11,7 @@ import {
 } from "@/data/catalog";
 import { conditionInfo, lineas, subLabel } from "@/data/lineas";
 import { families, paraLabel, qualityInfo } from "@/data/perfumeria";
+import { accentOf } from "@/data/paleta";
 import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
 import { ProductArt } from "@/components/ProductArt";
@@ -138,14 +139,15 @@ export function ProductCard({ product }: { product: Product }) {
       originalPrice={plan.compareAt}
       pricePrefix={product.plans.length > 1 ? "Desde" : undefined}
       formatPrice={formatCOP}
+      accent={accentOf(product)}
       badge={badge}
       condition={
         perfume
-          ? { label: qualityInfo[perfume.quality].label, tone: "replica", note: "no es original" }
+          ? { label: qualityInfo[perfume.quality].label, tone: "replica" }
           : articulo?.condition === "original"
             ? { label: conditionInfo.original.label, tone: "original" }
             : articulo?.condition === "replica"
-              ? { label: conditionInfo.replica.label, tone: "replica", note: "no es original" }
+              ? { label: conditionInfo.replica.label, tone: "replica" }
               : undefined
       }
       wishlisted={favorites.includes(product.slug)}

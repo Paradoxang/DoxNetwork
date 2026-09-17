@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import {
   Clapperboard,
   Gamepad2,
@@ -40,9 +41,9 @@ const lineIcons: Record<LineaId, LucideIcon> = {
   vapes: Wind,
 };
 
-export function CategoryIcon({ id, className = "h-5 w-5" }: { id: CategoryId; className?: string }) {
+export function CategoryIcon({ id, className = "h-5 w-5", style }: { id: CategoryId; className?: string; style?: CSSProperties }) {
   const Icon = icons[id];
-  return <Icon className={className} aria-hidden="true" strokeWidth={1.8} />;
+  return <Icon className={className} style={style} aria-hidden="true" strokeWidth={1.8} />;
 }
 
 export function LineIcon({ id, className = "h-5 w-5" }: { id: LineaId; className?: string }) {

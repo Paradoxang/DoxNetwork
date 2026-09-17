@@ -69,7 +69,7 @@ export const lineas: Record<LineaId, Linea> = {
     name: "Perfumería",
     blurb: "Réplicas 1.1 y AAA para ella, para él y unisex",
     path: "/perfumeria",
-    hue: "#e7a35a",
+    hue: "#ef8fb8",
   },
   relojeria: {
     id: "relojeria",

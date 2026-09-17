@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { useEffect, useId, useState, type ReactNode } from "react";
+import { useEffect, useId, useState, type CSSProperties, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { glowHandlers } from "@/components/ui/glowing-effect";
 import SmoothButton from "@/components/ui/smooth-button";
@@ -46,6 +46,8 @@ export interface ProductCardProps {
   addAriaLabel?: string;
   /** Sustituye al botón de agregar. */
   action?: ReactNode;
+  /** Tono de la línea o categoría: tiñe el kicker, el lecho de la foto y el borde. */
+  accent?: string;
   className?: string;
 }
 
@@ -179,6 +181,7 @@ export default function ProductCard({
   addedLabel = "Agregado",
   addAriaLabel,
   action,
+  accent,
   className,
 }: ProductCardProps) {
   const shouldReduceMotion = useReducedMotion();
@@ -217,11 +220,12 @@ export default function ProductCard({
       {...glowHandlers}
       aria-label={`${title}, ${pricePrefix ? `${pricePrefix.toLowerCase()} ` : ""}${formatPrice(price)}`}
       className={cn(
-        "glow-border group relative flex h-full w-full flex-col overflow-hidden rounded-[18px] border border-line bg-surface shadow-sm",
+        "glow-border accent-card group relative flex h-full w-full flex-col overflow-hidden rounded-[18px] border bg-surface shadow-sm",
         "transition-[box-shadow,border-color] duration-300",
-        isHoverDevice && "hover:border-line-strong hover:shadow-xl hover:shadow-black/20",
+        isHoverDevice && "hover:shadow-xl hover:shadow-black/20",
         className
       )}
+      style={accent ? ({ "--accent": accent } as CSSProperties) : undefined}
       initial={animateIn ? { opacity: 0, transform: "translateY(20px) scale(0.97)" } : false}
       transition={shouldReduceMotion ? { duration: 0 } : SPRING}
       viewport={{ margin: "-50px", once: true }}
@@ -274,7 +278,9 @@ export default function ProductCard({
 
       {/* Contenido */}
       <div className="flex flex-1 flex-col gap-1.5 p-3.5 sm:p-4">
-        {kicker && <span className="truncate font-mono text-[10.5px] font-medium uppercase tracking-[0.16em] text-faint">{kicker}</span>}
+        {kicker && (
+          <span className="truncate font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[var(--accent,var(--faint))]">{kicker}</span>
+        )}
         <h3 className="line-clamp-2 text-base font-semibold leading-snug tracking-[-0.01em] text-ink sm:text-[17px]">
           {/* El enlace cubre toda la tarjeta con ::after; corazón y botón van por encima */}
           <Link to={href} className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none focus-visible:after:rounded-[18px] focus-visible:after:outline-2 focus-visible:after:outline-neb">
