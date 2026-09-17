@@ -48,6 +48,14 @@ export interface ProductCardProps {
   action?: ReactNode;
   /** Tono de la línea o categoría: tiñe el kicker, el lecho de la foto y el borde. */
   accent?: string;
+  /**
+   * "card" es la tarjeta de siempre, con marco y las dos firmas de movimiento.
+   * "plain" quita marco, fondo y sombra: la foto, el nombre y el precio sueltos
+   * sobre el fondo de la sección, separados por hairlines que pone la rejilla
+   * (idea de Kraken y Nightkidz). El botón de compra se queda: sin él la
+   * conversión cae, así que solo cambia de peso.
+   */
+  variant?: "card" | "plain";
   className?: string;
 }
 
@@ -182,8 +190,10 @@ export default function ProductCard({
   addAriaLabel,
   action,
   accent,
+  variant = "card",
   className,
 }: ProductCardProps) {
+  const plain = variant === "plain";
   const shouldReduceMotion = useReducedMotion();
   const [isHoverDevice, setIsHoverDevice] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
@@ -212,17 +222,22 @@ export default function ProductCard({
   const hasDiscount = originalPrice !== undefined && originalPrice > price;
   const discountPercent = hasDiscount ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
 
-  // Las dos firmas del sitio: tilt 3D sutil (nodo exterior) y borde luminoso (la tarjeta).
-  // Nodos distintos para no pelear por el mismo transform con la entrada.
-  return (
-    <Tilt max={4} className="h-full">
+  // Las dos firmas del sitio: tilt 3D sutil (nodo exterior) y borde luminoso (la
+  // tarjeta). Sin marco no hay borde que encender ni caja que inclinar, así que
+  // la variante "plain" se queda solo con el acercamiento de la foto.
+  const contenido = (
     <motion.article
-      {...glowHandlers}
+      {...(plain ? {} : glowHandlers)}
       aria-label={`${title}, ${pricePrefix ? `${pricePrefix.toLowerCase()} ` : ""}${formatPrice(price)}`}
       className={cn(
-        "glow-border accent-card group relative flex h-full w-full flex-col overflow-hidden rounded-[18px] border bg-surface shadow-sm",
-        "transition-[box-shadow,border-color] duration-300",
-        isHoverDevice && "hover:shadow-xl hover:shadow-black/20",
+        "group relative flex h-full w-full flex-col",
+        plain
+          ? "accent-card border-0 bg-transparent p-1"
+          : [
+              "glow-border accent-card overflow-hidden rounded-[18px] border bg-surface shadow-sm",
+              "transition-[box-shadow,border-color] duration-300",
+              isHoverDevice && "hover:shadow-xl hover:shadow-black/20",
+            ],
         className
       )}
       style={accent ? ({ "--accent": accent } as CSSProperties) : undefined}
@@ -231,8 +246,8 @@ export default function ProductCard({
       viewport={{ margin: "-50px", once: true }}
       whileInView={animateIn ? { opacity: 1, transform: "translateY(0px) scale(1)" } : undefined}
     >
-      {/* Imagen a sangre */}
-      <div className="relative overflow-hidden">
+      {/* Imagen a sangre; sin marco la foto lleva sus propias esquinas */}
+      <div className={cn("relative overflow-hidden", plain && "rounded-2xl")}>
         {/* El acercamiento al pasar el puntero lo hace el lecho de imagen (.product-media-img) */}
         {media}
 
@@ -277,7 +292,7 @@ export default function ProductCard({
       </div>
 
       {/* Contenido */}
-      <div className="flex flex-1 flex-col gap-1.5 p-3.5 sm:p-4">
+      <div className={cn("flex flex-1 flex-col gap-1.5", plain ? "px-1 pb-1 pt-3.5" : "p-3.5 sm:p-4")}>
         {kicker && (
           <span className="truncate font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-[var(--accent,var(--faint))]">{kicker}</span>
         )}
@@ -323,7 +338,7 @@ export default function ProductCard({
               className={cn("w-full gap-2", isAdded && "from-mint to-mint text-mint-ink [text-shadow:none] hover:from-mint hover:to-mint")}
               disabled={isAdded}
               onClick={handleAddToCart}
-              variant="candy"
+              variant={plain && !isAdded ? "outline" : "candy"}
             >
               <AnimatePresence initial={false} mode="wait">
                 {isAdded ? (
@@ -355,6 +370,7 @@ export default function ProductCard({
         </div>
       </div>
     </motion.article>
-    </Tilt>
   );
+
+  return plain ? contenido : <Tilt max={4} className="h-full">{contenido}</Tilt>;
 }

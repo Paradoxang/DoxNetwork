@@ -53,7 +53,7 @@ export function ProductTabs() {
 
       {/* El panel toma el color de la línea activa: cada pestaña cambia el ambiente */}
       <div
-        className="brackets relative mt-6 overflow-hidden rounded-[28px] border p-3 transition-colors duration-500 md:p-5"
+        className="brackets relative mt-6 overflow-hidden rounded-[28px] border transition-colors duration-500"
         style={{ borderColor: tint(tab.hue, 34), background: `radial-gradient(120% 90% at 0% 0%, ${tint(tab.hue, 20)}, transparent 62%), var(--bg-soft)` }}
       >
         <Deco name="reticula" className="-right-16 -top-16 w-72" opacity={0.22} />
@@ -63,15 +63,15 @@ export function ProductTabs() {
           id={`${uid}-panel`}
           role="tabpanel"
           aria-labelledby={`${uid}-tab-${active}`}
-          className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4"
+          className="grid grid-cols-2 divide-x divide-y divide-line lg:grid-cols-4"
           initial={reduced ? { opacity: 0 } : { opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8, transition: { duration: 0.15 } }}
           transition={{ duration: 0.35, ease: EASE }}
         >
           {tab.list.map((p) => (
-            <li key={p.slug}>
-              <ProductCard product={p} />
+            <li key={p.slug} className="p-3 md:p-5">
+              <ProductCard product={p} variant="plain" />
             </li>
           ))}
         </motion.ul>

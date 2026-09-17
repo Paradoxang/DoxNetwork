@@ -84,7 +84,7 @@ export function FavoriteButton({ product, className = "" }: { product: Product; 
  * la etiqueta y el precio de cada producto y conecta carrito y favoritos.
  * Para cotizar o si está agotado, el botón se cambia por el que corresponde.
  */
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product, variant }: { product: Product; variant?: "card" | "plain" }) {
   const { add, favorites, toggleFavorite } = useCart();
   const available = isAvailable(product);
   const plan = cheapestPlan(product);
@@ -140,6 +140,7 @@ export function ProductCard({ product }: { product: Product }) {
       pricePrefix={product.plans.length > 1 ? "Desde" : undefined}
       formatPrice={formatCOP}
       accent={accentOf(product)}
+      variant={variant}
       badge={badge}
       condition={
         perfume

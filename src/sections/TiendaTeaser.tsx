@@ -96,7 +96,7 @@ export function TiendaTeaser() {
             draggable={false}
             className="group block w-44 rounded-[22px] md:w-56"
           >
-            <ProductArt product={p} size="sm" bare className="rounded-[22px] border border-line" />
+            <ProductArt product={p} size="sm" bare className="rounded-[22px]" />
             <span className="mt-3 block truncate px-1 font-mono text-[11px] uppercase tracking-[0.12em] text-faint">{lineLabel(p)}</span>
             <span className="block truncate px-1 font-semibold group-hover:text-neb">{p.name}</span>
             <span className="num block px-1 text-sm text-mute">{formatCOP(p.plans[0].price)}</span>
