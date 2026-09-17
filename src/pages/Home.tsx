@@ -4,6 +4,7 @@ import { Benefits } from "@/sections/Benefits";
 import { Categories } from "@/sections/Categories";
 import { CombosSection } from "@/sections/CombosSection";
 import { Cta } from "@/sections/Cta";
+import { DoxDesigns } from "@/sections/DoxDesigns";
 import { Faq, faqs } from "@/sections/Faq";
 import { Guarantee } from "@/sections/Guarantee";
 import { Hero } from "@/sections/Hero";
@@ -47,6 +48,7 @@ export function Home() {
       <ProductTabs />
       <HowItWorks />
       <Guarantee />
+      <DoxDesigns />
       <Reviews />
       <Faq />
       <Cta />

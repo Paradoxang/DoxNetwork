@@ -41,6 +41,13 @@ export function Hero() {
         const el = scope.current!;
         const title = el.querySelector<HTMLElement>("[data-hero-title]")!;
         const split = SplitText.create(title, { type: "words", mask: "words" });
+        // La máscara recorta al alto de línea (leading 1) y se comía los
+        // descendentes: la "g" de "digital". Se le da aire por abajo y se
+        // compensa con margen negativo para que el titular no crezca.
+        split.masks.forEach((m) => {
+          (m as HTMLElement).style.paddingBottom = "0.18em";
+          (m as HTMLElement).style.marginBottom = "-0.18em";
+        });
 
         gsap.set(el.querySelectorAll("[data-intro]"), { autoAlpha: 1 });
         const tl = gsap.timeline({ defaults: { ease: "expo.out" } });

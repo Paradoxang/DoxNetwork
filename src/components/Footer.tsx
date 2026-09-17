@@ -73,6 +73,11 @@ export function Footer() {
               </a>
             </li>
             <li>
+              <Link to="/#dox-designs" className="text-mute transition-colors hover:text-neb">
+                ¿Quieres tu página web?
+              </Link>
+            </li>
+            <li>
               <Link to="/arma-tu-combo" className="text-mute transition-colors hover:text-neb">
                 Arma tu combo
               </Link>
