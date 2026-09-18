@@ -103,9 +103,7 @@ export function Faq() {
         <Reveal>
           <div className="brackets relative overflow-hidden rounded-[28px] border border-line bg-surface">
             <div className="flex items-center gap-3 border-b border-line px-5 py-3.5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-neb-soft">
-                <img src="/favicon-192.png" alt="" width={26} height={26} className="h-[26px] w-[26px]" />
-              </span>
+              <img src="/astro/avatar-sm.webp" alt="" width={40} height={40} className="h-10 w-10 rounded-full border border-line" />
               <span className="min-w-0 flex-1">
                 <span className="block truncate font-semibold">{site.name}</span>
                 <span className="block text-xs text-mint">en línea · te responde una persona</span>
@@ -173,7 +171,7 @@ function ChatItem({ i, q, a, open, onToggle }: { i: number; q: string; a: string
             transition={{ duration: reduced ? 0 : 0.3, ease: EASE }}
           >
             <div className="flex items-end gap-2 pt-2.5">
-              <img src="/favicon-192.png" alt="" width={24} height={24} className="mb-1 h-6 w-6 shrink-0 rounded-full bg-neb-soft p-0.5" />
+              <img src="/astro/avatar-sm.webp" alt="" width={24} height={24} className="mb-1 h-6 w-6 shrink-0 rounded-full border border-line" />
               {typing ? (
                 <span className="flex h-9 items-center gap-1 rounded-2xl rounded-bl-md bg-surface-2 px-4" aria-label="Escribiendo">
                   {[0, 1, 2].map((d) => (

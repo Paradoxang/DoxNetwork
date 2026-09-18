@@ -56,7 +56,10 @@ export function HowItWorks() {
   return (
     <section id="como-comprar" className="relative border-y border-line bg-bg-soft">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <Deco name="fibra" className="-left-32 bottom-0 hidden w-[620px] lg:block" opacity={0.22} pesado />
+        <Deco name="fibra" className="-left-32 bottom-0 hidden w-[620px] lg:block" opacity={0.16} pesado />
+        {/* El busto ilustrado mira hacia el teléfono: esta sección habla del chat
+            con una persona y el hueco de la columna izquierda pedía peso */}
+        <Deco name="astro-visor" className="-left-36 bottom-0 hidden w-[340px] 2xl:block" opacity={0.26} pesado fade={false} />
       </div>
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-20">
         <div>
@@ -154,9 +157,7 @@ function Phone({ children, compact = false }: { children: ReactNode; compact?: b
 function ChatHeader() {
   return (
     <div className="flex items-center gap-3 border-b border-line bg-surface px-4 py-3">
-      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-neb-soft">
-        <img src="/favicon-192.png" alt="" width={24} height={24} className="h-6 w-6" />
-      </span>
+      <img src="/astro/avatar-sm.webp" alt="" width={36} height={36} className="h-9 w-9 rounded-full border border-line" />
       <span className="min-w-0 flex-1">
         <span className="block truncate text-sm font-semibold">{site.name}</span>
         <span className="block text-[11px] text-mint">en línea</span>

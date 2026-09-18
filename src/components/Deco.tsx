@@ -30,6 +30,10 @@ const LUZ = new Set([
   "estela",
   "polvo",
   "fibra",
+  "escombros",
+  "proyeccion",
+  "guijarro",
+  "nebulosa-densa",
 ]);
 
 export type DecoName =
@@ -51,6 +55,10 @@ export type DecoName =
   | "estela"
   | "polvo"
   | "fibra"
+  | "escombros"
+  | "proyeccion"
+  | "guijarro"
+  | "nebulosa-densa"
   | "orbe-1"
   | "orbe-2"
   | "orbe-3"
@@ -66,7 +74,14 @@ export type DecoName =
   | "astrolabio"
   | "cristal-capas"
   | "vela"
-  | "sello";
+  | "sello"
+  | "tableta"
+  | "stylus"
+  | "cartucho"
+  | "brazo"
+  | "cinta"
+  /** Busto ilustrado de ASTRO, con el agujero negro dentro del visor. */
+  | "astro-visor";
 
 export function Deco({
   name,

@@ -43,6 +43,10 @@ LUZ = {
     "estela": "SC_asset_02_estela.png",
     "polvo": "SC_asset_03_particulas.png",
     "fibra": "WDID_obj_04_fibra.png",
+    "escombros": "PR_asset_escombros.png",
+    "proyeccion": "PR_asset_proyeccion.png",
+    "guijarro": "WDID_obj_05_guijarro.png",
+    "nebulosa-densa": "SC_asset_04_nebulosa.png",
 }
 
 OBJETO = {
@@ -62,6 +66,14 @@ OBJETO = {
     "cristal-capas": "WDID_asset_03_cristal.png",
     "vela": "WDID_asset_04_vela.png",
     "sello": "WDID_obj_03_sello.png",
+    "tableta": "PR_asset_tableta.png",
+    "stylus": "PR_asset_stylus.png",
+    "cartucho": "PR_asset_cartucho.png",
+    "brazo": "PR_asset_brazo.png",
+    "cinta": "WDID_obj_06_cinta.png",
+    # Busto de ASTRO ilustrado: el visor con el agujero negro dentro. Se recorta
+    # como objeto porque viene sobre el mismo gris de estudio que los demás.
+    "astro-visor": "visor_a1.png",
 }
 
 ANCHO_LUZ = 1280
@@ -95,8 +107,25 @@ def conectado_al_borde(mask: np.ndarray) -> np.ndarray:
             return cur
 
 
+def apaga_croma(rgb: np.ndarray) -> np.ndarray:
+    """La tableta viene con pantalla de croma verde: se apaga a navy.
+
+    El render trae la pantalla en verde para componer encima. Aquí no hay nada
+    que componer, así que se sustituye por el navy del sitio con un punto de
+    brillo, como una pantalla en reposo.
+    """
+    verde = (rgb[:, :, 1] > rgb[:, :, 0] * 1.35) & (rgb[:, :, 1] > rgb[:, :, 2] * 1.35) & (rgb[:, :, 1] > 70)
+    if verde.mean() < 0.01:
+        return rgb
+    luz = rgb[:, :, 1] / 255.0
+    out = rgb.copy()
+    for i, canal in enumerate((23, 30, 58)):  # #171e3a
+        out[:, :, i] = np.where(verde, canal + luz * 26, rgb[:, :, i])
+    return out
+
+
 def recorta(f: pathlib.Path) -> Image.Image:
-    rgb = np.asarray(Image.open(f).convert("RGB")).astype(np.float32)
+    rgb = apaga_croma(np.asarray(Image.open(f).convert("RGB")).astype(np.float32))
     borde = np.concatenate([rgb[0], rgb[-1], rgb[:, 0], rgb[:, -1]])
     fondo = np.median(borde, axis=0)
 
