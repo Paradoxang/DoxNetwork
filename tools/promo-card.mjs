@@ -90,6 +90,10 @@ async function montaGraficos(base, layers) {
     if (l.flip) img = img.flop();
     let buf = await img.resize({ width: Math.round(l.w) }).png().toBuffer();
     const { width, height } = await sharp(buf).metadata();
+    // `baseline` ancla el pie del grafico a una Y comun. Sin esto cada elemento
+    // flota a su altura y la composicion pierde suelo: es lo que hacia que el
+    // frasco y Astro pareciesen pegados y no compuestos.
+    if (l.baseline !== undefined) l.y = l.baseline - height;
     if (l.fade) {
       const mask = Buffer.from(
         `<svg width="${width}" height="${height}"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1">` +
@@ -255,6 +259,13 @@ function luxe(d, zonas) {
       padding: "60px 60px 54px", fontFamily: "Manrope", position: "relative",
     },
     children: [
+      // Elipse de contacto: ancla la escena al suelo. Va en Satori, asi que
+      // queda DEBAJO de los graficos que monta sharp.
+      { type: "div", props: { style: {
+        position: "absolute", left: 250, top: 556, width: 700, height: 108, borderRadius: 999,
+        background: "radial-gradient(ellipse at 50% 50%, rgba(255,214,140,0.20), rgba(10,14,32,0) 68%)",
+        display: "flex",
+      } } },
       ...zonas,
       // cabecera: el hueco del logo lo ocupa la capa 4
       { type: "div", props: { style: { display: "flex", alignItems: "center", justifyContent: "space-between", height: 66 },
@@ -360,8 +371,12 @@ const CARDS = {
     },
     graficos: [
       { file: "marca/isotipo.png", x: 52, y: 32, w: 96, fade: 0 },
-      { file: "marca/frasco.png", x: 392, y: 178, w: 330, fade: 0 },
-      { file: "astro/M_astro-chibi-perfume.png", x: 806, y: 316, w: 232, fade: 0 },
+      // Frasco y Astro comparten la misma linea de suelo (baseline 612) y una
+      // relacion de escala deliberada: el frasco monumental, Astro pequeño
+      // mirandolo. Astro va con la pose de sorpresa, no con la del perfume,
+      // porque esa sostiene otro frasco y duplicaba el motivo.
+      { file: "marca/frasco.png", x: 318, baseline: 612, w: 348, fade: 0 },
+      { file: "astro/M_astro-chibi-sorpresa.png", x: 742, baseline: 612, w: 168, fade: 0 },
     ],
   },
 
