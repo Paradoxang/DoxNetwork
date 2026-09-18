@@ -212,7 +212,7 @@ export function SearchPalette() {
                 ))}
               {q.trim() && results.length === 0 && (
                 <li className="flex flex-col items-center px-3 py-6 text-center text-mute">
-                  <Astro pose="piensa" small enter={false} float={false} decorative className="mb-3 h-28" />
+                  <Astro pose="chibi-espera" small enter={false} float={false} decorative className="mb-3 h-28" />
                   Sin resultados para “{q}”.
                   <button type="button" onClick={() => go()} className="mt-3 flex w-full items-center justify-center gap-1.5 font-semibold text-neb">
                     Buscar en todo el catálogo <ArrowRight className="h-4 w-4" />

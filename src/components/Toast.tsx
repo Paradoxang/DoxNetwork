@@ -22,7 +22,7 @@ export function Toast() {
             className="pointer-events-auto flex max-w-full items-center gap-3 rounded-full border border-line-strong bg-surface py-1.5 pl-3 pr-1.5 text-sm font-semibold text-ink shadow-[var(--shadow)]"
           >
             <span className="relative -my-1 flex h-10 w-10 shrink-0 items-start justify-center overflow-hidden rounded-full bg-mint-soft" aria-hidden="true">
-              <img src="/astro/astro-chibi-sm.webp" alt="" width="264" height="360" className="mt-0.5 h-[62px] w-auto max-w-none" />
+              <img src="/astro/astro-chibi-listo-sm.webp" alt="" width="360" height="360" className="mt-0.5 h-[62px] w-auto max-w-none" />
             </span>
             <span className="truncate">{toast.text}</span>
             {toast.undo && (

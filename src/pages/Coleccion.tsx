@@ -112,7 +112,7 @@ const telon: Record<LineaFisica, TelonName> = {
   tecnologia: "telon-tecnologia",
   vapes: "telon-vapes",
 };
-const insignia: Partial<Record<LineaFisica, DecoName>> = { relojeria: "obj-reloj", tecnologia: "obj-capsula", vapes: "obj-vape" };
+const insignia: Partial<Record<LineaFisica, DecoName>> = { relojeria: "obj-reloj", tecnologia: "obj-capsula" };
 const posa: Record<LineaFisica, AstroPose> = { relojeria: "reloj", tecnologia: "audifonos", vapes: "mayor-edad" };
 
 export function Coleccion({ linea }: { linea: LineaFisica }) {

@@ -2,6 +2,7 @@ import { ArrowUpRight, Code2 } from "lucide-react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
+import { Astro, type AstroPose } from "@/components/Astro";
 import { CategoryIcon, LineIcon } from "@/components/CategoryIcon";
 import { Deco, type DecoName } from "@/components/Deco";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -22,6 +23,15 @@ const stats = Object.fromEntries(
 ) as Record<LineaId, { count: number; min: number }>;
 
 const isNew: Partial<Record<LineaId, boolean>> = { relojeria: true, tecnologia: true };
+
+/** ASTRO presenta cada línea desde la esquina de su baldosa. */
+const chibi: Partial<Record<LineaId, AstroPose>> = {
+  digital: "chibi-streaming",
+  perfumeria: "chibi-perfume",
+  relojeria: "chibi-reloj",
+  tecnologia: "chibi-audifonos",
+  vapes: "chibi-mayor-edad",
+};
 
 /** Atrezo por línea: el cristal para perfumería, el astrolabio para relojería… */
 const adorno: Partial<Record<LineaId, DecoName>> = {
@@ -111,7 +121,10 @@ export function Categories() {
                 </span>
               </span>
             </Link>
-            <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:overflow-visible md:px-0">
+            <div className="pointer-events-none absolute -bottom-1 right-3 hidden h-28 lg:block">
+              <Astro pose="chibi-streaming" small enter={false} decorative className="h-full" />
+            </div>
+            <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 lg:pr-28">
               {categories.map((c) => (
                 <li key={c.id} className="shrink-0">
                   <Link
@@ -154,12 +167,16 @@ export function Categories() {
             </div>
             <p className="mt-4 text-2xl font-bold leading-tight">{lineas.vapes.name}</p>
             <p className="mt-1 text-sm leading-snug text-mute">{lineas.vapes.blurb}</p>
-            <p className="mt-4 text-[13px] leading-relaxed text-faint">
+            {/* El aviso de nicotina no puede quedar tapado por el personaje */}
+            <p className="mt-4 text-[13px] leading-relaxed text-faint md:pr-24">
               Al entrar se verifica tu edad. Contienen nicotina, una sustancia adictiva que afecta la salud.
             </p>
             <p className="num mt-auto pt-5 text-xs text-faint">
               <NumberTicker value={vapes.length} className="text-ink" /> referencias
             </p>
+            <div className="pointer-events-none absolute bottom-9 right-2 hidden h-24 md:block">
+              <Astro pose="chibi-mayor-edad" small enter={false} decorative className="h-full" />
+            </div>
           </Link>
         </li>
       </ul>
@@ -177,6 +194,11 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
       style={{ background: `radial-gradient(120% 80% at 100% 0%, ${tint(l.hue, 20)}, transparent 62%), var(--surface)`, borderColor: tint(l.hue, 26) }}
     >
       {adorno[id] && <Deco name={adorno[id]!} className={`-right-8 -top-8 ${compact ? "w-28" : "w-40"}`} opacity={0.3} />}
+      {chibi[id] && (
+        <div className={`pointer-events-none absolute right-2 hidden md:block ${compact ? "bottom-9 h-20" : "bottom-10 h-28"}`}>
+          <Astro pose={chibi[id]!} small enter={false} decorative className="h-full" />
+        </div>
+      )}
       <div className="relative flex items-start justify-between gap-3">
         <span
           className={`flex shrink-0 items-center justify-center rounded-2xl ${compact ? "h-10 w-10" : "h-11 w-11"}`}
@@ -195,7 +217,7 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
 
       <div className="relative mt-5 flex flex-1 items-center">{children}</div>
 
-      <p className="num mt-4 text-xs text-faint">
+      <p className="num mt-4 text-xs text-faint md:pr-24">
         <NumberTicker value={stats[id].count} className="text-ink" /> productos · desde{" "}
         <span className="text-ink">{formatCOP(stats[id].min)}</span>
       </p>

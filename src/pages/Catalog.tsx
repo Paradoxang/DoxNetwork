@@ -319,7 +319,7 @@ export function Catalog() {
               exit={{ opacity: 0 }}
               className="card mt-4 flex flex-col items-center gap-3 px-6 py-12 text-center"
             >
-              <Astro pose="piensa" small decorative className="h-40" />
+              <Astro pose="chibi-espera" small decorative className="h-40" />
               <p className="text-lg font-bold">No encontramos resultados</p>
               <p className="max-w-sm text-mute">Prueba con otra palabra o escríbenos: si no está, te lo conseguimos.</p>
               <button type="button" className="btn btn-ghost mt-2" onClick={clear}>
