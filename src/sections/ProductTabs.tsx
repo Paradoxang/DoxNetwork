@@ -57,6 +57,7 @@ export function ProductTabs() {
         style={{ borderColor: tint(tab.hue, 34), background: `radial-gradient(120% 90% at 0% 0%, ${tint(tab.hue, 20)}, transparent 62%), var(--bg-soft)` }}
       >
         <Deco name="reticula" className="-right-16 -top-16 w-72" opacity={0.22} />
+        <Deco name="guijarro" className="-bottom-6 -left-8 hidden w-44 lg:block" opacity={0.5} />
       <AnimatePresence mode="wait" initial={false}>
         <motion.ul
           key={active}

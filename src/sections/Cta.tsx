@@ -13,6 +13,7 @@ export function Cta() {
   return (
     <section className="slant relative isolate overflow-hidden bg-gold text-gold-ink">
       <Deco name="llave" className="-left-12 -top-14 w-44 md:w-64" opacity={0.22} rotate={-18} />
+      <Deco name="cinta" className="right-[28%] top-6 hidden w-48 xl:block" opacity={0.5} rotate={14} fade={false} />
 
       <div className="relative mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-16 md:flex-row md:items-center md:justify-between md:px-6 md:py-20 2xl:pr-56">
         <Reveal>
