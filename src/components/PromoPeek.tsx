@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { SmartImage } from "@/components/SmartImage";
+import { Astro } from "@/components/Astro";
 import { minPrice } from "@/data/catalog";
 import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
@@ -75,36 +75,34 @@ export function PromoPeek() {
       {show && !open && (
         <motion.aside
           aria-label="Promoción"
-          initial={{ opacity: 0, y: 24, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 16, scale: 0.98, transition: { duration: 0.2 } }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 12, transition: { duration: 0.2 } }}
           transition={{ duration: 0.45, ease: EASE }}
-          className="fixed bottom-5 left-5 z-[56] hidden w-[250px] overflow-hidden rounded-3xl border border-line-strong bg-surface shadow-[var(--shadow)] md:block"
+          className="fixed inset-x-4 bottom-4 z-[56] mx-auto hidden max-w-[520px] items-center gap-3 overflow-hidden rounded-2xl border border-line-strong bg-surface/95 py-2 pl-2 pr-3 shadow-[var(--shadow)] backdrop-blur-xl md:flex"
         >
-          <div
-            className="relative aspect-[16/9]"
-            style={{ background: "radial-gradient(90% 90% at 80% 10%, var(--neb-soft), transparent 60%), var(--surface-2)" }}
+          <span className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl bg-neb-soft">
+            <Astro pose="urgente" small enter={false} float={false} decorative className="absolute inset-x-0 -top-1 mx-auto h-16" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="kicker block text-[10px]">¿Primera vez?</span>
+            <span className="block truncate text-sm font-bold leading-snug">Empieza con productos desde {formatCOP(minPrice)}</span>
+          </span>
+          <Link
+            to="/catalogo?orden=menor"
+            onClick={close}
+            className="flex shrink-0 items-center gap-1.5 whitespace-nowrap text-sm font-semibold text-neb hover:underline"
           >
-            <span className="absolute inset-0 flex items-center justify-center text-4xl font-extrabold tracking-[-0.03em] text-neb">
-              {formatCOP(minPrice)}
-            </span>
-            <SmartImage src="/promos/promo-peek.webp" className="absolute inset-0 h-full w-full object-cover" />
-            <button
-              type="button"
-              onClick={close}
-              className="absolute right-2 top-2 flex h-10 w-10 items-center justify-center rounded-full bg-bg/80 text-ink backdrop-blur-sm hover:text-neb"
-              aria-label="Cerrar promoción"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          </div>
-          <div className="p-4">
-            <p className="kicker">¿Primera vez?</p>
-            <p className="mt-2 font-bold leading-snug">Empieza con productos desde {formatCOP(minPrice)}</p>
-            <Link to="/catalogo?orden=menor" onClick={close} className="mt-3 flex items-center gap-1.5 text-sm font-semibold text-neb hover:underline">
-              Ver lo más económico <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
+            Ver lo barato <ArrowRight className="h-4 w-4" />
+          </Link>
+          <button
+            type="button"
+            onClick={close}
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-faint hover:text-ink"
+            aria-label="Cerrar promoción"
+          >
+            <X className="h-4 w-4" />
+          </button>
         </motion.aside>
       )}
     </AnimatePresence>

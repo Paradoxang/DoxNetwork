@@ -22,6 +22,7 @@ const capitulos = [
 export function ChapterNav() {
   const [activo, setActivo] = useState<string | null>(null);
   const [visible, setVisible] = useState(false);
+  const [moviendo, setMoviendo] = useState(false);
 
   useEffect(() => {
     const secciones = capitulos.map((c) => document.getElementById(c.id)).filter((el): el is HTMLElement => Boolean(el));
@@ -40,11 +41,22 @@ export function ChapterNav() {
     const io2 = new IntersectionObserver(([e]) => setVisible(!e.isIntersecting), { rootMargin: "0px 0px -80% 0px" });
     if (pie) io2.observe(pie);
 
-    const onScroll = () => setVisible((v) => (window.scrollY < window.innerHeight * 0.8 ? false : v));
+    // Mientras el dedo o la rueda se mueven, la píldora se aparta: tapaba
+    // nombres de producto y titulares en las secciones que llegan hasta abajo.
+    let quieto = 0;
+    const onScroll = () => {
+      if (window.scrollY < window.innerHeight * 0.8) setVisible(false);
+      else {
+        setMoviendo(true);
+        window.clearTimeout(quieto);
+        quieto = window.setTimeout(() => setMoviendo(false), 360);
+      }
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       io.disconnect();
       io2.disconnect();
+      window.clearTimeout(quieto);
       window.removeEventListener("scroll", onScroll);
     };
   }, []);
@@ -57,7 +69,7 @@ export function ChapterNav() {
     <nav
       aria-label="Secciones de esta página"
       className={`fixed bottom-6 left-1/2 z-40 hidden -translate-x-1/2 rounded-full border border-line-strong bg-bg/80 p-1.5 shadow-[var(--shadow)] backdrop-blur-xl transition-opacity duration-300 lg:flex ${
-        visible ? "opacity-100" : "pointer-events-none opacity-0"
+        visible && !moviendo ? "opacity-100" : "pointer-events-none opacity-0"
       }`}
     >
       {capitulos.map((c) => {

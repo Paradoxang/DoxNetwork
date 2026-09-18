@@ -48,7 +48,7 @@ export function ComboBuilder() {
   const maxMin = comboTiers.length ? comboTiers[comboTiers.length - 1].min : 1;
   const shown = pool.filter((p) => cat === "todas" || p.category === cat);
   // ASTRO piensa sin productos, señala mientras eliges y celebra al conseguir descuento
-  const builderPose: AstroPose = t.discountPct > 0 ? "celebra" : lines.length ? "senala" : "piensa";
+  const builderPose: AstroPose = t.discountPct > 0 ? "celebra" : lines.length ? "pulgar" : "chibi-espera";
 
   const toggle = (slug: string) =>
     setPicked((prev) => {

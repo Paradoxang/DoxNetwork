@@ -89,7 +89,22 @@ export function Catalog() {
 
   const current = cat ? categoryById(cat) : undefined;
   const line = linea ? lineas[linea] : undefined;
-  const astroPose: AstroPose = onlySale ? "sorpresa" : cat === "combos" ? "celebra" : cat === "cine-tv" ? "cine" : "senala";
+  const poseCategoria: Partial<Record<CategoryId, AstroPose>> = {
+    combos: "celebra",
+    "cine-tv": "cine",
+    gaming: "gamer",
+    musica: "audifonos",
+    ia: "piensa",
+    creatividad: "laptop",
+    aprende: "estuche",
+  };
+  const poseLinea: Partial<Record<LineaId, AstroPose>> = {
+    perfumeria: "spray",
+    relojeria: "reloj",
+    tecnologia: "carga",
+  };
+  const astroPose: AstroPose =
+    (onlySale ? "urgente" : cat ? poseCategoria[cat] : linea ? poseLinea[linea] : undefined) ?? "senala";
   const hasFilters = Boolean(q || cat || onlySale || linea);
   const visible = list.slice(0, limit);
 

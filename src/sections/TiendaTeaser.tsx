@@ -55,7 +55,8 @@ export function TiendaTeaser() {
       {/* Eco del agujero negro: núcleo oscuro con disco violeta */}
       <div data-halo aria-hidden="true" className="hole-echo pointer-events-none absolute -right-[18%] -top-[12%] -z-10 w-[min(1100px,120vw)]" />
       <Telon name="telon-nebulosa" opacity={0.3} className="h-[60%]" />
-      <div className="pointer-events-none absolute bottom-24 right-8 hidden h-40 xl:block">
+      {/* Arriba a la derecha: abajo se montaba sobre los nombres de producto */}
+      <div className="pointer-events-none absolute right-8 top-6 hidden h-28 xl:block">
         <Astro pose="chibi-envios" small decorative className="h-full" />
       </div>
 

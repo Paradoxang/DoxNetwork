@@ -21,8 +21,8 @@ export function CombosSection() {
   return (
     <section ref={scope} id="combos" className="slant relative overflow-hidden bg-bg-soft">
       <div className="aurora" aria-hidden="true" />
-      <Deco name="orbe-2" className="-right-20 top-6 w-56 md:-right-28 md:w-[420px]" opacity={0.42} float pesado />
-      <Deco name="obj-cofre" className="-left-12 bottom-10 hidden w-56 lg:block xl:w-72" opacity={0.85} rotate={-8} fade={false} />
+      <Deco name="orbe-2" className="-right-24 top-40 w-48 md:-right-32 md:w-80" opacity={0.3} float pesado />
+      <Deco name="obj-cofre" className="-left-16 bottom-28 hidden w-44 lg:block xl:w-56" opacity={0.45} rotate={-8} fade={false} />
       <div className="relative mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
         <SectionHeading
           kicker="02 · Combos"
@@ -51,7 +51,8 @@ export function CombosSection() {
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-neb text-neb-ink">
                   <Sparkles className="h-5 w-5" />
                 </span>
-                <Astro pose="regalo" decorative small className="absolute -right-3 top-1 h-32 md:h-36" />
+                {/* Apoyado en el borde inferior: arriba lo cortaba la tarjeta */}
+                <Astro pose="regalo" decorative small className="absolute -right-2 bottom-0 h-28 md:h-36" />
                 <span>
                   <span className="kicker">A tu medida</span>
                   <span className="mt-2 block text-2xl font-extrabold leading-tight">Arma tu propio combo</span>
