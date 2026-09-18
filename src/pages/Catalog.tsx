@@ -8,6 +8,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { Select, useUrlFilters } from "@/components/ShopControls";
 import { SideRail, type RailGroup } from "@/components/SideRail";
 import { Seo } from "@/components/Seo";
+import { Telon } from "@/components/Telon";
 import {
   allProducts,
   bestDiscount,
@@ -152,6 +153,7 @@ export function Catalog() {
         path="/catalogo"
       />
       <div className="xl:pl-[228px]">
+      <Telon name="telon-nebulosa" fijo opacity={0.32} />
       <section className="mx-auto max-w-[1200px] px-4 pb-24 pt-[140px] md:px-6 md:pt-[164px]">
         <div className="flex items-end justify-between gap-6">
           <Reveal>

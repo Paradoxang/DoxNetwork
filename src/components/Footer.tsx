@@ -30,7 +30,7 @@ export function Footer() {
             Pagos: {site.payments.join(" · ")}
           </p>
           <div className="mt-6 flex items-end gap-3">
-            <Astro pose="despedida" small decorative className="h-28" />
+            <Astro pose="chibi-gracias" small decorative className="h-28" />
             <p className="mb-3 text-sm font-semibold text-mute">¡Gracias por pasar por la red!</p>
           </div>
         </div>

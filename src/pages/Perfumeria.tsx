@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
+import { Telon } from "@/components/Telon";
 import { ProductCard } from "@/components/ProductCard";
 import { FaqItem, Select } from "@/components/ShopControls";
 import { Seo } from "@/components/Seo";
@@ -212,7 +213,9 @@ export function Perfumeria() {
       <div className="xl:pl-[228px]">
       {/* ── Hero ── */}
       <section ref={hero} className="relative mx-auto max-w-[1200px] overflow-hidden px-4 pb-10 pt-[140px] md:px-6 md:pt-[164px]">
+        <Telon name="telon-perfumeria" fijo opacity={0.42} />
         <Deco name="cristal-2" className="-left-14 bottom-4 hidden w-48 lg:block" opacity={0.3} float />
+        <Deco name="obj-frasco" className="-right-8 top-28 hidden w-64 lg:block xl:w-80" opacity={0.9} float fade={false} />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute right-0 top-24 -z-0 h-[420px] w-[420px] rounded-full blur-3xl"
@@ -428,7 +431,7 @@ export function Perfumeria() {
               exit={{ opacity: 0 }}
               className="card mt-4 flex flex-col items-center gap-3 px-6 py-12 text-center"
             >
-              <Astro pose="piensa" small decorative className="h-40" />
+              <Astro pose="perfume" small decorative className="h-40" />
               <p className="text-lg font-bold">No la tenemos en la vitrina</p>
               <p className="max-w-sm text-mute">Escríbenos el nombre de la fragancia: si nuestro proveedor la tiene, te la conseguimos.</p>
               <a

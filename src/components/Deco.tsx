@@ -81,7 +81,16 @@ export type DecoName =
   | "brazo"
   | "cinta"
   /** Busto ilustrado de ASTRO, con el agujero negro dentro del visor. */
-  | "astro-visor";
+  | "astro-visor"
+  /* Lote aprobado: piezas insignia de cada línea y del carrito */
+  | "obj-frasco"
+  | "obj-reloj"
+  | "obj-capsula"
+  | "obj-cofre"
+  | "obj-burbuja"
+  | "obj-bolsa"
+  | "obj-sello-18"
+  | "obj-vape";
 
 export function Deco({
   name,

@@ -3,8 +3,9 @@ import { ArrowRight, BadgeCheck, Info, Plus, Search, ShieldAlert, Truck, X } fro
 import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AgeGate } from "@/components/AgeGate";
-import { Astro } from "@/components/Astro";
+import { Astro, type AstroPose } from "@/components/Astro";
 import { Deco, type DecoName } from "@/components/Deco";
+import { Telon, type TelonName } from "@/components/Telon";
 import { LineIcon } from "@/components/CategoryIcon";
 import { ProductCard } from "@/components/ProductCard";
 import { SideRail, type RailGroup } from "@/components/SideRail";
@@ -104,8 +105,15 @@ const configs: Record<LineaFisica, Config> = {
  * la perfumería: vitrina en el hero, atajos, filtros en la URL, rejilla con
  * "ver más", preguntas y un CTA para pedir lo que no está.
  */
-/** Atrezo del hero de cada colección. Vapes va sin adorno. */
+/** Atrezo del hero de cada colección: telón de fondo, objeto insignia y pose. */
 const adorno: Partial<Record<LineaFisica, DecoName>> = { relojeria: "boveda", tecnologia: "cristal-capas" };
+const telon: Record<LineaFisica, TelonName> = {
+  relojeria: "telon-relojeria",
+  tecnologia: "telon-tecnologia",
+  vapes: "telon-vapes",
+};
+const insignia: Partial<Record<LineaFisica, DecoName>> = { relojeria: "obj-reloj", tecnologia: "obj-capsula", vapes: "obj-vape" };
+const posa: Record<LineaFisica, AstroPose> = { relojeria: "reloj", tecnologia: "audifonos", vapes: "mayor-edad" };
 
 export function Coleccion({ linea }: { linea: LineaFisica }) {
   const config = configs[linea];
@@ -270,7 +278,11 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
           className="pointer-events-none absolute right-0 top-24 h-[420px] w-[420px] rounded-full blur-3xl"
           style={{ background: `radial-gradient(circle, ${meta.hue}30, transparent 70%)` }}
         />
+        <Telon name={telon[linea]} fijo opacity={0.42} />
         {adorno[linea] && <Deco name={adorno[linea]!} className="-left-16 bottom-0 hidden w-56 lg:block" opacity={0.28} float />}
+        {insignia[linea] && (
+          <Deco name={insignia[linea]!} className="-right-10 top-28 hidden w-56 lg:block xl:w-72" opacity={0.85} float fade={false} />
+        )}
         <div className="relative grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <Reveal>
             <p className="kicker flex items-center gap-2">
@@ -490,7 +502,7 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
               exit={{ opacity: 0 }}
               className="card mt-4 flex flex-col items-center gap-3 px-6 py-12 text-center"
             >
-              <Astro pose="piensa" small decorative className="h-40" />
+              <Astro pose={posa[linea]} small decorative className="h-40" />
               <p className="text-lg font-bold">No lo tenemos a la vista</p>
               <p className="max-w-sm text-mute">Escríbenos qué buscas: si nuestro proveedor lo tiene, te lo conseguimos.</p>
               <a

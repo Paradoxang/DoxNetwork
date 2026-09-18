@@ -83,6 +83,7 @@ export function Faq() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="aurora" />
         <Deco name="lente" className="-left-40 top-1/4 hidden w-[760px] lg:block" opacity={0.26} pesado />
+        <Deco name="obj-burbuja" className="-left-6 top-6 hidden w-40 xl:block" opacity={0.7} float fade={false} />
       </div>
       <div className="relative mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[1fr_1.35fr]">
         <div className="lg:sticky lg:top-28 lg:self-start">

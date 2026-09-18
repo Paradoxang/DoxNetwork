@@ -1,7 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { Deco } from "@/components/Deco";
+import { Astro } from "@/components/Astro";
+import { Telon } from "@/components/Telon";
 import { ProductArt } from "@/components/ProductArt";
 import { InfiniteDragScroll } from "@/components/ui/infinite-drag-scroll";
 import { NumberTicker } from "@/components/ui/number-ticker";
@@ -53,7 +54,10 @@ export function TiendaTeaser() {
     <section ref={scope} id="envios" className="echo-section slant relative isolate overflow-hidden py-20 md:py-28">
       {/* Eco del agujero negro: núcleo oscuro con disco violeta */}
       <div data-halo aria-hidden="true" className="hole-echo pointer-events-none absolute -right-[18%] -top-[12%] -z-10 w-[min(1100px,120vw)]" />
-      <Deco name="nebulosa" className="-left-32 -top-24 -z-10 w-[760px]" opacity={0.22} pesado />
+      <Telon name="telon-nebulosa" opacity={0.3} className="h-[60%]" />
+      <div className="pointer-events-none absolute -bottom-2 right-6 hidden h-40 xl:block">
+        <Astro pose="chibi-envios" small decorative className="h-full" />
+      </div>
 
       <div className="mx-auto grid max-w-[1200px] gap-6 px-4 md:grid-cols-[1fr_auto] md:items-end md:px-6">
         <Reveal>

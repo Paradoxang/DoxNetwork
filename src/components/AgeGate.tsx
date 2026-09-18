@@ -52,11 +52,19 @@ export function AgeGate({ children }: { children: ReactNode }) {
           initial={reduced ? { opacity: 0 } : { opacity: 0, y: 16, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.4, ease: EASE }}
-          className="card w-full max-w-md p-7 text-center md:p-9"
+          className="card relative w-full max-w-md overflow-hidden p-7 text-center md:p-9"
         >
           <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gold-soft text-gold">
             <ShieldAlert className="h-7 w-7" />
           </span>
+          <img
+            src="/deco/obj-sello-18.webp"
+            alt=""
+            aria-hidden="true"
+            width={132}
+            height={132}
+            className="pointer-events-none absolute right-4 top-4 w-20 opacity-75 md:w-24"
+          />
           {state === "rechazado" ? (
             <>
               <h1 id="age-title" className="display mt-5 text-[28px]">

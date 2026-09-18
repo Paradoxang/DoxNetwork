@@ -92,7 +92,7 @@ export function CartDrawer() {
 
             {cart.lines.length === 0 ? (
               <div className="flex flex-1 flex-col items-center justify-center gap-4 px-8 text-center">
-                <Astro pose="chibi" small enter={false} decorative className="h-36" />
+                <Astro pose="chibi-hola" small enter={false} decorative className="h-36" />
                 <p className="text-lg font-bold">Tu carrito está vacío</p>
                 <p className="text-sm text-mute">Agrega productos y te armamos el pedido por WhatsApp.</p>
                 <Link to="/catalogo" className="btn btn-primary mt-2" onClick={() => setOpen(false)}>

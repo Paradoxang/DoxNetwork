@@ -25,7 +25,28 @@ export type AstroPose =
   | "escudo"
   | "favoritos"
   | "laptop"
-  | "soporte";
+  | "soporte"
+  | "audifonos"
+  | "carga"
+  | "estuche"
+  | "gamer"
+  | "mayor-edad"
+  | "perfume"
+  | "regalo"
+  | "reloj"
+  | "spray"
+  | "urgente"
+  | "chibi-audifonos"
+  | "chibi-envios"
+  | "chibi-espera"
+  | "chibi-gracias"
+  | "chibi-hola"
+  | "chibi-listo"
+  | "chibi-mayor-edad"
+  | "chibi-perfume"
+  | "chibi-reloj"
+  | "chibi-sorpresa"
+  | "chibi-streaming";
 
 const dims: Record<AstroPose, [number, number]> = {
   celebra: [617, 901],
@@ -43,6 +64,27 @@ const dims: Record<AstroPose, [number, number]> = {
   favoritos: [548, 902],
   laptop: [606, 904],
   soporte: [610, 902],
+  audifonos: [559, 900],
+  carga: [686, 900],
+  estuche: [462, 900],
+  gamer: [554, 900],
+  "mayor-edad": [566, 900],
+  perfume: [443, 900],
+  regalo: [457, 900],
+  reloj: [482, 900],
+  spray: [633, 900],
+  urgente: [496, 900],
+  "chibi-audifonos": [770, 900],
+  "chibi-envios": [779, 900],
+  "chibi-espera": [626, 900],
+  "chibi-gracias": [624, 900],
+  "chibi-hola": [782, 900],
+  "chibi-listo": [727, 900],
+  "chibi-mayor-edad": [696, 900],
+  "chibi-perfume": [753, 900],
+  "chibi-reloj": [914, 900],
+  "chibi-sorpresa": [588, 900],
+  "chibi-streaming": [672, 900],
 };
 
 const alts: Record<AstroPose, string> = {
@@ -61,6 +103,27 @@ const alts: Record<AstroPose, string> = {
   favoritos: "ASTRO abrazando un corazón",
   laptop: "ASTRO trabajando en un portátil",
   soporte: "ASTRO hablando por teléfono",
+  audifonos: "ASTRO con audífonos",
+  carga: "ASTRO con un cargador",
+  estuche: "ASTRO mostrando un estuche",
+  gamer: "ASTRO jugando en una consola portátil",
+  "mayor-edad": "ASTRO pidiendo verificar la edad",
+  perfume: "ASTRO con un frasco de perfume",
+  regalo: "ASTRO con un regalo",
+  reloj: "ASTRO mostrando un reloj",
+  spray: "ASTRO probando una fragancia",
+  urgente: "ASTRO señalando un reloj de arena",
+  "chibi-audifonos": "ASTRO chibi con audífonos",
+  "chibi-envios": "ASTRO chibi con una caja de envío",
+  "chibi-espera": "ASTRO chibi esperando con un reloj de arena",
+  "chibi-gracias": "ASTRO chibi abrazando un corazón",
+  "chibi-hola": "ASTRO chibi saludando con las dos manos",
+  "chibi-listo": "ASTRO chibi con el pulgar arriba",
+  "chibi-mayor-edad": "ASTRO chibi pidiendo verificar la edad",
+  "chibi-perfume": "ASTRO chibi con un frasco de perfume",
+  "chibi-reloj": "ASTRO chibi mostrando un reloj",
+  "chibi-sorpresa": "ASTRO chibi sorprendido",
+  "chibi-streaming": "ASTRO chibi con crispetas viendo una serie",
 };
 
 export function Astro({
