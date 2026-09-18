@@ -57,9 +57,6 @@ export function HowItWorks() {
     <section id="como-comprar" className="relative border-y border-line bg-bg-soft">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
         <Deco name="fibra" className="-left-32 bottom-0 hidden w-[620px] lg:block" opacity={0.16} pesado />
-        {/* Cono de luz saliendo del teléfono: la sección va de lo que se proyecta
-            en el chat, y al ser capa de luz no deja canto recto */}
-        <Deco name="proyeccion" className="-right-24 top-10 hidden w-[520px] rotate-180 lg:block" opacity={0.45} pesado />
       </div>
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-20">
         <div>

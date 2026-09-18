@@ -121,10 +121,10 @@ export function Categories() {
                 </span>
               </span>
             </Link>
-            <div className="pointer-events-none absolute -bottom-1 right-3 hidden h-28 lg:block">
+            <div className="pointer-events-none absolute right-3 top-2 z-10 hidden h-28 lg:block">
               <Astro pose="chibi-streaming" small enter={false} decorative className="h-full" />
             </div>
-            <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 lg:pr-28">
+            <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:overflow-visible md:px-0">
               {categories.map((c) => (
                 <li key={c.id} className="shrink-0">
                   <Link
@@ -165,16 +165,15 @@ export function Categories() {
               </span>
               <span className="rounded-full border border-gold/40 bg-gold-soft px-2.5 py-0.5 font-mono text-[12px] font-bold text-gold">+18</span>
             </div>
-            <p className="mt-4 text-2xl font-bold leading-tight">{lineas.vapes.name}</p>
-            <p className="mt-1 text-sm leading-snug text-mute">{lineas.vapes.blurb}</p>
-            {/* El aviso de nicotina no puede quedar tapado por el personaje */}
-            <p className="mt-4 text-[13px] leading-relaxed text-faint md:pr-24">
+            <p className="mt-4 text-2xl font-bold leading-tight md:pr-28">{lineas.vapes.name}</p>
+            <p className="mt-1 text-sm leading-snug text-mute md:pr-28">{lineas.vapes.blurb}</p>
+            <p className="mt-4 text-[13px] leading-relaxed text-faint">
               Al entrar se verifica tu edad. Contienen nicotina, una sustancia adictiva que afecta la salud.
             </p>
             <p className="num mt-auto pt-5 text-xs text-faint">
               <NumberTicker value={vapes.length} className="text-ink" /> referencias
             </p>
-            <div className="pointer-events-none absolute bottom-9 right-2 hidden h-24 md:block">
+            <div className="pointer-events-none absolute right-3 top-14 z-10 hidden h-28 md:block">
               <Astro pose="chibi-mayor-edad" small enter={false} decorative className="h-full" />
             </div>
           </Link>
@@ -195,7 +194,7 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
     >
       {adorno[id] && <Deco name={adorno[id]!} className={`-right-8 -top-8 ${compact ? "w-28" : "w-40"}`} opacity={0.3} />}
       {chibi[id] && (
-        <div className={`pointer-events-none absolute right-2 hidden md:block ${compact ? "bottom-9 h-20" : "bottom-10 h-28"}`}>
+        <div className={`pointer-events-none absolute right-3 top-2 z-10 hidden md:block ${compact ? "h-24" : "h-32"}`}>
           <Astro pose={chibi[id]!} small enter={false} decorative className="h-full" />
         </div>
       )}
@@ -212,12 +211,12 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
           <ArrowUpRight className="h-4 w-4 text-faint" aria-hidden="true" />
         )}
       </div>
-      <p className={`mt-4 font-bold leading-tight ${compact ? "text-lg" : "text-2xl"}`}>{l.name}</p>
-      <p className={`mt-1 leading-snug text-mute ${compact ? "text-[13px]" : "text-sm"}`}>{l.blurb}</p>
+      <p className={`mt-4 font-bold leading-tight md:pr-24 ${compact ? "text-lg" : "text-2xl"}`}>{l.name}</p>
+      <p className={`mt-1 leading-snug text-mute md:pr-24 ${compact ? "text-[13px]" : "text-sm"}`}>{l.blurb}</p>
 
       <div className="relative mt-5 flex flex-1 items-center">{children}</div>
 
-      <p className="num mt-4 text-xs text-faint md:pr-24">
+      <p className="num mt-4 text-xs text-faint">
         <NumberTicker value={stats[id].count} className="text-ink" /> productos · desde{" "}
         <span className="text-ink">{formatCOP(stats[id].min)}</span>
       </p>

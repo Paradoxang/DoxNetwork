@@ -215,7 +215,7 @@ export function Perfumeria() {
       <section ref={hero} className="relative mx-auto max-w-[1200px] overflow-hidden px-4 pb-10 pt-[140px] md:px-6 md:pt-[164px]">
         <Telon name="telon-perfumeria" fijo opacity={0.42} />
         <Deco name="cristal-2" className="-left-14 bottom-4 hidden w-48 lg:block" opacity={0.3} float />
-        <Deco name="obj-frasco" className="-right-8 top-28 hidden w-64 lg:block xl:w-80" opacity={0.9} float fade={false} />
+        <Deco name="obj-frasco" className="right-10 top-[96px] z-10 hidden w-32 lg:block xl:w-40" opacity={0.95} float fade={false} />
         <div
           aria-hidden="true"
           className="pointer-events-none absolute right-0 top-24 -z-0 h-[420px] w-[420px] rounded-full blur-3xl"
@@ -261,6 +261,10 @@ export function Perfumeria() {
 
           {/* Vitrina: tres frascos en abanico; al pasar el puntero se abren */}
           <div className="group/vitrina relative mx-auto h-[300px] w-full max-w-[520px] sm:h-[380px]" aria-hidden="true">
+            {/* ASTRO prueba una fragancia al pie de la vitrina */}
+            <div className="pointer-events-none absolute -left-16 bottom-0 z-20 hidden h-40 xl:block">
+              <Astro pose="spray" decorative className="h-full" />
+            </div>
             <div className="absolute inset-x-6 bottom-2 h-10 rounded-[50%] bg-black/30 blur-2xl" />
             {showcase.map((p, i) => {
               const pos = [

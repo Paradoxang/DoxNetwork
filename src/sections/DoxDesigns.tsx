@@ -74,7 +74,6 @@ export function DoxDesigns() {
       />
 
       <Deco name="malla" className="bottom-0 left-0 w-full" opacity={0.22} pesado />
-      <Deco name="tableta" className="-left-10 bottom-24 hidden w-64 lg:block xl:w-80" opacity={0.5} fade={false} />
       <Deco name="stylus" className="right-10 top-14 hidden w-56 lg:block" opacity={0.55} rotate={12} fade={false} />
 
       <div className="relative mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-28">

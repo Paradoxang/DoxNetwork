@@ -281,7 +281,7 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
         <Telon name={telon[linea]} fijo opacity={0.42} />
         {adorno[linea] && <Deco name={adorno[linea]!} className="-left-16 bottom-0 hidden w-56 lg:block" opacity={0.28} float />}
         {insignia[linea] && (
-          <Deco name={insignia[linea]!} className="-right-10 top-28 hidden w-56 lg:block xl:w-72" opacity={0.85} float fade={false} />
+          <Deco name={insignia[linea]!} className="right-10 top-[96px] z-10 hidden w-32 lg:block xl:w-40" opacity={0.92} float fade={false} />
         )}
         <div className="relative grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <Reveal>
@@ -333,6 +333,10 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
           ) : (
           /* Vitrina: tres productos en abanico que se abren al pasar el puntero */
           <div className="group/vitrina relative mx-auto h-[300px] w-full max-w-[520px] sm:h-[380px]" aria-hidden="true">
+              {/* ASTRO presenta la línea al pie de la vitrina */}
+              <div className="pointer-events-none absolute -left-16 bottom-0 z-20 hidden h-40 xl:block">
+                <Astro pose={posa[linea]} decorative className="h-full" />
+              </div>
             <div className="absolute inset-x-6 bottom-2 h-10 rounded-[50%] bg-black/30 blur-2xl" />
             {showcase.map((p, i) => {
               const pos = [
