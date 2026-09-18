@@ -7,7 +7,7 @@ import {
 } from "framer-motion";
 import Lenis from "lenis";
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
-import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { gsapListo } from "@/lib/motion";
 import { modoActual } from "@/lib/perf";
 
 export const EASE = [0.16, 1, 0.3, 1] as const;
@@ -130,9 +130,11 @@ export function Tilt({
   );
 }
 
-/* ── Lenis, conducido por el ticker de GSAP ──
-   Un solo reloj para los dos: así ScrollTrigger lee la posición que Lenis
-   acaba de escribir y no la del fotograma anterior. */
+/* ── Lenis, con su propio reloj ──
+   Antes lo movía el ticker de GSAP, lo que obligaba a traer GSAP en el paquete
+   principal solo para suavizar el scroll. Ahora Lenis corre con su propio
+   requestAnimationFrame y, si GSAP ya está cargado, se le avisa en cada scroll
+   para que ScrollTrigger lea la posición recién escrita. */
 let lenisInstance: Lenis | null = null;
 
 export function useLenis() {
@@ -143,12 +145,17 @@ export function useLenis() {
     if (modoActual() === "ligero") return;
     const lenis = new Lenis({ duration: 1 });
     lenisInstance = lenis;
-    lenis.on("scroll", ScrollTrigger.update);
-    const tick = (t: number) => lenis.raf(t * 1000);
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    lenis.on("scroll", () => {
+      gsapListo()?.then((m) => m.ScrollTrigger.update());
+    });
+    let raf = 0;
+    const tick = (t: number) => {
+      lenis.raf(t);
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
     return () => {
-      gsap.ticker.remove(tick);
+      cancelAnimationFrame(raf);
       lenis.destroy();
       lenisInstance = null;
     };

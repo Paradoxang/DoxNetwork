@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
+import { useAnimacion } from "@/lib/motion";
 
 /**
  * Revelado escalonado por scroll con ScrollTrigger.batch: los elementos que
@@ -10,8 +10,8 @@ import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
  * lo anima Framer con `layout`, así que ahí no).
  */
 export function useBatchReveal(scope: RefObject<HTMLElement>, selector = "[data-reveal]") {
-  useGSAP(
-    () => {
+  useAnimacion(
+    ({ gsap, ScrollTrigger }) => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const items = gsap.utils.toArray<HTMLElement>(selector, scope.current);

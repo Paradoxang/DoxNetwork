@@ -659,6 +659,23 @@
   filter: blur(1px);
 }
 
+/* En tema claro el atrezo de las esquinas salta mucho más que sobre navy, y
+   su recorte contra el borde de la baldosa se lee como una imagen rota. Baja
+   de tono: sigue dando textura sin parecer un error. */
+[data-theme="light"] .deco-esquina {
+  opacity: 0.12 !important;
+}
+
+/* Secciones largas que están fuera de pantalla: el navegador se salta su
+   maquetado y pintado hasta que se acercan. `auto` en el tamaño intrínseco
+   recuerda la última altura medida, así el scroll no pega saltos.
+   No se usa donde hay elementos fijos por scroll (cómo comprar, preguntas):
+   ahí el contenido tiene que existir para que el sticky se comporte. */
+.difiere {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 /* ── Modo ligero (src/lib/perf.ts) ──
    Lo que se apaga aquí es, por orden de coste: el grano y las capas de luz a
    pantalla completa (composición de más), los desenfoques de fondo (obligan a

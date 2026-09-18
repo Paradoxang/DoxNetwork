@@ -1,17 +1,23 @@
 import { ArrowRight, ArrowUpRight, Code2, Headphones, Search, Sparkles, SprayCan, Tv, Watch } from "lucide-react";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { lazy, Suspense, useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
-import { BlackHoleHeroSection } from "@/components/ui/blackhole-hero-section";
 import { Deco } from "@/components/Deco";
 import { glowHandlers } from "@/components/ui/glowing-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { products } from "@/data/catalog";
 import { relojes, tecnologia } from "@/data/lineas";
 import { perfumes } from "@/data/perfumeria";
-import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { useAnimacion } from "@/lib/motion";
 import { alCambiarModo, modoActual } from "@/lib/perf";
 import { useUI } from "@/lib/ui";
+
+/* El agujero negro es lo más caro de la página: 900 líneas de WebGL y la
+   compilación de sus shaders. Sale del paquete principal y entra cuando el
+   navegador termina de hidratar, con el disco plano de CSS como relevo. */
+const BlackHoleHeroSection = lazy(() =>
+  import("@/components/ui/blackhole-hero-section").then((m) => ({ default: m.BlackHoleHeroSection }))
+);
 
 const count = (...cats: string[]) => products.filter((p) => cats.includes(p.category)).length;
 
@@ -93,7 +99,17 @@ export function Hero() {
   const { openSearch } = useUI();
   const narrow = useNarrow();
   const [ligero, setLigero] = useState(modoActual() === "ligero");
+  const [listoParaShader, setListoParaShader] = useState(false);
   useEffect(() => alCambiarModo((m) => setLigero(m === "ligero")), []);
+  /* En móvil no se monta el shader: compilarlo cuesta más de un segundo de
+     hilo principal en un teléfono de gama media y, a 380 px, el agujero negro
+     se lee igual pintado con degradados. */
+  // Tras hidratar: el shader espera a que el hilo principal respire
+  useEffect(() => {
+    const idle = window.requestIdleCallback ?? ((fn: () => void) => window.setTimeout(fn, 900));
+    const id = idle(() => setListoParaShader(true));
+    return () => (window.cancelIdleCallback ?? window.clearTimeout)(id as number);
+  }, []);
 
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -106,8 +122,8 @@ export function Hero() {
      3. los nodos de la red se encienden uno a uno,
      4. ASTRO flota hacia el frente del agujero y aparece su globo.
      Con movimiento reducido no se anima nada: el CSS ya lo deja visible. */
-  useGSAP(
-    () => {
+  useAnimacion(
+    ({ gsap, SplitText }) => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const el = scope.current!;
@@ -212,13 +228,21 @@ export function Hero() {
 
         {/* ── Agujero negro ── En móvil es un bloque bajo el texto; desde md cubre todo el hero. */}
         <div className="relative -mt-6 h-[380px] md:absolute md:inset-0 md:mt-0 md:h-auto">
-          {ligero ? (
-            /* Modo ligero: el agujero negro se pinta con degradados, sin WebGL
-               ni bucle de fotogramas. Mismo encuadre, coste casi cero. */
+          {ligero || narrow || !listoParaShader ? (
+            /* Sin WebGL: el agujero negro se pinta con degradados. Mismo
+               encuadre, coste casi cero. Es el modo ligero y también el relevo
+               mientras el shader carga. */
             <div aria-hidden="true" className="absolute inset-0 overflow-hidden bg-[#05070d]">
               <div className="hole-plano absolute right-[6%] top-1/2 aspect-[1/0.62] w-[86%] -translate-y-1/2 md:right-[12%] md:w-[58%]" />
             </div>
           ) : (
+          <Suspense
+            fallback={
+              <div aria-hidden="true" className="absolute inset-0 overflow-hidden bg-[#05070d]">
+                <div className="hole-plano absolute right-[6%] top-1/2 aspect-[1/0.62] w-[86%] -translate-y-1/2 md:right-[12%] md:w-[58%]" />
+              </div>
+            }
+          >
           <BlackHoleHeroSection
             aria-hidden="true"
             focus={narrow ? [0.62, 0.4] : [0.74, 0.46]}
@@ -238,6 +262,7 @@ export function Hero() {
             starBrightness={0.35}
             className="bg-[#05070d]"
           />
+          </Suspense>
           )}
           {/* Móvil: el bloque se funde con el texto de arriba */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#05070d] to-transparent md:hidden" />

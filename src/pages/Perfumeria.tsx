@@ -25,7 +25,7 @@ import {
 } from "@/data/perfumeria";
 import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, Reveal, scrollToTarget } from "@/lib/anim";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useAnimacion } from "@/lib/motion";
 import { normalize } from "@/lib/ui";
 
 type ParaFilter = "dama" | "hombre" | "unisex" | "sets";
@@ -134,8 +134,8 @@ export function Perfumeria() {
   const visible = list.slice(0, limit);
 
   // Vitrina del hero: los frascos entran escalonados y el brillo cruza una vez
-  useGSAP(
-    () => {
+  useAnimacion(
+    ({ gsap }) => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.from("[data-plate]", {

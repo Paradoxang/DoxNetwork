@@ -9,7 +9,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { glowHandlers } from "@/components/ui/glowing-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { allProducts, categories, fromPrice, products, upcoming, type Product } from "@/data/catalog";
-import { destacados, thumbOf } from "@/data/destacados";
+import { destacados, microThumbOf } from "@/data/destacados";
 import { lineaOf, lineaOrder, lineas, vapes, type LineaId } from "@/data/lineas";
 import { categoryHue, tint } from "@/data/paleta";
 import { formatCOP } from "@/data/site";
@@ -90,7 +90,7 @@ export function Categories() {
             </span>
             <p className="mt-auto pt-6 text-lg font-bold leading-tight">Páginas web</p>
             <p className="mt-1 text-[13px] leading-snug text-mute">A la medida, con Dox Designs</p>
-            <Deco name="diagrama" className="-bottom-6 -right-10 w-44" opacity={0.28} />
+            <Deco name="diagrama" className="deco-esquina -bottom-6 -right-10 w-44" opacity={0.28} />
             <ArrowUpRight className="absolute right-4 top-4 h-4 w-4 text-faint" aria-hidden="true" />
           </Link>
         </li>
@@ -102,7 +102,7 @@ export function Categories() {
             className="glow-border card relative flex min-h-full flex-col gap-5 overflow-hidden p-5 md:p-6"
             style={{ background: `radial-gradient(90% 140% at 0% 0%, ${tint(lineas.digital.hue, 16)}, transparent 60%), var(--surface)`, borderColor: tint(lineas.digital.hue, 24) }}
           >
-            <Deco name="esfera" className="-right-12 -top-16 w-64" opacity={0.26} pesado />
+            <Deco name="esfera" className="deco-esquina -right-12 -top-16 w-64" opacity={0.26} pesado />
             <Link to={lineas.digital.path} className="relative group flex items-start gap-4">
               <span
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
@@ -192,7 +192,7 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
       className={`glow-border card card-hover group relative flex min-h-full flex-col overflow-hidden ${compact ? "p-4 md:p-5" : "p-5 md:p-6"} ${className}`}
       style={{ background: `radial-gradient(120% 80% at 100% 0%, ${tint(l.hue, 20)}, transparent 62%), var(--surface)`, borderColor: tint(l.hue, 26) }}
     >
-      {adorno[id] && <Deco name={adorno[id]!} className={`-right-8 -top-8 ${compact ? "w-28" : "w-40"}`} opacity={0.3} />}
+      {adorno[id] && <Deco name={adorno[id]!} className={`deco-esquina -right-8 -top-8 ${compact ? "w-28" : "w-40"}`} opacity={0.3} />}
       {chibi[id] && (
         <div className={`pointer-events-none absolute right-3 top-2 z-10 hidden md:block ${compact ? "h-24" : "h-32"}`}>
           <Astro pose={chibi[id]!} small enter={false} decorative className="h-full" />
@@ -232,7 +232,7 @@ function Showcase({ items, layout, small = false }: { items: Product[]; layout: 
       {items.map((p, i) => (
         <span key={p.slug} className={`product-media aspect-square rounded-2xl ${small && i === 2 ? "max-lg:hidden" : ""}`}>
           <img
-            src={thumbOf(p)}
+            src={microThumbOf(p)}
             alt=""
             width={180}
             height={180}

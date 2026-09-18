@@ -6,7 +6,7 @@ import { SmartImage } from "@/components/SmartImage";
 import { productBySlug, type Product } from "@/data/catalog";
 import { promos } from "@/data/promos";
 import { EASE } from "@/lib/anim";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useAnimacion } from "@/lib/motion";
 
 const DURATION = 6;
 
@@ -30,8 +30,8 @@ export function PromoCarousel() {
   }, []);
 
   // La barra de progreso del slide activo es el reloj del carrusel
-  useGSAP(
-    () => {
+  useAnimacion(
+    ({ gsap }) => {
       if (!bar.current) return;
       tween.current?.kill();
       tween.current = gsap.fromTo(
@@ -41,7 +41,7 @@ export function PromoCarousel() {
       );
       if (paused) tween.current.pause();
     },
-    { dependencies: [index] }
+    { deps: [index] }
   );
 
   useEffect(() => {

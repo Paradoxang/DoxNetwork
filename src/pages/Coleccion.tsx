@@ -18,7 +18,7 @@ import { articulos, conditionInfo, lineas, subLabel, vapeWarning, type Condicion
 import { disclaimer, shipping } from "@/data/perfumeria";
 import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, Reveal, scrollToTarget } from "@/lib/anim";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useAnimacion } from "@/lib/motion";
 import { normalize } from "@/lib/ui";
 
 type LineaFisica = "relojeria" | "tecnologia" | "vapes";
@@ -175,8 +175,8 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
     if (el) scrollToTarget(el);
   };
 
-  useGSAP(
-    () => {
+  useAnimacion(
+    ({ gsap }) => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.from("[data-plate]", {
@@ -191,7 +191,7 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
       });
       return () => mm.revert();
     },
-    { scope: hero, dependencies: [linea], revertOnUpdate: true }
+    { scope: hero, deps: [linea] }
   );
 
   const seo = (

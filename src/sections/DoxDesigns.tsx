@@ -8,7 +8,7 @@ import { GlareCard } from "@/components/ui/glare-card";
 import { dox, doxProjects, doxServices, doxStats, type DoxProject } from "@/data/dox";
 import { waLink } from "@/data/site";
 import { Reveal, Tilt } from "@/lib/anim";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useAnimacion } from "@/lib/motion";
 
 /**
  * Sección de Dox Designs: el estudio que construyó esta tienda. Promociona el
@@ -22,8 +22,8 @@ import { gsap, useGSAP } from "@/lib/gsap";
 export function DoxDesigns() {
   const scope = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
+  useAnimacion(
+    ({ gsap }) => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         const el = scope.current!;
@@ -60,7 +60,7 @@ export function DoxDesigns() {
   );
 
   return (
-    <section ref={scope} id="dox-designs" className="slant relative overflow-hidden bg-bg-soft">
+    <section ref={scope} id="dox-designs" className="difiere slant relative overflow-hidden bg-bg-soft">
       {/* Luces de fondo */}
       <div
         aria-hidden="true"

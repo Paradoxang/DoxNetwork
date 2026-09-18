@@ -12,7 +12,7 @@ import { relojes, tecnologia } from "@/data/lineas";
 import { perfumes, shipping } from "@/data/perfumeria";
 import { formatCOP } from "@/data/site";
 import { Reveal } from "@/lib/anim";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useAnimacion } from "@/lib/motion";
 
 // Perfume, reloj, tecnología, perfume…: la fila muestra las tres líneas físicas
 const picks: Product[] = [];
@@ -35,8 +35,8 @@ const lineLabel = (p: Product) => (p.perfume ? "Perfumería" : p.articulo!.line 
 export function TiendaTeaser() {
   const scope = useRef<HTMLElement>(null);
 
-  useGSAP(
-    () => {
+  useAnimacion(
+    ({ gsap }) => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.fromTo(

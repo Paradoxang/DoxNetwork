@@ -6,7 +6,7 @@ import { Deco } from "@/components/Deco";
 import { SectionHeading } from "@/components/SectionHeading";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { planLabel, type Product } from "@/data/catalog";
-import { destacados, thumbOf } from "@/data/destacados";
+import { destacados, microThumbOf } from "@/data/destacados";
 import { formatCOP, site } from "@/data/site";
 import { EASE } from "@/lib/anim";
 
@@ -194,7 +194,7 @@ function Screen({ step }: { step: number }) {
           {sample.map((p) => (
             <li key={p.slug} className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-2.5">
               <span className="product-media h-12 w-12 shrink-0 rounded-xl">
-                <img src={thumbOf(p)} alt="" width={48} height={48} className="relative z-[1] h-full w-full rounded-xl object-contain p-1" />
+                <img src={microThumbOf(p)} alt="" width={48} height={48} className="relative z-[1] h-full w-full rounded-xl object-contain p-1" />
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block truncate text-[13px] font-semibold">{p.name}</span>

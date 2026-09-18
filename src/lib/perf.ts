@@ -47,10 +47,15 @@ function equipoModesto(): boolean {
     connection?: { saveData?: boolean; effectiveType?: string };
   };
   const con = nav.connection;
+  // Ahorro de datos: lo pidió la persona, se respeta sin discutir
   if (con?.saveData) return true;
-  if (con?.effectiveType && ["slow-2g", "2g", "3g"].includes(con.effectiveType)) return true;
-  if (typeof nav.deviceMemory === "number" && nav.deviceMemory <= 4) return true;
-  if (typeof nav.hardwareConcurrency === "number" && nav.hardwareConcurrency <= 4) return true;
+  // 2G sí: ahí el problema es traer los megas. 3G no: la red no dice nada de
+  // lo que cuesta pintar, y degradaba la página en equipos perfectamente capaces
+  if (con?.effectiveType && ["slow-2g", "2g"].includes(con.effectiveType)) return true;
+  // Solo gama muy baja: 4 núcleos y 4 GB los tiene media gama que va de sobra
+  if (typeof nav.deviceMemory === "number" && nav.deviceMemory <= 2) return true;
+  if (typeof nav.hardwareConcurrency === "number" && nav.hardwareConcurrency <= 2) return true;
+  // Lo demás lo decide la medición real del primer scroll
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 

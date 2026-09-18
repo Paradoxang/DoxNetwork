@@ -32,7 +32,7 @@ export function ProductTabs() {
   const tab = tabs.find((t) => t.id === active)!;
 
   return (
-    <section id="productos" className="mx-auto max-w-[1200px] scroll-mt-24 px-4 py-20 md:px-6 md:py-24">
+    <section id="productos" className="difiere mx-auto max-w-[1200px] scroll-mt-24 px-4 py-20 md:px-6 md:py-24">
       <SectionHeading kicker="03 · Productos" title="Lo mejor de cada línea" />
 
       <Reveal delay={0.05} className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

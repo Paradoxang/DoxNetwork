@@ -53,3 +53,11 @@ export const destacadosRed: Product[] = (() => {
 
 /** Miniatura de un producto para mosaicos pequeños (logo, foto de perfume o de artículo). */
 export const thumbOf = (p: Product) => (p.logo ? p.logo : p.image ? (p.perfume || p.articulo ? p.image.replace(/\.webp$/, "-sm.webp") : p.image) : undefined);
+
+/**
+ * Miniatura mínima (180 px) para los mosaicos de "01 · La red" y el carrito,
+ * donde la imagen se pinta a ~100 px. La de 360 pesaba cuatro veces más para
+ * verse igual.
+ */
+export const microThumbOf = (p: Product) =>
+  p.logo ? p.logo : p.image ? (p.perfume || p.articulo ? p.image.replace(/\.webp$/, "-xs.webp") : p.image) : undefined;

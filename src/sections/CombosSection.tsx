@@ -19,7 +19,7 @@ export function CombosSection() {
   const maxPct = comboTiers.length ? comboTiers[comboTiers.length - 1].pct : 0;
 
   return (
-    <section ref={scope} id="combos" className="slant relative overflow-hidden bg-bg-soft">
+    <section ref={scope} id="combos" className="difiere slant relative overflow-hidden bg-bg-soft">
       <div className="aurora" aria-hidden="true" />
       <Deco name="orbe-2" className="-right-24 top-40 w-48 md:-right-32 md:w-80" opacity={0.3} float pesado />
       <Deco name="obj-cofre" className="-left-16 bottom-28 hidden w-44 lg:block xl:w-56" opacity={0.45} rotate={-8} fade={false} />

@@ -1,6 +1,5 @@
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 
@@ -16,7 +15,7 @@ import { SplitText } from "gsap/SplitText";
  * el DOM.
  */
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(useGSAP, DrawSVGPlugin, ScrollTrigger, SplitText);
+  gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 }
 
 export { gsap, useGSAP, ScrollTrigger, SplitText };
