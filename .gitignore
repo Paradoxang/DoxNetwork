@@ -30,3 +30,4 @@ brand/astro/png/
 
 # Material fuente de los lotes de imágenes (pesan y no se usan en el build)
 *.zip
+.artifact-movil/
