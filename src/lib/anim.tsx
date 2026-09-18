@@ -8,6 +8,7 @@ import {
 import Lenis from "lenis";
 import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+import { modoActual } from "@/lib/perf";
 
 export const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -105,7 +106,7 @@ export function Tilt({
   const srx = useSpring(rx, { stiffness: 150, damping: 20 });
   const sry = useSpring(ry, { stiffness: 150, damping: 20 });
 
-  if (reduced) return <div className={className}>{children}</div>;
+  if (reduced || modoActual() === "ligero") return <div className={className}>{children}</div>;
 
   return (
     <motion.div
@@ -137,6 +138,9 @@ let lenisInstance: Lenis | null = null;
 export function useLenis() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Lenis reescribe la posición en cada fotograma: en equipos flojos es de lo
+    // primero que hay que soltar (perf.ts)
+    if (modoActual() === "ligero") return;
     const lenis = new Lenis({ duration: 1 });
     lenisInstance = lenis;
     lenis.on("scroll", ScrollTrigger.update);

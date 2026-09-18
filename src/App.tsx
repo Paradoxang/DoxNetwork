@@ -14,6 +14,7 @@ import { allProducts } from "@/data/catalog";
 import { site, waLink } from "@/data/site";
 import { EASE, scrollToTarget, useLenis } from "@/lib/anim";
 import { CartProvider, useCart } from "@/lib/cart";
+import { iniciarModo } from "@/lib/perf";
 import { UIProvider } from "@/lib/ui";
 import { Catalog } from "@/pages/Catalog";
 import { Coleccion } from "@/pages/Coleccion";
@@ -36,6 +37,8 @@ function Layout() {
 }
 
 function Shell() {
+  // Antes que nada: decidir si este equipo aguanta la versión completa
+  useEffect(() => iniciarModo(), []);
   useLenis();
   const location = useLocation();
   const { scrollYProgress } = useScroll();

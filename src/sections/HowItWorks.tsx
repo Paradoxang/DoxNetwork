@@ -56,7 +56,7 @@ export function HowItWorks() {
   return (
     <section id="como-comprar" className="relative border-y border-line bg-bg-soft">
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-        <Deco name="fibra" className="-left-32 bottom-0 hidden w-[620px] lg:block" opacity={0.22} />
+        <Deco name="fibra" className="-left-32 bottom-0 hidden w-[620px] lg:block" opacity={0.22} pesado />
       </div>
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-20">
         <div>

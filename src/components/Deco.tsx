@@ -75,6 +75,7 @@ export function Deco({
   float = false,
   rotate,
   fade,
+  pesado = false,
 }: {
   name: DecoName;
   /** Posición y tamaño: la pieza es un <img> suelto, la coloca quien la usa. */
@@ -86,6 +87,11 @@ export function Deco({
   /** Difuminado de los bordes. Por defecto en las capas de luz, que si no
    *  dejan ver el rectángulo del render. */
   fade?: boolean;
+  /**
+   * Capa grande: en modo ligero desaparece. Se marca así todo lo que ocupa
+   * media pantalla o más, que es lo que cuesta componer en equipos flojos.
+   */
+  pesado?: boolean;
 }) {
   const luz = LUZ.has(name);
   const difumina = fade ?? luz;
@@ -97,7 +103,9 @@ export function Deco({
       loading="lazy"
       decoding="async"
       draggable={false}
-      className={`pointer-events-none absolute select-none ${luz ? "mix-blend-screen" : ""} ${float ? "flota" : ""} ${className}`}
+      className={`pointer-events-none absolute select-none ${luz ? "mix-blend-screen" : ""} ${float ? "flota" : ""} ${
+        pesado ? "deco-pesado" : ""
+      } ${className}`}
       style={{
         opacity,
         transform: rotate ? `rotate(${rotate}deg)` : undefined,

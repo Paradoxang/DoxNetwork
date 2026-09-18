@@ -21,7 +21,7 @@ export function CombosSection() {
   return (
     <section ref={scope} id="combos" className="slant relative overflow-hidden bg-bg-soft">
       <div className="aurora" aria-hidden="true" />
-      <Deco name="orbe-2" className="-right-20 top-6 w-56 md:-right-28 md:w-[420px]" opacity={0.42} float />
+      <Deco name="orbe-2" className="-right-20 top-6 w-56 md:-right-28 md:w-[420px]" opacity={0.42} float pesado />
       <div className="relative mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-24">
         <SectionHeading
           kicker="02 · Combos"

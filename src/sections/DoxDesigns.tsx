@@ -73,7 +73,7 @@ export function DoxDesigns() {
         style={{ background: "radial-gradient(circle, rgba(242,196,109,0.1), transparent 70%)" }}
       />
 
-      <Deco name="malla" className="bottom-0 left-0 w-full" opacity={0.22} />
+      <Deco name="malla" className="bottom-0 left-0 w-full" opacity={0.22} pesado />
 
       <div className="relative mx-auto max-w-[1200px] px-4 py-20 md:px-6 md:py-28">
         <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">

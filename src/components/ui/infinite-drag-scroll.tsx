@@ -1,5 +1,6 @@
 import { motion, useAnimationFrame, useMotionValue, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, type FocusEvent, type PointerEvent, type ReactNode } from "react";
+import { alCambiarModo, modoActual } from "@/lib/perf";
 import { cn } from "@/lib/utils";
 
 /**
@@ -32,6 +33,9 @@ export function InfiniteDragScroll<T>({
   itemClassName?: string;
 }) {
   const reduced = useReducedMotion();
+  // En modo ligero la fila no corre sola; arrastrarla sigue funcionando
+  const pausa = useRef(modoActual() === "ligero");
+  useEffect(() => alCambiarModo((m) => (pausa.current = m === "ligero")), []);
   const viewport = useRef<HTMLDivElement>(null);
   const track = useRef<HTMLUListElement>(null);
   const x = useMotionValue(0);
@@ -73,7 +77,7 @@ export function InfiniteDragScroll<T>({
       return;
     }
     velocity.current = 0;
-    if (reduced || hover.current || focus.current || drag.current) return;
+    if (reduced || pausa.current || hover.current || focus.current || drag.current) return;
     x.set(wrap(x.get() - speed * dt));
   });
 

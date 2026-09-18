@@ -73,7 +73,7 @@ export function Categories() {
           <Link
             to="/#dox-designs"
             {...glowHandlers}
-            className="glow-border card card-hover group relative flex h-full min-h-[248px] flex-col overflow-hidden p-4 md:p-5"
+            className="glow-border card card-hover group relative flex min-h-[248px] flex-col overflow-hidden p-4 md:p-5 lg:min-h-full"
           >
             <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-neb-soft text-neb">
               <Code2 className="h-5 w-5" aria-hidden="true" strokeWidth={1.8} />
@@ -89,10 +89,10 @@ export function Categories() {
         <li data-reveal className="col-span-2 lg:col-span-4">
           <div
             {...glowHandlers}
-            className="glow-border card relative grid h-full gap-5 overflow-hidden p-5 md:p-6"
+            className="glow-border card relative flex min-h-full flex-col gap-5 overflow-hidden p-5 md:p-6"
             style={{ background: `radial-gradient(90% 140% at 0% 0%, ${tint(lineas.digital.hue, 16)}, transparent 60%), var(--surface)`, borderColor: tint(lineas.digital.hue, 24) }}
           >
-            <Deco name="esfera" className="-right-12 -top-16 w-64" opacity={0.26} />
+            <Deco name="esfera" className="-right-12 -top-16 w-64" opacity={0.26} pesado />
             <Link to={lineas.digital.path} className="relative group flex items-start gap-4">
               <span
                 className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
@@ -111,7 +111,7 @@ export function Categories() {
                 </span>
               </span>
             </Link>
-            <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:px-0">
+            <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:overflow-visible md:px-0">
               {categories.map((c) => (
                 <li key={c.id} className="shrink-0">
                   <Link
@@ -140,7 +140,7 @@ export function Categories() {
           <Link
             to={lineas.vapes.path}
             {...glowHandlers}
-            className="glow-border card card-hover group relative flex h-full flex-col overflow-hidden p-5 md:p-6"
+            className="glow-border card card-hover group relative flex min-h-full flex-col overflow-hidden p-5 md:p-6"
             style={{ background: `radial-gradient(120% 80% at 100% 0%, ${tint(lineas.vapes.hue, 16)}, transparent 60%), var(--surface)` }}
           >
             <div className="flex items-start justify-between gap-3">
@@ -173,7 +173,7 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
     <Link
       to={l.path}
       {...glowHandlers}
-      className={`glow-border card card-hover group relative flex h-full flex-col overflow-hidden ${compact ? "p-4 md:p-5" : "p-5 md:p-6"} ${className}`}
+      className={`glow-border card card-hover group relative flex min-h-full flex-col overflow-hidden ${compact ? "p-4 md:p-5" : "p-5 md:p-6"} ${className}`}
       style={{ background: `radial-gradient(120% 80% at 100% 0%, ${tint(l.hue, 20)}, transparent 62%), var(--surface)`, borderColor: tint(l.hue, 26) }}
     >
       {adorno[id] && <Deco name={adorno[id]!} className={`-right-8 -top-8 ${compact ? "w-28" : "w-40"}`} opacity={0.3} />}

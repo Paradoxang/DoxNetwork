@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { modoActual } from "@/lib/perf";
 
 /**
  * Number Ticker (21st.dev): la cifra cuenta desde cero la primera vez que
@@ -11,7 +12,7 @@ export function NumberTicker({ value, duration = 1100, className = "" }: { value
 
   useEffect(() => {
     const el = ref.current;
-    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches || modoActual() === "ligero") return;
     let raf = 0;
     const io = new IntersectionObserver(
       ([e]) => {

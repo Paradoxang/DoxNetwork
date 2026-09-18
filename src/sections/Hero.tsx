@@ -10,6 +10,7 @@ import { products } from "@/data/catalog";
 import { relojes, tecnologia } from "@/data/lineas";
 import { perfumes } from "@/data/perfumeria";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { alCambiarModo, modoActual } from "@/lib/perf";
 import { useUI } from "@/lib/ui";
 
 const count = (...cats: string[]) => products.filter((p) => cats.includes(p.category)).length;
@@ -91,6 +92,8 @@ export function Hero() {
   const [q, setQ] = useState("");
   const { openSearch } = useUI();
   const narrow = useNarrow();
+  const [ligero, setLigero] = useState(modoActual() === "ligero");
+  useEffect(() => alCambiarModo((m) => setLigero(m === "ligero")), []);
 
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -133,7 +136,7 @@ export function Hero() {
   return (
     <section ref={scope} className="relative isolate overflow-hidden">
       <div data-theme="dark" className="relative flex flex-col bg-[#05070d]">
-        <Deco name="polvo" className="-bottom-10 left-0 z-[1] w-[70%] max-w-[900px]" opacity={0.35} />
+        <Deco name="polvo" className="-bottom-10 left-0 z-[1] w-[70%] max-w-[900px]" opacity={0.35} pesado />
         {/* ── Texto ── */}
         <div data-intro className="relative z-10 mx-auto w-full max-w-[1200px] px-4 pt-[132px] md:flex md:min-h-[min(100svh,880px)] md:items-center md:px-6 md:pb-24 md:pt-[150px]">
           <div className="max-w-[600px]">
@@ -209,6 +212,13 @@ export function Hero() {
 
         {/* ── Agujero negro ── En móvil es un bloque bajo el texto; desde md cubre todo el hero. */}
         <div className="relative -mt-6 h-[380px] md:absolute md:inset-0 md:mt-0 md:h-auto">
+          {ligero ? (
+            /* Modo ligero: el agujero negro se pinta con degradados, sin WebGL
+               ni bucle de fotogramas. Mismo encuadre, coste casi cero. */
+            <div aria-hidden="true" className="absolute inset-0 overflow-hidden bg-[#05070d]">
+              <div className="hole-plano absolute right-[6%] top-1/2 aspect-[1/0.62] w-[86%] -translate-y-1/2 md:right-[12%] md:w-[58%]" />
+            </div>
+          ) : (
           <BlackHoleHeroSection
             aria-hidden="true"
             focus={narrow ? [0.62, 0.4] : [0.74, 0.46]}
@@ -228,6 +238,7 @@ export function Hero() {
             starBrightness={0.35}
             className="bg-[#05070d]"
           />
+          )}
           {/* Móvil: el bloque se funde con el texto de arriba */}
           <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#05070d] to-transparent md:hidden" />
 
