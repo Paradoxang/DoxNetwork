@@ -118,6 +118,34 @@ Ocho piezas, mismo encuadre para que se lean como juego. **2048×2048.** Cambia 
 
 ---
 
+# P4 · Sección de vapes
+
+Tres piezas para que `/vapes` no se vea desangelada **sin hacer publicidad del producto**. La Ley 2354 de 2024 no prohíbe vender a mayores de edad: prohíbe publicitar y promocionar. Y la política comercial de WhatsApp prohíbe tabaco y vapeadores, así que una pieza promocional circulando por ese canal pone en riesgo la cuenta por la que entran las otras cuatro líneas.
+
+De ahí salen tres reglas para estas tres piezas, además del negativo de siempre:
+
+- **Sin personas, sin mascota, sin manos, sin boca, sin humo ni vapor.** Nada de escenas de uso.
+- **Sin marca reconocible.** El dispositivo es genérico: no puede parecer un Lost Mary, un Elf Bar ni ningún modelo real.
+- **Nunca como foto de producto.** Estas piezas son arte de sección. La foto de cada referencia sigue siendo la del proveedor: si un render ocupara su lugar, el cliente estaría viendo algo que no es lo que recibe.
+
+**Negativo extra, pegar en las tres:**
+```text
+no people, no hands, no mouth, no lips, no smoking, no vapor, no smoke clouds, no candy, no fruit, no cartoon characters, no mascots, no brand logos, no packaging text, no youthful or playful styling
+```
+
+### 13. Dispositivo de sección `vapes-objeto.png` · 2048×2048 · bloque OBJETO
+> PIECE — A single abstract, generic vaping device standing upright: a simple rounded rectangular body with a smooth mouthpiece, no buttons, no screen, no labels, no branding of any kind. Sculpted in the same iridescent violet chrome but desaturated toward cool graphite gray (#8b93a8), with a single restrained amber light line along one edge. Serious, technical, adult product-catalog feel — not playful, not colorful.
+
+### 14. Telón de la sección `telon-vapes.png` · 3840×1600 · bloque LUZ
+> PIECE — Ultra-wide backdrop for a restricted, adults-only section. Cold graphite haze (#8b93a8) drifting over deep navy (#0f1424), with straight thin light lines like a security scan passing through the dark, and a single faint amber filament. No objects, no devices, no smoke, no clouds. Austere and quiet, most of the frame dark and empty. Clearly more sober and less inviting than the other backdrops.
+
+### 15. Sello de verificación de edad `sello-18.png` · 2048×2048 · bloque OBJETO
+> PIECE — An abstract circular seal: two concentric rings with fine technical tick marks, like a reticle, and an empty centered circular plate where a number will be placed later. Cool graphite chrome (#8b93a8) with a thin amber ring. Absolutely no text, no numbers, no letters inside or outside the seal.
+
+**Sobre el sello, mejor por código.** El "+18" lo pongo yo en SVG encima del sello: los modelos escriben mal los números y un sello legal con el número deformado es peor que no tener sello. Si prefieres, hago el sello entero en SVG y te ahorras la generación.
+
+---
+
 # Ejemplo armado (copiar tal cual)
 
 Así queda el telón de perfumería con todo junto. El resto se arma igual: bloque + pieza + salida.
