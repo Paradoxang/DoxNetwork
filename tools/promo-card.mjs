@@ -53,6 +53,28 @@ const C = {
   ink: "#FFFFFF", inkSoft: "#AFC2EA", gold: "#F6C667", orange: "#FF9E49", mint: "#7FE6A8",
 };
 
+// ── Capa 0: marco gráfico generado ───────────────────────────────────────────
+/**
+ * Fondo de IA recortado al lienzo. Los modelos de imagen de este workspace no
+ * exponen aspect ratio y devuelven 16:9, así que hay que recortar: se toma la
+ * franja `anchor` (0 = izquierda, 1 = derecha) y se escala al alto de la card.
+ * `dim` lo oscurece para que no compita con el texto que va encima — un fondo
+ * generado siempre sale con más contraste del que un fondo debe tener.
+ */
+async function marcoGrafico(file, W, H, { anchor = 0.5, dim = 0.32, blur = 0 } = {}) {
+  const src = path.join(DIR, file);
+  const { width, height } = await sharp(src).metadata();
+  const corte = Math.min(width, Math.round((height * W) / H));
+  const left = Math.round((width - corte) * anchor);
+  let img = sharp(src).extract({ left, top: 0, width: corte, height }).resize(W, H, { kernel: "lanczos3" });
+  if (blur) img = img.blur(blur);
+  const base = await img.png().toBuffer();
+  const velo = Buffer.from(
+    `<svg width="${W}" height="${H}"><rect width="100%" height="100%" fill="#0A0E20" fill-opacity="${dim}"/></svg>`,
+  );
+  return sharp(base).composite([{ input: velo }]).png().toBuffer();
+}
+
 // ── Capa 2: montaje de gráficos ──────────────────────────────────────────────
 /**
  * Monta cada gráfico sobre el layout ya renderizado.
@@ -218,6 +240,74 @@ function story(d, zonas) {
   } };
 }
 
+// ── Plantilla «luxe»: la cadena de 4 pasos completa ──────────────────────────
+// 1 marco gráfico de IA · 2 contenedores · 3 tipografía · 4 Astro y producto.
+// Aquí Satori NO pinta fondo: solo pone los pasos 2 y 3 sobre el marco.
+function luxe(d, zonas) {
+  const [W, H] = SIZES.feed;
+  const caja = {
+    display: "flex", borderRadius: 26, border: "2px solid rgba(214,182,120,0.32)",
+    background: "rgba(12,16,38,0.62)",
+  };
+  return { type: "div", props: {
+    style: {
+      width: W, height: H, display: "flex", flexDirection: "column",
+      padding: "60px 60px 54px", fontFamily: "Manrope", position: "relative",
+    },
+    children: [
+      ...zonas,
+      // cabecera: el hueco del logo lo ocupa la capa 4
+      { type: "div", props: { style: { display: "flex", alignItems: "center", justifyContent: "space-between", height: 66 },
+        children: [
+        { type: "div", props: { style: {
+          fontSize: 24, fontWeight: 800, letterSpacing: 5, color: "#DCE6FF", marginLeft: 108,
+        }, children: "DOXNETWORK" } },
+        { type: "div", props: { style: {
+          display: "flex", padding: "13px 26px", borderRadius: 999, fontSize: 17, fontWeight: 800,
+          letterSpacing: 3, color: "#F2DCA9", border: "2px solid rgba(214,182,120,0.42)",
+          background: "rgba(12,16,38,0.55)",
+        }, children: d.kicker } },
+        ] } },
+
+      // bloque de precio (paso 3)
+      { type: "div", props: { style: { display: "flex", flexDirection: "column", marginTop: 596 }, children: [
+        { type: "div", props: { style: { fontSize: 26, fontWeight: 800, letterSpacing: 6, color: "#E8B04B" }, children: d.eyebrow } },
+        { type: "div", props: { style: { display: "flex", alignItems: "flex-end", marginTop: 6 }, children: [
+          { type: "div", props: { style: {
+            fontSize: d.price.length > 6 ? 142 : 168, fontWeight: 800, letterSpacing: -6,
+            color: "#FFE3A8", lineHeight: 1,
+          }, children: d.price } },
+        ] } },
+        { type: "div", props: { style: { fontSize: 31, fontWeight: 700, color: "#E9EEFF", marginTop: 12 }, children: d.line1 } },
+      ] } },
+
+      // contenedores (paso 2)
+      { type: "div", props: { style: { display: "flex", marginTop: 30 },
+        children: d.chips.map((c, i) => ({ type: "div", props: { style: {
+          ...caja, flexDirection: "column", justifyContent: "center",
+          padding: "18px 26px", marginRight: i < d.chips.length - 1 ? 16 : 0,
+        }, children: [
+          { type: "div", props: { style: { fontSize: 30, fontWeight: 800, color: "#FFE3A8" }, children: c.v } },
+          { type: "div", props: { style: { fontSize: 19, fontWeight: 700, color: "#A9BCE4", marginTop: 2 }, children: c.k } },
+        ] } })) } },
+
+      { type: "div", props: { style: {
+        ...caja, alignItems: "center", justifyContent: "center", height: 74, marginTop: 16,
+        fontSize: 22, fontWeight: 700, color: "#BFD0F0",
+      }, children: d.footnote } },
+
+      { type: "div", props: { style: {
+        display: "flex", alignItems: "center", justifyContent: "center", height: 108, borderRadius: 30,
+        marginTop: "auto", background: "linear-gradient(135deg,#8FF0B4,#5FD897)",
+      }, children: { type: "div", props: { style: { fontSize: 42, fontWeight: 800, color: "#06301C" }, children: "Responde MENÚ" } } } },
+      { type: "div", props: { style: {
+        display: "flex", justifyContent: "center", fontSize: 23, fontWeight: 700,
+        letterSpacing: 1.7, color: "#93A6D4", marginTop: 16,
+      }, children: "doxnetwork.vercel.app" } },
+    ],
+  } };
+}
+
 // ── Datos ────────────────────────────────────────────────────────────────────
 const cat = await loadCatalog();
 const fonts = ["Medium", "Bold", "ExtraBold"].map((n, i) => ({
@@ -254,6 +344,27 @@ const chibis = ["streaming", "perfume", "reloj", "audifonos"].map((k, i) => ({
 }));
 
 const CARDS = {
+  // Cadena de 4 pasos: marco de IA · contenedores · tipografía · gráficos.
+  "perfumeria-luxe": {
+    tpl: "luxe",
+    fondo: { file: "fondos/fondo-a.jpg", anchor: 0.62, dim: 0.34 },
+    data: {
+      kicker: "PERFUMERÍA", eyebrow: "DESDE", price: money(perfumeDesde),
+      line1: "Árabes y de diseñador, a precio de red.",
+      chips: [
+        { v: "176", k: "fragancias" },
+        { v: "30 ml – 100 ml", k: "presentaciones" },
+        { v: "Ella · Él", k: "y unisex" },
+      ],
+      footnote: "Nequi · Daviplata · Bre-B",
+    },
+    graficos: [
+      { file: "marca/isotipo.png", x: 52, y: 32, w: 96, fade: 0 },
+      { file: "marca/frasco.png", x: 392, y: 178, w: 330, fade: 0 },
+      { file: "astro/M_astro-chibi-perfume.png", x: 806, y: 316, w: 232, fade: 0 },
+    ],
+  },
+
   streaming: { tpl: "feed", data: {
     eyebrow: "PANTALLAS DESDE", price: money(minPantalla),
     line1: "Y todo lo que usas,", line2: "en una sola red.",
@@ -283,11 +394,16 @@ if (pick && !CARDS[pick]) {
 }
 const jobs = pick ? { [pick]: CARDS[pick] } : CARDS;
 
-for (const [name, { tpl, data, graficos }] of Object.entries(jobs)) {
-  const [w, h] = SIZES[tpl];
+const PLANTILLAS = { feed, story, luxe };
+for (const [name, { tpl, data, graficos, fondo }] of Object.entries(jobs)) {
+  const [w, h] = SIZES[tpl === "luxe" ? "feed" : tpl];
   const zonas = wireframe ? graficos.map(zonaFantasma) : [];
-  const svg = await satori((tpl === "story" ? story : feed)(data, zonas), { width: w, height: h, fonts });
-  let buf = await sharp(Buffer.from(svg)).png().toBuffer();
+  const svg = await satori(PLANTILLAS[tpl](data, zonas), { width: w, height: h, fonts });
+  // Paso 1: el marco gráfico va debajo; la capa de Satori se compone encima.
+  let buf = fondo
+    ? await sharp(await marcoGrafico(fondo.file, w, h, fondo))
+        .composite([{ input: Buffer.from(svg) }]).png().toBuffer()
+    : await sharp(Buffer.from(svg)).png().toBuffer();
   if (!wireframe) buf = await montaGraficos(buf, graficos);
 
   const suf = wireframe ? "-zonas" : "";
