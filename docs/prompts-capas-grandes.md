@@ -146,6 +146,45 @@ no people, no hands, no mouth, no lips, no smoking, no vapor, no smoke clouds, n
 
 ---
 
+# P5 · Portadas verticales para Shorts, TikTok y Reels
+
+Tres portadas con ASTRO chibi, a **1080 × 1920**. A diferencia del resto del documento, estas **sí llevan fondo**: son piezas terminadas, no recortes para la web.
+
+**Reglas de encuadre** (las tres plataformas tapan las mismas zonas):
+
+- El personaje vive entre el **20 % y el 65 % de la altura**. Arriba va el titular, abajo la interfaz de la app.
+- **Tercio inferior limpio**: ahí caen el usuario, la descripción y la música. Nada importante por debajo del 78 %.
+- **Franja derecha libre** (15 % del ancho): botones de like, comentario y compartir.
+- **Sin texto en la imagen.** El titular se pone después en el editor: así lo cambias por video y ninguna IA te escribe "Ofretas".
+
+**Referencias que adjuntar:** `M_astro-chibi-master.png` siempre, más la pose de apoyo que indica cada ficha. Dos como mucho.
+
+## Bloque de estilo · PORTADA
+
+```text
+STYLE — Dox Network vertical cover. A chibi astronaut vinyl-toy character: big rounded helmet with a dark visor, glowing LED face, matte violet suit with thin orange trim, short stubby limbs, soft studio lighting and a gentle rim light. Deep navy space background (#0f1424) with a violet nebula glow (#7c5cff), a few amber embers (#f2c46d) and soft bokeh dust; a faint dark ring like an eclipse behind the character. The character is sharp and fully lit; the background stays soft and out of focus. Poster-quality 3D render, 8k, clean and friendly, not creepy.
+FRAMING — vertical 9:16. Character centered horizontally, occupying from 20% to 65% of the frame height. Bottom third almost empty, only background. Right edge kept clear of detail. Generous empty space above the character's head.
+NEGATIVE — no text, no letters, no numbers, no logos, no watermark, no UI elements, no borders, no frames, no extra characters, no human hands, no cropped limbs, character must not touch the edges of the frame.
+```
+
+### 16. Favoritos `portada-favoritos.png` · referencia extra: `M_astro-favoritos.png`
+> PIECE — The chibi astronaut holding a large glowing amber heart against its chest with both hands, LED face showing heart-shaped eyes and a wide smile, leaning slightly forward. Small hearts floating around it, dissolving into the nebula.
+> **Para videos de:** lo más querido, "los 5 perfumes que más me piden", recomendaciones.
+
+### 17. Mareado `portada-mareado.png` · referencia extra: `astro-expresiones.png` (cara E8)
+> PIECE — The chibi astronaut tumbling slowly head-over-heels in zero gravity, arms loose, LED face with spiral swirl eyes and a wavy unsure mouth, small stars orbiting its helmet. Slight motion blur only on the limbs; the helmet and face stay sharp.
+> **Para videos de:** "me estafaron en otra tienda", errores comunes, precios que no cuadran, antes/después.
+
+### 18. Celebrando `portada-celebra.png` · referencia extra: `M_astro-celebra.png`
+> PIECE — The chibi astronaut jumping with both arms raised in victory, LED face with star-shaped eyes and an open smile, confetti of small violet and amber geometric shards bursting outward and drifting up.
+> **Para videos de:** pedido entregado, "ya llegó", lanzamientos, descuentos nuevos, reseñas.
+
+**Salida:** `OUTPUT — 1080 x 1920 pixels, vertical 9:16, PNG.`
+
+Con las tres portadas hechas, el titular se monta encima en el editor, en Oxanium a dos líneas como los de la tienda, y el tercio inferior se deja libre.
+
+---
+
 # Ejemplo armado (copiar tal cual)
 
 Así queda el telón de perfumería con todo junto. El resto se arma igual: bloque + pieza + salida.
