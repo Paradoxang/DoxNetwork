@@ -109,6 +109,32 @@ async function montaGraficos(base, layers) {
   return sharp(base).composite(capas).png().toBuffer();
 }
 
+/**
+ * Capa de texto suelta, opcionalmente rotada.
+ *
+ * Satori no rota texto, pero sharp sí rota imágenes: así que el texto se
+ * compone primero en su propio lienzo transparente —con Manrope, que sharp no
+ * tiene— y luego se gira. Es lo que permite escribir sobre la cinta adhesiva
+ * siguiendo su inclinación, o poner un rótulo vertical en un margen.
+ */
+async function capaTexto(fonts, { texto, size, color, weight = 800, spacing = 0, angle = 0, opacity = 1 }) {
+  const W = Math.ceil(texto.length * (size * 0.72 + spacing) + size);
+  const H = Math.ceil(size * 1.7);
+  const svg = await satori(
+    { type: "div", props: {
+      style: { width: W, height: H, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Manrope" },
+      children: { type: "div", props: { style: {
+        fontSize: size, fontWeight: weight, color, letterSpacing: spacing, opacity,
+        whiteSpace: "nowrap",
+      }, children: texto } },
+    } },
+    { width: W, height: H, fonts },
+  );
+  let img = sharp(Buffer.from(svg));
+  if (angle) img = img.rotate(angle, { background: { r: 0, g: 0, b: 0, alpha: 0 } });
+  return img.trim({ threshold: 1 }).png().toBuffer();
+}
+
 /** Wireframe: un rectángulo punteado por hueco, para revisar el layout solo. */
 const zonaFantasma = (l, i) => ({
   type: "div", props: { style: {
@@ -350,6 +376,21 @@ function collage(d, zonas) {
         }, children: d.kicker } },
       ] } },
 
+      // Bloque de datos en el hueco de la rejilla, arriba a la derecha. Las
+      // cifras salen del catálogo: son detalle gráfico y a la vez ciertas.
+      { type: "div", props: { style: {
+        position: "absolute", left: 762, top: 132, width: 262, display: "flex", flexDirection: "column",
+      }, children: [
+        { type: "div", props: { style: { display: "flex", width: 70, height: 3, background: "#FF6B1A", marginBottom: 14 } } },
+        ...d.hud.map((l) => ({ type: "div", props: { style: {
+          display: "flex", justifyContent: "space-between", fontSize: 17, fontWeight: 700,
+          letterSpacing: 1.6, color: "#7F7A93", marginBottom: 7,
+        }, children: [
+          { type: "div", props: { style: { display: "flex" }, children: l.k } },
+          { type: "div", props: { style: { display: "flex", color: "#CFC9E4" }, children: l.v } },
+        ] } })),
+      ] } },
+
       // bloque inferior, sobre el degradado
       { type: "div", props: { style: { display: "flex", flexDirection: "column", marginTop: 1104 }, children: [
         { type: "div", props: { style: { display: "flex", alignItems: "center" }, children: [
@@ -429,6 +470,12 @@ const CARDS = {
     data: {
       kicker: "STREAMING", eyebrow: "PANTALLAS DESDE", price: money(minPantalla),
       tagline: "Y todo lo que usas, en una sola red.",
+      hud: [
+        { k: "PRODUCTOS", v: String(cat.allProducts.length) },
+        { k: "CATEGORÍAS", v: "7" },
+        { k: "PAGOS", v: "3" },
+        { k: "ENTREGA", v: "MIN" },
+      ],
       logos: [
         { file: "logos/max.png", precio: precioDe("max", "pe") },
         { file: "logos/prime-video.png", precio: precioDe("prime-video", "p") },
@@ -441,6 +488,17 @@ const CARDS = {
       { file: "logos/prime-video.png", x: 292, y: 1494, w: 152, fade: 0 },
       { file: "logos/disney-premium.png", x: 528, y: 1494, w: 152, fade: 0 },
       { file: "logos/netflix.png", x: 764, y: 1494, w: 152, fade: 0 },
+    ],
+    // Los huecos que quedaban muertos en la base. La cinta lleva la
+    // inclinación de la propia cinta (-7°) para que el texto parezca escrito
+    // encima y no pegado; el rótulo del margen va a -90°.
+    textos: [
+      { texto: "SIN APPS NI REGISTROS", x: 542, y: 812, size: 26, weight: 800,
+        color: "#1A1714", spacing: 1, angle: -7 },
+      { texto: "CATÁLOGO COMPLETO", x: 96, y: 560, size: 27, weight: 800,
+        color: "#6E6880", spacing: 9, angle: -90 },
+      { texto: "ENTREGA EN MINUTOS", x: 92, y: 236, size: 22, weight: 800,
+        color: "#FF6B1A", spacing: 3.5, angle: 0 },
     ],
   },
 
@@ -499,7 +557,7 @@ if (pick && !CARDS[pick]) {
 const jobs = pick ? { [pick]: CARDS[pick] } : CARDS;
 
 const PLANTILLAS = { feed, story, luxe, collage };
-for (const [name, { tpl, data, graficos, fondo }] of Object.entries(jobs)) {
+for (const [name, { tpl, data, graficos, fondo, textos = [] }] of Object.entries(jobs)) {
   const [w, h] = SIZES[tpl === "luxe" ? "feed" : tpl === "collage" ? "story" : tpl];
   const zonas = wireframe ? graficos.map(zonaFantasma) : [];
   const svg = await satori(PLANTILLAS[tpl](data, zonas), { width: w, height: h, fonts });
@@ -508,7 +566,17 @@ for (const [name, { tpl, data, graficos, fondo }] of Object.entries(jobs)) {
     ? await sharp(await marcoGrafico(fondo.file, w, h, fondo))
         .composite([{ input: Buffer.from(svg) }]).png().toBuffer()
     : await sharp(Buffer.from(svg)).png().toBuffer();
-  if (!wireframe) buf = await montaGraficos(buf, graficos);
+  if (!wireframe) {
+    buf = await montaGraficos(buf, graficos);
+    // Las capas de texto van al final: se componen aparte para poder rotarlas.
+    if (textos.length) {
+      const capas = [];
+      for (const t of textos) {
+        capas.push({ input: await capaTexto(fonts, t), left: Math.round(t.x), top: Math.round(t.y) });
+      }
+      buf = await sharp(buf).composite(capas).png().toBuffer();
+    }
+  }
 
   const suf = wireframe ? "-zonas" : "";
   const png = path.join(DIR, "out", `${name}${suf}-${w}x${h}.png`);
