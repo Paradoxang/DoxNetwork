@@ -147,7 +147,7 @@ const baseInput: ProductInput[] = [
     hue: "#e5484d",
     plans: [
       { id: "p13", access: "Pantalla", duration: "13 días", cost: 4500, market: 5900 },
-      { id: "p30", access: "Pantalla", duration: "30 días", cost: 8600, market: 14000 },
+      { id: "p30", access: "Pantalla", duration: "30 días", cost: 8600, market: 9000 },
       // Sin costo trimestral de referencia: 10% menos que 3 × el mensual
       { id: "p90", access: "Pantalla", duration: "3 meses", per: { plan: "p30", n: 3, off: 0.1 } },
     ],
@@ -166,8 +166,8 @@ const baseInput: ProductInput[] = [
       "Todo el universo Disney. Pantalla es un perfil para ti; Completa es la cuenta entera para compartir en casa. Premium suma 4K y ESPN.",
     hue: "#5b7cfa",
     plans: [
-      { id: "pe", access: "Pantalla", tier: "Estándar", duration: "30 días", cost: 2500, market: 10200 },
-      { id: "pp", access: "Pantalla", tier: "Premium", duration: "30 días", cost: 6500, market: 12000, logo: "/logos/disney-premium.webp" },
+      { id: "pe", access: "Pantalla", tier: "Estándar", duration: "30 días", cost: 2500, market: 7500 },
+      { id: "pp", access: "Pantalla", tier: "Premium", duration: "30 días", cost: 6500, market: 9000, logo: "/logos/disney-premium.webp" },
       { id: "ce", access: "Completa", tier: "Estándar", duration: "30 días", cost: 9900, official: 36900 },
       { id: "cp", access: "Completa", tier: "Premium", duration: "30 días", cost: 27900, official: 49900, logo: "/logos/disney-premium.webp" },
     ],
@@ -185,7 +185,7 @@ const baseInput: ProductInput[] = [
       "Las series de HBO y el cine de Warner. Platino sube la calidad a 4K y suma más dispositivos a la vez.",
     hue: "#7a5cf5",
     plans: [
-      { id: "pe", access: "Pantalla", tier: "Estándar", duration: "30 días", cost: 3000, market: 8000 },
+      { id: "pe", access: "Pantalla", tier: "Estándar", duration: "30 días", cost: 3000, market: 4500 },
       { id: "pp", access: "Pantalla", tier: "Platino", duration: "30 días", cost: 4200, market: 9000 },
       { id: "ce", access: "Completa", tier: "Estándar", duration: "30 días", cost: 12000, official: 23900 },
     ],
@@ -203,7 +203,7 @@ const baseInput: ProductInput[] = [
     description: "Películas, series originales de Amazon y estrenos de cine.",
     hue: "#2fa4d8",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 3500, market: 8750 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 3500, market: 4500 },
       { id: "c", access: "Completa", duration: "30 días", cost: 13900, official: 24900 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 3",
@@ -218,7 +218,7 @@ const baseInput: ProductInput[] = [
     description: "El catálogo de Paramount, Nickelodeon y fútbol europeo en vivo.",
     hue: "#3d6df2",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 3200, market: 9000 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 3200, market: 5000 },
       { id: "c", access: "Completa", duration: "30 días", cost: 8900, official: 19900 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 3",
@@ -233,7 +233,7 @@ const baseInput: ProductInput[] = [
     description: "Simulcasts desde Japón y miles de episodios sin anuncios.",
     hue: "#f5883a",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 3900, market: 7500 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 3900, market: 4500 },
       { id: "c", access: "Completa", duration: "30 días", cost: 8900 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 4",
@@ -263,7 +263,7 @@ const baseInput: ProductInput[] = [
     description: "Contenido en español sin anuncios, novelas y deportes.",
     hue: "#f0a23a",
     plans: [
-      { id: "p", access: "Pantalla", duration: "30 días", cost: 2000, market: 6950 },
+      { id: "p", access: "Pantalla", duration: "30 días", cost: 2000, market: 5000 },
       { id: "c", access: "Completa", duration: "30 días", cost: 5500 },
     ],
     devices: "Pantalla: 1 · Completa: hasta 3",
@@ -389,7 +389,7 @@ const baseInput: ProductInput[] = [
     description: "Salta canciones sin límite, descarga para escuchar offline y olvídate de los anuncios.",
     hue: "#3fbf74",
     plans: [
-      { id: "1m", duration: "30 días", cost: 5000, market: 11000 },
+      { id: "1m", duration: "30 días", cost: 5000, market: 10500 },
       { id: "3m", duration: "3 meses", cost: 13500, market: 28000, per: { plan: "1m", n: 3 }, logo: "/logos/spotify-3-meses.webp" },
     ],
     devices: "1 cuenta, escuchas en un dispositivo a la vez",
@@ -406,7 +406,7 @@ const baseInput: ProductInput[] = [
     description: "Videos sin anuncios, reproducción en segundo plano y YouTube Music incluido.",
     hue: "#ef5a5a",
     plans: [
-      { id: "1m", duration: "30 días", cost: 6900, market: 13000 },
+      { id: "1m", duration: "30 días", cost: 6900, market: 10000 },
       // Sin costo trimestral de referencia: 10% menos que 3 × el mensual
       { id: "3m", duration: "3 meses", per: { plan: "1m", n: 3, off: 0.1 } },
     ],
@@ -427,7 +427,7 @@ const baseInput: ProductInput[] = [
     plans: [
       // Sin precio al público: ~67% del plan oficial ($20.900)
       { id: "go", tier: "Go", duration: "30 días", cost: 7000, market: 14000 },
-      { id: "plus", tier: "Plus", duration: "30 días", cost: 14900, market: 25000, logo: "/logos/chatgpt-plus.webp" },
+      { id: "plus", tier: "Plus", duration: "30 días", cost: 14900, market: 20000, logo: "/logos/chatgpt-plus.webp" },
     ],
     devices: "Tu propia cuenta",
     features: ["Modelos avanzados", "Imágenes y archivos", "Reposición si falla durante la vigencia"],
@@ -464,7 +464,7 @@ const baseInput: ProductInput[] = [
       "Todo Canva sin límites. Por invitación te unimos a un equipo Pro; a tu correo activamos Pro en tu propia cuenta.",
     hue: "#27b3c4",
     plans: [
-      { id: "inv45", tier: "Por invitación", duration: "45 días", cost: 2250, market: 9000 },
+      { id: "inv45", tier: "Por invitación", duration: "45 días", cost: 2250, markup: 3.9, market: 9000 },
       { id: "correo30", tier: "A tu correo", duration: "30 días", cost: 2500 },
       { id: "inv12", tier: "Por invitación", duration: "12 meses", cost: 9900, market: 25000 },
     ],
@@ -600,7 +600,7 @@ const baseInput: ProductInput[] = [
 const combosInput: ProductInput[] = [
   {
     slug: "combo-maraton",
-    comboDiscount: 0.12,
+    comboDiscount: 0.05,
     image: "/promos/combo-maraton.webp",
     name: "Maratón de series",
     category: "combos",
