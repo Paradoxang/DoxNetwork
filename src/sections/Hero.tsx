@@ -229,11 +229,22 @@ export function Hero() {
         {/* ── Agujero negro ── En móvil es un bloque bajo el texto; desde md cubre todo el hero. */}
         <div className="relative -mt-6 h-[380px] md:absolute md:inset-0 md:mt-0 md:h-auto">
           {ligero || narrow || !listoParaShader ? (
-            /* Sin WebGL: el agujero negro se pinta con degradados. Mismo
-               encuadre, coste casi cero. Es el modo ligero y también el relevo
-               mientras el shader carga. */
+            /* Sin WebGL. En móvil y mientras el shader carga se usa una foto
+               del propio shader (11 KB, cero hilo principal); en modo ligero,
+               los degradados, que no descargan nada. */
             <div aria-hidden="true" className="absolute inset-0 overflow-hidden bg-[#05070d]">
-              <div className="hole-plano absolute right-[6%] top-1/2 aspect-[1/0.62] w-[86%] -translate-y-1/2 md:right-[12%] md:w-[58%]" />
+              {ligero ? (
+                <div className="hole-plano absolute right-[6%] top-1/2 aspect-[1/0.62] w-[86%] -translate-y-1/2 md:right-[12%] md:w-[58%]" />
+              ) : (
+                <img
+                  src="/hero/agujero-negro.webp"
+                  alt=""
+                  width={760}
+                  height={760}
+                  fetchPriority="high"
+                  className="absolute inset-0 h-full w-full object-cover object-[70%_center] md:object-[78%_center]"
+                />
+              )}
             </div>
           ) : (
           <Suspense
