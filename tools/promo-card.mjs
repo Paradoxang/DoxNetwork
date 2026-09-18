@@ -319,6 +319,70 @@ function luxe(d, zonas) {
   } };
 }
 
+// ── Plantilla «collage»: sobre una base gráfica ya montada ───────────────────
+// Aquí el paso 1 no lo genera la IA: lo entrega Santiago como imagen terminada,
+// con Astro ya integrado. Así desaparece el recorte, que era el eslabón frágil.
+// Satori solo añade tipografía y el degradado que da sitio al texto; los logos
+// de plataforma se montan como stickers en la capa de sharp.
+function collage(d, zonas) {
+  const [W, H] = SIZES.story;
+  return { type: "div", props: {
+    style: {
+      width: W, height: H, display: "flex", flexDirection: "column",
+      padding: "56px 56px 54px", fontFamily: "Manrope", position: "relative",
+    },
+    children: [
+      // El collage llega hasta 1609: este degradado lo funde con la franja
+      // inferior y crea superficie legible sin tapar la ilustración.
+      { type: "div", props: { style: {
+        position: "absolute", left: 0, top: 1080, width: W, height: H - 1080,
+        background: "linear-gradient(180deg, rgba(6,6,8,0) 0%, rgba(6,6,8,0.78) 34%, #060608 62%)",
+        display: "flex",
+      } } },
+      ...zonas,
+
+      // cabecera
+      { type: "div", props: { style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
+        { type: "div", props: { style: { fontSize: 25, fontWeight: 800, letterSpacing: 6, color: "#FFFFFF" }, children: "DOXNETWORK" } },
+        { type: "div", props: { style: {
+          display: "flex", padding: "10px 22px", fontSize: 18, fontWeight: 800, letterSpacing: 3,
+          color: "#0B0B0D", background: "#FF6B1A",
+        }, children: d.kicker } },
+      ] } },
+
+      // bloque inferior, sobre el degradado
+      { type: "div", props: { style: { display: "flex", flexDirection: "column", marginTop: 1104 }, children: [
+        { type: "div", props: { style: { display: "flex", alignItems: "center" }, children: [
+          { type: "div", props: { style: { width: 62, height: 5, background: "#FF6B1A", display: "flex", marginRight: 16 } } },
+          { type: "div", props: { style: { fontSize: 25, fontWeight: 800, letterSpacing: 5, color: "#C9C2E8" }, children: d.eyebrow } },
+        ] } },
+        { type: "div", props: { style: { display: "flex", alignItems: "flex-end", marginTop: 2 }, children: [
+          { type: "div", props: { style: { fontSize: 164, fontWeight: 800, letterSpacing: -7, color: "#FFFFFF", lineHeight: 1 }, children: d.price } },
+          { type: "div", props: { style: { fontSize: 29, fontWeight: 700, color: "#9A93B8", marginLeft: 16, marginBottom: 26 }, children: "/ mes" } },
+        ] } },
+        { type: "div", props: { style: { fontSize: 29, fontWeight: 700, color: "#E6E2F5", marginTop: 6 }, children: d.tagline } },
+      ] } },
+
+      // pie de cada sticker: el precio va bajo el logo que monta sharp
+      { type: "div", props: { style: { position: "absolute", left: 56, top: 1664, display: "flex" },
+        children: d.logos.map((l, i) => ({ type: "div", props: { style: {
+          display: "flex", width: 152, marginRight: i < d.logos.length - 1 ? 84 : 0,
+          justifyContent: "center", fontSize: 28, fontWeight: 800, color: "#FFD9BF",
+        }, children: l.precio } })) } },
+
+      { type: "div", props: { style: {
+        position: "absolute", left: 56, top: 1726, width: 968, height: 104,
+        display: "flex", alignItems: "center", justifyContent: "center", background: "#FFFFFF",
+      }, children: { type: "div", props: { style: { fontSize: 40, fontWeight: 800, color: "#0B0B0D", letterSpacing: 1 }, children: "Responde MENÚ" } } } },
+      { type: "div", props: { style: {
+        position: "absolute", left: 0, top: 1856, width: W,
+        display: "flex", justifyContent: "center", fontSize: 22, fontWeight: 700,
+        letterSpacing: 2, color: "#8F88AD",
+      }, children: "doxnetwork.vercel.app" } },
+    ],
+  } };
+}
+
 // ── Datos ────────────────────────────────────────────────────────────────────
 const cat = await loadCatalog();
 const fonts = ["Medium", "Bold", "ExtraBold"].map((n, i) => ({
@@ -354,7 +418,32 @@ const chibis = ["streaming", "perfume", "reloj", "audifonos"].map((k, i) => ({
   w: CHIBI, h: CHIBI, fade: 0,
 }));
 
+// Precio real de una plataforma concreta, por slug y plan.
+const precioDe = (slug, planId) => money(cat.planOf(slug, planId).price);
+
 const CARDS = {
+  // Base gráfica entregada ya montada; Satori pone texto y sharp los stickers.
+  "collage-streaming": {
+    tpl: "collage",
+    fondo: { file: "bases/collage-astro-1080x1920.png", anchor: 0.5, dim: 0 },
+    data: {
+      kicker: "STREAMING", eyebrow: "PANTALLAS DESDE", price: money(minPantalla),
+      tagline: "Y todo lo que usas, en una sola red.",
+      logos: [
+        { file: "logos/max.png", precio: precioDe("max", "pe") },
+        { file: "logos/prime-video.png", precio: precioDe("prime-video", "p") },
+        { file: "logos/disney-premium.png", precio: precioDe("disney-plus", "pp") },
+        { file: "logos/netflix.png", precio: precioDe("netflix", "p30") },
+      ],
+    },
+    graficos: [
+      { file: "logos/max.png", x: 56, y: 1494, w: 152, fade: 0 },
+      { file: "logos/prime-video.png", x: 292, y: 1494, w: 152, fade: 0 },
+      { file: "logos/disney-premium.png", x: 528, y: 1494, w: 152, fade: 0 },
+      { file: "logos/netflix.png", x: 764, y: 1494, w: 152, fade: 0 },
+    ],
+  },
+
   // Cadena de 4 pasos: marco de IA · contenedores · tipografía · gráficos.
   "perfumeria-luxe": {
     tpl: "luxe",
@@ -409,9 +498,9 @@ if (pick && !CARDS[pick]) {
 }
 const jobs = pick ? { [pick]: CARDS[pick] } : CARDS;
 
-const PLANTILLAS = { feed, story, luxe };
+const PLANTILLAS = { feed, story, luxe, collage };
 for (const [name, { tpl, data, graficos, fondo }] of Object.entries(jobs)) {
-  const [w, h] = SIZES[tpl === "luxe" ? "feed" : tpl];
+  const [w, h] = SIZES[tpl === "luxe" ? "feed" : tpl === "collage" ? "story" : tpl];
   const zonas = wireframe ? graficos.map(zonaFantasma) : [];
   const svg = await satori(PLANTILLAS[tpl](data, zonas), { width: w, height: h, fonts });
   // Paso 1: el marco gráfico va debajo; la capa de Satori se compone encima.
