@@ -117,12 +117,12 @@ async function montaGraficos(base, layers) {
  * tiene— y luego se gira. Es lo que permite escribir sobre la cinta adhesiva
  * siguiendo su inclinación, o poner un rótulo vertical en un margen.
  */
-async function capaTexto(fonts, { texto, size, color, weight = 800, spacing = 0, angle = 0, opacity = 1 }) {
-  const W = Math.ceil(texto.length * (size * 0.72 + spacing) + size);
+async function capaTexto(fonts, { texto, size, color, weight = 800, spacing = 0, angle = 0, opacity = 1, family = "Manrope" }) {
+  const W = Math.ceil(texto.length * (size * (family === "Display" ? 0.62 : 0.72) + spacing) + size * 1.5);
   const H = Math.ceil(size * 1.7);
   const svg = await satori(
     { type: "div", props: {
-      style: { width: W, height: H, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "Manrope" },
+      style: { width: W, height: H, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: family },
       children: { type: "div", props: { style: {
         fontSize: size, fontWeight: weight, color, letterSpacing: spacing, opacity,
         whiteSpace: "nowrap",
@@ -352,74 +352,82 @@ function luxe(d, zonas) {
 // de plataforma se montan como stickers en la capa de sharp.
 function collage(d, zonas) {
   const [W, H] = SIZES.story;
+  // ZONA SEGURA. En un estado de WhatsApp la interfaz tapa ~240 px arriba y
+  // ~250 px abajo. Con el pie a y1726 el CTA, la URL y el logotipo caian fuera
+  // de lo que se ve: la card se quedaba sin marca y sin llamada a la accion.
+  // Por eso la cabecera baja a 250 y todo el bloque de accion sube.
+  const SAFE_TOP = 250;
   return { type: "div", props: {
     style: {
       width: W, height: H, display: "flex", flexDirection: "column",
-      padding: "56px 56px 54px", fontFamily: "Manrope", position: "relative",
+      fontFamily: "Manrope", position: "relative",
     },
     children: [
-      // El collage llega hasta 1609: este degradado lo funde con la franja
-      // inferior y crea superficie legible sin tapar la ilustración.
+      // Degradado con mas pasos: bajo el precio el papel del smiley subia la
+      // luma y el blanco caia a ~2,4:1. Con estos stops el peor tramo sube a
+      // ~11:1. Cuesta oscurecer un 30% las botas, que no son el mensaje.
       { type: "div", props: { style: {
         position: "absolute", left: 0, top: 1080, width: W, height: H - 1080,
-        background: "linear-gradient(180deg, rgba(6,6,8,0) 0%, rgba(6,6,8,0.78) 34%, #060608 62%)",
+        background: "linear-gradient(180deg, rgba(6,6,8,0) 0%, rgba(6,6,8,0.30) 8%, " +
+          "rgba(6,6,8,0.78) 22%, rgba(6,6,8,0.92) 34%, #060608 55%)",
         display: "flex",
       } } },
       ...zonas,
 
-      // cabecera
-      { type: "div", props: { style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
-        { type: "div", props: { style: { fontSize: 25, fontWeight: 800, letterSpacing: 6, color: "#FFFFFF" }, children: "DOXNETWORK" } },
+      // cabecera, ya dentro de zona segura y sobre negro mas limpio
+      { type: "div", props: { style: {
+        position: "absolute", left: 56, top: SAFE_TOP, width: 968,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+      }, children: [
+        { type: "div", props: { style: { display: "flex", flexDirection: "column" }, children: [
+          { type: "div", props: { style: { fontSize: 25, fontWeight: 800, letterSpacing: 6, color: "#FFFFFF" }, children: "DOXNETWORK" } },
+          { type: "div", props: { style: {
+            fontSize: 19, fontWeight: 700, letterSpacing: 1.6, color: "rgba(255,255,255,0.42)", marginTop: 6,
+          }, children: "doxnetwork.vercel.app" } },
+        ] } },
         { type: "div", props: { style: {
           display: "flex", padding: "10px 22px", fontSize: 18, fontWeight: 800, letterSpacing: 3,
-          color: "#0B0B0D", background: "#FF6B1A",
+          color: "#0B0B0D", background: "#FF6B1A", fontFamily: display,
         }, children: d.kicker } },
       ] } },
 
-      // Bloque de datos en el hueco de la rejilla, arriba a la derecha. Las
-      // cifras salen del catálogo: son detalle gráfico y a la vez ciertas.
+      // eyebrow + URL en la misma linea: la URL deja de ocupar una fila propia
       { type: "div", props: { style: {
-        position: "absolute", left: 762, top: 132, width: 262, display: "flex", flexDirection: "column",
+        position: "absolute", left: 56, top: 1208, width: 968,
+        display: "flex", alignItems: "center", justifyContent: "space-between",
       }, children: [
-        { type: "div", props: { style: { display: "flex", width: 70, height: 3, background: "#FF6B1A", marginBottom: 14 } } },
-        ...d.hud.map((l) => ({ type: "div", props: { style: {
-          display: "flex", justifyContent: "space-between", fontSize: 17, fontWeight: 700,
-          letterSpacing: 1.6, color: "#7F7A93", marginBottom: 7,
-        }, children: [
-          { type: "div", props: { style: { display: "flex" }, children: l.k } },
-          { type: "div", props: { style: { display: "flex", color: "#CFC9E4" }, children: l.v } },
-        ] } })),
-      ] } },
-
-      // bloque inferior, sobre el degradado
-      { type: "div", props: { style: { display: "flex", flexDirection: "column", marginTop: 1104 }, children: [
         { type: "div", props: { style: { display: "flex", alignItems: "center" }, children: [
           { type: "div", props: { style: { width: 62, height: 5, background: "#FF6B1A", display: "flex", marginRight: 16 } } },
-          { type: "div", props: { style: { fontSize: 25, fontWeight: 800, letterSpacing: 5, color: "#C9C2E8" }, children: d.eyebrow } },
+          { type: "div", props: { style: {
+            fontFamily: display, fontSize: 26, fontWeight: hayDisplay ? 400 : 800,
+            letterSpacing: 5, color: "rgba(255,255,255,0.80)",
+          }, children: d.eyebrow } },
         ] } },
-        { type: "div", props: { style: { display: "flex", alignItems: "flex-end", marginTop: 2 }, children: [
-          { type: "div", props: { style: { fontSize: 164, fontWeight: 800, letterSpacing: -7, color: "#FFFFFF", lineHeight: 1 }, children: d.price } },
-          { type: "div", props: { style: { fontSize: 29, fontWeight: 700, color: "#9A93B8", marginLeft: 16, marginBottom: 26 }, children: "/ mes" } },
-        ] } },
-        { type: "div", props: { style: { fontSize: 29, fontWeight: 700, color: "#E6E2F5", marginTop: 6 }, children: d.tagline } },
       ] } },
 
-      // pie de cada sticker: el precio va bajo el logo que monta sharp
-      { type: "div", props: { style: { position: "absolute", left: 56, top: 1664, display: "flex" },
-        children: d.logos.map((l, i) => ({ type: "div", props: { style: {
-          display: "flex", width: 152, marginRight: i < d.logos.length - 1 ? 84 : 0,
-          justifyContent: "center", fontSize: 28, fontWeight: 800, color: "#FFD9BF",
-        }, children: l.precio } })) } },
+      // precio: unico blanco puro de la card
+      { type: "div", props: { style: {
+        position: "absolute", left: 56, top: 1244, display: "flex", alignItems: "flex-end",
+      }, children: [
+        { type: "div", props: { style: {
+          fontFamily: display, fontSize: hayDisplay ? 178 : 164, fontWeight: hayDisplay ? 400 : 800,
+          letterSpacing: hayDisplay ? -2 : -7, color: "#FFFFFF", lineHeight: 1,
+        }, children: d.price } },
+        // a 29 px desaparecia en miniatura y con el la idea de mensualidad,
+        // que es lo que hace que el precio se lea barato
+        { type: "div", props: { style: {
+          fontSize: 46, fontWeight: 700, color: "rgba(255,255,255,0.62)", marginLeft: 20, marginBottom: 20,
+        }, children: "/ mes" } },
+      ] } },
 
+      // CTA naranja: libera el blanco para que el precio sea el unico, y es lo
+      // unico cromatico de marca en un feed de fotos ajenas
       { type: "div", props: { style: {
-        position: "absolute", left: 56, top: 1726, width: 968, height: 104,
-        display: "flex", alignItems: "center", justifyContent: "center", background: "#FFFFFF",
-      }, children: { type: "div", props: { style: { fontSize: 40, fontWeight: 800, color: "#0B0B0D", letterSpacing: 1 }, children: "Responde MENÚ" } } } },
-      { type: "div", props: { style: {
-        position: "absolute", left: 0, top: 1856, width: W,
-        display: "flex", justifyContent: "center", fontSize: 22, fontWeight: 700,
-        letterSpacing: 2, color: "#8F88AD",
-      }, children: "doxnetwork.vercel.app" } },
+        position: "absolute", left: 56, top: 1600, width: 968, height: 96,
+        display: "flex", alignItems: "center", justifyContent: "center", background: "#FF6B1A",
+      }, children: { type: "div", props: { style: {
+        fontSize: 46, fontWeight: 800, color: "#0B0B0D", letterSpacing: 1,
+      }, children: "Responde MENÚ" } } } },
     ],
   } };
 }
@@ -430,6 +438,17 @@ const fonts = ["Medium", "Bold", "ExtraBold"].map((n, i) => ({
   name: "Manrope", style: "normal", weight: [500, 700, 800][i],
   data: fs.readFileSync(path.join(DIR, `fonts/Manrope-${n}.ttf`)),
 }));
+// Familia display opcional para titulares y precio. Manrope es una grotesca de
+// texto: aguanta bien el cuerpo, pero a 164 px un precio pide una condensada
+// con mucho más peso. Si el .ttf no está, todo sigue en Manrope.
+const DISPLAY = process.env.CARD_DISPLAY ?? "Anton-Regular.ttf";
+const rutaDisplay = path.join(DIR, "fonts", DISPLAY);
+const hayDisplay = fs.existsSync(rutaDisplay);
+if (hayDisplay) {
+  fonts.push({ name: "Display", style: "normal", weight: 400, data: fs.readFileSync(rutaDisplay) });
+}
+/** Familia del titular: la display si existe, si no Manrope. */
+const display = hayDisplay ? "Display" : "Manrope";
 
 const pantallas = cat.products.filter((p) => p.category === "streaming");
 const minPantalla = Math.min(
@@ -470,35 +489,32 @@ const CARDS = {
     data: {
       kicker: "STREAMING", eyebrow: "PANTALLAS DESDE", price: money(minPantalla),
       tagline: "Y todo lo que usas, en una sola red.",
-      hud: [
-        { k: "PRODUCTOS", v: String(cat.allProducts.length) },
-        { k: "CATEGORÍAS", v: "7" },
-        { k: "PAGOS", v: "3" },
-        { k: "ENTREGA", v: "MIN" },
-      ],
       logos: [
-        { file: "logos/max.png", precio: precioDe("max", "pe") },
-        { file: "logos/prime-video.png", precio: precioDe("prime-video", "p") },
-        { file: "logos/disney-premium.png", precio: precioDe("disney-plus", "pp") },
-        { file: "logos/netflix.png", precio: precioDe("netflix", "p30") },
+        { file: "logos/max.png" },
+        { file: "logos/prime-video.png" },
+        { file: "logos/disney-premium.png" },
+        { file: "logos/netflix.png" },
       ],
     },
     graficos: [
-      { file: "logos/max.png", x: 56, y: 1494, w: 152, fade: 0 },
-      { file: "logos/prime-video.png", x: 292, y: 1494, w: 152, fade: 0 },
-      { file: "logos/disney-premium.png", x: 528, y: 1494, w: 152, fade: 0 },
-      { file: "logos/netflix.png", x: 764, y: 1494, w: 152, fade: 0 },
+      { file: "logos/max.png", x: 56, y: 1440, w: 136, fade: 0 },
+      { file: "logos/prime-video.png", x: 333, y: 1440, w: 136, fade: 0 },
+      { file: "logos/disney-premium.png", x: 611, y: 1440, w: 136, fade: 0 },
+      { file: "logos/netflix.png", x: 888, y: 1440, w: 136, fade: 0 },
+      // objeto de marca sin fondo, mordiendo la esquina del CTA
+      { file: "objetos/burbuja-chat.png", x: 30, y: 1552, w: 96, fade: 0 },
     ],
-    // Los huecos que quedaban muertos en la base. La cinta lleva la
-    // inclinación de la propia cinta (-7°) para que el texto parezca escrito
-    // encima y no pegado; el rótulo del margen va a -90°.
+    // Dos rótulos, no cuatro. La base ya es un collage denso: en Anton un solo
+    // rótulo grande sostiene un hueco que antes pedía varios elementos, y el
+    // negro que queda deja de ser espacio muerto para ser el descanso que hace
+    // legible el resto.
     textos: [
-      { texto: "SIN APPS NI REGISTROS", x: 542, y: 812, size: 26, weight: 800,
-        color: "#1A1714", spacing: 1, angle: -7 },
-      { texto: "CATÁLOGO COMPLETO", x: 96, y: 560, size: 27, weight: 800,
-        color: "#6E6880", spacing: 9, angle: -90 },
-      { texto: "ENTREGA EN MINUTOS", x: 92, y: 236, size: 22, weight: 800,
-        color: "#FF6B1A", spacing: 3.5, angle: 0 },
+      // la cinta pedía algo escrito encima desde el principio
+      { texto: "SIN REGISTROS", family: "Display", weight: 400, x: 600, y: 812,
+        size: 40, color: "#191512", spacing: 1, angle: -7 },
+      // marca de agua vertical: textura, no información
+      { texto: "DOXNETWORK", family: "Display", weight: 400, x: 44, y: 470,
+        size: 86, color: "#2E2940", spacing: 4, angle: -90 },
     ],
   },
 
