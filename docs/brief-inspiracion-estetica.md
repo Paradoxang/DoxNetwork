@@ -1,6 +1,6 @@
 # Brief · Mejoras estéticas a partir de tres referencias
 
-**Fecha:** 17-sep-2026 · **Sitio:** doxnetwork.vercel.app · **Estado base:** rediseño de 3 fases ya implementado (lecho de imagen, bento, pestañas animadas, galería arrastrable, pasos fijos, FAQ chat, pie con marca gigante, paleta por línea y atrezo 3D).
+**Fecha:** 17-sep-2026 · **Sitio:** doxnetworks.com · **Estado base:** rediseño de 3 fases ya implementado (lecho de imagen, bento, pestañas animadas, galería arrastrable, pasos fijos, FAQ chat, pie con marca gigante, paleta por línea y atrezo 3D).
 
 Referencias revisadas de punta a punta, en escritorio y a 390 px:
 
