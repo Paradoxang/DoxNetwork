@@ -125,8 +125,45 @@ misma altura que el planeta, y nodos de red en los vértices.
   favoritos y filtros.
 - Nunca animan el mismo nodo, y todo respeta `prefers-reduced-motion`.
 
-## Despliegue en Vercel
+## Despliegue en Cloudflare
 
-Importa el repositorio en Vercel: detecta Vite y usa `npm run build` con salida en
-`dist/`. `vercel.json` añade las cabeceras de seguridad (CSP estricta,
-`script-src 'self'`). Cuando tengas el dominio, actualiza `site.url`.
+La tienda es estática: `vite-react-ssg` prerenderiza cada ruta a un `.html` y
+Cloudflare los sirve desde el borde. Es un Worker **sin script**, solo archivos
+(`[assets]` en `wrangler.toml`), así que no hay servidor que mantener y las
+peticiones a archivos estáticos no se facturan.
+
+**Publicar**
+
+Cada push a `main` dispara la compilación en Cloudflare (Workers Builds), que
+corre `npm run build` y luego `npx wrangler deploy`. No hay que hacer nada más.
+
+Para subir algo a mano, sin pasar por GitHub:
+
+```
+npm run build
+npm run deploy
+```
+
+`npm run deploy` lee `CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID` de `.env`
+(que no se versiona; la plantilla está en `.env.example`).
+
+**Por qué hace falta `wrangler.toml`**
+
+Sin él, `wrangler deploy` intenta deducir el framework, detecta Vite y exige
+Vite 6 o superior. El archivo le dice que aquí solo hay archivos estáticos y
+se salta esa detección.
+
+**Cabeceras**
+
+Van en `public/_headers`, que Vite copia a `dist/` en cada build: CSP estricta
+con `script-src 'self'`, HSTS, `X-Frame-Options`, `Permissions-Policy` y caché
+de un año para `/fonts/*` y `/assets/*`. Si algún día activas Rocket Loader o la
+inyección automática de Web Analytics en el panel de Cloudflare, esos scripts
+son inline y la CSP los bloqueará.
+
+Rutas limpias y 404 salen de `wrangler.toml`: `html_handling` sirve `/catalogo`
+desde `catalogo.html`, y `not_found_handling` entrega `404.html` en cualquier
+ruta que no exista.
+
+Cuando conectes el dominio propio, actualiza `site.url` en `src/data/site.ts` y
+el pie de las tarjetas en `tools/promo-card.mjs`.

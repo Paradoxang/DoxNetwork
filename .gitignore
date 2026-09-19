@@ -3,6 +3,7 @@ dist
 .vite
 *.tsbuildinfo
 .vercel
+.wrangler
 .env*
 !.env.example
 .DS_Store

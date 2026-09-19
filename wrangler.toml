@@ -1,0 +1,26 @@
+# Cloudflare Workers con archivos estáticos.
+#
+# La tienda es 100% estática: vite-react-ssg prerenderiza cada ruta a un .html
+# y Cloudflare los sirve desde el borde. No hay código de servidor, así que
+# este Worker no tiene script (`main`): solo entrega archivos. Eso importa para
+# la factura — las peticiones a archivos estáticos son gratis e ilimitadas, y
+# sin script no hay invocaciones que cobrar.
+#
+# Sin este archivo, `wrangler deploy` intenta adivinar el framework, detecta
+# Vite y exige Vite 6+. Ese fue el error del primer intento.
+#
+# Las cabeceras de seguridad NO van aquí: viven en public/_headers, que Vite
+# copia a dist/ en cada build.
+
+name = "doxnetwork"
+compatibility_date = "2026-09-18"
+
+[assets]
+directory = "./dist/"
+
+# `/catalogo` sirve catalogo.html y `/catalogo/` redirige a `/catalogo`:
+# una sola forma canónica de cada URL, igual que hacía cleanUrls en Vercel.
+html_handling = "drop-trailing-slash"
+
+# Cualquier ruta inexistente recibe dist/404.html, ya prerenderizada.
+not_found_handling = "404-page"

@@ -1,0 +1,27 @@
+# Cabeceras de Cloudflare Pages.
+#
+# Es el equivalente al bloque "headers" de vercel.json: Pages lee este archivo
+# desde la raíz de la carpeta publicada (Vite copia todo public/ a dist/).
+# Las reglas que coincidan se suman, así que /fonts/* recibe también las de /*.
+#
+# Formato: una línea con el patrón, y debajo cada cabecera indentada.
+# El valor va entero en una sola línea, sin comillas.
+
+/*
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src 'none'; img-src 'self' data:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; form-action 'self'; manifest-src 'self'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Las fuentes no cambian nunca de nombre: se cachean un año.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# El JS y el CSS que emite Vite llevan hash en el nombre, así que un archivo
+# concreto nunca cambia de contenido. Cachearlos para siempre ahorra descargas
+# en cada visita repetida sin riesgo de servir algo viejo.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
