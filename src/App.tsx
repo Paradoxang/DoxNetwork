@@ -153,7 +153,8 @@ export const routes: RouteRecord[] = [
       { path: "privacidad", element: <Legal slug="privacidad" /> },
       { path: "envios", element: <Legal slug="envios" /> },
       { path: "cambios-y-garantias", element: <Legal slug="cambios-y-garantias" /> },
-      // Se prerenderiza como dist/404.html: Vercel la sirve sola en rutas inexistentes
+      // Se prerenderiza como dist/404.html: Cloudflare la sirve en rutas inexistentes
+      // (not_found_handling = "404-page" en wrangler.toml)
       { path: "404", element: <NotFound /> },
       { path: "*", element: <NotFound /> },
     ],

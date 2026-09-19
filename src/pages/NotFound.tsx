@@ -10,7 +10,7 @@ import { site, waLink } from "@/data/site";
 import { useUI } from "@/lib/ui";
 
 /**
- * 404. Se prerenderiza como dist/404.html y Vercel la sirve en cualquier ruta
+ * 404. Se prerenderiza como dist/404.html y Cloudflare la sirve en cualquier ruta
  * que no exista. En vez de un callejón sin salida, ofrece buscar, ir a cada
  * línea de la red o escribir por WhatsApp.
  */

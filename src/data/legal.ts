@@ -238,7 +238,7 @@ const privacidad: LegalDoc = {
           "Transportadoras, para entregar tus productos físicos.",
           "Proveedores de los productos, cuando se requiere para despachar o activar tu pedido.",
           "WhatsApp (Meta), el canal por el que nos comunicamos.",
-          "Vercel, el servicio donde está alojado el sitio, que registra datos técnicos de las visitas (como la dirección IP) por seguridad.",
+          "Cloudflare, el servicio donde está alojado el sitio, que registra datos técnicos de las visitas (como la dirección IP) por seguridad.",
           "Autoridades, cuando una norma o una orden lo exija.",
         ],
         "Algunos de estos servicios guardan información fuera de Colombia, bajo sus propias políticas de protección de datos.",

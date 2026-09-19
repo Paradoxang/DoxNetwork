@@ -184,7 +184,7 @@ const cta = (mt = "auto") => [
   { type: "div", props: { style: {
     display: "flex", justifyContent: "center", fontSize: 23, fontWeight: 700,
     letterSpacing: 1.7, color: "#8FA8DC", marginTop: 18,
-  }, children: "doxnetwork.vercel.app" } },
+  }, children: "doxnetworks.com" } },
 ];
 
 // ── Plantilla 4:5 ────────────────────────────────────────────────────────────
@@ -340,7 +340,7 @@ function luxe(d, zonas) {
       { type: "div", props: { style: {
         display: "flex", justifyContent: "center", fontSize: 23, fontWeight: 700,
         letterSpacing: 1.7, color: "#93A6D4", marginTop: 16,
-      }, children: "doxnetwork.vercel.app" } },
+      }, children: "doxnetworks.com" } },
     ],
   } };
 }
@@ -383,7 +383,7 @@ function collage(d, zonas) {
           { type: "div", props: { style: { fontSize: 25, fontWeight: 800, letterSpacing: 6, color: "#FFFFFF" }, children: "DOXNETWORK" } },
           { type: "div", props: { style: {
             fontSize: 19, fontWeight: 700, letterSpacing: 1.6, color: "rgba(255,255,255,0.42)", marginTop: 6,
-          }, children: "doxnetwork.vercel.app" } },
+          }, children: "doxnetworks.com" } },
         ] } },
         { type: "div", props: { style: {
           display: "flex", padding: "10px 22px", fontSize: 18, fontWeight: 800, letterSpacing: 3,

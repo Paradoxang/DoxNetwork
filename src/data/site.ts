@@ -4,8 +4,7 @@
  */
 export const site = {
   name: "DoxNetwork",
-  /** TODO: cambia por el dominio final cuando esté conectado en Vercel. */
-  url: "https://doxnetwork.vercel.app",
+  url: "https://doxnetworks.com",
   tagline: "Todo lo que usas, en una sola red.",
   description:
     "Streaming, IA y software, perfumería, relojería, tecnología y páginas web a la medida con Dox Designs. Una sola tienda, envíos a toda Colombia, pagos locales y atención de personas por WhatsApp.",

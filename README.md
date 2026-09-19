@@ -165,5 +165,5 @@ Rutas limpias y 404 salen de `wrangler.toml`: `html_handling` sirve `/catalogo`
 desde `catalogo.html`, y `not_found_handling` entrega `404.html` en cualquier
 ruta que no exista.
 
-Cuando conectes el dominio propio, actualiza `site.url` en `src/data/site.ts` y
-el pie de las tarjetas en `tools/promo-card.mjs`.
+El dominio es **doxnetworks.com**, conectado al Worker como dominio
+personalizado. `www` redirige al apex con un 301 (regla de la zona).
