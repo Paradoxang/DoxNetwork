@@ -1,6 +1,8 @@
 /**
  * Configuración del negocio. Todo lo que cambia sin tocar componentes vive aquí.
- * Revisa cada valor marcado con TODO antes de publicar.
+ * Horario, entrega, reposición, pagos y WhatsApp quedaron confirmados por Santiago
+ * el 21-sep-2026: son promesas públicas, no valores de relleno. Si alguno cambia,
+ * cambia también en la web, en la FAQ, en las políticas y en los copys publicados.
  */
 export const site = {
   name: "DoxNetwork",
@@ -9,16 +11,19 @@ export const site = {
   description:
     "Streaming, IA y software, perfumería, relojería, tecnología y páginas web a la medida con Dox Designs. Una sola tienda, envíos a toda Colombia, pagos locales y atención de personas por WhatsApp.",
 
-  /** TODO: número de WhatsApp de la tienda, solo dígitos con indicativo. */
+  /** Número de la tienda, solo dígitos con indicativo. Confirmado el 21-sep-2026. */
   whatsapp: "573189819384",
   whatsappDisplay: "+57 318 981 9384",
-  /** TODO: métodos de pago reales (los tres competidores usan Nequi, Llaves y Bre-B). */
-  payments: ["Nequi", "Bre-B", "Llaves"],
-  /** TODO: horario de atención real. */
+  /** "Llaves" no es un medio aparte: son los identificadores de Bre-B. Solo Nequi y Bre-B. */
+  payments: ["Nequi", "Bre-B"],
+  /** Horario real, confirmado el 21-sep-2026. Sale en la web, en los copys y en la FAQ. */
   hours: "Lun a Dom · 7:00 a. m. – 10:00 p. m.",
-  /** TODO: promesa de reposición que SÍ puedes cumplir. Torostream y ZeroDelay no la escriben: es tu ventaja. */
+  /**
+   * Reposición de lo digital si falla durante la vigencia. Confirmado el 21-sep-2026.
+   * Torostream y ZeroDelay no la escriben: es la ventaja, y por eso va en los copys.
+   */
   warrantyHours: 12,
-  /** TODO: tiempo típico de entrega en horario de atención. */
+  /** Entrega de lo digital en horario de atención. Confirmado el 21-sep-2026. */
   deliveryMinutes: 15,
   instagram: "https://instagram.com/paradoxxan",
   tiktok: "",

@@ -29,7 +29,7 @@ import * as esbuild from "esbuild";
 
 const DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(DIR, "..");
-const SIZES = { feed: [1080, 1350], story: [1080, 1920] };
+const SIZES = { feed: [1080, 1350], story: [1080, 1920], wa: [1080, 1080] };
 
 // ── Precios reales, leídos del catálogo ──────────────────────────────────────
 // catalog.ts es TypeScript: se empaqueta con esbuild (ya viene con vite) a un
@@ -220,6 +220,67 @@ function feed(d, zonas) {
         }, children: c.name } } } })) } },
       { type: "div", props: { style: { display: "flex", justifyContent: "center", fontSize: 22, fontWeight: 700, color: C.inkSoft, marginTop: 8 }, children: d.footnote } },
       ...cta(18),
+    ],
+  } };
+}
+
+// ── Plantilla 1:1, exclusiva de WhatsApp ─────────────────────────────────────
+/**
+ * Cuadrada a propósito, y no es un recorte de la 4:5. En la burbuja de un grupo
+ * WhatsApp da a la imagen ~360 px de ancho: una 9:16 se estira a ~640 de alto,
+ * obliga a hacer scroll y deja la tipografía diminuta. El cuadrado aprovecha
+ * todo el ancho disponible y se lee entero sin ampliar.
+ *
+ * Tres decisiones que vienen de ese contexto y no aplican a otras redes:
+ *
+ * 1. **Un solo gancho, no el catálogo.** La lista completa de precios ya va en
+ *    el texto del mensaje, justo debajo. Repetirla en la imagen es ruido; aquí
+ *    manda el precio de entrada, enorme.
+ * 2. **Se juzga en miniatura.** Antes de abrirla se ve al vuelo en la lista de
+ *    chats, así que el precio y las cuatro plataformas tienen que distinguirse
+ *    a un tercio de tamaño. Nada de tipografía fina ni contrastes suaves:
+ *    WhatsApp recomprime y se los come.
+ * 3. **Sin URL pequeña.** A este tamaño no se lee y el mensaje ya la lleva. El
+ *    cierre es "Responde MENÚ", que es lo que se puede hacer sin salir del chat.
+ */
+function wa(d, zonas) {
+  const [W, H] = SIZES.wa;
+  return { type: "div", props: {
+    style: {
+      width: W, height: H, display: "flex", flexDirection: "column", padding: "52px 56px 46px",
+      background: `linear-gradient(160deg, ${C.bg0} 0%, #0D1330 52%, #090C1C 100%)`,
+      fontFamily: "Manrope", position: "relative",
+    },
+    children: [
+      { type: "div", props: { style: {
+        position: "absolute", top: -60, right: -200, width: 720, height: 720, borderRadius: 999,
+        background: "radial-gradient(circle, rgba(124,92,214,0.36), rgba(10,14,32,0) 64%)", display: "flex" } } },
+      ...zonas,
+      marca(0.85),
+      { type: "div", props: { style: { display: "flex", flexDirection: "column", marginTop: 34, width: 640 }, children: [
+        { type: "div", props: { style: { fontSize: 25, fontWeight: 800, letterSpacing: 4.5, color: C.orange }, children: d.eyebrow } },
+        { type: "div", props: { style: { fontSize: 150, fontWeight: 800, letterSpacing: -6, color: C.gold, marginTop: 4, lineHeight: 1 }, children: d.price } },
+        { type: "div", props: { style: { display: "flex", flexDirection: "column", marginTop: 12 }, children: [
+          { type: "div", props: { style: { fontSize: 33, fontWeight: 700, color: "#EAF0FF" }, children: d.line1 } },
+          { type: "div", props: { style: { fontSize: 33, fontWeight: 800, color: C.mint }, children: d.line2 } },
+        ] } },
+        { type: "div", props: { style: { width: 118, height: 7, borderRadius: 999, marginTop: 20, background: C.orange, display: "flex" } } },
+      ] } },
+      // Cuatro precios reales: el gancho grande convence, estos dan pruebas.
+      { type: "div", props: { style: { display: "flex", flexWrap: "wrap", marginTop: "auto", width: 968 },
+        children: d.rows.map((r) => ({ type: "div", props: { style: {
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          width: 466, height: 92, marginRight: 16, marginBottom: 16,
+          borderRadius: 20, padding: "0 24px", background: C.glass, border: `2px solid ${C.border}`,
+        }, children: [
+          { type: "div", props: { style: { fontSize: 28, fontWeight: 800, color: "#F0F5FF" }, children: r.name } },
+          { type: "div", props: { style: { fontSize: 32, fontWeight: 800, color: C.gold }, children: r.price } },
+        ] } })) } },
+      { type: "div", props: { style: {
+        display: "flex", alignItems: "center", justifyContent: "center", height: 96, borderRadius: 28,
+        marginTop: 6, background: "linear-gradient(135deg,#8FF0B4,#5FD897)",
+      }, children: { type: "div", props: { style: { fontSize: 40, fontWeight: 800, color: "#06301C" }, children: "Responde MENÚ" } } } },
+      { type: "div", props: { style: { display: "flex", justifyContent: "center", fontSize: 21, fontWeight: 700, color: C.inkSoft, marginTop: 14 }, children: d.footnote } },
     ],
   } };
 }
@@ -463,6 +524,23 @@ const escalera = pantallas
   .filter(Boolean).sort((a, b) => a.raw - b.raw).slice(0, 4);
 
 const CATS = ["Streaming e IA", "Perfumería", "Relojería", "Tecnología"].map((name) => ({ name }));
+
+// Para la card de WhatsApp: las cuatro que la gente busca por su nombre, no las
+// cuatro más baratas. `escalera` coge por precio y hoy devuelve tres empatadas a
+// $4.900, lo que hace pensar que todo cuesta igual y no engancha a nadie. Con
+// Netflix arriba y Max abajo se ve de un vistazo el rango real.
+const destacadas = ["max", "prime-video", "disney-plus", "netflix"]
+  .map((slug) => {
+    const p = pantallas.find((x) => x.slug === slug);
+    // OJO: 30 dias obligatorio. Netflix tiene un plan Pantalla de 13 dias a
+    // $6.900 que es el mas barato, y sin este filtro la card anunciaria ese
+    // precio mientras el mensaje dice $12.900. Reclamacion asegurada al entregar.
+    const pl = p && p.plans
+      .filter((x) => x.access === "Pantalla" && x.duration === "30 días")
+      .sort((a, b) => a.price - b.price)[0];
+    return pl && { name: p.name, price: money(pl.price), raw: pl.price };
+  })
+  .filter(Boolean).sort((a, b) => a.raw - b.raw);
 // Los chibis se montan sobre la rejilla de categorías. La rejilla lleva
 // `marginTop:auto`, así que su Y se deduce de lo que queda debajo en vez de
 // fijarla a ojo: si cambia el pie, basta rehacer esta cuenta.
@@ -530,7 +608,7 @@ const CARDS = {
         { v: "30 ml – 100 ml", k: "presentaciones" },
         { v: "Ella · Él", k: "y unisex" },
       ],
-      footnote: "Nequi · Daviplata · Bre-B",
+      footnote: "Nequi · Bre-B",
     },
     graficos: [
       { file: "marca/isotipo.png", x: 52, y: 32, w: 96, fade: 0 },
@@ -546,13 +624,13 @@ const CARDS = {
   streaming: { tpl: "feed", data: {
     eyebrow: "PANTALLAS DESDE", price: money(minPantalla),
     line1: "Y todo lo que usas,", line2: "en una sola red.",
-    cats: CATS, footnote: "Nequi · Daviplata · Bre-B",
+    cats: CATS, footnote: "Nequi · Bre-B",
   }, graficos: [{ file: "astro/M_astro-senala.png", x: 604, y: 118, w: 470, fade: 0.11, flip: true }, ...chibis] },
 
   perfumeria: { tpl: "feed", data: {
     eyebrow: "PERFUMERÍA DESDE", price: money(perfumeDesde),
     line1: "Originales y árabes,", line2: "al precio de la red.",
-    cats: CATS, footnote: "Nequi · Daviplata · Bre-B",
+    cats: CATS, footnote: "Nequi · Bre-B",
   }, graficos: [{ file: "astro/M_astro-celebra.png", x: 648, y: 168, w: 432, fade: 0, flip: true }, ...chibis] },
 
   story: { tpl: "story", data: {
@@ -560,6 +638,13 @@ const CARDS = {
     tagline: "Y todo lo que usas, en una sola red.",
     rows: escalera, extra: "También perfumería · relojería · tecnología",
   }, graficos: [{ file: "astro/M_astro-senala.png", x: 268, y: 214, w: 548, fade: 0.13 }] },
+
+  // Cuadrada, solo para WhatsApp. Ver el comentario de la plantilla `wa`.
+  wa: { tpl: "wa", data: {
+    eyebrow: "PANTALLAS DESDE", price: money(minPantalla),
+    line1: "Tu perfil, con tu PIN,", line2: "andando en 15 minutos.",
+    rows: destacadas, footnote: "Nequi · Bre-B",
+  }, graficos: [{ file: "astro/M_astro-senala.png", x: 690, y: 138, w: 352, fade: 0.12, flip: true }] },
 };
 
 // ── Main ─────────────────────────────────────────────────────────────────────
@@ -572,7 +657,7 @@ if (pick && !CARDS[pick]) {
 }
 const jobs = pick ? { [pick]: CARDS[pick] } : CARDS;
 
-const PLANTILLAS = { feed, story, luxe, collage };
+const PLANTILLAS = { feed, story, luxe, collage, wa };
 for (const [name, { tpl, data, graficos, fondo, textos = [] }] of Object.entries(jobs)) {
   const [w, h] = SIZES[tpl === "luxe" ? "feed" : tpl === "collage" ? "story" : tpl];
   const zonas = wireframe ? graficos.map(zonaFantasma) : [];
