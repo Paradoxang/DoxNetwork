@@ -3,6 +3,16 @@ export const up900 = (n: number) => Math.max(900, Math.ceil((n - 900) / 1000) * 
 /** Redondea hacia abajo a terminación 900: 41.096 → 40.900. */
 export const down900 = (n: number) => Math.max(900, Math.floor((n - 900) / 1000) * 1000 + 900);
 /**
+ * Redondea a la terminación 900 más cercana: 5.390 → 4.900, pero 5.610 → 5.900.
+ *
+ * Lo usa el alza. Redondear siempre hacia arriba inflaba el aumento en lo
+ * barato, porque el escalón es de $1.000: un plan de $4.900 con un 10%
+ * encima daba $5.390 y subía a $5.900, o sea un 20%. Al más cercano el
+ * aumento medio se ajusta al pedido, a cambio de que algún producto muy
+ * barato se quede igual.
+ */
+export const near900 = (n: number) => (up900(n) - n <= n - down900(n) ? up900(n) : down900(n));
+/**
  * Precio de productos físicos (perfumería, relojería, tecnología y vapes).
  * Hasta $30.000 de costo, × 2: entrada barata con poco margen en pesos.
  * Encima, costo + $30.000, que deja las réplicas al nivel de la competencia
@@ -44,7 +54,7 @@ export const ALZA = {
 export type LineaPrecio = keyof typeof ALZA;
 
 /** Aplica el alza de la línea y vuelve a redondear a terminación 900. */
-export const conAlza = (n: number, linea: LineaPrecio) => up900(n * ALZA[linea]);
+export const conAlza = (n: number, linea: LineaPrecio) => near900(n * ALZA[linea]);
 
 /**
  * Descuento que enseña la vitrina, por línea.
