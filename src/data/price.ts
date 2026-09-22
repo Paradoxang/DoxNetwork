@@ -20,7 +20,10 @@ export const down900 = (n: number) => Math.max(900, Math.floor((n - 900) / 1000)
 export const MIN_MARGIN = 12000;
 
 /**
- * Alza del proveedor del 22-sep-2026, por línea.
+ * Alza del proveedor del 22-sep-2026.
+ *
+ * El proveedor pedía 20% en perfumería, 15% en relojería y 5% en vapes; se
+ * dejan las cinco líneas en 10% por decisión de Santiago.
  *
  * Se aplica sobre el precio final YA calculado, o sea después de los topes
  * de mercado y de plan oficial. Es deliberado: el proveedor subió y el precio
@@ -32,10 +35,10 @@ export const MIN_MARGIN = 12000;
  */
 export const ALZA = {
   digital: 1.1,
-  perfumeria: 1.2,
-  relojeria: 1.15,
+  perfumeria: 1.1,
+  relojeria: 1.1,
   tecnologia: 1.1,
-  vapes: 1.05,
+  vapes: 1.1,
 } as const;
 
 export type LineaPrecio = keyof typeof ALZA;
