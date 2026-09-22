@@ -20,8 +20,11 @@
  *
  * Otras reglas (estudios de competencia):
  *   · Escalera por producto: tipo de acceso × calidad × duración.
- *   · Solo se tacha un precio comprobable: el combo frente a la suma de sus
- *     partes y el plan de varios meses frente al mensual × meses (`per`).
+ *   · Tachado: desde el 22-sep-2026 TODO producto se muestra rebajado, porque
+ *     el proveedor condiciona el suministro a ello. El tachado sale de
+ *     `DESCUENTO_VISIBLE` (price.ts). Donde ya había una comparación real y
+ *     más alta —el combo frente a la suma de sus partes, o varios meses
+ *     frente al mensual × meses— se respeta esa, que es comprobable.
  *   · Sin nivel "genérica": cuentas recicladas de origen dudoso.
  *
  * IMÁGENES: `logo` apunta a /public/logos (baldosas de marca del proveedor,
@@ -32,7 +35,7 @@
 
 import { articulos, lineas, type ArticuloInfo } from "./lineas";
 import { perfumeCategory, perfumes, type PerfumeInfo } from "./perfumeria";
-import { down900, up900 } from "./price";
+import { conAlza, down900, precioLista, up900, type LineaPrecio } from "./price";
 
 /** Margen sobre el costo de proveedor. 3 = se vende a 3 veces lo que cuesta. */
 export const MARKUP = 3;
@@ -712,15 +715,22 @@ const combosInput: ProductInput[] = [
   },
 ];
 
-function planPrice(pl: PlanInput): number {
-  if (pl.cost === undefined) return pl.price ?? 0;
-  const base = up900(pl.cost * (pl.markup ?? MARKUP));
-  if (pl.market !== undefined && base > pl.market) return Math.max(up900(pl.cost * 1.5), down900(pl.market));
+/** Precio antes del alza: markup, tope de mercado y tope de plan oficial. */
+function precioBase(pl: PlanInput): number {
+  const base = up900(pl.cost! * (pl.markup ?? MARKUP));
+  if (pl.market !== undefined && base > pl.market) return Math.max(up900(pl.cost! * 1.5), down900(pl.market));
   if (pl.official !== undefined) {
     const cap = down900(pl.official * 0.8);
-    if (base > cap) return Math.max(up900(pl.cost * 1.2), cap);
+    if (base > cap) return Math.max(up900(pl.cost! * 1.2), cap);
   }
   return base;
+}
+
+function planPrice(pl: PlanInput): number {
+  // Sin costo y sin precio propio: lo calculan después los combos y los
+  // planes de varios meses, a partir de partes que ya llevan el alza.
+  if (pl.cost === undefined) return pl.price ? conAlza(pl.price, "digital") : 0;
+  return conAlza(precioBase(pl), "digital");
 }
 
 function withPrices(input: ProductInput): Product {
@@ -792,6 +802,22 @@ for (const combo of combos) {
   for (const pl of combo.plans) {
     pl.price = down900(sum * (1 - (combo.comboDiscount ?? 0.12)));
     if (sum > pl.price) pl.compareAt = sum;
+  }
+}
+
+/* ── Descuento de vitrina, en todas las líneas ──
+   Va al final a propósito: necesita los precios ya calculados, incluidos los
+   de los combos, que se resuelven en el bucle de arriba. */
+const FISICAS = new Set<string>(["perfumeria", "relojeria", "tecnologia", "vapes"]);
+const lineaDe = (p: Product): LineaPrecio =>
+  (FISICAS.has(p.category) ? p.category : "digital") as LineaPrecio;
+
+for (const p of allProducts) {
+  const linea = lineaDe(p);
+  for (const pl of p.plans) {
+    if (!pl.price) continue; // "A cotizar" no lleva tachado
+    const lista = precioLista(pl.price, linea);
+    if (lista > (pl.compareAt ?? 0)) pl.compareAt = lista;
   }
 }
 

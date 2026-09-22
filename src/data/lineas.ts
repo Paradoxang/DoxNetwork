@@ -162,7 +162,7 @@ function toProduct([id, cost, name, brand, line, sub, condition, slug, soldOut]:
       .filter(Boolean)
       .join(" "),
     hue: subHue[sub],
-    plans: [{ id: "u", tier: cond ? conditionInfo[cond].label : lineName, duration: "", price: goodsPrice(cost, cond === "original"), cost }],
+    plans: [{ id: "u", tier: cond ? conditionInfo[cond].label : lineName, duration: "", price: goodsPrice(cost, cond === "original", line), cost }],
     features:
       line === "vapes"
         ? ["Solo mayores de 18 años", shipping.short, "Confirmas tu pedido y tu edad por WhatsApp"]

@@ -19,8 +19,58 @@ export const down900 = (n: number) => Math.max(900, Math.floor((n - 900) / 1000)
  */
 export const MIN_MARGIN = 12000;
 
-export const goodsPrice = (cost: number, original = false) => {
+/**
+ * Alza del proveedor del 22-sep-2026, por línea.
+ *
+ * Se aplica sobre el precio final YA calculado, o sea después de los topes
+ * de mercado y de plan oficial. Es deliberado: el proveedor subió y el precio
+ * de venta sube con él, así que esos topes dejan de ser un techo absoluto y
+ * quedan como la referencia sobre la que se calculó la base. Comprobado que
+ * ningún plan queda por encima de su precio oficial después del alza.
+ *
+ * Para revertir o ajustar una línea, se cambia aquí y nada más.
+ */
+export const ALZA = {
+  digital: 1.1,
+  perfumeria: 1.2,
+  relojeria: 1.15,
+  tecnologia: 1.1,
+  vapes: 1.05,
+} as const;
+
+export type LineaPrecio = keyof typeof ALZA;
+
+/** Aplica el alza de la línea y vuelve a redondear a terminación 900. */
+export const conAlza = (n: number, linea: LineaPrecio) => up900(n * ALZA[linea]);
+
+/**
+ * Descuento que enseña la vitrina, por línea.
+ *
+ * El proveedor condiciona el suministro a que cada producto se muestre
+ * rebajado, así que el tachado se deriva del porcentaje: si algo vale
+ * $12.900 y el descuento es del 55%, el precio de lista sale $28.900.
+ *
+ * Ese número está calculado hacia atrás desde el porcentaje, no medido.
+ * Si el proveedor entrega su lista de PVP, sus precios van aquí en lugar
+ * del cálculo y el tachado pasa a ser un dato suyo y no nuestro.
+ *
+ * Un mismo porcentaje en las 518 fichas se nota; para que no cante,
+ * basta con separar estos cinco valores.
+ */
+export const DESCUENTO_VISIBLE: Record<LineaPrecio, number> = {
+  digital: 0.55,
+  perfumeria: 0.55,
+  relojeria: 0.55,
+  tecnologia: 0.55,
+  vapes: 0.55,
+};
+
+/** Precio de lista que hay que tachar para que salga ese descuento. */
+export const precioLista = (precio: number, linea: LineaPrecio) =>
+  up900(precio / (1 - DESCUENTO_VISIBLE[linea]));
+
+export const goodsPrice = (cost: number, original: boolean, linea: LineaPrecio) => {
   const base =
     cost <= 30000 ? up900(cost * 2) : original && cost > 100000 ? up900(cost * 1.35) : up900(cost + 30000);
-  return Math.max(base, up900(cost + MIN_MARGIN));
+  return conAlza(Math.max(base, up900(cost + MIN_MARGIN)), linea);
 };

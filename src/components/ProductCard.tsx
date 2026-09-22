@@ -103,10 +103,6 @@ export function ProductCard({ product, variant }: { product: Product; variant?: 
         ? articulo.line === "vapes"
           ? { label: "+18", tone: "dark" }
           : undefined
-        : off
-        ? plan.compareAt
-          ? undefined // el descuento ya va junto al precio
-          : { label: `Ahorra hasta ${off}%`, tone: "sale" } // el ahorro está en otro plan (3 meses…)
         : product.badge === "popular"
           ? { label: "Más vendido", tone: "popular" }
           : product.badge === "nuevo"
@@ -142,6 +138,7 @@ export function ProductCard({ product, variant }: { product: Product; variant?: 
       accent={accentOf(product)}
       variant={variant}
       badge={badge}
+      discount={off || undefined}
       condition={
         perfume
           ? { label: qualityInfo[perfume.quality].label, tone: "replica" }

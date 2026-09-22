@@ -35,6 +35,8 @@ export interface ProductCardProps {
   pricePrefix?: string;
   formatPrice?: (n: number) => string;
   badge?: { label: string; tone?: "sale" | "new" | "popular" | "muted" | "dark" };
+  /** Porcentaje del sello redondo sobre la foto. 0 o undefined = sin sello. */
+  discount?: number;
   /** Original o réplica: va bajo el nombre, con el peso de lo segundo que se lee. */
   condition?: { label: string; tone: "original" | "replica"; note?: string };
   rating?: number;
@@ -180,6 +182,7 @@ export default function ProductCard({
   pricePrefix,
   formatPrice = defaultFormat,
   badge,
+  discount,
   condition,
   rating,
   wishlisted = false,
@@ -221,6 +224,9 @@ export default function ProductCard({
 
   const hasDiscount = originalPrice !== undefined && originalPrice > price;
   const discountPercent = hasDiscount ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
+  // El sello sale del porcentaje que pasen; si no, del propio tachado, para que
+  // la tarjeta funcione sola con solo darle originalPrice.
+  const sello = discount || discountPercent;
 
   // Las dos firmas del sitio: tilt 3D sutil (nodo exterior) y borde luminoso (la
   // tarjeta). Sin marco no hay borde que encender ni caja que inclinar, así que
@@ -259,19 +265,35 @@ export default function ProductCard({
           )}
         />
 
-        {badge ? (
-          <motion.span
-            animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, transform: "scale(1)" }}
-            className={cn(
-              "absolute left-3 top-3 rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold tracking-[0.04em] shadow-sm",
-              badgeTone[badge.tone ?? "popular"]
-            )}
-            initial={animateIn ? { opacity: 0, transform: "scale(0.6)" } : false}
-            transition={shouldReduceMotion ? { duration: 0 } : { ...SPRING_BOUNCY, delay: 0.25 }}
-          >
-            {badge.label}
-          </motion.span>
-        ) : null}
+        {/* Esquina de sellos: el redondo del descuento manda, y si además hay
+            etiqueta (Agotado, +18, Más vendido) se apila debajo sin pisarlo. */}
+        {(sello || badge) && (
+          <div className="pointer-events-none absolute left-3 top-3 z-10 flex flex-col items-start gap-2">
+            {sello ? (
+              <motion.span
+                animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, transform: "scale(1)" }}
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-neb text-[13px] font-extrabold tracking-[-0.02em] text-neb-ink shadow-md sm:h-14 sm:w-14 sm:text-sm"
+                initial={animateIn ? { opacity: 0, transform: "scale(0.6)" } : false}
+                transition={shouldReduceMotion ? { duration: 0 } : { ...SPRING_BOUNCY, delay: 0.2 }}
+              >
+                -{sello}%
+              </motion.span>
+            ) : null}
+            {badge ? (
+              <motion.span
+                animate={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, transform: "scale(1)" }}
+                className={cn(
+                  "rounded-full px-2.5 py-1 font-mono text-[11px] font-semibold tracking-[0.04em] shadow-sm",
+                  badgeTone[badge.tone ?? "popular"]
+                )}
+                initial={animateIn ? { opacity: 0, transform: "scale(0.6)" } : false}
+                transition={shouldReduceMotion ? { duration: 0 } : { ...SPRING_BOUNCY, delay: 0.25 }}
+              >
+                {badge.label}
+              </motion.span>
+            ) : null}
+          </div>
+        )}
 
         {onWishlist && (
           <motion.button
@@ -323,11 +345,9 @@ export default function ProductCard({
         <div className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
           {pricePrefix && <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">{pricePrefix}</span>}
           <span className="num text-lg font-semibold text-ink sm:text-xl">{formatPrice(price)}</span>
+          {/* El porcentaje va en el sello redondo de la foto; aquí basta el tachado. */}
           {hasDiscount ? (
-            <>
-              <span className="num text-[13px] text-faint line-through">{formatPrice(originalPrice)}</span>
-              <span className="num rounded-md bg-gold-soft px-1.5 py-0.5 text-xs font-semibold text-gold">-{discountPercent}%</span>
-            </>
+            <span className="num text-[13px] text-faint line-through">{formatPrice(originalPrice)}</span>
           ) : null}
         </div>
 

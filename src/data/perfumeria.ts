@@ -106,7 +106,7 @@ function toProduct([id, cost, line, brand, para, quality, family, slug, photo]: 
     tagline: [brand, paraLabel[para], fam?.label].filter(Boolean).join(" · "),
     description,
     hue: fam?.hue ?? "#b89a6a",
-    plans: [{ id: "u", tier: q.label, duration: "", price: goodsPrice(cost), cost }],
+    plans: [{ id: "u", tier: q.label, duration: "", price: goodsPrice(cost, false, "perfumeria"), cost }],
     features: [q.label, shipping.short, "Confirmas tu pedido por WhatsApp"],
     image: `/perfumes/${slug}.webp`,
     perfume: { line, brand, para, quality, family: family ?? undefined, kind, photo: Boolean(photo), supplierId: id },
