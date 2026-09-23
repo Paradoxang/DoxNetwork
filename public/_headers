@@ -12,9 +12,13 @@
 # respuesta HTML a un navegador, y sin este permiso la CSP lo bloquea y la
 # medicion no recoge nada. Si algun dia apagas Web Analytics en el panel,
 # quita las dos referencias y la CSP vuelve a ser solo 'self'.
+#
+# connect.facebook.net (script) y www.facebook.com (img y connect) son el
+# pixel de Meta de la landing /comedero (23-sep-2026). Sin estas tres
+# entradas el pixel se bloquea en silencio y la pauta corre a ciegas.
 
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src 'none'; img-src 'self' data:; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; form-action 'self'; manifest-src 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; frame-src 'none'; img-src 'self' data: https://www.facebook.com; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' https://static.cloudflareinsights.com https://connect.facebook.net; connect-src 'self' https://cloudflareinsights.com https://www.facebook.com; form-action 'self'; manifest-src 'self'; upgrade-insecure-requests
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff

@@ -239,6 +239,7 @@ const privacidad: LegalDoc = {
           "Proveedores de los productos, cuando se requiere para despachar o activar tu pedido.",
           "WhatsApp (Meta), el canal por el que nos comunicamos.",
           "Cloudflare, el servicio donde está alojado el sitio, que registra datos técnicos de las visitas (como la dirección IP) por seguridad.",
+          "Meta (Facebook e Instagram), solo cuando llegas desde uno de nuestros anuncios: mide si la visita vino de esa campaña, con su propia política de datos.",
           "Autoridades, cuando una norma o una orden lo exija.",
         ],
         "Algunos de estos servicios guardan información fuera de Colombia, bajo sus propias políticas de protección de datos.",

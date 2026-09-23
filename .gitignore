@@ -6,6 +6,7 @@ dist
 .wrangler
 .env*
 !.env.example
+!.env.production
 .DS_Store
 Thumbs.db
 .claude
