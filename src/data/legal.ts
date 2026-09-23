@@ -239,7 +239,7 @@ const privacidad: LegalDoc = {
           "Proveedores de los productos, cuando se requiere para despachar o activar tu pedido.",
           "WhatsApp (Meta), el canal por el que nos comunicamos.",
           "Cloudflare, el servicio donde está alojado el sitio, que registra datos técnicos de las visitas (como la dirección IP) por seguridad.",
-          "Meta (Facebook e Instagram), solo cuando llegas desde uno de nuestros anuncios: mide si la visita vino de esa campaña, con su propia política de datos.",
+          "Meta (Facebook e Instagram), a través de su píxel: registra la visita de quien entra a la página del comedero de mascotas y a cualquier otra donde lo pongamos, llegue o no desde un anuncio, para medir nuestra publicidad. Meta lo trata con su propia política de datos, y puedes desconectarlo desde «Tu actividad fuera de Meta» en tu cuenta de Facebook o Instagram.",
           "Autoridades, cuando una norma o una orden lo exija.",
         ],
         "Algunos de estos servicios guardan información fuera de Colombia, bajo sus propias políticas de protección de datos.",
