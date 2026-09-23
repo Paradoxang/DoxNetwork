@@ -573,6 +573,7 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
             {[
               { to: "/catalogo", label: "Toda la tienda" },
               { to: lineas.vapes.path, label: `${lineas.vapes.name} · +18` },
+              { to: "/comedero", label: "Mascotas · contra entrega" },
               { to: "/catalogo?ofertas=1", label: "Ofertas" },
               { to: "/arma-tu-combo", label: "Arma tu combo" },
               { to: "/favoritos", label: "Favoritos" },

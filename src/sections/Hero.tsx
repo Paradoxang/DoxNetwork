@@ -241,7 +241,7 @@ export function Hero() {
                   alt=""
                   width={760}
                   height={760}
-                  fetchPriority="high"
+                  {...{ fetchpriority: "high" }}
                   className="absolute inset-0 h-full w-full object-cover object-[70%_center] md:object-[78%_center]"
                 />
               )}

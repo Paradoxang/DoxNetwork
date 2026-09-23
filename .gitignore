@@ -33,6 +33,9 @@ brand/astro/png/
 # de margen. Este repositorio es PÚBLICO, así que no entran. Si algún día se
 # quieren versionar, que sea en uno privado.
 /productos/
+# Export para Shopify: lleva `costo` de proveedor por cada variante. Se genera
+# en local con tools/inventario-shopify.mjs y Mercurio lo lee del disco.
+/docs/inventario-shopify.json
 
 # Material fuente de los lotes de imágenes (pesan y no se usan en el build)
 *.zip

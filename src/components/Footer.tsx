@@ -50,6 +50,12 @@ export function Footer() {
                 {lineas.vapes.name} · +18
               </Link>
             </li>
+            {/* Contra entrega, fuera del catálogo: vive en Shopify */}
+            <li>
+              <Link to="/comedero" className="font-semibold text-ink transition-colors hover:text-neb">
+                Mascotas · contra entrega
+              </Link>
+            </li>
           </ul>
           <p className="kicker mt-8">Digital</p>
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm md:grid-cols-1">

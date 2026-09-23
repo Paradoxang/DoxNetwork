@@ -18,13 +18,14 @@ import {
   enlaceCheckout,
   faqs,
   ficha,
+  imagenes,
   mensajeAviso,
   mensajeWa,
   pasos,
   problema,
   type Color,
 } from "@/data/comedero";
-import { formatCOP, waLink } from "@/data/site";
+import { formatCOP, site, waLink } from "@/data/site";
 import { Reveal } from "@/lib/anim";
 
 /**
@@ -45,18 +46,18 @@ import { Reveal } from "@/lib/anim";
  *    devolución cuesta el flete de ida y el de vuelta.
  */
 
-/** Hueco de foto: no hay fotos del producto hasta que llegue la muestra. */
-function FotoPendiente({ nota, className = "" }: { nota: string; className?: string }) {
+/** Foto del producto: renders del proveedor hasta que haya fotos de la muestra. */
+function Foto({ src, alt, className = "", eager = false }: { src: string; alt: string; className?: string; eager?: boolean }) {
   return (
-    <div
-      className={`relative flex items-center justify-center overflow-hidden rounded-2xl border border-dashed border-line bg-surface-2 ${className}`}
-    >
-      <Telon name="telon-aurora" opacity={0.28} />
-      <div className="relative z-10 px-6 text-center">
-        <p className="kicker text-faint">Foto en camino</p>
-        <p className="mt-1 text-sm leading-snug text-mute">{nota}</p>
-      </div>
-    </div>
+    <img
+      src={src}
+      alt={alt}
+      loading={eager ? "eager" : "lazy"}
+      decoding={eager ? "sync" : "async"}
+      // React 18 no conoce `fetchPriority` en camelCase: pasa el atributo tal cual
+      {...(eager ? { fetchpriority: "high" } : {})}
+      className={`block h-full w-full rounded-2xl bg-surface-2 object-cover ${className}`}
+    />
   );
 }
 
@@ -70,6 +71,27 @@ export function Comedero() {
 
   const variante = colores.find((c) => c.nombre === color)!.variante;
   const precio = formatCOP(comedero.precio);
+
+  /* Ficha de producto para buscadores. Una oferta por color, cada una con su
+     enlace de carrito: es lo que Google pide para pintar precio y stock. Sin
+     UTM aquí: es la URL canónica del checkout, no la de una campaña. */
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: comedero.nombre,
+    description: comedero.resumen,
+    image: [site.url + imagenes.portada],
+    url: site.url + "/comedero",
+    offers: colores.map((c) => ({
+      "@type": "Offer",
+      name: `Color ${c.nombre}`,
+      url: enlaceCheckout(c.variante),
+      price: comedero.precio,
+      priceCurrency: "COP",
+      availability: disponible ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+      itemCondition: "https://schema.org/NewCondition",
+    })),
+  };
 
   const Comprar = ({ id }: { id: string }) =>
     disponible ? (
@@ -93,7 +115,7 @@ export function Comedero() {
 
   const PorWhatsapp = () => (
     <a className="btn btn-ghost w-full justify-center sm:w-auto" href={waLink(mensajeWa(color))}>
-      <WhatsAppIcon className="h-5 w-5" /> Pregúntanos por WhatsApp
+      <WhatsAppIcon className="h-5 w-5" /> ¿Dudas? Escríbenos
     </a>
   );
 
@@ -107,6 +129,8 @@ export function Comedero() {
            por el anuncio, y un resultado que no se puede comprar solo gasta
            visitas y reputación. Se abre solo con la bandera `disponible`. */
         noindex={!disponible}
+        image={imagenes.og}
+        jsonLd={jsonLd}
       />
       <MetaPixel />
 
@@ -139,10 +163,19 @@ export function Comedero() {
           </div>
 
           <div className="relative flex items-end justify-center">
-            <FotoPendiente
-              className="aspect-square w-full max-w-[420px]"
-              nota="El comedero en uso, con una mascota de verdad. Va cuando llegue la muestra."
-            />
+            <div className="aspect-square w-full max-w-[440px] overflow-hidden rounded-2xl shadow-xl">
+              <img
+                src={imagenes.portada}
+                srcSet={`${imagenes.portadaSm} 520w, ${imagenes.portada} 1000w`}
+                sizes="(min-width: 768px) 440px, 90vw"
+                width={1000}
+                height={1000}
+                alt="Comedero por gravedad en gris, azul y verde"
+                {...{ fetchpriority: "high" }}
+                decoding="sync"
+                className="block h-full w-full object-cover"
+              />
+            </div>
             <Astro pose="chibi-espera" className="pointer-events-none absolute -bottom-2 -left-2 h-28 md:h-36" small decorative />
           </div>
         </div>
@@ -155,12 +188,14 @@ export function Comedero() {
           nada que programar.
         </SectionHeading>
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
-          <FotoPendiente className="aspect-[4/3] sm:col-span-2 sm:aspect-[16/10]" nota="El comedero lleno, de frente." />
-          {/* En móvil los dos pequeños van en pareja: tres huecos apilados dejaban
-              media pantalla de vacío en una página que se paga por visita. */}
+          <div className="aspect-[4/3] sm:col-span-2 sm:aspect-[16/10]">
+            <Foto src={imagenes.ancho} alt="Los tres colores del comedero, de frente" />
+          </div>
+          {/* En móvil los dos pequeños van en pareja: tres fotos apiladas dejaban
+              media pantalla de scroll en una página que se paga por visita. */}
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-1">
-            <FotoPendiente className="aspect-square" nota="Detalle de la salida al plato." />
-            <FotoPendiente className="aspect-square" nota="Los tres colores." />
+            <div className="aspect-square"><Foto src={imagenes.porColor.Gris} alt="Comedero gris" /></div>
+            <div className="aspect-square"><Foto src={imagenes.porColor.Verde} alt="Comedero verde" /></div>
           </div>
         </div>
       </section>
@@ -192,7 +227,9 @@ export function Comedero() {
               <p className="num mt-1 text-[42px] font-bold leading-none">{precio}</p>
               <p className="mt-2 text-sm text-mute">Pagas cuando lo recibes. Sin tarjeta.</p>
             </div>
-            <Astro pose="senala" className="hidden h-28 sm:block" decorative />
+            <div className="hidden h-32 w-24 overflow-hidden rounded-xl sm:block md:h-40 md:w-28">
+              <Foto src={imagenes.porColor[color]} alt={`Comedero ${color.toLowerCase()}`} />
+            </div>
           </div>
 
           <div className="mt-8">
@@ -210,7 +247,8 @@ export function Comedero() {
                       on ? "border-neb bg-neb-soft text-neb" : "border-line text-mute hover:border-neb/50"
                     }`}
                   >
-                    <span className="h-4 w-4 shrink-0 rounded-full border border-line" style={{ background: c.hex }} />
+                    <img src={imagenes.porColor[c.nombre]} alt="" loading="lazy" className="h-9 w-7 shrink-0 rounded-md object-cover" />
+                    <span className="h-3 w-3 shrink-0 rounded-full border border-line" style={{ background: c.hex }} />
                     {c.nombre}
                     {on && <Check aria-hidden="true" className="h-4 w-4" />}
                   </button>

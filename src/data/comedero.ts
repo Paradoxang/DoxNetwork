@@ -17,8 +17,12 @@
  * que la página afirma obliga (Ley 1480).
  */
 
-/** Lo enciende Santiago cuando el producto pase a ACTIVE y la tienda pierda la contraseña. */
-export const disponible = false;
+/**
+ * Encendido el 23-sep-2026: el producto está ACTIVE en Shopify, la tienda
+ * sin contraseña y los tres enlaces de carrito abren el checkout. Apagarlo
+ * devuelve el botón a "Avísame cuando esté" y pone la página en noindex.
+ */
+export const disponible = true;
 
 export const comedero = {
   nombre: "Comedero por gravedad para perros y gatos · 3,2 L",
@@ -29,10 +33,25 @@ export const comedero = {
   tienda: "yf61aj-nz.myshopify.com",
 };
 
+/**
+ * Imágenes: renders del proveedor (Dropi), no fotos de la unidad. Tres de las
+ * cuatro traían rótulos en inglés y cotas quemados; los recortes de aquí
+ * salen del trío limpio. Se reemplazan cuando haya fotos de la muestra.
+ * Fuente: productos/comedero-gravedad/img-proveedor/ · brand/imagenes/comedero.py
+ */
+export const imagenes = {
+  portada: "/comedero/portada.webp",
+  portadaSm: "/comedero/portada-sm.webp",
+  /** Para og:image: JPG, que WhatsApp y Meta lo previsualizan sin fallos. */
+  og: "/comedero/portada-og.jpg",
+  ancho: "/comedero/trio-ancho.webp",
+  porColor: { Gris: "/comedero/gris.webp", Azul: "/comedero/azul.webp", Verde: "/comedero/verde.webp" } as const,
+};
+
 export const colores = [
-  { nombre: "Gris", variante: "50415897444386", hex: "#8b93a8" },
-  { nombre: "Azul", variante: "50415897477154", hex: "#4a5bd4" },
-  { nombre: "Verde", variante: "50415897509922", hex: "#127a56" },
+  { nombre: "Gris", variante: "50416657203234", hex: "#8b93a8" },
+  { nombre: "Azul", variante: "50416657236002", hex: "#4a5bd4" },
+  { nombre: "Verde", variante: "50416657268770", hex: "#127a56" },
 ] as const;
 
 export type Color = (typeof colores)[number]["nombre"];
@@ -66,15 +85,16 @@ export const claves = [
       "Es gravedad pura. No hay motor, ni batería, ni app: no se descarga, no se desprograma y no se cae con la luz.",
   },
   {
-    spec: "29,5 × 16,5 × 30 cm",
+    // Sin medidas a propósito: el render del proveedor dice 28 × 28,5 × 15,5 y
+    // la ficha de Dropi 29,5 × 16,5 × 30. Hasta medir la muestra, ninguna.
+    spec: "Gris · Azul · Verde",
     titulo: "Cabe en la cocina",
-    texto: "Del tamaño de una caja de zapatos parada. En gris, azul o verde.",
+    texto: "Compacto, para un rincón. Tres colores para que combine con lo que ya tienes.",
   },
 ];
 
 export const ficha = [
   ["Capacidad", "3,2 litros"],
-  ["Medidas", "29,5 × 16,5 × 30 cm"],
   ["Material", "PP + ABS + PET"],
   ["Colores", "Gris · Azul · Verde"],
   ["Alimentación", "Solo alimento seco (croqueta)"],

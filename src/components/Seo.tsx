@@ -12,11 +12,14 @@ export function Seo({
   path,
   jsonLd,
   noindex = false,
+  image,
 }: {
   title: string;
   description: string;
   path: string;
   jsonLd?: object;
+  /** Ruta dentro del sitio (/comedero/portada-og.jpg): se absolutiza con site.url. */
+  image?: string;
   /** Páginas que no deben aparecer en buscadores (vapes: publicidad restringida). */
   noindex?: boolean;
 }) {
@@ -33,6 +36,8 @@ export function Seo({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
+      {image && <meta property="og:image" content={site.url + image} />}
+      {image && <meta name="twitter:card" content="summary_large_image" />}
       {jsonLd && <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>}
     </Head>
   );
