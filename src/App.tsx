@@ -18,6 +18,7 @@ import { iniciarModo } from "@/lib/perf";
 import { UIProvider } from "@/lib/ui";
 import { Catalog } from "@/pages/Catalog";
 import { Coleccion } from "@/pages/Coleccion";
+import { Comedero } from "@/pages/Comedero";
 import { ComboBuilder } from "@/pages/ComboBuilder";
 import { Favorites } from "@/pages/Favorites";
 import { Home } from "@/pages/Home";
@@ -75,7 +76,12 @@ function Shell() {
     );
   }, [location.pathname]);
 
-  const barUp = count > 0 && location.pathname !== "/arma-tu-combo";
+  /* Páginas con su propio botón grande abajo: el flotante de WhatsApp y la
+     barra del carrito se les montan encima y tapan justo lo que paga la
+     visita. En /comedero, que es landing de pauta, sería tapar el CTA. */
+  const ctaPropio = location.pathname === "/arma-tu-combo" || location.pathname === "/comedero";
+
+  const barUp = count > 0 && !ctaPropio;
 
   return (
     <div className="relative min-h-screen bg-bg font-sans text-ink">
@@ -117,12 +123,12 @@ function Shell() {
         aria-label="Escríbenos por WhatsApp"
         className={`fixed right-5 z-[55] flex h-14 w-14 items-center justify-center rounded-full bg-mint text-mint-ink shadow-[var(--shadow)] transition-[transform,bottom] duration-300 hover:scale-105 ${
           barUp ? "bottom-[92px] md:bottom-5" : "bottom-5"
-        } ${location.pathname === "/arma-tu-combo" ? "max-lg:hidden" : ""}`}
+        } ${ctaPropio ? "max-lg:hidden" : ""}`}
       >
         <WhatsAppIcon className="h-7 w-7" />
       </a>
 
-      {location.pathname !== "/arma-tu-combo" && <MobileCartBar />}
+      {!ctaPropio && <MobileCartBar />}
       <PromoPeek />
       <Toast />
       <CartDrawer />
@@ -148,6 +154,9 @@ export const routes: RouteRecord[] = [
       { path: "tecnologia", element: <Coleccion linea="tecnologia" /> },
       { path: "vapes", element: <Coleccion linea="vapes" /> },
       { path: "arma-tu-combo", element: <ComboBuilder /> },
+      // Landing de pauta de un solo producto, fuera del catálogo: el comedero
+      // vive en Shopify y se cobra contra entrega. Ver src/data/comedero.ts.
+      { path: "comedero", element: <Comedero /> },
       { path: "favoritos", element: <Favorites /> },
       { path: "terminos", element: <Legal slug="terminos" /> },
       { path: "privacidad", element: <Legal slug="privacidad" /> },

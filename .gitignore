@@ -29,6 +29,11 @@ brand/astro/png/
 # Exports del proveedor (imágenes y CSV de origen)
 /*.zip
 
+# Fichas de producto: llevan costo de proveedor, nombre del proveedor y cuentas
+# de margen. Este repositorio es PÚBLICO, así que no entran. Si algún día se
+# quieren versionar, que sea en uno privado.
+/productos/
+
 # Material fuente de los lotes de imágenes (pesan y no se usan en el build)
 *.zip
 .artifact-movil/
