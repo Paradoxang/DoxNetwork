@@ -7,7 +7,9 @@ import { isPhysical } from "@/data/lineas";
  * Cesta → checkout de Shopify.
  *
  * Los productos físicos viven también en Shopify (los carga Mercurio con el
- * export de tools/inventario-shopify.mjs), y su checkout cobra contra entrega.
+ * export de tools/inventario-shopify.mjs), y su checkout cobra por Nequi o
+ * Llave Bre-B. El contra entrega es solo del comedero: una regla de Payfy lo
+ * quita en cuanto el carrito lleva algo del catálogo.
  * Shopify admite un enlace de carrito con varias líneas:
  *
  *   https://<tienda>/cart/<idVariante>:<cantidad>,<idVariante>:<cantidad>

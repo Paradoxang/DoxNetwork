@@ -9,6 +9,7 @@ import { EASE, lockScroll } from "@/lib/anim";
 import { Astro } from "@/components/Astro";
 import { ProductArt } from "@/components/ProductArt";
 import { isPhysical } from "@/data/lineas";
+import { productoComedero } from "@/data/comedero";
 import { shipping } from "@/data/perfumeria";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
@@ -51,6 +52,9 @@ export function CartDrawer() {
   }, [open, setOpen]);
 
   const hasQuote = cart.lines.some((l) => l.plan.price === 0);
+  // En Shopify el contra entrega es solo del comedero: si entra cualquier
+  // producto del catálogo, Payfy lo quita y quedan Nequi y Llave Bre-B.
+  const alRecibir = cart.lines.length > 0 && cart.lines.every((l) => l.slug === productoComedero.slug);
 
   return (
     <AnimatePresence>
@@ -193,7 +197,9 @@ export function CartDrawer() {
                   {hasQuote && <p className="text-xs text-faint">Los servicios a cotizar se confirman por WhatsApp.</p>}
                   {cart.checkoutVia === "shopify" ? (
                     <p className="flex items-start gap-2 text-xs text-faint">
-                      <Truck className="h-3.5 w-3.5 shrink-0" /> Pagas al recibir, sin tarjeta. El envío lo ves en el siguiente paso.
+                      <Truck className="h-3.5 w-3.5 shrink-0" />{" "}
+                      {alRecibir ? "Pagas al recibir, sin tarjeta." : "Pagas por Nequi o Llave Bre-B al finalizar la compra, sin tarjeta."} El
+                      envío lo ves en el siguiente paso.
                     </p>
                   ) : (
                     cart.lines.some((l) => isPhysical(l.product)) && (
@@ -202,13 +208,14 @@ export function CartDrawer() {
                       </p>
                     )
                   )}
-                  {/* Toda la cesta física y cargada en Shopify → su checkout, contra entrega.
+                  {/* Toda la cesta física y cargada en Shopify → su checkout (Nequi o Llave Bre-B;
+                      contra entrega solo si es únicamente el comedero).
                       Cualquier digital, agotado o sin mapa → WhatsApp, como siempre. */}
                   <a href={cart.checkoutUrl} target="_blank" rel="noopener noreferrer" className="btn btn-buy w-full">
                     {cart.checkoutVia === "shopify" ? (
                       <>
                         <ShoppingBag className="h-5 w-5" aria-hidden="true" />
-                        Pagar contra entrega
+                        Ir a pagar
                       </>
                     ) : (
                       <>
