@@ -1,5 +1,5 @@
 import { initials, isCombo, logoOf, productBySlug, type Plan, type Product } from "@/data/catalog";
-import { conditionInfo } from "@/data/lineas";
+import { conditionInfo, isPhysical } from "@/data/lineas";
 import { qualityInfo } from "@/data/perfumeria";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { SmartImage } from "@/components/SmartImage";
@@ -43,7 +43,7 @@ export function ProductArt({
   const big = size === "lg";
   const small = size === "sm";
   const logo = logoOf(product, plan);
-  const physical = Boolean(product.perfume || product.articulo);
+  const physical = isPhysical(product);
   const parts = isCombo(product)
     ? [...new Set(product.includes!.map((i) => i.slug))].map((s) => productBySlug(s)!).filter(Boolean)
     : [];

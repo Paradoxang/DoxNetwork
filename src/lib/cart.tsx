@@ -11,6 +11,7 @@ import {
 import { isCombo, planLabel, productBySlug, type Plan, type Product } from "@/data/catalog";
 import { isPhysical, isRestricted } from "@/data/lineas";
 import { comboTiers, formatCOP, site, waLink } from "@/data/site";
+import { productoComedero } from "@/data/comedero";
 import { enlaceCarritoShopify } from "@/lib/shopify";
 
 export interface CartLine {
@@ -93,7 +94,8 @@ const CartCtx = createContext<CartState | null>(null);
 function resolve(lines: CartLine[]): ResolvedLine[] {
   const out: ResolvedLine[] = [];
   for (const l of lines) {
-    const product = productBySlug(l.slug);
+    // El comedero no está en el catálogo: vive en Shopify y llega a la cesta desde su landing.
+    const product = productBySlug(l.slug) ?? (l.slug === productoComedero.slug ? productoComedero : undefined);
     const plan = product?.plans.find((p) => p.id === l.planId);
     // Productos o planes que ya no existen en el catálogo se descartan en silencio.
     if (!product || !plan) continue;

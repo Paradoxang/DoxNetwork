@@ -52,7 +52,9 @@ export type CategoryId =
   | "perfumeria"
   | "relojeria"
   | "tecnologia"
-  | "vapes";
+  | "vapes"
+  /** Un solo producto, contra entrega, que vive en Shopify (ver comedero.ts). */
+  | "mascotas";
 
 export interface Category {
   id: CategoryId;
@@ -131,6 +133,8 @@ export interface Product {
   articulo?: ArticuloInfo;
   /** Solo combos: descuento frente a la suma de sus partes (0.12 = 12%). */
   comboDiscount?: number;
+  /** Físico sin ficha de artículo ni perfume: se envía, no se entrega por chat. Lo usa el comedero. */
+  fisico?: true;
 }
 
 /** En los datos, un plan lleva `cost` o `price`; el que falte se calcula. */

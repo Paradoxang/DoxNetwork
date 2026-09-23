@@ -104,7 +104,7 @@ export const vapeWarning =
 export const isRestricted = (p: Product) => p.articulo?.line === "vapes";
 
 export const lineaOf = (p: Product): LineaId => (p.perfume ? "perfumeria" : p.articulo ? p.articulo.line : "digital");
-export const isPhysical = (p: Product) => Boolean(p.perfume || p.articulo);
+export const isPhysical = (p: Product) => Boolean(p.perfume || p.articulo || p.fisico);
 
 export const subLabel: Record<SubId, string> = {
   relojes: "Relojes",

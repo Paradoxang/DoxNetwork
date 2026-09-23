@@ -1,5 +1,6 @@
 import mapa from "../../docs/shopify-variantes.json";
 import type { Product } from "@/data/catalog";
+import { productoComedero, varianteComedero } from "@/data/comedero";
 import { isPhysical } from "@/data/lineas";
 
 /**
@@ -29,6 +30,7 @@ const productos = mapa.productos as Record<string, Entrada>;
 
 /** ID numérico de la variante en Shopify, o undefined si no está cargada. */
 export function varianteShopify(slug: string, planId: string): string | undefined {
+  if (slug === productoComedero.slug) return varianteComedero(planId);
   return productos[slug]?.variantes?.[planId];
 }
 

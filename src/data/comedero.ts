@@ -1,3 +1,5 @@
+import type { Product } from "./catalog";
+
 /**
  * Comedero por gravedad 3,2 L · datos de la landing /comedero.
  *
@@ -187,6 +189,67 @@ export const faqs = [
     q: "¿Cómo pago y cuándo llega?",
     a: "Pagas contra entrega, al mensajero, cuando lo tengas en la mano. Llega en 3 a 6 días hábiles según la ciudad. Antes te escribimos por WhatsApp para confirmar la dirección.",
   },
+];
+
+/**
+ * El comedero como producto de la cesta. No está en el catálogo (no sale en
+ * listados ni en el buscador), pero la cesta lo resuelve por este objeto: un
+ * plan por color, todos a $89.900. Como es `fisico` y sus variantes están
+ * mapeadas en shopify.ts, una cesta que lo lleve cierra en Shopify.
+ */
+export const productoComedero: Product = {
+  slug: "comedero-gravedad-3l",
+  name: "Comedero por gravedad · 3,2 L",
+  category: "mascotas",
+  tagline: "Para perros y gatos · contra entrega",
+  description: comedero.resumen,
+  hue: lineaMascotas.hue,
+  plans: colores.map((c) => ({ id: c.nombre.toLowerCase(), tier: c.nombre, duration: "", price: comedero.precio })),
+  features: ["Sin pilas ni enchufe", "Solo alimento seco", "Pagas al recibir"],
+  image: imagenes.portada,
+  fisico: true,
+};
+
+/** planId de la cesta ("gris") → ID de variante de Shopify. */
+export const varianteComedero = (planId: string) =>
+  colores.find((c) => c.nombre.toLowerCase() === planId)?.variante;
+
+/**
+ * Para quién sí y para quién no. Sale de los avisos, dicho en positivo y en
+ * negativo antes del botón: en contraentrega, el pedido que no encaja se
+ * devuelve, y la devolución cuesta dos fletes.
+ */
+export const paraQuien = [
+  {
+    si: true,
+    titulo: "Te sirve si…",
+    puntos: [
+      "Tu mascota come croqueta seca y se regula sola.",
+      "Trabajas todo el día o sales el fin de semana.",
+      "Quieres algo que no se dañe, sin pilas ni app.",
+      "Tienes un gato o un perro pequeño o mediano.",
+    ],
+  },
+  {
+    si: false,
+    titulo: "No te sirve si…",
+    puntos: [
+      "Necesitas raciones medidas u horarios (está a dieta o come sin parar).",
+      "Le das comida húmeda o mezclada.",
+      "Tu croqueta es muy grande: pregúntanos antes.",
+      "Buscas un dispensador con cámara, app o voz.",
+    ],
+  },
+];
+
+/** Gravedad frente a programable, sin vender humo: lo que este hace y lo que no. */
+export const comparativa = [
+  { que: "Cómo sale la comida", este: "Baja sola al comer", otro: "Motor con horario" },
+  { que: "Energía", este: "Ninguna", otro: "Pilas o enchufe" },
+  { que: "Se puede desprogramar", este: "No hay nada que programar", otro: "Sí, si se va la luz o falla la app" },
+  { que: "Raciones medidas", este: "No", otro: "Sí" },
+  { que: "Lavado", este: "Agua y jabón, sin cables", otro: "Con cuidado por la electrónica" },
+  { que: "Precio", este: "$89.900", otro: "Desde el triple" },
 ];
 
 /** El mensaje de la ficha, con el color ya puesto si lo eligió. */

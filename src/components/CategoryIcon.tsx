@@ -1,20 +1,5 @@
 import type { CSSProperties } from "react";
-import {
-  Clapperboard,
-  Gamepad2,
-  GraduationCap,
-  Headphones,
-  Layers,
-  MonitorPlay,
-  Music2,
-  Palette,
-  Sparkles,
-  SprayCan,
-  Ticket,
-  Watch,
-  Wind,
-  type LucideIcon,
-} from "lucide-react";
+import { Clapperboard, Gamepad2, GraduationCap, Headphones, Layers, MonitorPlay, Music2, Palette, Sparkles, SprayCan, Ticket, Watch, Wind, type LucideIcon, PawPrint } from "lucide-react";
 import type { CategoryId } from "@/data/catalog";
 import type { LineaId } from "@/data/lineas";
 
@@ -31,6 +16,7 @@ const icons: Record<CategoryId, LucideIcon> = {
   relojeria: Watch,
   tecnologia: Headphones,
   vapes: Wind,
+  mascotas: PawPrint,
 };
 
 const lineIcons: Record<LineaId, LucideIcon> = {
