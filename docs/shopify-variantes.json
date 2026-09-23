@@ -1,0 +1,3067 @@
+{
+  "generado": "2026-09-23T07:20:58-05:00",
+  "tienda": "yf61aj-nz.myshopify.com",
+  "fuente": "2-COMUN/taller/shopify/out/dox-ids.json (montar-dox.mjs) · regenerar con: node exportar-variantes-dox.mjs",
+  "nota": "Solo productos ACTIVE (los agotados están en DRAFT y no se pueden comprar: van por WhatsApp). Clave de variante 'u' = variante única.",
+  "productos": {
+    "perfume-afnan-9-pm-rebel": {
+      "productId": "10229027536930",
+      "handle": "dox-perfume-afnan-9-pm-rebel",
+      "variantes": {
+        "u": "50422974119970"
+      }
+    },
+    "perfume-ariana-grande-r-e-m": {
+      "productId": "10229027635234",
+      "handle": "dox-perfume-ariana-grande-r-e-m",
+      "variantes": {
+        "u": "50422974283810"
+      }
+    },
+    "perfume-ariana-grande-sweet-like-candy": {
+      "productId": "10229027668002",
+      "handle": "dox-perfume-ariana-grande-sweet-like-candy",
+      "variantes": {
+        "u": "50422974316578"
+      }
+    },
+    "perfume-ariana-grande-thank-u-next": {
+      "productId": "10229027700770",
+      "handle": "dox-perfume-ariana-grande-thank-u-next",
+      "variantes": {
+        "u": "50422974349346"
+      }
+    },
+    "perfume-armaf-caballo": {
+      "productId": "10229027766306",
+      "handle": "dox-perfume-armaf-caballo",
+      "variantes": {
+        "u": "50422974447650"
+      }
+    },
+    "perfume-armaf-club-de-nuit-intense-man": {
+      "productId": "10229027799074",
+      "handle": "dox-perfume-armaf-club-de-nuit-intense-man",
+      "variantes": {
+        "u": "50422974480418"
+      }
+    },
+    "perfume-armaf-club-de-nuit-sillage": {
+      "productId": "10229027831842",
+      "handle": "dox-perfume-armaf-club-de-nuit-sillage",
+      "variantes": {
+        "u": "50422974513186"
+      }
+    },
+    "perfume-armaf-island-bliss": {
+      "productId": "10229027897378",
+      "handle": "dox-perfume-armaf-island-bliss",
+      "variantes": {
+        "u": "50422974578722"
+      }
+    },
+    "perfume-armaf-island-breeze": {
+      "productId": "10229027930146",
+      "handle": "dox-perfume-armaf-island-breeze",
+      "variantes": {
+        "u": "50422974611490"
+      }
+    },
+    "perfume-armaf-odyssey-candee": {
+      "productId": "10229027995682",
+      "handle": "dox-perfume-armaf-odyssey-candee",
+      "variantes": {
+        "u": "50422974644258"
+      }
+    },
+    "perfume-armaf-odyssey-dubai-chocolat": {
+      "productId": "10229028159522",
+      "handle": "dox-perfume-armaf-odyssey-dubai-chocolat",
+      "variantes": {
+        "u": "50422984933410"
+      }
+    },
+    "perfume-armaf-odyssey-li-chi-lush": {
+      "productId": "10229028225058",
+      "handle": "dox-perfume-armaf-odyssey-li-chi-lush",
+      "variantes": {
+        "u": "50422985064482"
+      }
+    },
+    "perfume-armaf-odyssey-mandarin-sky": {
+      "productId": "10229028290594",
+      "handle": "dox-perfume-armaf-odyssey-mandarin-sky",
+      "variantes": {
+        "u": "50422985130018"
+      }
+    },
+    "perfume-armaf-odyssey-mandarin-sky-elixir": {
+      "productId": "10229028257826",
+      "handle": "dox-perfume-armaf-odyssey-mandarin-sky-elixir",
+      "variantes": {
+        "u": "50422985097250"
+      }
+    },
+    "perfume-armaf-odyssey-mega": {
+      "productId": "10229028356130",
+      "handle": "dox-perfume-armaf-odyssey-mega",
+      "variantes": {
+        "u": "50422985195554"
+      }
+    },
+    "perfume-armaf-odyssey-pink-pop": {
+      "productId": "10229028388898",
+      "handle": "dox-perfume-armaf-odyssey-pink-pop",
+      "variantes": {
+        "u": "50422985228322"
+      }
+    },
+    "perfume-armaf-odyssey-tyrant": {
+      "productId": "10229028421666",
+      "handle": "dox-perfume-armaf-odyssey-tyrant",
+      "variantes": {
+        "u": "50422985261090"
+      }
+    },
+    "perfume-armaf-yum-yum": {
+      "productId": "10229028487202",
+      "handle": "dox-perfume-armaf-yum-yum",
+      "variantes": {
+        "u": "50422985359394"
+      }
+    },
+    "perfume-bharara-niche-femme": {
+      "productId": "10229028519970",
+      "handle": "dox-perfume-bharara-niche-femme",
+      "variantes": {
+        "u": "50422985392162"
+      }
+    },
+    "perfume-bharara-rose": {
+      "productId": "10229028585506",
+      "handle": "dox-perfume-bharara-rose",
+      "variantes": {
+        "u": "50422985457698"
+      }
+    },
+    "perfume-bharara-viking-dubai": {
+      "productId": "10229028716578",
+      "handle": "dox-perfume-bharara-viking-dubai",
+      "variantes": {
+        "u": "50422985588770"
+      }
+    },
+    "perfume-bleu-de-chanel": {
+      "productId": "10229028782114",
+      "handle": "dox-perfume-bleu-de-chanel",
+      "variantes": {
+        "u": "50422985654306"
+      }
+    },
+    "perfume-bvlgari-man-in-black": {
+      "productId": "10229028814882",
+      "handle": "dox-perfume-bvlgari-man-in-black",
+      "variantes": {
+        "u": "50422985687074"
+      }
+    },
+    "perfume-bvlgari-omnia-amethyste": {
+      "productId": "10229028847650",
+      "handle": "dox-perfume-bvlgari-omnia-amethyste",
+      "variantes": {
+        "u": "50422985719842"
+      }
+    },
+    "perfume-bvlgari-omnia-coral": {
+      "productId": "10229028913186",
+      "handle": "dox-perfume-bvlgari-omnia-coral",
+      "variantes": {
+        "u": "50422985785378"
+      }
+    },
+    "perfume-bvlgari-omnia-crystalline": {
+      "productId": "10229028945954",
+      "handle": "dox-perfume-bvlgari-omnia-crystalline",
+      "variantes": {
+        "u": "50422985818146"
+      }
+    },
+    "perfume-cacharel-amor-amor": {
+      "productId": "10229028978722",
+      "handle": "dox-perfume-cacharel-amor-amor",
+      "variantes": {
+        "u": "50422985850914"
+      }
+    },
+    "perfume-calvin-klein-ck-one": {
+      "productId": "10229029044258",
+      "handle": "dox-perfume-calvin-klein-ck-one",
+      "variantes": {
+        "u": "50422988079138"
+      }
+    },
+    "perfume-carolina-herrera-212-men-aqua": {
+      "productId": "10229029077026",
+      "handle": "dox-perfume-carolina-herrera-212-men-aqua",
+      "variantes": {
+        "u": "50422988111906"
+      }
+    },
+    "perfume-carolina-herrera-212-sexy-men": {
+      "productId": "10229029142562",
+      "handle": "dox-perfume-carolina-herrera-212-sexy-men",
+      "variantes": {
+        "u": "50422988210210"
+      }
+    },
+    "perfume-carolina-herrera-212-vip-black": {
+      "productId": "10229029994530",
+      "handle": "dox-perfume-carolina-herrera-212-vip-black",
+      "variantes": {
+        "u": "50422990209058"
+      }
+    },
+    "perfume-carolina-herrera-212-vip-rose": {
+      "productId": "10229030060066",
+      "handle": "dox-perfume-carolina-herrera-212-vip-rose",
+      "variantes": {
+        "u": "50422990241826"
+      }
+    },
+    "perfume-carolina-herrera-bad-boy": {
+      "productId": "10229030125602",
+      "handle": "dox-perfume-carolina-herrera-bad-boy",
+      "variantes": {
+        "u": "50422990307362"
+      }
+    },
+    "perfume-carolina-herrera-ch-eau-de-toilette": {
+      "productId": "10229030158370",
+      "handle": "dox-perfume-carolina-herrera-ch-eau-de-toilette",
+      "variantes": {
+        "u": "50423000367138"
+      }
+    },
+    "perfume-carolina-herrera-ch-men": {
+      "productId": "10229030223906",
+      "handle": "dox-perfume-carolina-herrera-ch-men",
+      "variantes": {
+        "u": "50423000465442"
+      }
+    },
+    "perfume-carolina-herrera-good-girl": {
+      "productId": "10229030289442",
+      "handle": "dox-perfume-carolina-herrera-good-girl",
+      "variantes": {
+        "u": "50423000530978"
+      }
+    },
+    "perfume-carolina-herrera-good-girl-blush": {
+      "productId": "10229030256674",
+      "handle": "dox-perfume-carolina-herrera-good-girl-blush",
+      "variantes": {
+        "u": "50423000498210"
+      }
+    },
+    "perfume-carolina-herrera-la-bomba": {
+      "productId": "10229030354978",
+      "handle": "dox-perfume-carolina-herrera-la-bomba",
+      "variantes": {
+        "u": "50423000596514"
+      }
+    },
+    "perfume-carolina-herrera-very-good-girl": {
+      "productId": "10229030387746",
+      "handle": "dox-perfume-carolina-herrera-very-good-girl",
+      "variantes": {
+        "u": "50423000629282"
+      }
+    },
+    "perfume-chanel-chance": {
+      "productId": "10229030453282",
+      "handle": "dox-perfume-chanel-chance",
+      "variantes": {
+        "u": "50423000694818"
+      }
+    },
+    "perfume-chanel-coco-mademoiselle": {
+      "productId": "10229030584354",
+      "handle": "dox-perfume-chanel-coco-mademoiselle",
+      "variantes": {
+        "u": "50423000825890"
+      }
+    },
+    "perfume-creed-silver-mountain-water": {
+      "productId": "10229030649890",
+      "handle": "dox-perfume-creed-silver-mountain-water",
+      "variantes": {
+        "u": "50423000891426"
+      }
+    },
+    "perfume-diesel-plus-plus-feminine": {
+      "productId": "10229030682658",
+      "handle": "dox-perfume-diesel-plus-plus-feminine",
+      "variantes": {
+        "u": "50423000924194"
+      }
+    },
+    "perfume-dior-fahrenheit": {
+      "productId": "10229030748194",
+      "handle": "dox-perfume-dior-fahrenheit",
+      "variantes": {
+        "u": "50423000989730"
+      }
+    },
+    "perfume-dior-sauvage": {
+      "productId": "10229030780962",
+      "handle": "dox-perfume-dior-sauvage",
+      "variantes": {
+        "u": "50423001022498"
+      }
+    },
+    "perfume-dolce-gabbana-devotion": {
+      "productId": "10229030846498",
+      "handle": "dox-perfume-dolce-gabbana-devotion",
+      "variantes": {
+        "u": "50423001055266"
+      }
+    },
+    "perfume-dolce-gabbana-k": {
+      "productId": "10229030879266",
+      "handle": "dox-perfume-dolce-gabbana-k",
+      "variantes": {
+        "u": "50423001120802"
+      }
+    },
+    "perfume-dolce-gabbana-light-blue-pour-homme": {
+      "productId": "10229030912034",
+      "handle": "dox-perfume-dolce-gabbana-light-blue-pour-homme",
+      "variantes": {
+        "u": "50423001153570"
+      }
+    },
+    "perfume-dolce-gabbana-the-one": {
+      "productId": "10229031010338",
+      "handle": "dox-perfume-dolce-gabbana-the-one",
+      "variantes": {
+        "u": "50423001251874"
+      }
+    },
+    "perfume-dolce-gabbana-the-one-for-men": {
+      "productId": "10229030977570",
+      "handle": "dox-perfume-dolce-gabbana-the-one-for-men",
+      "variantes": {
+        "u": "50423001186338"
+      }
+    },
+    "perfume-dumont-nitro-red": {
+      "productId": "10229031206946",
+      "handle": "dox-perfume-dumont-nitro-red",
+      "variantes": {
+        "u": "50423003545634"
+      }
+    },
+    "perfume-emporio-armani-stronger-with-you": {
+      "productId": "10229031239714",
+      "handle": "dox-perfume-emporio-armani-stronger-with-you",
+      "variantes": {
+        "u": "50423003578402"
+      }
+    },
+    "perfume-french-avenue-vulcan-feu": {
+      "productId": "10229031305250",
+      "handle": "dox-perfume-french-avenue-vulcan-feu",
+      "variantes": {
+        "u": "50423003643938"
+      }
+    },
+    "perfume-gilles-cantuel-arsenal": {
+      "productId": "10229031403554",
+      "handle": "dox-perfume-gilles-cantuel-arsenal",
+      "variantes": {
+        "u": "50423003742242"
+      }
+    },
+    "perfume-gilles-cantuel-arsenal-black": {
+      "productId": "10229031338018",
+      "handle": "dox-perfume-gilles-cantuel-arsenal-black",
+      "variantes": {
+        "u": "50423003676706"
+      }
+    },
+    "perfume-giorgio-armani-acqua-di-gio-profondo": {
+      "productId": "10229031436322",
+      "handle": "dox-perfume-giorgio-armani-acqua-di-gio-profondo",
+      "variantes": {
+        "u": "50423003775010"
+      }
+    },
+    "perfume-giorgio-armani-acqua-di-gio-profumo": {
+      "productId": "10229031469090",
+      "handle": "dox-perfume-giorgio-armani-acqua-di-gio-profumo",
+      "variantes": {
+        "u": "50423003807778"
+      }
+    },
+    "perfume-giorgio-armani-armani-code": {
+      "productId": "10229031534626",
+      "handle": "dox-perfume-giorgio-armani-armani-code",
+      "variantes": {
+        "u": "50423003873314"
+      }
+    },
+    "perfume-givenchy-blue-label": {
+      "productId": "10229031567394",
+      "handle": "dox-perfume-givenchy-blue-label",
+      "variantes": {
+        "u": "50423003906082"
+      }
+    },
+    "perfume-hugo-boss-bottled": {
+      "productId": "10229031829538",
+      "handle": "dox-perfume-hugo-boss-bottled",
+      "variantes": {
+        "u": "50423004200994"
+      }
+    },
+    "perfume-hugo-boss-bottled-night": {
+      "productId": "10229031600162",
+      "handle": "dox-perfume-hugo-boss-bottled-night",
+      "variantes": {
+        "u": "50423003938850"
+      }
+    },
+    "perfume-hugo-boss-bottled-unlimited-aaa": {
+      "productId": "10229031796770",
+      "handle": "dox-perfume-hugo-boss-bottled-unlimited-aaa",
+      "variantes": {
+        "u": "50423004168226"
+      }
+    },
+    "perfume-hugo-boss-hugo-red": {
+      "productId": "10229031895074",
+      "handle": "dox-perfume-hugo-boss-hugo-red",
+      "variantes": {
+        "u": "50423004266530"
+      }
+    },
+    "perfume-hugo-boss-in-motion": {
+      "productId": "10229031927842",
+      "handle": "dox-perfume-hugo-boss-in-motion",
+      "variantes": {
+        "u": "50423004299298"
+      }
+    },
+    "perfume-hugo-boss-orange-man": {
+      "productId": "10229031960610",
+      "handle": "dox-perfume-hugo-boss-orange-man",
+      "variantes": {
+        "u": "50423004332066"
+      }
+    },
+    "perfume-hugo-boss-the-scent-for-her": {
+      "productId": "10229032026146",
+      "handle": "dox-perfume-hugo-boss-the-scent-for-her",
+      "variantes": {
+        "u": "50423004495906"
+      }
+    },
+    "perfume-issey-miyake-l-eau-d-issey": {
+      "productId": "10229032091682",
+      "handle": "dox-perfume-issey-miyake-l-eau-d-issey",
+      "variantes": {
+        "u": "50423004561442"
+      }
+    },
+    "perfume-issey-miyake-l-eau-d-issey-pour-homme": {
+      "productId": "10229032058914",
+      "handle": "dox-perfume-issey-miyake-l-eau-d-issey-pour-homme",
+      "variantes": {
+        "u": "50423004528674"
+      }
+    },
+    "perfume-jean-paul-gaultier-le-beau-paradise-garden": {
+      "productId": "10229032124450",
+      "handle": "dox-perfume-jean-paul-gaultier-le-beau-paradise-garden",
+      "variantes": {
+        "u": "50423004594210"
+      }
+    },
+    "perfume-jean-paul-gaultier-le-male-aaa": {
+      "productId": "10229032189986",
+      "handle": "dox-perfume-jean-paul-gaultier-le-male-aaa",
+      "variantes": {
+        "u": "50423004692514"
+      }
+    },
+    "perfume-jean-paul-gaultier-le-male-elixir": {
+      "productId": "10229032321058",
+      "handle": "dox-perfume-jean-paul-gaultier-le-male-elixir",
+      "variantes": {
+        "u": "50423005085730"
+      }
+    },
+    "perfume-jean-paul-gaultier-le-male-le-parfum": {
+      "productId": "10229032353826",
+      "handle": "dox-perfume-jean-paul-gaultier-le-male-le-parfum",
+      "variantes": {
+        "u": "50423005118498"
+      }
+    },
+    "perfume-jean-paul-gaultier-scandal-pour-homme": {
+      "productId": "10229032419362",
+      "handle": "dox-perfume-jean-paul-gaultier-scandal-pour-homme",
+      "variantes": {
+        "u": "50423005249570"
+      }
+    },
+    "perfume-katy-perry-meow": {
+      "productId": "10229032452130",
+      "handle": "dox-perfume-katy-perry-meow",
+      "variantes": {
+        "u": "50423005282338"
+      }
+    },
+    "perfume-kit-de-lujo-valentino-x3-50-ml": {
+      "productId": "10229032484898",
+      "handle": "dox-perfume-kit-de-lujo-valentino-x3-50-ml",
+      "variantes": {
+        "u": "50423005315106"
+      }
+    },
+    "perfume-kit-emprendedor-x6-30-ml": {
+      "productId": "10229032550434",
+      "handle": "dox-perfume-kit-emprendedor-x6-30-ml",
+      "variantes": {
+        "u": "50423005380642"
+      }
+    },
+    "perfume-lacoste-essential": {
+      "productId": "10229032583202",
+      "handle": "dox-perfume-lacoste-essential",
+      "variantes": {
+        "u": "50423005413410"
+      }
+    },
+    "perfume-lacoste-l-12-12-blanc": {
+      "productId": "10229032648738",
+      "handle": "dox-perfume-lacoste-l-12-12-blanc",
+      "variantes": {
+        "u": "50423005446178"
+      }
+    },
+    "perfume-lacoste-l-12-12-noir": {
+      "productId": "10229032714274",
+      "handle": "dox-perfume-lacoste-l-12-12-noir",
+      "variantes": {
+        "u": "50423006199842"
+      }
+    },
+    "perfume-lacoste-l-12-12-pour-elle-elegant-aaa": {
+      "productId": "10229032747042",
+      "handle": "dox-perfume-lacoste-l-12-12-pour-elle-elegant-aaa",
+      "variantes": {
+        "u": "50423006232610"
+      }
+    },
+    "perfume-lacoste-l-12-12-pour-elle-natural-aaa": {
+      "productId": "10229032878114",
+      "handle": "dox-perfume-lacoste-l-12-12-pour-elle-natural-aaa",
+      "variantes": {
+        "u": "50423006429218"
+      }
+    },
+    "perfume-lacoste-red-aaa": {
+      "productId": "10229032943650",
+      "handle": "dox-perfume-lacoste-red-aaa",
+      "variantes": {
+        "u": "50423006527522"
+      }
+    },
+    "perfume-lancome-la-vie-est-belle": {
+      "productId": "10229032976418",
+      "handle": "dox-perfume-lancome-la-vie-est-belle",
+      "variantes": {
+        "u": "50423006560290"
+      }
+    },
+    "perfume-lattafa-art-of-universe": {
+      "productId": "10229033041954",
+      "handle": "dox-perfume-lattafa-art-of-universe",
+      "variantes": {
+        "u": "50423006658594"
+      }
+    },
+    "perfume-lattafa-asad-bourbon": {
+      "productId": "10229033074722",
+      "handle": "dox-perfume-lattafa-asad-bourbon",
+      "variantes": {
+        "u": "50423006691362"
+      }
+    },
+    "perfume-lattafa-asad-elixir": {
+      "productId": "10229033107490",
+      "handle": "dox-perfume-lattafa-asad-elixir",
+      "variantes": {
+        "u": "50423006724130"
+      }
+    },
+    "perfume-lattafa-asad-zanzibar": {
+      "productId": "10229033173026",
+      "handle": "dox-perfume-lattafa-asad-zanzibar",
+      "variantes": {
+        "u": "50423006855202"
+      }
+    },
+    "perfume-lattafa-atheeri": {
+      "productId": "10229033205794",
+      "handle": "dox-perfume-lattafa-atheeri",
+      "variantes": {
+        "u": "50423006887970"
+      }
+    },
+    "perfume-lattafa-bade-e-al-oud-amethyst": {
+      "productId": "10229033238562",
+      "handle": "dox-perfume-lattafa-bade-e-al-oud-amethyst",
+      "variantes": {
+        "u": "50423006920738"
+      }
+    },
+    "perfume-lattafa-bade-e-al-oud-for-glory": {
+      "productId": "10229033304098",
+      "handle": "dox-perfume-lattafa-bade-e-al-oud-for-glory",
+      "variantes": {
+        "u": "50423007019042"
+      }
+    },
+    "perfume-lattafa-bade-e-al-oud-sublime": {
+      "productId": "10229033467938",
+      "handle": "dox-perfume-lattafa-bade-e-al-oud-sublime",
+      "variantes": {
+        "u": "50423007215650"
+      }
+    },
+    "perfume-lattafa-choco-overdose": {
+      "productId": "10229033500706",
+      "handle": "dox-perfume-lattafa-choco-overdose",
+      "variantes": {
+        "u": "50423007248418"
+      }
+    },
+    "perfume-lattafa-emeer": {
+      "productId": "10229033566242",
+      "handle": "dox-perfume-lattafa-emeer",
+      "variantes": {
+        "u": "50423007346722"
+      }
+    },
+    "perfume-lattafa-her-confession": {
+      "productId": "10229033599010",
+      "handle": "dox-perfume-lattafa-her-confession",
+      "variantes": {
+        "u": "50423007379490"
+      }
+    },
+    "perfume-lattafa-his-confession": {
+      "productId": "10229033631778",
+      "handle": "dox-perfume-lattafa-his-confession",
+      "variantes": {
+        "u": "50423007412258"
+      }
+    },
+    "perfume-lattafa-khamrah": {
+      "productId": "10229033795618",
+      "handle": "dox-perfume-lattafa-khamrah",
+      "variantes": {
+        "u": "50423007674402"
+      }
+    },
+    "perfume-lattafa-khamrah-dukhan": {
+      "productId": "10229033697314",
+      "handle": "dox-perfume-lattafa-khamrah-dukhan",
+      "variantes": {
+        "u": "50423007445026"
+      }
+    },
+    "perfume-lattafa-khamrah-qahwa": {
+      "productId": "10229033730082",
+      "handle": "dox-perfume-lattafa-khamrah-qahwa",
+      "variantes": {
+        "u": "50423007608866"
+      }
+    },
+    "perfume-lattafa-khamrah-waha": {
+      "productId": "10229033762850",
+      "handle": "dox-perfume-lattafa-khamrah-waha",
+      "variantes": {
+        "u": "50423007641634"
+      }
+    },
+    "perfume-lattafa-mallow-madness": {
+      "productId": "10229033861154",
+      "handle": "dox-perfume-lattafa-mallow-madness",
+      "variantes": {
+        "u": "50423007903778"
+      }
+    },
+    "perfume-lattafa-mayar": {
+      "productId": "10229034188834",
+      "handle": "dox-perfume-lattafa-mayar",
+      "variantes": {
+        "u": "50423018651682"
+      }
+    },
+    "perfume-lattafa-mayar-cherry-intense": {
+      "productId": "10229034090530",
+      "handle": "dox-perfume-lattafa-mayar-cherry-intense",
+      "variantes": {
+        "u": "50423018520610"
+      }
+    },
+    "perfume-lattafa-mayar-natural-intense": {
+      "productId": "10229034123298",
+      "handle": "dox-perfume-lattafa-mayar-natural-intense",
+      "variantes": {
+        "u": "50423018553378"
+      }
+    },
+    "perfume-lattafa-musamam-white": {
+      "productId": "10229034221602",
+      "handle": "dox-perfume-lattafa-musamam-white",
+      "variantes": {
+        "u": "50423018684450"
+      }
+    },
+    "perfume-lattafa-noble-blush": {
+      "productId": "10229034254370",
+      "handle": "dox-perfume-lattafa-noble-blush",
+      "variantes": {
+        "u": "50423018717218"
+      }
+    },
+    "perfume-lattafa-shaheen-gold": {
+      "productId": "10229034319906",
+      "handle": "dox-perfume-lattafa-shaheen-gold",
+      "variantes": {
+        "u": "50423018815522"
+      }
+    },
+    "perfume-lattafa-yara": {
+      "productId": "10229034516514",
+      "handle": "dox-perfume-lattafa-yara",
+      "variantes": {
+        "u": "50423021109282"
+      }
+    },
+    "perfume-lattafa-yara-candy": {
+      "productId": "10229034385442",
+      "handle": "dox-perfume-lattafa-yara-candy",
+      "variantes": {
+        "u": "50423018881058"
+      }
+    },
+    "perfume-lattafa-yara-moi": {
+      "productId": "10229034418210",
+      "handle": "dox-perfume-lattafa-yara-moi",
+      "variantes": {
+        "u": "50423018913826"
+      }
+    },
+    "perfume-lattafa-yara-tous": {
+      "productId": "10229034450978",
+      "handle": "dox-perfume-lattafa-yara-tous",
+      "variantes": {
+        "u": "50423018946594"
+      }
+    },
+    "perfume-le-labo-santal-33": {
+      "productId": "10229034647586",
+      "handle": "dox-perfume-le-labo-santal-33",
+      "variantes": {
+        "u": "50423021436962"
+      }
+    },
+    "perfume-lorenzo-pazzaglia-summer-hammer": {
+      "productId": "10229034713122",
+      "handle": "dox-perfume-lorenzo-pazzaglia-summer-hammer",
+      "variantes": {
+        "u": "50423021633570"
+      }
+    },
+    "perfume-louis-vuitton-ombre-nomade": {
+      "productId": "10229034745890",
+      "handle": "dox-perfume-louis-vuitton-ombre-nomade",
+      "variantes": {
+        "u": "50423021666338"
+      }
+    },
+    "perfume-maison-francis-kurkdjian-baccarat-rouge-540": {
+      "productId": "10229034778658",
+      "handle": "dox-perfume-maison-francis-kurkdjian-baccarat-rouge-540",
+      "variantes": {
+        "u": "50423021699106"
+      }
+    },
+    "perfume-marshmallow-blush": {
+      "productId": "10229034844194",
+      "handle": "dox-perfume-marshmallow-blush",
+      "variantes": {
+        "u": "50423021764642"
+      }
+    },
+    "perfume-mercedes-benz-woman-intense": {
+      "productId": "10229034876962",
+      "handle": "dox-perfume-mercedes-benz-woman-intense",
+      "variantes": {
+        "u": "50423021797410"
+      }
+    },
+    "perfume-montale-arabians-tonka": {
+      "productId": "10229034909730",
+      "handle": "dox-perfume-montale-arabians-tonka",
+      "variantes": {
+        "u": "50423021830178"
+      }
+    },
+    "perfume-montblanc-starwalker": {
+      "productId": "10229034975266",
+      "handle": "dox-perfume-montblanc-starwalker",
+      "variantes": {
+        "u": "50423021928482"
+      }
+    },
+    "perfume-moschino-fresh-couture": {
+      "productId": "10229035008034",
+      "handle": "dox-perfume-moschino-fresh-couture",
+      "variantes": {
+        "u": "50423021961250"
+      }
+    },
+    "perfume-moschino-toy-2": {
+      "productId": "10229035237410",
+      "handle": "dox-perfume-moschino-toy-2",
+      "variantes": {
+        "u": "50423022256162"
+      }
+    },
+    "perfume-moschino-toy-2-bubble-gum": {
+      "productId": "10229035040802",
+      "handle": "dox-perfume-moschino-toy-2-bubble-gum",
+      "variantes": {
+        "u": "50423021994018"
+      }
+    },
+    "perfume-moschino-toy-2-pearl": {
+      "productId": "10229035204642",
+      "handle": "dox-perfume-moschino-toy-2-pearl",
+      "variantes": {
+        "u": "50423022223394"
+      }
+    },
+    "perfume-moschino-toy-boy": {
+      "productId": "10229026258978",
+      "handle": "dox-perfume-moschino-toy-boy",
+      "variantes": {
+        "u": "50422961766434"
+      }
+    },
+    "perfume-orientica-amber-noir": {
+      "productId": "10229035302946",
+      "handle": "dox-perfume-orientica-amber-noir",
+      "variantes": {
+        "u": "50423022288930"
+      }
+    },
+    "perfume-orientica-amber-rouge": {
+      "productId": "10229035335714",
+      "handle": "dox-perfume-orientica-amber-rouge",
+      "variantes": {
+        "u": "50423022354466"
+      }
+    },
+    "perfume-orientica-dania": {
+      "productId": "10229035368482",
+      "handle": "dox-perfume-orientica-dania",
+      "variantes": {
+        "u": "50423022387234"
+      }
+    },
+    "perfume-paco-rabanne-1-million": {
+      "productId": "10229035499554",
+      "handle": "dox-perfume-paco-rabanne-1-million",
+      "variantes": {
+        "u": "50423022518306"
+      }
+    },
+    "perfume-paco-rabanne-1-million-lucky": {
+      "productId": "10229035401250",
+      "handle": "dox-perfume-paco-rabanne-1-million-lucky",
+      "variantes": {
+        "u": "50423022420002"
+      }
+    },
+    "perfume-paco-rabanne-1-million-royal": {
+      "productId": "10229035466786",
+      "handle": "dox-perfume-paco-rabanne-1-million-royal",
+      "variantes": {
+        "u": "50423022452770"
+      }
+    },
+    "perfume-paco-rabanne-black-xs-l-aphrodisiaque": {
+      "productId": "10229035565090",
+      "handle": "dox-perfume-paco-rabanne-black-xs-l-aphrodisiaque",
+      "variantes": {
+        "u": "50423022583842"
+      }
+    },
+    "perfume-paco-rabanne-fame": {
+      "productId": "10229035663394",
+      "handle": "dox-perfume-paco-rabanne-fame",
+      "variantes": {
+        "u": "50423022682146"
+      }
+    },
+    "perfume-paco-rabanne-invictus": {
+      "productId": "10229035794466",
+      "handle": "dox-perfume-paco-rabanne-invictus",
+      "variantes": {
+        "u": "50423022813218"
+      }
+    },
+    "perfume-paco-rabanne-invictus-onyx": {
+      "productId": "10229035728930",
+      "handle": "dox-perfume-paco-rabanne-invictus-onyx",
+      "variantes": {
+        "u": "50423022747682"
+      }
+    },
+    "perfume-paco-rabanne-invictus-victory-elixir": {
+      "productId": "10229035761698",
+      "handle": "dox-perfume-paco-rabanne-invictus-victory-elixir",
+      "variantes": {
+        "u": "50423022780450"
+      }
+    },
+    "perfume-paco-rabanne-olympea": {
+      "productId": "10229035860002",
+      "handle": "dox-perfume-paco-rabanne-olympea",
+      "variantes": {
+        "u": "50423022911522"
+      }
+    },
+    "perfume-paco-rabanne-phantom": {
+      "productId": "10229035892770",
+      "handle": "dox-perfume-paco-rabanne-phantom",
+      "variantes": {
+        "u": "50423022944290"
+      }
+    },
+    "perfume-parfums-de-marly-delina": {
+      "productId": "10229035925538",
+      "handle": "dox-perfume-parfums-de-marly-delina",
+      "variantes": {
+        "u": "50423022977058"
+      }
+    },
+    "perfume-parfums-de-marly-layton": {
+      "productId": "10229035958306",
+      "handle": "dox-perfume-parfums-de-marly-layton",
+      "variantes": {
+        "u": "50423023009826"
+      }
+    },
+    "perfume-paris-hilton": {
+      "productId": "10229036220450",
+      "handle": "dox-perfume-paris-hilton",
+      "variantes": {
+        "u": "50423024222242"
+      }
+    },
+    "perfume-paris-hilton-can-can": {
+      "productId": "10229036023842",
+      "handle": "dox-perfume-paris-hilton-can-can",
+      "variantes": {
+        "u": "50423023140898"
+      }
+    },
+    "perfume-paris-hilton-for-men": {
+      "productId": "10229036089378",
+      "handle": "dox-perfume-paris-hilton-for-men",
+      "variantes": {
+        "u": "50423023829026"
+      }
+    },
+    "perfume-perry-ellis-360-coral": {
+      "productId": "10229036253218",
+      "handle": "dox-perfume-perry-ellis-360-coral",
+      "variantes": {
+        "u": "50423024255010"
+      }
+    },
+    "perfume-perry-ellis-360-for-men": {
+      "productId": "10229036285986",
+      "handle": "dox-perfume-perry-ellis-360-for-men",
+      "variantes": {
+        "u": "50423024287778"
+      }
+    },
+    "perfume-perry-ellis-360-for-women": {
+      "productId": "10229036318754",
+      "handle": "dox-perfume-perry-ellis-360-for-women",
+      "variantes": {
+        "u": "50423024320546"
+      }
+    },
+    "perfume-pisa": {
+      "productId": "10229036384290",
+      "handle": "dox-perfume-pisa",
+      "variantes": {
+        "u": "50423024386082"
+      }
+    },
+    "perfume-ralph-lauren-polo-black": {
+      "productId": "10229036417058",
+      "handle": "dox-perfume-ralph-lauren-polo-black",
+      "variantes": {
+        "u": "50423024418850"
+      }
+    },
+    "perfume-ralph-lauren-polo-blue": {
+      "productId": "10229036449826",
+      "handle": "dox-perfume-ralph-lauren-polo-blue",
+      "variantes": {
+        "u": "50423024451618"
+      }
+    },
+    "perfume-ralph-lauren-polo-red": {
+      "productId": "10229036515362",
+      "handle": "dox-perfume-ralph-lauren-polo-red",
+      "variantes": {
+        "u": "50423024484386"
+      }
+    },
+    "perfume-ralph-lauren-ralph": {
+      "productId": "10229036580898",
+      "handle": "dox-perfume-ralph-lauren-ralph",
+      "variantes": {
+        "u": "50423024582690"
+      }
+    },
+    "perfume-rave-now-women": {
+      "productId": "10229036613666",
+      "handle": "dox-perfume-rave-now-women",
+      "variantes": {
+        "u": "50423024615458"
+      }
+    },
+    "perfume-set-ariana-grande-x3": {
+      "productId": "10229036777506",
+      "handle": "dox-perfume-set-ariana-grande-x3",
+      "variantes": {
+        "u": "50423024975906"
+      }
+    },
+    "perfume-set-armaf-yum-yum-x3-50-ml": {
+      "productId": "10229036810274",
+      "handle": "dox-perfume-set-armaf-yum-yum-x3-50-ml",
+      "variantes": {
+        "u": "50423025008674"
+      }
+    },
+    "perfume-set-dior-sauvage-miniaturas-x3": {
+      "productId": "10229036875810",
+      "handle": "dox-perfume-set-dior-sauvage-miniaturas-x3",
+      "variantes": {
+        "u": "50423025139746"
+      }
+    },
+    "perfume-set-lacoste-l-12-12-x3": {
+      "productId": "10229036941346",
+      "handle": "dox-perfume-set-lacoste-l-12-12-x3",
+      "variantes": {
+        "u": "50423025270818"
+      }
+    },
+    "perfume-set-lattafa-give-me-gourmand-x3-30-ml": {
+      "productId": "10229036974114",
+      "handle": "dox-perfume-set-lattafa-give-me-gourmand-x3-30-ml",
+      "variantes": {
+        "u": "50423025303586"
+      }
+    },
+    "perfume-set-lattafa-khamrah-x3": {
+      "productId": "10229037006882",
+      "handle": "dox-perfume-set-lattafa-khamrah-x3",
+      "variantes": {
+        "u": "50423025336354"
+      }
+    },
+    "perfume-set-lattafa-yara-x4": {
+      "productId": "10229037072418",
+      "handle": "dox-perfume-set-lattafa-yara-x4",
+      "variantes": {
+        "u": "50423025434658"
+      }
+    },
+    "perfume-set-moschino-toy-2-x3-30-ml": {
+      "productId": "10229037105186",
+      "handle": "dox-perfume-set-moschino-toy-2-x3-30-ml",
+      "variantes": {
+        "u": "50423025467426"
+      }
+    },
+    "perfume-stallion-53": {
+      "productId": "10229037137954",
+      "handle": "dox-perfume-stallion-53",
+      "variantes": {
+        "u": "50423025500194"
+      }
+    },
+    "perfume-tommy-hilfiger-tommy": {
+      "productId": "10229037301794",
+      "handle": "dox-perfume-tommy-hilfiger-tommy",
+      "variantes": {
+        "u": "50423027826722"
+      }
+    },
+    "perfume-tommy-hilfiger-tommy-girl": {
+      "productId": "10229037203490",
+      "handle": "dox-perfume-tommy-hilfiger-tommy-girl",
+      "variantes": {
+        "u": "50423025565730"
+      }
+    },
+    "perfume-valentino-donna-born-in-roma": {
+      "productId": "10229037334562",
+      "handle": "dox-perfume-valentino-donna-born-in-roma",
+      "variantes": {
+        "u": "50423027859490"
+      }
+    },
+    "perfume-valentino-uomo-born-in-roma-coral-fantasy": {
+      "productId": "10229037400098",
+      "handle": "dox-perfume-valentino-uomo-born-in-roma-coral-fantasy",
+      "variantes": {
+        "u": "50423027957794"
+      }
+    },
+    "perfume-versace-bright-crystal-absolu": {
+      "productId": "10229037432866",
+      "handle": "dox-perfume-versace-bright-crystal-absolu",
+      "variantes": {
+        "u": "50423027990562"
+      }
+    },
+    "perfume-versace-eros-energy": {
+      "productId": "10229037465634",
+      "handle": "dox-perfume-versace-eros-energy",
+      "variantes": {
+        "u": "50423028023330"
+      }
+    },
+    "perfume-versace-eros-flame": {
+      "productId": "10229037531170",
+      "handle": "dox-perfume-versace-eros-flame",
+      "variantes": {
+        "u": "50423028088866"
+      }
+    },
+    "perfume-versace-yellow-diamond": {
+      "productId": "10229037563938",
+      "handle": "dox-perfume-versace-yellow-diamond",
+      "variantes": {
+        "u": "50423028121634"
+      }
+    },
+    "perfume-victoria-s-secret-bombshell-gold": {
+      "productId": "10229037596706",
+      "handle": "dox-perfume-victoria-s-secret-bombshell-gold",
+      "variantes": {
+        "u": "50423028154402"
+      }
+    },
+    "perfume-victoria-s-secret-bombshell-intense": {
+      "productId": "10229037662242",
+      "handle": "dox-perfume-victoria-s-secret-bombshell-intense",
+      "variantes": {
+        "u": "50423028219938"
+      }
+    },
+    "perfume-victoria-s-secret-bombshell-paradise": {
+      "productId": "10229037695010",
+      "handle": "dox-perfume-victoria-s-secret-bombshell-paradise",
+      "variantes": {
+        "u": "50423028252706"
+      }
+    },
+    "perfume-victoria-s-secret-bombshell-seduction": {
+      "productId": "10229037826082",
+      "handle": "dox-perfume-victoria-s-secret-bombshell-seduction",
+      "variantes": {
+        "u": "50423028547618"
+      }
+    },
+    "perfume-victoria-s-secret-very-sexy-night": {
+      "productId": "10229037858850",
+      "handle": "dox-perfume-victoria-s-secret-very-sexy-night",
+      "variantes": {
+        "u": "50423028580386"
+      }
+    },
+    "perfume-victorinox-swiss-army-classic": {
+      "productId": "10229037891618",
+      "handle": "dox-perfume-victorinox-swiss-army-classic",
+      "variantes": {
+        "u": "50423028613154"
+      }
+    },
+    "perfume-viktor-rolf-spicebomb": {
+      "productId": "10229037924386",
+      "handle": "dox-perfume-viktor-rolf-spicebomb",
+      "variantes": {
+        "u": "50423028645922"
+      }
+    },
+    "perfume-xerjoff-erba-pura": {
+      "productId": "10229038022690",
+      "handle": "dox-perfume-xerjoff-erba-pura",
+      "variantes": {
+        "u": "50423028776994"
+      }
+    },
+    "perfume-xerjoff-erba-pura-nueva-version": {
+      "productId": "10229037989922",
+      "handle": "dox-perfume-xerjoff-erba-pura-nueva-version",
+      "variantes": {
+        "u": "50423028744226"
+      }
+    },
+    "relojeria-audemars-piguet-royal-oak-ch123": {
+      "productId": "10229038055458",
+      "handle": "dox-relojeria-audemars-piguet-royal-oak-ch123",
+      "variantes": {
+        "u": "50423028809762"
+      }
+    },
+    "relojeria-audemars-piguet-royal-oak-ch124": {
+      "productId": "10229038088226",
+      "handle": "dox-relojeria-audemars-piguet-royal-oak-ch124",
+      "variantes": {
+        "u": "50423028842530"
+      }
+    },
+    "relojeria-audemars-piguet-royal-oak-ch125": {
+      "productId": "10229038120994",
+      "handle": "dox-relojeria-audemars-piguet-royal-oak-ch125",
+      "variantes": {
+        "u": "50423028875298"
+      }
+    },
+    "relojeria-cartier-dama-c41": {
+      "productId": "10229038186530",
+      "handle": "dox-relojeria-cartier-dama-c41",
+      "variantes": {
+        "u": "50423028940834"
+      }
+    },
+    "relojeria-casio-correa-de-plastico": {
+      "productId": "10229038317602",
+      "handle": "dox-relojeria-casio-correa-de-plastico",
+      "variantes": {
+        "u": "50423029137442"
+      }
+    },
+    "relojeria-casio-frq": {
+      "productId": "10229038383138",
+      "handle": "dox-relojeria-casio-frq",
+      "variantes": {
+        "u": "50423029202978"
+      }
+    },
+    "relojeria-casio-hombre-547": {
+      "productId": "10229038448674",
+      "handle": "dox-relojeria-casio-hombre-547",
+      "variantes": {
+        "u": "50423029301282"
+      }
+    },
+    "relojeria-casio-tornasol-hombre-474s": {
+      "productId": "10229038481442",
+      "handle": "dox-relojeria-casio-tornasol-hombre-474s",
+      "variantes": {
+        "u": "50423029334050"
+      }
+    },
+    "relojeria-combo-pareja-cartier-ch1": {
+      "productId": "10229038514210",
+      "handle": "dox-relojeria-combo-pareja-cartier-ch1",
+      "variantes": {
+        "u": "50423029366818"
+      }
+    },
+    "relojeria-g-shock-brazil-a1": {
+      "productId": "10229038612514",
+      "handle": "dox-relojeria-g-shock-brazil-a1",
+      "variantes": {
+        "u": "50423029432354"
+      }
+    },
+    "relojeria-hublot-a3": {
+      "productId": "10229038645282",
+      "handle": "dox-relojeria-hublot-a3",
+      "variantes": {
+        "u": "50423029530658"
+      }
+    },
+    "relojeria-hublot-ch111244": {
+      "productId": "10229038678050",
+      "handle": "dox-relojeria-hublot-ch111244",
+      "variantes": {
+        "u": "50423029563426"
+      }
+    },
+    "relojeria-hublot-ch1165": {
+      "productId": "10229038776354",
+      "handle": "dox-relojeria-hublot-ch1165",
+      "variantes": {
+        "u": "50423029858338"
+      }
+    },
+    "relojeria-invicta-bolt-ch111547": {
+      "productId": "10229038874658",
+      "handle": "dox-relojeria-invicta-bolt-ch111547",
+      "variantes": {
+        "u": "50423029989410"
+      }
+    },
+    "relojeria-kairos-digital-hombre-dm3873-6": {
+      "productId": "10229038907426",
+      "handle": "dox-relojeria-kairos-digital-hombre-dm3873-6",
+      "variantes": {
+        "u": "50423030022178"
+      }
+    },
+    "relojeria-kairos-fa033m-001a": {
+      "productId": "10229038940194",
+      "handle": "dox-relojeria-kairos-fa033m-001a",
+      "variantes": {
+        "u": "50423030054946"
+      }
+    },
+    "relojeria-kairos-fa034m-002b-hombre": {
+      "productId": "10229039005730",
+      "handle": "dox-relojeria-kairos-fa034m-002b-hombre",
+      "variantes": {
+        "u": "50423030120482"
+      }
+    },
+    "relojeria-kairos-fa034m-003b-hombre": {
+      "productId": "10229039071266",
+      "handle": "dox-relojeria-kairos-fa034m-003b-hombre",
+      "variantes": {
+        "u": "50423030186018"
+      }
+    },
+    "relojeria-kairos-fa036m-111": {
+      "productId": "10229039104034",
+      "handle": "dox-relojeria-kairos-fa036m-111",
+      "variantes": {
+        "u": "50423030218786"
+      }
+    },
+    "relojeria-kairos-fa039m-900-hombre": {
+      "productId": "10229039136802",
+      "handle": "dox-relojeria-kairos-fa039m-900-hombre",
+      "variantes": {
+        "u": "50423030251554"
+      }
+    },
+    "relojeria-kairos-fa081b-900m-hombre": {
+      "productId": "10229039169570",
+      "handle": "dox-relojeria-kairos-fa081b-900m-hombre",
+      "variantes": {
+        "u": "50423030284322"
+      }
+    },
+    "relojeria-kairos-fa173m-800a": {
+      "productId": "10229039300642",
+      "handle": "dox-relojeria-kairos-fa173m-800a",
+      "variantes": {
+        "u": "50423030480930"
+      }
+    },
+    "relojeria-kairos-fa227m-001b-hombre": {
+      "productId": "10229039333410",
+      "handle": "dox-relojeria-kairos-fa227m-001b-hombre",
+      "variantes": {
+        "u": "50423030513698"
+      }
+    },
+    "relojeria-kairos-fa228-001m": {
+      "productId": "10229039366178",
+      "handle": "dox-relojeria-kairos-fa228-001m",
+      "variantes": {
+        "u": "50423030546466"
+      }
+    },
+    "relojeria-kairos-fa228-900m": {
+      "productId": "10229039431714",
+      "handle": "dox-relojeria-kairos-fa228-900m",
+      "variantes": {
+        "u": "50423030612002"
+      }
+    },
+    "relojeria-kairos-fa228m-003b": {
+      "productId": "10229039497250",
+      "handle": "dox-relojeria-kairos-fa228m-003b",
+      "variantes": {
+        "u": "50423030677538"
+      }
+    },
+    "relojeria-kairos-ha590m-904": {
+      "productId": "10229039530018",
+      "handle": "dox-relojeria-kairos-ha590m-904",
+      "variantes": {
+        "u": "50423030710306"
+      }
+    },
+    "relojeria-kairos-hombre-dm1851-blanco": {
+      "productId": "10229039595554",
+      "handle": "dox-relojeria-kairos-hombre-dm1851-blanco",
+      "variantes": {
+        "u": "50423030775842"
+      }
+    },
+    "relojeria-kairos-hombre-dm1851-negro": {
+      "productId": "10229039628322",
+      "handle": "dox-relojeria-kairos-hombre-dm1851-negro",
+      "variantes": {
+        "u": "50423030808610"
+      }
+    },
+    "relojeria-kairos-hombre-dm1851-rojo": {
+      "productId": "10229039661090",
+      "handle": "dox-relojeria-kairos-hombre-dm1851-rojo",
+      "variantes": {
+        "u": "50423030841378"
+      }
+    },
+    "relojeria-kairos-hombre-dm3873-7": {
+      "productId": "10229039693858",
+      "handle": "dox-relojeria-kairos-hombre-dm3873-7",
+      "variantes": {
+        "u": "50423030874146"
+      }
+    },
+    "relojeria-kairos-hombre-fa173m-309a": {
+      "productId": "10229040644130",
+      "handle": "dox-relojeria-kairos-hombre-fa173m-309a",
+      "variantes": {
+        "u": "50423034249250"
+      }
+    },
+    "relojeria-kairos-hombre-fa208m-901": {
+      "productId": "10229040676898",
+      "handle": "dox-relojeria-kairos-hombre-fa208m-901",
+      "variantes": {
+        "u": "50423034282018"
+      }
+    },
+    "relojeria-kairos-mecanico-al8038-303": {
+      "productId": "10229040742434",
+      "handle": "dox-relojeria-kairos-mecanico-al8038-303",
+      "variantes": {
+        "u": "50423034347554"
+      }
+    },
+    "relojeria-kairos-mecanico-al8038-900": {
+      "productId": "10229040775202",
+      "handle": "dox-relojeria-kairos-mecanico-al8038-900",
+      "variantes": {
+        "u": "50423034380322"
+      }
+    },
+    "relojeria-kairos-mecanico-du430493g-3": {
+      "productId": "10229040840738",
+      "handle": "dox-relojeria-kairos-mecanico-du430493g-3",
+      "variantes": {
+        "u": "50423034478626"
+      }
+    },
+    "relojeria-kairos-oficial-america-de-cali-2026": {
+      "productId": "10229040873506",
+      "handle": "dox-relojeria-kairos-oficial-america-de-cali-2026",
+      "variantes": {
+        "u": "50423034511394"
+      }
+    },
+    "relojeria-kairos-oficial-atletico-nacional": {
+      "productId": "10229040939042",
+      "handle": "dox-relojeria-kairos-oficial-atletico-nacional",
+      "variantes": {
+        "u": "50423034576930"
+      }
+    },
+    "relojeria-kairos-oficial-seleccion-colombia": {
+      "productId": "10229040971810",
+      "handle": "dox-relojeria-kairos-oficial-seleccion-colombia",
+      "variantes": {
+        "u": "50423034609698"
+      }
+    },
+    "relojeria-oakley-cobra-ch11": {
+      "productId": "10229041037346",
+      "handle": "dox-relojeria-oakley-cobra-ch11",
+      "variantes": {
+        "u": "50423034675234"
+      }
+    },
+    "relojeria-patek-philippe-ch477": {
+      "productId": "10229041070114",
+      "handle": "dox-relojeria-patek-philippe-ch477",
+      "variantes": {
+        "u": "50423034708002"
+      }
+    },
+    "relojeria-patek-philippe-ch5477": {
+      "productId": "10229041201186",
+      "handle": "dox-relojeria-patek-philippe-ch5477",
+      "variantes": {
+        "u": "50423035002914"
+      }
+    },
+    "relojeria-patek-philippe-geneve-ch0005": {
+      "productId": "10229041233954",
+      "handle": "dox-relojeria-patek-philippe-geneve-ch0005",
+      "variantes": {
+        "u": "50423035035682"
+      }
+    },
+    "relojeria-patek-philippe-geneve-ch00447": {
+      "productId": "10229041266722",
+      "handle": "dox-relojeria-patek-philippe-geneve-ch00447",
+      "variantes": {
+        "u": "50423035068450"
+      }
+    },
+    "relojeria-porta-reloj": {
+      "productId": "10229041332258",
+      "handle": "dox-relojeria-porta-reloj",
+      "variantes": {
+        "u": "50423035166754"
+      }
+    },
+    "relojeria-q-q-dorado": {
+      "productId": "10229041397794",
+      "handle": "dox-relojeria-q-q-dorado",
+      "variantes": {
+        "u": "50423035199522"
+      }
+    },
+    "relojeria-reloj-digital-economico-amarillo": {
+      "productId": "10229041430562",
+      "handle": "dox-relojeria-reloj-digital-economico-amarillo",
+      "variantes": {
+        "u": "50423035330594"
+      }
+    },
+    "relojeria-reloj-digital-economico-verde": {
+      "productId": "10229041496098",
+      "handle": "dox-relojeria-reloj-digital-economico-verde",
+      "variantes": {
+        "u": "50423035363362"
+      }
+    },
+    "relojeria-reloj-estilo-casio-dorado": {
+      "productId": "10229041561634",
+      "handle": "dox-relojeria-reloj-estilo-casio-dorado",
+      "variantes": {
+        "u": "50423035559970"
+      }
+    },
+    "relojeria-reloj-estilo-casio-negro": {
+      "productId": "10229041627170",
+      "handle": "dox-relojeria-reloj-estilo-casio-negro",
+      "variantes": {
+        "u": "50423035625506"
+      }
+    },
+    "relojeria-reloj-estilo-casio-oro-rosa": {
+      "productId": "10229041659938",
+      "handle": "dox-relojeria-reloj-estilo-casio-oro-rosa",
+      "variantes": {
+        "u": "50423035691042"
+      }
+    },
+    "relojeria-reloj-estilo-casio-plateado": {
+      "productId": "10229041791010",
+      "handle": "dox-relojeria-reloj-estilo-casio-plateado",
+      "variantes": {
+        "u": "50423035985954"
+      }
+    },
+    "relojeria-richard-mille-metalico-edicion-especial-ch011": {
+      "productId": "10229041823778",
+      "handle": "dox-relojeria-richard-mille-metalico-edicion-especial-ch011",
+      "variantes": {
+        "u": "50423036018722"
+      }
+    },
+    "relojeria-rolex-ch165444": {
+      "productId": "10229041889314",
+      "handle": "dox-relojeria-rolex-ch165444",
+      "variantes": {
+        "u": "50423038181410"
+      }
+    },
+    "relojeria-rolex-ch43d": {
+      "productId": "10229041922082",
+      "handle": "dox-relojeria-rolex-ch43d",
+      "variantes": {
+        "u": "50423038214178"
+      }
+    },
+    "relojeria-rolex-submarine-ch472": {
+      "productId": "10229042020386",
+      "handle": "dox-relojeria-rolex-submarine-ch472",
+      "variantes": {
+        "u": "50423038312482"
+      }
+    },
+    "relojeria-rolex-submarine-f11": {
+      "productId": "10229042053154",
+      "handle": "dox-relojeria-rolex-submarine-f11",
+      "variantes": {
+        "u": "50423038345250"
+      }
+    },
+    "relojeria-technomarine": {
+      "productId": "10229042085922",
+      "handle": "dox-relojeria-technomarine",
+      "variantes": {
+        "u": "50423038378018"
+      }
+    },
+    "relojeria-tissot-chssf": {
+      "productId": "10229042184226",
+      "handle": "dox-relojeria-tissot-chssf",
+      "variantes": {
+        "u": "50423038476322"
+      }
+    },
+    "relojeria-tommy-hilfiger-hc47": {
+      "productId": "10229042249762",
+      "handle": "dox-relojeria-tommy-hilfiger-hc47",
+      "variantes": {
+        "u": "50423038574626"
+      }
+    },
+    "tecnologia-airpods-3-generacion": {
+      "productId": "10229042380834",
+      "handle": "dox-tecnologia-airpods-3-generacion",
+      "variantes": {
+        "u": "50423038836770"
+      }
+    },
+    "tecnologia-airpods-abiertos-pro-v12": {
+      "productId": "10229042413602",
+      "handle": "dox-tecnologia-airpods-abiertos-pro-v12",
+      "variantes": {
+        "u": "50423038869538"
+      }
+    },
+    "tecnologia-airpods-anc-enc-yw08": {
+      "productId": "10229042479138",
+      "handle": "dox-tecnologia-airpods-anc-enc-yw08",
+      "variantes": {
+        "u": "50423039000610"
+      }
+    },
+    "tecnologia-airpods-anc-jm19-traductores": {
+      "productId": "10229042511906",
+      "handle": "dox-tecnologia-airpods-anc-jm19-traductores",
+      "variantes": {
+        "u": "50423039033378"
+      }
+    },
+    "tecnologia-airpods-bluetooth-es21": {
+      "productId": "10229042577442",
+      "handle": "dox-tecnologia-airpods-bluetooth-es21",
+      "variantes": {
+        "u": "50423039131682"
+      }
+    },
+    "tecnologia-airpods-edicion-especial-codabury": {
+      "productId": "10229042642978",
+      "handle": "dox-tecnologia-airpods-edicion-especial-codabury",
+      "variantes": {
+        "u": "50423039197218"
+      }
+    },
+    "tecnologia-airpods-ep5": {
+      "productId": "10229042675746",
+      "handle": "dox-tecnologia-airpods-ep5",
+      "variantes": {
+        "u": "50423039229986"
+      }
+    },
+    "tecnologia-airpods-es48": {
+      "productId": "10229042741282",
+      "handle": "dox-tecnologia-airpods-es48",
+      "variantes": {
+        "u": "50423039328290"
+      }
+    },
+    "tecnologia-airpods-es53": {
+      "productId": "10229042774050",
+      "handle": "dox-tecnologia-airpods-es53",
+      "variantes": {
+        "u": "50423039361058"
+      }
+    },
+    "tecnologia-airpods-es56": {
+      "productId": "10229042806818",
+      "handle": "dox-tecnologia-airpods-es56",
+      "variantes": {
+        "u": "50423039393826"
+      }
+    },
+    "tecnologia-airpods-es57": {
+      "productId": "10229042937890",
+      "handle": "dox-tecnologia-airpods-es57",
+      "variantes": {
+        "u": "50423039655970"
+      }
+    },
+    "tecnologia-airpods-es60": {
+      "productId": "10229042970658",
+      "handle": "dox-tecnologia-airpods-es60",
+      "variantes": {
+        "u": "50423039688738"
+      }
+    },
+    "tecnologia-airpods-generacion-6": {
+      "productId": "10229043003426",
+      "handle": "dox-tecnologia-airpods-generacion-6",
+      "variantes": {
+        "u": "50423039721506"
+      }
+    },
+    "tecnologia-airpods-kt30": {
+      "productId": "10229043068962",
+      "handle": "dox-tecnologia-airpods-kt30",
+      "variantes": {
+        "u": "50423039950882"
+      }
+    },
+    "tecnologia-airpods-manos-libres-tws-xg23": {
+      "productId": "10229043101730",
+      "handle": "dox-tecnologia-airpods-manos-libres-tws-xg23",
+      "variantes": {
+        "u": "50423039983650"
+      }
+    },
+    "tecnologia-airpods-max-aimantada": {
+      "productId": "10229043134498",
+      "handle": "dox-tecnologia-airpods-max-aimantada",
+      "variantes": {
+        "u": "50423040016418"
+      }
+    },
+    "tecnologia-airpods-pea-pod-edicion-especial": {
+      "productId": "10229043200034",
+      "handle": "dox-tecnologia-airpods-pea-pod-edicion-especial",
+      "variantes": {
+        "u": "50423040049186"
+      }
+    },
+    "tecnologia-airpods-pro-2-generacion-anc": {
+      "productId": "10229043232802",
+      "handle": "dox-tecnologia-airpods-pro-2-generacion-anc",
+      "variantes": {
+        "u": "50423040147490"
+      }
+    },
+    "tecnologia-airpods-pro-6": {
+      "productId": "10229043298338",
+      "handle": "dox-tecnologia-airpods-pro-6",
+      "variantes": {
+        "u": "50423040213026"
+      }
+    },
+    "tecnologia-airpods-pro-rs16": {
+      "productId": "10229043363874",
+      "handle": "dox-tecnologia-airpods-pro-rs16",
+      "variantes": {
+        "u": "50423040311330"
+      }
+    },
+    "tecnologia-airpods-t11-labubu": {
+      "productId": "10229044117538",
+      "handle": "dox-tecnologia-airpods-t11-labubu",
+      "variantes": {
+        "u": "50423044997154"
+      }
+    },
+    "tecnologia-airpods-tws-es45": {
+      "productId": "10229044215842",
+      "handle": "dox-tecnologia-airpods-tws-es45",
+      "variantes": {
+        "u": "50423045095458"
+      }
+    },
+    "tecnologia-airpods-tws-m-m-s": {
+      "productId": "10229044248610",
+      "handle": "dox-tecnologia-airpods-tws-m-m-s",
+      "variantes": {
+        "u": "50423045128226"
+      }
+    },
+    "tecnologia-ampliador-de-pantalla-celular": {
+      "productId": "10229044314146",
+      "handle": "dox-tecnologia-ampliador-de-pantalla-celular",
+      "variantes": {
+        "u": "50423045160994"
+      }
+    },
+    "tecnologia-aro-de-luz-rgb-26-cm": {
+      "productId": "10229044379682",
+      "handle": "dox-tecnologia-aro-de-luz-rgb-26-cm",
+      "variantes": {
+        "u": "50423045390370"
+      }
+    },
+    "tecnologia-aro-de-luz-rgb-ym-300": {
+      "productId": "10229044412450",
+      "handle": "dox-tecnologia-aro-de-luz-rgb-ym-300",
+      "variantes": {
+        "u": "50423045455906"
+      }
+    },
+    "tecnologia-aro-de-luz-tik-tok-con-soporte-para-2-celulares": {
+      "productId": "10229044477986",
+      "handle": "dox-tecnologia-aro-de-luz-tik-tok-con-soporte-para-2-celulares",
+      "variantes": {
+        "u": "50423045488674"
+      }
+    },
+    "tecnologia-audifonos-bluetooth-yx29-con-pantalla-tactil": {
+      "productId": "10229044510754",
+      "handle": "dox-tecnologia-audifonos-bluetooth-yx29-con-pantalla-tactil",
+      "variantes": {
+        "u": "50423045554210"
+      }
+    },
+    "tecnologia-audifonos-inalambricos-con-pantalla-inteligente-anc": {
+      "productId": "10229044609058",
+      "handle": "dox-tecnologia-audifonos-inalambricos-con-pantalla-inteligente-anc",
+      "variantes": {
+        "u": "50423045881890"
+      }
+    },
+    "tecnologia-audifonos-m10": {
+      "productId": "10229044740130",
+      "handle": "dox-tecnologia-audifonos-m10",
+      "variantes": {
+        "u": "50423046209570"
+      }
+    },
+    "tecnologia-audifonos-mobulaa-future-clip": {
+      "productId": "10229044772898",
+      "handle": "dox-tecnologia-audifonos-mobulaa-future-clip",
+      "variantes": {
+        "u": "50423046242338"
+      }
+    },
+    "tecnologia-audifonos-ows-yks286": {
+      "productId": "10229044805666",
+      "handle": "dox-tecnologia-audifonos-ows-yks286",
+      "variantes": {
+        "u": "50423046275106"
+      }
+    },
+    "tecnologia-audifonos-tws-s510-con-pantalla-digital": {
+      "productId": "10229044871202",
+      "handle": "dox-tecnologia-audifonos-tws-s510-con-pantalla-digital",
+      "variantes": {
+        "u": "50423046340642"
+      }
+    },
+    "tecnologia-auriculares-con-cable-ath-74": {
+      "productId": "10229044903970",
+      "handle": "dox-tecnologia-auriculares-con-cable-ath-74",
+      "variantes": {
+        "u": "50423046373410"
+      }
+    },
+    "tecnologia-auriculares-con-cable-tipo-c-ytl10": {
+      "productId": "10229044936738",
+      "handle": "dox-tecnologia-auriculares-con-cable-tipo-c-ytl10",
+      "variantes": {
+        "u": "50423046406178"
+      }
+    },
+    "tecnologia-bafle-alaxe": {
+      "productId": "10229045002274",
+      "handle": "dox-tecnologia-bafle-alaxe",
+      "variantes": {
+        "u": "50423046570018"
+      }
+    },
+    "tecnologia-bafle-koleer": {
+      "productId": "10229045035042",
+      "handle": "dox-tecnologia-bafle-koleer",
+      "variantes": {
+        "u": "50423046602786"
+      }
+    },
+    "tecnologia-bafle-smart-speaker-app": {
+      "productId": "10229045067810",
+      "handle": "dox-tecnologia-bafle-smart-speaker-app",
+      "variantes": {
+        "u": "50423046635554"
+      }
+    },
+    "tecnologia-base-para-portatil-en-aluminio-hold-406": {
+      "productId": "10229045133346",
+      "handle": "dox-tecnologia-base-para-portatil-en-aluminio-hold-406",
+      "variantes": {
+        "u": "50423046766626"
+      }
+    },
+    "tecnologia-base-para-portatil-y-tablet-holdpc-102": {
+      "productId": "10229045297186",
+      "handle": "dox-tecnologia-base-para-portatil-y-tablet-holdpc-102",
+      "variantes": {
+        "u": "50423046996002"
+      }
+    },
+    "tecnologia-base-refrigerante-para-portatil-mikuso-shiron-2": {
+      "productId": "10229045329954",
+      "handle": "dox-tecnologia-base-refrigerante-para-portatil-mikuso-shiron-2",
+      "variantes": {
+        "u": "50423047028770"
+      }
+    },
+    "tecnologia-bombillo-parlante-led-rgb": {
+      "productId": "10229045395490",
+      "handle": "dox-tecnologia-bombillo-parlante-led-rgb",
+      "variantes": {
+        "u": "50423047159842"
+      }
+    },
+    "tecnologia-boquitoqui-x2-con-audifonos": {
+      "productId": "10229045428258",
+      "handle": "dox-tecnologia-boquitoqui-x2-con-audifonos",
+      "variantes": {
+        "u": "50423047192610"
+      }
+    },
+    "tecnologia-buscador-inteligente": {
+      "productId": "10229045461026",
+      "handle": "dox-tecnologia-buscador-inteligente",
+      "variantes": {
+        "u": "50423047225378"
+      }
+    },
+    "tecnologia-cable-lightning-apple": {
+      "productId": "10229045559330",
+      "handle": "dox-tecnologia-cable-lightning-apple",
+      "variantes": {
+        "u": "50423047356450"
+      }
+    },
+    "tecnologia-cable-tipo-c-a-tipo-c-60w-carga-rapida": {
+      "productId": "10229045592098",
+      "handle": "dox-tecnologia-cable-tipo-c-a-tipo-c-60w-carga-rapida",
+      "variantes": {
+        "u": "50423047389218"
+      }
+    },
+    "tecnologia-cable-tipo-c-trenzado-av-10728": {
+      "productId": "10229045624866",
+      "handle": "dox-tecnologia-cable-tipo-c-trenzado-av-10728",
+      "variantes": {
+        "u": "50423047421986"
+      }
+    },
+    "tecnologia-cable-usb-a-tipo-c-30w": {
+      "productId": "10229045690402",
+      "handle": "dox-tecnologia-cable-usb-a-tipo-c-30w",
+      "variantes": {
+        "u": "50423047487522"
+      }
+    },
+    "tecnologia-camara-espia-a2503": {
+      "productId": "10229045723170",
+      "handle": "dox-tecnologia-camara-espia-a2503",
+      "variantes": {
+        "u": "50423047520290"
+      }
+    },
+    "tecnologia-cargador-apple-lightning": {
+      "productId": "10229045854242",
+      "handle": "dox-tecnologia-cargador-apple-lightning",
+      "variantes": {
+        "u": "50423047651362"
+      }
+    },
+    "tecnologia-cargador-con-cable-yookie-20w-rapido": {
+      "productId": "10229045887010",
+      "handle": "dox-tecnologia-cargador-con-cable-yookie-20w-rapido",
+      "variantes": {
+        "u": "50423047684130"
+      }
+    },
+    "tecnologia-cargador-de-coche-rapido-pc17": {
+      "productId": "10229045952546",
+      "handle": "dox-tecnologia-cargador-de-coche-rapido-pc17",
+      "variantes": {
+        "u": "50423047749666"
+      }
+    },
+    "tecnologia-cargador-inalambrico-ki90": {
+      "productId": "10229045985314",
+      "handle": "dox-tecnologia-cargador-inalambrico-ki90",
+      "variantes": {
+        "u": "50423047782434"
+      }
+    },
+    "tecnologia-cargador-iphone-lightning-yookie-kl02": {
+      "productId": "10229046050850",
+      "handle": "dox-tecnologia-cargador-iphone-lightning-yookie-kl02",
+      "variantes": {
+        "u": "50423047847970"
+      }
+    },
+    "tecnologia-cargador-pro-ultra-rapido-carro-pc19": {
+      "productId": "10229046149154",
+      "handle": "dox-tecnologia-cargador-pro-ultra-rapido-carro-pc19",
+      "variantes": {
+        "u": "50423048175650"
+      }
+    },
+    "tecnologia-cargador-superrapido-60w-ki275": {
+      "productId": "10229046181922",
+      "handle": "dox-tecnologia-cargador-superrapido-60w-ki275",
+      "variantes": {
+        "u": "50423048208418"
+      }
+    },
+    "tecnologia-cargador-ultra-power-samsung": {
+      "productId": "10229046247458",
+      "handle": "dox-tecnologia-cargador-ultra-power-samsung",
+      "variantes": {
+        "u": "50423048273954"
+      }
+    },
+    "tecnologia-cargador-usb-a-tipo-c-yookie-ei32": {
+      "productId": "10229046312994",
+      "handle": "dox-tecnologia-cargador-usb-a-tipo-c-yookie-ei32",
+      "variantes": {
+        "u": "50423048503330"
+      }
+    },
+    "tecnologia-combo-airpods-tws-k30": {
+      "productId": "10229046444066",
+      "handle": "dox-tecnologia-combo-airpods-tws-k30",
+      "variantes": {
+        "u": "50423048634402"
+      }
+    },
+    "tecnologia-combo-teclado-inalambrico": {
+      "productId": "10229046476834",
+      "handle": "dox-tecnologia-combo-teclado-inalambrico",
+      "variantes": {
+        "u": "50423048667170"
+      }
+    },
+    "tecnologia-consola-retro-pro-r36s-15-000-juegos": {
+      "productId": "10229046542370",
+      "handle": "dox-tecnologia-consola-retro-pro-r36s-15-000-juegos",
+      "variantes": {
+        "u": "50423048765474"
+      }
+    },
+    "tecnologia-diadema-bluetooth-b31": {
+      "productId": "10229046575138",
+      "handle": "dox-tecnologia-diadema-bluetooth-b31",
+      "variantes": {
+        "u": "50423048798242"
+      }
+    },
+    "tecnologia-diadema-g-tide-c1": {
+      "productId": "10229046640674",
+      "handle": "dox-tecnologia-diadema-g-tide-c1",
+      "variantes": {
+        "u": "50423048863778"
+      }
+    },
+    "tecnologia-diadema-mobulaa-c1-lite": {
+      "productId": "10229046673442",
+      "handle": "dox-tecnologia-diadema-mobulaa-c1-lite",
+      "variantes": {
+        "u": "50423048896546"
+      }
+    },
+    "tecnologia-diademas-bass-inalambricas-eb620": {
+      "productId": "10229046738978",
+      "handle": "dox-tecnologia-diademas-bass-inalambricas-eb620",
+      "variantes": {
+        "u": "50423048962082"
+      }
+    },
+    "tecnologia-diademas-de-alta-calidad-eb31": {
+      "productId": "10229046771746",
+      "handle": "dox-tecnologia-diademas-de-alta-calidad-eb31",
+      "variantes": {
+        "u": "50423048994850"
+      }
+    },
+    "tecnologia-diademas-inalambricas-eb610": {
+      "productId": "10229046837282",
+      "handle": "dox-tecnologia-diademas-inalambricas-eb610",
+      "variantes": {
+        "u": "50423049125922"
+      }
+    },
+    "tecnologia-diademas-jbl": {
+      "productId": "10229046870050",
+      "handle": "dox-tecnologia-diademas-jbl",
+      "variantes": {
+        "u": "50423049158690"
+      }
+    },
+    "tecnologia-diademas-pro-eb32": {
+      "productId": "10229047033890",
+      "handle": "dox-tecnologia-diademas-pro-eb32",
+      "variantes": {
+        "u": "50423049551906"
+      }
+    },
+    "tecnologia-diademas-yookie-eb37": {
+      "productId": "10229047099426",
+      "handle": "dox-tecnologia-diademas-yookie-eb37",
+      "variantes": {
+        "u": "50423049617442"
+      }
+    },
+    "tecnologia-drone-e99-pro-con-camara-full-hd": {
+      "productId": "10229047132194",
+      "handle": "dox-tecnologia-drone-e99-pro-con-camara-full-hd",
+      "variantes": {
+        "u": "50423049650210"
+      }
+    },
+    "tecnologia-espejos-retrovisores-para-patineta": {
+      "productId": "10229047197730",
+      "handle": "dox-tecnologia-espejos-retrovisores-para-patineta",
+      "variantes": {
+        "u": "50423049715746"
+      }
+    },
+    "tecnologia-estacion-de-carga": {
+      "productId": "10229047230498",
+      "handle": "dox-tecnologia-estacion-de-carga",
+      "variantes": {
+        "u": "50423049748514"
+      }
+    },
+    "tecnologia-estrella-musical": {
+      "productId": "10229047263266",
+      "handle": "dox-tecnologia-estrella-musical",
+      "variantes": {
+        "u": "50423049781282"
+      }
+    },
+    "tecnologia-fire-tv-stick": {
+      "productId": "10229047328802",
+      "handle": "dox-tecnologia-fire-tv-stick",
+      "variantes": {
+        "u": "50423049846818"
+      }
+    },
+    "tecnologia-funda-para-portatil-na-bag-105": {
+      "productId": "10229047361570",
+      "handle": "dox-tecnologia-funda-para-portatil-na-bag-105",
+      "variantes": {
+        "u": "50423049879586"
+      }
+    },
+    "tecnologia-gafas-bluetooth-recargable": {
+      "productId": "10229047427106",
+      "handle": "dox-tecnologia-gafas-bluetooth-recargable",
+      "variantes": {
+        "u": "50423049977890"
+      }
+    },
+    "tecnologia-gafas-inteligentes-g5-2026-con-camara-e-ia": {
+      "productId": "10229047459874",
+      "handle": "dox-tecnologia-gafas-inteligentes-g5-2026-con-camara-e-ia",
+      "variantes": {
+        "u": "50423050010658"
+      }
+    },
+    "tecnologia-gafas-inteligentes-inalambricas-xg89": {
+      "productId": "10229047590946",
+      "handle": "dox-tecnologia-gafas-inteligentes-inalambricas-xg89",
+      "variantes": {
+        "u": "50423050174498"
+      }
+    },
+    "tecnologia-game-box-g7-500-juegos-1-control": {
+      "productId": "10229047623714",
+      "handle": "dox-tecnologia-game-box-g7-500-juegos-1-control",
+      "variantes": {
+        "u": "50423050207266"
+      }
+    },
+    "tecnologia-game-retro-400-juegos-para-2-jugadores": {
+      "productId": "10229047689250",
+      "handle": "dox-tecnologia-game-retro-400-juegos-para-2-jugadores",
+      "variantes": {
+        "u": "50423050272802"
+      }
+    },
+    "tecnologia-holder-celular-en-espejo-carro-retrovisor-hold-171": {
+      "productId": "10229047787554",
+      "handle": "dox-tecnologia-holder-celular-en-espejo-carro-retrovisor-hold-171",
+      "variantes": {
+        "u": "50423050403874"
+      }
+    },
+    "tecnologia-holders-hold-326": {
+      "productId": "10229047853090",
+      "handle": "dox-tecnologia-holders-hold-326",
+      "variantes": {
+        "u": "50423050469410"
+      }
+    },
+    "tecnologia-holders-hold-ps-228": {
+      "productId": "10229047885858",
+      "handle": "dox-tecnologia-holders-hold-ps-228",
+      "variantes": {
+        "u": "50423050502178"
+      }
+    },
+    "tecnologia-holders-s059": {
+      "productId": "10229047951394",
+      "handle": "dox-tecnologia-holders-s059",
+      "variantes": {
+        "u": "50423050666018"
+      }
+    },
+    "tecnologia-impresora-portatil": {
+      "productId": "10229047984162",
+      "handle": "dox-tecnologia-impresora-portatil",
+      "variantes": {
+        "u": "50423050698786"
+      }
+    },
+    "tecnologia-intercomunicador-bt12-para-casco": {
+      "productId": "10229048049698",
+      "handle": "dox-tecnologia-intercomunicador-bt12-para-casco",
+      "variantes": {
+        "u": "50423050797090"
+      }
+    },
+    "tecnologia-jbl-flip-7": {
+      "productId": "10229048213538",
+      "handle": "dox-tecnologia-jbl-flip-7",
+      "variantes": {
+        "u": "50423051092002"
+      }
+    },
+    "tecnologia-kit-de-grabacion-para-celular-ay-49-rgb": {
+      "productId": "10229048279074",
+      "handle": "dox-tecnologia-kit-de-grabacion-para-celular-ay-49-rgb",
+      "variantes": {
+        "u": "50423051190306"
+      }
+    },
+    "tecnologia-kit-de-limpieza-7-en-1": {
+      "productId": "10229048311842",
+      "handle": "dox-tecnologia-kit-de-limpieza-7-en-1",
+      "variantes": {
+        "u": "50423051223074"
+      }
+    },
+    "tecnologia-kit-labubu": {
+      "productId": "10229048377378",
+      "handle": "dox-tecnologia-kit-labubu",
+      "variantes": {
+        "u": "50423051288610"
+      }
+    },
+    "tecnologia-lampara-decorativa-astronauta-a1": {
+      "productId": "10229048442914",
+      "handle": "dox-tecnologia-lampara-decorativa-astronauta-a1",
+      "variantes": {
+        "u": "50423051354146"
+      }
+    },
+    "tecnologia-lampara-decorativa-rgb-a1": {
+      "productId": "10229048475682",
+      "handle": "dox-tecnologia-lampara-decorativa-rgb-a1",
+      "variantes": {
+        "u": "50423051386914"
+      }
+    },
+    "tecnologia-lampara-parlante-con-carga-magnetica": {
+      "productId": "10229048508450",
+      "handle": "dox-tecnologia-lampara-parlante-con-carga-magnetica",
+      "variantes": {
+        "u": "50423051419682"
+      }
+    },
+    "tecnologia-lampara-usb-led-18": {
+      "productId": "10229048573986",
+      "handle": "dox-tecnologia-lampara-usb-led-18",
+      "variantes": {
+        "u": "50423051485218"
+      }
+    },
+    "tecnologia-lampara-ventilador-portatil": {
+      "productId": "10229048606754",
+      "handle": "dox-tecnologia-lampara-ventilador-portatil",
+      "variantes": {
+        "u": "50423051517986"
+      }
+    },
+    "tecnologia-lamparas-usb-led-07": {
+      "productId": "10229048672290",
+      "handle": "dox-tecnologia-lamparas-usb-led-07",
+      "variantes": {
+        "u": "50423051583522"
+      }
+    },
+    "tecnologia-lapiz-tactil-hx-02": {
+      "productId": "10229048705058",
+      "handle": "dox-tecnologia-lapiz-tactil-hx-02",
+      "variantes": {
+        "u": "50423051616290"
+      }
+    },
+    "tecnologia-lapiz-tactil-hx-22": {
+      "productId": "10229048737826",
+      "handle": "dox-tecnologia-lapiz-tactil-hx-22",
+      "variantes": {
+        "u": "50423051649058"
+      }
+    },
+    "tecnologia-lapiz-tactil-universal": {
+      "productId": "10229048770594",
+      "handle": "dox-tecnologia-lapiz-tactil-universal",
+      "variantes": {
+        "u": "50423051681826"
+      }
+    },
+    "tecnologia-localizador-inteligente-f15": {
+      "productId": "10229048803362",
+      "handle": "dox-tecnologia-localizador-inteligente-f15",
+      "variantes": {
+        "u": "50423051714594"
+      }
+    },
+    "tecnologia-luz-led-potente-para-celular-corazon": {
+      "productId": "10229048836130",
+      "handle": "dox-tecnologia-luz-led-potente-para-celular-corazon",
+      "variantes": {
+        "u": "50423051747362"
+      }
+    },
+    "tecnologia-maquina-de-verificacion-de-billetes": {
+      "productId": "10229048868898",
+      "handle": "dox-tecnologia-maquina-de-verificacion-de-billetes",
+      "variantes": {
+        "u": "50423051780130"
+      }
+    },
+    "tecnologia-mesa-auto-hold-372": {
+      "productId": "10229048901666",
+      "handle": "dox-tecnologia-mesa-auto-hold-372",
+      "variantes": {
+        "u": "50423051812898"
+      }
+    },
+    "tecnologia-microfono-condensador-sf-666": {
+      "productId": "10229048934434",
+      "handle": "dox-tecnologia-microfono-condensador-sf-666",
+      "variantes": {
+        "u": "50423051845666"
+      }
+    },
+    "tecnologia-microfono-de-solapa": {
+      "productId": "10229049098274",
+      "handle": "dox-tecnologia-microfono-de-solapa",
+      "variantes": {
+        "u": "50423052042274"
+      }
+    },
+    "tecnologia-microfono-de-solapa-entrada-aux": {
+      "productId": "10229048967202",
+      "handle": "dox-tecnologia-microfono-de-solapa-entrada-aux",
+      "variantes": {
+        "u": "50423051878434"
+      }
+    },
+    "tecnologia-microfono-de-solapa-entrada-lightning": {
+      "productId": "10229049032738",
+      "handle": "dox-tecnologia-microfono-de-solapa-entrada-lightning",
+      "variantes": {
+        "u": "50423051976738"
+      }
+    },
+    "tecnologia-microfono-de-solapa-tipo-c": {
+      "productId": "10229049065506",
+      "handle": "dox-tecnologia-microfono-de-solapa-tipo-c",
+      "variantes": {
+        "u": "50423052009506"
+      }
+    },
+    "tecnologia-mini-luz-led-recargable-para-celular-3w": {
+      "productId": "10229049131042",
+      "handle": "dox-tecnologia-mini-luz-led-recargable-para-celular-3w",
+      "variantes": {
+        "u": "50423052369954"
+      }
+    },
+    "tecnologia-mini-proyector-led-yg300": {
+      "productId": "10229049163810",
+      "handle": "dox-tecnologia-mini-proyector-led-yg300",
+      "variantes": {
+        "u": "50423052402722"
+      }
+    },
+    "tecnologia-mini-tripode-tp-009": {
+      "productId": "10229049196578",
+      "handle": "dox-tecnologia-mini-tripode-tp-009",
+      "variantes": {
+        "u": "50423052435490"
+      }
+    },
+    "tecnologia-mouse-as-6400-inalambrico": {
+      "productId": "10229049229346",
+      "handle": "dox-tecnologia-mouse-as-6400-inalambrico",
+      "variantes": {
+        "u": "50423052468258"
+      }
+    },
+    "tecnologia-mouse-ergonomico-alambrico": {
+      "productId": "10229049262114",
+      "handle": "dox-tecnologia-mouse-ergonomico-alambrico",
+      "variantes": {
+        "u": "50423052501026"
+      }
+    },
+    "tecnologia-mouse-gamer-3200-dpi": {
+      "productId": "10229049327650",
+      "handle": "dox-tecnologia-mouse-gamer-3200-dpi",
+      "variantes": {
+        "u": "50423052566562"
+      }
+    },
+    "tecnologia-mouse-inalambrico-dj-125": {
+      "productId": "10229049393186",
+      "handle": "dox-tecnologia-mouse-inalambrico-dj-125",
+      "variantes": {
+        "u": "50423052632098"
+      }
+    },
+    "tecnologia-mouse-inalambrico-pro": {
+      "productId": "10229049425954",
+      "handle": "dox-tecnologia-mouse-inalambrico-pro",
+      "variantes": {
+        "u": "50423052664866"
+      }
+    },
+    "tecnologia-mouse-m29-dpi-1600": {
+      "productId": "10229049458722",
+      "handle": "dox-tecnologia-mouse-m29-dpi-1600",
+      "variantes": {
+        "u": "50423052697634"
+      }
+    },
+    "tecnologia-mouse-m30-dpi-1600": {
+      "productId": "10229049491490",
+      "handle": "dox-tecnologia-mouse-m30-dpi-1600",
+      "variantes": {
+        "u": "50423052730402"
+      }
+    },
+    "tecnologia-multipuerto-x4-usb": {
+      "productId": "10229049524258",
+      "handle": "dox-tecnologia-multipuerto-x4-usb",
+      "variantes": {
+        "u": "50423052763170"
+      }
+    },
+    "tecnologia-pad-mouse-carga-inalambrica": {
+      "productId": "10229049557026",
+      "handle": "dox-tecnologia-pad-mouse-carga-inalambrica",
+      "variantes": {
+        "u": "50423052795938"
+      }
+    },
+    "tecnologia-palo-de-selfie": {
+      "productId": "10229049589794",
+      "handle": "dox-tecnologia-palo-de-selfie",
+      "variantes": {
+        "u": "50423052828706"
+      }
+    },
+    "tecnologia-pantalla-selfie": {
+      "productId": "10229049622562",
+      "handle": "dox-tecnologia-pantalla-selfie",
+      "variantes": {
+        "u": "50423052861474"
+      }
+    },
+    "tecnologia-parlante-aibimy-my212-waterproof": {
+      "productId": "10229049655330",
+      "handle": "dox-tecnologia-parlante-aibimy-my212-waterproof",
+      "variantes": {
+        "u": "50423052894242"
+      }
+    },
+    "tecnologia-parlante-aibimy-my262bt-ipx6": {
+      "productId": "10229049688098",
+      "handle": "dox-tecnologia-parlante-aibimy-my262bt-ipx6",
+      "variantes": {
+        "u": "50423052927010"
+      }
+    },
+    "tecnologia-parlante-airpods-rgb-profesional": {
+      "productId": "10229049753634",
+      "handle": "dox-tecnologia-parlante-airpods-rgb-profesional",
+      "variantes": {
+        "u": "50423052992546"
+      }
+    },
+    "tecnologia-parlante-bluetooth-alexa-15w": {
+      "productId": "10229049786402",
+      "handle": "dox-tecnologia-parlante-bluetooth-alexa-15w",
+      "variantes": {
+        "u": "50423053025314"
+      }
+    },
+    "tecnologia-parlante-bluetooth-rgb": {
+      "productId": "10229049819170",
+      "handle": "dox-tecnologia-parlante-bluetooth-rgb",
+      "variantes": {
+        "u": "50423053058082"
+      }
+    },
+    "tecnologia-parlante-jbl-rgb": {
+      "productId": "10229049884706",
+      "handle": "dox-tecnologia-parlante-jbl-rgb",
+      "variantes": {
+        "u": "50423053123618"
+      }
+    },
+    "tecnologia-parlante-karaoke-con-microfono": {
+      "productId": "10229049917474",
+      "handle": "dox-tecnologia-parlante-karaoke-con-microfono",
+      "variantes": {
+        "u": "50423053156386"
+      }
+    },
+    "tecnologia-parlante-kimiso-kms-295": {
+      "productId": "10229049950242",
+      "handle": "dox-tecnologia-parlante-kimiso-kms-295",
+      "variantes": {
+        "u": "50423053189154"
+      }
+    },
+    "tecnologia-parlante-okop-kp-539": {
+      "productId": "10229050015778",
+      "handle": "dox-tecnologia-parlante-okop-kp-539",
+      "variantes": {
+        "u": "50423053254690"
+      }
+    },
+    "tecnologia-parlante-portatil-ajustable-kms-299": {
+      "productId": "10229050048546",
+      "handle": "dox-tecnologia-parlante-portatil-ajustable-kms-299",
+      "variantes": {
+        "u": "50423053287458"
+      }
+    },
+    "tecnologia-parlante-portatil-kimiso-kms-323": {
+      "productId": "10229050081314",
+      "handle": "dox-tecnologia-parlante-portatil-kimiso-kms-323",
+      "variantes": {
+        "u": "50423053320226"
+      }
+    },
+    "tecnologia-parlante-portatil-kimiso-kms-325-max": {
+      "productId": "10229050114082",
+      "handle": "dox-tecnologia-parlante-portatil-kimiso-kms-325-max",
+      "variantes": {
+        "u": "50423053352994"
+      }
+    },
+    "tecnologia-parlante-portatil-kimiso-kms-374": {
+      "productId": "10229050146850",
+      "handle": "dox-tecnologia-parlante-portatil-kimiso-kms-374",
+      "variantes": {
+        "u": "50423053385762"
+      }
+    },
+    "tecnologia-parlante-portatil-mg2": {
+      "productId": "10229050179618",
+      "handle": "dox-tecnologia-parlante-portatil-mg2",
+      "variantes": {
+        "u": "50423053418530"
+      }
+    },
+    "tecnologia-porta-celular": {
+      "productId": "10229050212386",
+      "handle": "dox-tecnologia-porta-celular",
+      "variantes": {
+        "u": "50423053451298"
+      }
+    },
+    "tecnologia-power-bank-10-000-mah": {
+      "productId": "10229050277922",
+      "handle": "dox-tecnologia-power-bank-10-000-mah",
+      "variantes": {
+        "u": "50423053516834"
+      }
+    },
+    "tecnologia-power-bank-30-000-mah-potente": {
+      "productId": "10229050310690",
+      "handle": "dox-tecnologia-power-bank-30-000-mah-potente",
+      "variantes": {
+        "u": "50423053549602"
+      }
+    },
+    "tecnologia-power-bank-magnetico-10-000-mah-yo11": {
+      "productId": "10229050343458",
+      "handle": "dox-tecnologia-power-bank-magnetico-10-000-mah-yo11",
+      "variantes": {
+        "u": "50423053582370"
+      }
+    },
+    "tecnologia-proyector-de-luz-nocturna": {
+      "productId": "10229050408994",
+      "handle": "dox-tecnologia-proyector-de-luz-nocturna",
+      "variantes": {
+        "u": "50423053647906"
+      }
+    },
+    "tecnologia-reloj-parlante-rgb": {
+      "productId": "10229050507298",
+      "handle": "dox-tecnologia-reloj-parlante-rgb",
+      "variantes": {
+        "u": "50423053746210"
+      }
+    },
+    "tecnologia-repetidor-de-wifi-wr03t": {
+      "productId": "10229050540066",
+      "handle": "dox-tecnologia-repetidor-de-wifi-wr03t",
+      "variantes": {
+        "u": "50423053778978"
+      }
+    },
+    "tecnologia-robot-despertador-reloj": {
+      "productId": "10229050605602",
+      "handle": "dox-tecnologia-robot-despertador-reloj",
+      "variantes": {
+        "u": "50423053844514"
+      }
+    },
+    "tecnologia-roku-4k-tv-express": {
+      "productId": "10229050638370",
+      "handle": "dox-tecnologia-roku-4k-tv-express",
+      "variantes": {
+        "u": "50423053877282"
+      }
+    },
+    "tecnologia-set-de-labubu": {
+      "productId": "10229050671138",
+      "handle": "dox-tecnologia-set-de-labubu",
+      "variantes": {
+        "u": "50423053910050"
+      }
+    },
+    "tecnologia-set-de-stitch": {
+      "productId": "10229050703906",
+      "handle": "dox-tecnologia-set-de-stitch",
+      "variantes": {
+        "u": "50423053975586"
+      }
+    },
+    "tecnologia-smartwatch-10pro": {
+      "productId": "10229050736674",
+      "handle": "dox-tecnologia-smartwatch-10pro",
+      "variantes": {
+        "u": "50423054008354"
+      }
+    },
+    "tecnologia-smartwatch-7-correas-audifonos-bluetooth": {
+      "productId": "10229050769442",
+      "handle": "dox-tecnologia-smartwatch-7-correas-audifonos-bluetooth",
+      "variantes": {
+        "u": "50423054041122"
+      }
+    },
+    "tecnologia-smartwatch-audifonos-d200-ultra": {
+      "productId": "10229050802210",
+      "handle": "dox-tecnologia-smartwatch-audifonos-d200-ultra",
+      "variantes": {
+        "u": "50423054073890"
+      }
+    },
+    "tecnologia-smartwatch-audifonos-i20": {
+      "productId": "10229050867746",
+      "handle": "dox-tecnologia-smartwatch-audifonos-i20",
+      "variantes": {
+        "u": "50423054434338"
+      }
+    },
+    "tecnologia-smartwatch-big-3": {
+      "productId": "10229050900514",
+      "handle": "dox-tecnologia-smartwatch-big-3",
+      "variantes": {
+        "u": "50423054467106"
+      }
+    },
+    "tecnologia-smartwatch-d100-audifonos": {
+      "productId": "10229050933282",
+      "handle": "dox-tecnologia-smartwatch-d100-audifonos",
+      "variantes": {
+        "u": "50423054499874"
+      }
+    },
+    "tecnologia-smartwatch-dama-me32": {
+      "productId": "10229050966050",
+      "handle": "dox-tecnologia-smartwatch-dama-me32",
+      "variantes": {
+        "u": "50423054532642"
+      }
+    },
+    "tecnologia-smartwatch-fit-economico-fd68": {
+      "productId": "10229050998818",
+      "handle": "dox-tecnologia-smartwatch-fit-economico-fd68",
+      "variantes": {
+        "u": "50423054565410"
+      }
+    },
+    "tecnologia-smartwatch-gamebox-correa-pro-hot-5": {
+      "productId": "10229051031586",
+      "handle": "dox-tecnologia-smartwatch-gamebox-correa-pro-hot-5",
+      "variantes": {
+        "u": "50423054598178"
+      }
+    },
+    "tecnologia-smartwatch-gus-16": {
+      "productId": "10229051064354",
+      "handle": "dox-tecnologia-smartwatch-gus-16",
+      "variantes": {
+        "u": "50423054630946"
+      }
+    },
+    "tecnologia-smartwatch-lg88-pro": {
+      "productId": "10229051097122",
+      "handle": "dox-tecnologia-smartwatch-lg88-pro",
+      "variantes": {
+        "u": "50423054663714"
+      }
+    },
+    "tecnologia-smartwatch-mobulaa-iw12-mini": {
+      "productId": "10229051129890",
+      "handle": "dox-tecnologia-smartwatch-mobulaa-iw12-mini",
+      "variantes": {
+        "u": "50423054696482"
+      }
+    },
+    "tecnologia-smartwatch-mobulaa-ub6-pro": {
+      "productId": "10229051162658",
+      "handle": "dox-tecnologia-smartwatch-mobulaa-ub6-pro",
+      "variantes": {
+        "u": "50423054729250"
+      }
+    },
+    "tecnologia-smartwatch-p9-ultra-7-correas": {
+      "productId": "10229051228194",
+      "handle": "dox-tecnologia-smartwatch-p9-ultra-7-correas",
+      "variantes": {
+        "u": "50423054794786"
+      }
+    },
+    "tecnologia-smartwatch-pro-a4": {
+      "productId": "10229051293730",
+      "handle": "dox-tecnologia-smartwatch-pro-a4",
+      "variantes": {
+        "u": "50423054827554"
+      }
+    },
+    "tecnologia-smartwatch-s11-kz-w42": {
+      "productId": "10229051326498",
+      "handle": "dox-tecnologia-smartwatch-s11-kz-w42",
+      "variantes": {
+        "u": "50423055319074"
+      }
+    },
+    "tecnologia-smartwatch-s3-pro": {
+      "productId": "10229051359266",
+      "handle": "dox-tecnologia-smartwatch-s3-pro",
+      "variantes": {
+        "u": "50423055351842"
+      }
+    },
+    "tecnologia-smartwatch-s9-mini-amoled": {
+      "productId": "10229051392034",
+      "handle": "dox-tecnologia-smartwatch-s9-mini-amoled",
+      "variantes": {
+        "u": "50423055384610"
+      }
+    },
+    "tecnologia-smartwatch-serie-11-dama-3-correas": {
+      "productId": "10229051424802",
+      "handle": "dox-tecnologia-smartwatch-serie-11-dama-3-correas",
+      "variantes": {
+        "u": "50423055417378"
+      }
+    },
+    "tecnologia-smartwatch-serie-11-mini": {
+      "productId": "10229051457570",
+      "handle": "dox-tecnologia-smartwatch-serie-11-mini",
+      "variantes": {
+        "u": "50423055450146"
+      }
+    },
+    "tecnologia-smartwatch-ultra-3-8-correas-economico": {
+      "productId": "10229051490338",
+      "handle": "dox-tecnologia-smartwatch-ultra-3-8-correas-economico",
+      "variantes": {
+        "u": "50423055482914"
+      }
+    },
+    "tecnologia-smartwatch-ultra-combo-pro": {
+      "productId": "10229051555874",
+      "handle": "dox-tecnologia-smartwatch-ultra-combo-pro",
+      "variantes": {
+        "u": "50423055548450"
+      }
+    },
+    "tecnologia-smartwatch-wisme-airpods-7-correas": {
+      "productId": "10229051588642",
+      "handle": "dox-tecnologia-smartwatch-wisme-airpods-7-correas",
+      "variantes": {
+        "u": "50423055581218"
+      }
+    },
+    "tecnologia-smartwatch-x8-combo": {
+      "productId": "10229051785250",
+      "handle": "dox-tecnologia-smartwatch-x8-combo",
+      "variantes": {
+        "u": "50423055810594"
+      }
+    },
+    "tecnologia-smartwatch-x9-combo": {
+      "productId": "10229051850786",
+      "handle": "dox-tecnologia-smartwatch-x9-combo",
+      "variantes": {
+        "u": "50423056007202"
+      }
+    },
+    "tecnologia-smartwatch-zt-36s-plus": {
+      "productId": "10229051883554",
+      "handle": "dox-tecnologia-smartwatch-zt-36s-plus",
+      "variantes": {
+        "u": "50423056039970"
+      }
+    },
+    "tecnologia-soporte-astronauta-celular": {
+      "productId": "10229051916322",
+      "handle": "dox-tecnologia-soporte-astronauta-celular",
+      "variantes": {
+        "u": "50423056072738"
+      }
+    },
+    "tecnologia-soporte-celular-speed-holder-hold-435": {
+      "productId": "10229052014626",
+      "handle": "dox-tecnologia-soporte-celular-speed-holder-hold-435",
+      "variantes": {
+        "u": "50423056171042"
+      }
+    },
+    "tecnologia-soporte-diadema-acero": {
+      "productId": "10229052047394",
+      "handle": "dox-tecnologia-soporte-diadema-acero",
+      "variantes": {
+        "u": "50423056203810"
+      }
+    },
+    "tecnologia-soporte-giratorio-para-tablet": {
+      "productId": "10229052080162",
+      "handle": "dox-tecnologia-soporte-giratorio-para-tablet",
+      "variantes": {
+        "u": "50423056236578"
+      }
+    },
+    "tecnologia-soporte-gopro-hy-27": {
+      "productId": "10229052112930",
+      "handle": "dox-tecnologia-soporte-gopro-hy-27",
+      "variantes": {
+        "u": "50423056269346"
+      }
+    },
+    "tecnologia-soporte-gopro-hy34": {
+      "productId": "10229052145698",
+      "handle": "dox-tecnologia-soporte-gopro-hy34",
+      "variantes": {
+        "u": "50423056302114"
+      }
+    },
+    "tecnologia-soporte-microfono-de-solapa": {
+      "productId": "10229052178466",
+      "handle": "dox-tecnologia-soporte-microfono-de-solapa",
+      "variantes": {
+        "u": "50423056334882"
+      }
+    },
+    "tecnologia-soporte-para-carro-hold-372": {
+      "productId": "10229052211234",
+      "handle": "dox-tecnologia-soporte-para-carro-hold-372",
+      "variantes": {
+        "u": "50423056367650"
+      }
+    },
+    "tecnologia-soporte-para-carro-vaso-bandeja-y-celular": {
+      "productId": "10229052244002",
+      "handle": "dox-tecnologia-soporte-para-carro-vaso-bandeja-y-celular",
+      "variantes": {
+        "u": "50423056400418"
+      }
+    },
+    "tecnologia-soporte-para-moto": {
+      "productId": "10229052276770",
+      "handle": "dox-tecnologia-soporte-para-moto",
+      "variantes": {
+        "u": "50423056433186"
+      }
+    },
+    "tecnologia-soporte-para-tablet-y-celular-hold-356": {
+      "productId": "10229052309538",
+      "handle": "dox-tecnologia-soporte-para-tablet-y-celular-hold-356",
+      "variantes": {
+        "u": "50423056465954"
+      }
+    },
+    "tecnologia-soporte-para-volante-hold-041": {
+      "productId": "10229052342306",
+      "handle": "dox-tecnologia-soporte-para-volante-hold-041",
+      "variantes": {
+        "u": "50423056498722"
+      }
+    },
+    "tecnologia-soporte-portatil-para-celular-o-tablet-moderno": {
+      "productId": "10229052407842",
+      "handle": "dox-tecnologia-soporte-portatil-para-celular-o-tablet-moderno",
+      "variantes": {
+        "u": "50423056564258"
+      }
+    },
+    "tecnologia-teclado-gamer": {
+      "productId": "10229052440610",
+      "handle": "dox-tecnologia-teclado-gamer",
+      "variantes": {
+        "u": "50423056597026"
+      }
+    },
+    "tecnologia-teclado-tv": {
+      "productId": "10229052473378",
+      "handle": "dox-tecnologia-teclado-tv",
+      "variantes": {
+        "u": "50423056629794"
+      }
+    },
+    "tecnologia-tripode-estabilizador-celular-ay49t": {
+      "productId": "10229052538914",
+      "handle": "dox-tecnologia-tripode-estabilizador-celular-ay49t",
+      "variantes": {
+        "u": "50423056728098"
+      }
+    },
+    "tecnologia-ventilador-usb-led-fan-05": {
+      "productId": "10229052637218",
+      "handle": "dox-tecnologia-ventilador-usb-led-fan-05",
+      "variantes": {
+        "u": "50423056826402"
+      }
+    },
+    "vapes-beyond-clk6000": {
+      "productId": "10229052669986",
+      "handle": "dox-vapes-beyond-clk6000",
+      "variantes": {
+        "u": "50423056859170"
+      }
+    },
+    "vapes-bugatti-17000": {
+      "productId": "10229052702754",
+      "handle": "dox-vapes-bugatti-17000",
+      "variantes": {
+        "u": "50423056891938"
+      }
+    },
+    "vapes-chillax-shake-15000": {
+      "productId": "10229052735522",
+      "handle": "dox-vapes-chillax-shake-15000",
+      "variantes": {
+        "u": "50423056924706"
+      }
+    },
+    "vapes-chris-brown": {
+      "productId": "10229052768290",
+      "handle": "dox-vapes-chris-brown",
+      "variantes": {
+        "u": "50423056957474"
+      }
+    },
+    "vapes-ease-8000": {
+      "productId": "10229052833826",
+      "handle": "dox-vapes-ease-8000",
+      "variantes": {
+        "u": "50423057023010"
+      }
+    },
+    "vapes-ijoy-10000": {
+      "productId": "10229052866594",
+      "handle": "dox-vapes-ijoy-10000",
+      "variantes": {
+        "u": "50423057055778"
+      }
+    },
+    "vapes-nicky-jam-10000": {
+      "productId": "10229052932130",
+      "handle": "dox-vapes-nicky-jam-10000",
+      "variantes": {
+        "u": "50423057121314"
+      }
+    },
+    "vapes-pog-king-13000": {
+      "productId": "10229052997666",
+      "handle": "dox-vapes-pog-king-13000",
+      "variantes": {
+        "u": "50423057186850"
+      }
+    },
+    "vapes-rabbeats-rc10000": {
+      "productId": "10229053063202",
+      "handle": "dox-vapes-rabbeats-rc10000",
+      "variantes": {
+        "u": "50423057317922"
+      }
+    },
+    "vapes-tyson-heavy-weight-7000": {
+      "productId": "10229053095970",
+      "handle": "dox-vapes-tyson-heavy-weight-7000",
+      "variantes": {
+        "u": "50423057350690"
+      }
+    }
+  }
+}

@@ -11,6 +11,7 @@ import {
 import { isCombo, planLabel, productBySlug, type Plan, type Product } from "@/data/catalog";
 import { isPhysical, isRestricted } from "@/data/lineas";
 import { comboTiers, formatCOP, site, waLink } from "@/data/site";
+import { enlaceCarritoShopify } from "@/lib/shopify";
 
 export interface CartLine {
   slug: string;
@@ -77,6 +78,8 @@ interface CartState extends Totals {
   remove: (slug: string, planId: string) => void;
   clear: () => void;
   checkoutUrl: string;
+  /** Por dónde se cierra el pedido: Shopify si toda la cesta es física y está cargada allí; si no, WhatsApp. */
+  checkoutVia: "shopify" | "whatsapp";
   toast: Toast | null;
   dismissToast: () => void;
   favorites: string[];
@@ -224,6 +227,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const lines = resolve(Array.isArray(raw) ? raw : []);
     const count = lines.reduce((a, l) => a + l.qty, 0);
     const t = computeTotals(lines);
+    const shopify = enlaceCarritoShopify(lines);
     return {
       lines,
       count,
@@ -239,7 +243,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setQty,
       remove,
       clear,
-      checkoutUrl: waLink(buildOrderMessage(lines, t)),
+      checkoutUrl: shopify ?? waLink(buildOrderMessage(lines, t)),
+      checkoutVia: shopify ? "shopify" : "whatsapp",
       toast,
       dismissToast,
       favorites: Array.isArray(favorites) ? favorites.filter((s) => productBySlug(s)) : [],

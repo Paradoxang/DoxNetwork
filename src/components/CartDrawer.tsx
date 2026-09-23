@@ -1,5 +1,5 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Minus, Plus, Trash2, Truck, X } from "lucide-react";
+import { Minus, Plus, ShoppingBag, Trash2, Truck, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { planLabel } from "@/data/catalog";
@@ -191,14 +191,31 @@ export function CartDrawer() {
                     </div>
                   </dl>
                   {hasQuote && <p className="text-xs text-faint">Los servicios a cotizar se confirman por WhatsApp.</p>}
-                  {cart.lines.some((l) => isPhysical(l.product)) && (
+                  {cart.checkoutVia === "shopify" ? (
                     <p className="flex items-start gap-2 text-xs text-faint">
-                      <Truck className="h-3.5 w-3.5 shrink-0" /> Productos con envío: {shipping.detail.charAt(0).toLowerCase() + shipping.detail.slice(1)}
+                      <Truck className="h-3.5 w-3.5 shrink-0" /> Pagas al recibir, sin tarjeta. El envío lo ves en el siguiente paso.
                     </p>
+                  ) : (
+                    cart.lines.some((l) => isPhysical(l.product)) && (
+                      <p className="flex items-start gap-2 text-xs text-faint">
+                        <Truck className="h-3.5 w-3.5 shrink-0" /> Productos con envío: {shipping.detail.charAt(0).toLowerCase() + shipping.detail.slice(1)}
+                      </p>
+                    )
                   )}
+                  {/* Toda la cesta física y cargada en Shopify → su checkout, contra entrega.
+                      Cualquier digital, agotado o sin mapa → WhatsApp, como siempre. */}
                   <a href={cart.checkoutUrl} target="_blank" rel="noopener noreferrer" className="btn btn-buy w-full">
-                    <WhatsAppIcon className="h-5 w-5" />
-                    Finalizar pedido por WhatsApp
+                    {cart.checkoutVia === "shopify" ? (
+                      <>
+                        <ShoppingBag className="h-5 w-5" aria-hidden="true" />
+                        Pagar contra entrega
+                      </>
+                    ) : (
+                      <>
+                        <WhatsAppIcon className="h-5 w-5" />
+                        Finalizar pedido por WhatsApp
+                      </>
+                    )}
                   </a>
                   <p className="text-center text-xs leading-relaxed text-faint">
                     Al enviar tu pedido aceptas los{" "}
