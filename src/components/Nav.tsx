@@ -6,6 +6,7 @@ import {
   HelpCircle,
   Menu,
   MessageCircle,
+  PawPrint,
   Search,
   ShieldCheck,
   ShoppingBag,
@@ -22,6 +23,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { allProducts, bestDiscount, categories, fromPrice, products } from "@/data/catalog";
 import { destacados } from "@/data/destacados";
+import { lineaMascotas } from "@/data/comedero";
 import { lineaOf, lineaOrder, lineas, type LineaId } from "@/data/lineas";
 import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, lockScroll } from "@/lib/anim";
@@ -338,7 +340,7 @@ function CategoriesPanel() {
     <div className="grid grid-cols-[1fr_280px] gap-6">
       <div>
         <p className="kicker">La red</p>
-        <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-4">
+        <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-5">
           {lineaOrder.map((id) => (
             <li key={id}>
               <Link to={lineas[id].path} className="group flex h-full items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-surface">
@@ -356,6 +358,22 @@ function CategoriesPanel() {
               </Link>
             </li>
           ))}
+          {/* Mascotas: un solo producto, contra entrega, fuera del catálogo */}
+          <li>
+            <Link to={lineaMascotas.path} className="group flex h-full items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-surface">
+              <span
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
+                style={{ background: `${lineaMascotas.hue}22`, color: lineaMascotas.hue }}
+              >
+                <PawPrint className="h-5 w-5" aria-hidden="true" strokeWidth={1.8} />
+              </span>
+              <span>
+                <span className="block font-bold leading-snug">{lineaMascotas.name}</span>
+                <span className="mt-0.5 block text-[13px] leading-snug text-mute">{lineaMascotas.blurb}</span>
+                <span className="mt-1 block text-xs font-semibold text-faint">{lineaMascotas.count} producto</span>
+              </span>
+            </Link>
+          </li>
         </ul>
 
         <p className="kicker mt-5 border-t border-line pt-5 text-faint">Categorías digitales</p>
@@ -541,6 +559,17 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
                     </Link>
                   </li>
                 ))}
+                <li>
+                  <Link to={lineaMascotas.path} className="flex min-h-[60px] items-center gap-2.5 rounded-xl bg-surface p-3 text-sm font-bold">
+                    <span style={{ color: lineaMascotas.hue }}>
+                      <PawPrint className="h-5 w-5 shrink-0" aria-hidden="true" />
+                    </span>
+                    <span>
+                      {lineaMascotas.name}
+                      <span className="block text-xs font-semibold text-faint">{lineaMascotas.count} producto · contra entrega</span>
+                    </span>
+                  </Link>
+                </li>
               </ul>
             </Accordion>
 

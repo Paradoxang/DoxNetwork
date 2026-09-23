@@ -34,6 +34,20 @@ export const comedero = {
 };
 
 /**
+ * Cómo se presenta la línea en el menú «Tienda» (junto a Digital, Perfumería,
+ * Relojería y Tecnología). No es una LineaId del catálogo a propósito: es un
+ * solo producto que vive en Shopify, y meterlo en `lineas.ts` arrastraría
+ * conteos, filtros y colecciones que no tiene.
+ */
+export const lineaMascotas = {
+  name: "Mascotas",
+  blurb: "Comedero por gravedad, pagas al recibir",
+  path: "/comedero",
+  hue: "#e2a54b",
+  count: 1,
+};
+
+/**
  * Imágenes: renders del proveedor (Dropi), no fotos de la unidad. Tres de las
  * cuatro traían rótulos en inglés y cotas quemados; los recortes de aquí
  * salen del trío limpio. Se reemplazan cuando haya fotos de la muestra.
