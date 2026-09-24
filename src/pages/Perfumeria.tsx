@@ -64,7 +64,7 @@ const faqs = [
   },
   {
     q: "¿Puedo pedir perfumes junto con productos digitales?",
-    a: "Sí, en el mismo carrito. Los digitales llegan por WhatsApp y los perfumes por envío. El descuento por combinar aplica solo a los productos digitales.",
+    a: "Sí, en el mismo carrito. Los digitales llegan por WhatsApp y los perfumes por envío.",
   },
   {
     q: "No sé cuál elegir, ¿me ayudan?",

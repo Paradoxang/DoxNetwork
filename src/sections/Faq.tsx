@@ -6,7 +6,7 @@ import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
 import { SectionHeading } from "@/components/SectionHeading";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import { comboTiers, site, waLink } from "@/data/site";
+import { site, waLink } from "@/data/site";
 import { EASE, Reveal } from "@/lib/anim";
 
 /**
@@ -49,11 +49,7 @@ export const faqs = [
   },
   {
     q: "¿Cómo funcionan los combos?",
-    a: comboTiers.length
-      ? `Los combos ya vienen con precio rebajado frente a comprar cada plataforma por separado. Y si juntas en el carrito productos digitales distintos, el descuento se aplica solo: ${comboTiers
-          .map((t) => `${t.pct}% con ${t.min}`)
-          .join(", ")} o más.`
-      : "Tenemos combos armados con precio rebajado frente a comprar cada plataforma por separado.",
+    a: "Cada combo junta varias plataformas por un precio rebajado frente a comprarlas por separado. Lo agregas al carrito como cualquier producto.",
   },
   {
     q: "¿Los pines de cine y las recargas son oficiales?",

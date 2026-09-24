@@ -10,7 +10,7 @@
  *    canal de WhatsApp.
  *  · Confirmar tiempos, costos y transportadoras de envío (site.ts).
  */
-import { comboTiers, site } from "./site";
+import { site } from "./site";
 
 export interface LegalSection {
   id: string;
@@ -88,9 +88,7 @@ const terminos: LegalDoc = {
       title: "Precios y pagos",
       body: [
         `Los precios están en pesos colombianos (COP) y pueden cambiar sin previo aviso; se respeta el precio confirmado en tu pedido. Medios de pago: ${site.payments.join(", ")}.`,
-        comboTiers.length
-          ? `Al combinar productos digitales distintos se aplica un descuento automático (${comboTiers.map((t) => `${t.pct}% con ${t.min}`).join(", ")} o más). No se acumula con los combos armados ni aplica a productos físicos.`
-          : "Los combos armados tienen su precio rebajado frente a comprar cada producto por separado.",
+        "Los combos tienen su precio rebajado frente a comprar cada producto por separado. No hay otros descuentos automáticos por combinar productos.",
         "No pedimos ni guardamos datos de tarjetas.",
       ],
     },

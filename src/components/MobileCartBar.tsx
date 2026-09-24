@@ -6,7 +6,7 @@ import { useCart } from "@/lib/cart";
 
 /** Barra fija de carrito en móvil (la de ZeroDelay): total siempre a mano. */
 export function MobileCartBar() {
-  const { count, total, discount, open, setOpen } = useCart();
+  const { count, total, open, setOpen } = useCart();
   const visible = count > 0 && !open;
   return (
     <AnimatePresence>
@@ -22,7 +22,6 @@ export function MobileCartBar() {
             <div className="min-w-0">
               <p className="text-xs text-faint">
                 {count} {count === 1 ? "producto" : "productos"}
-                {discount > 0 && <span className="ml-1.5 font-bold text-gold">· ahorras {formatCOP(discount)}</span>}
               </p>
               <p className="num text-lg font-semibold leading-tight">{formatCOP(total)}</p>
             </div>

@@ -8,9 +8,9 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { isCombo, planLabel, productBySlug, type Plan, type Product } from "@/data/catalog";
+import { planLabel, productBySlug, type Plan, type Product } from "@/data/catalog";
 import { isPhysical, isRestricted } from "@/data/lineas";
-import { comboTiers, formatCOP, site, waLink } from "@/data/site";
+import { formatCOP, site, waLink } from "@/data/site";
 import { productoComedero } from "@/data/comedero";
 import { enlaceCarritoShopify } from "@/lib/shopify";
 
@@ -26,40 +26,8 @@ export interface ResolvedLine extends CartLine {
   total: number;
 }
 
-export interface Totals {
-  subtotal: number;
-  discountPct: number;
-  discount: number;
-  total: number;
-}
-
-/**
- * Descuento por combinar: cuenta productos digitales distintos que no sean
- * combos (los combos ya traen su precio rebajado; perfumería, relojería y
- * tecnología tienen su propio margen) y aplica el % solo sobre esas líneas.
- * Exportado porque el armador de combos calcula lo mismo en vivo.
- */
-export function computeTotals(lines: { product: Product; total: number }[]): Totals & {
-  distinct: number;
-  nextTier: { missing: number; pct: number } | null;
-} {
-  const subtotal = lines.reduce((a, l) => a + l.total, 0);
-  const loose = lines.filter((l) => !isCombo(l.product) && !isPhysical(l.product));
-  const distinct = new Set(loose.map((l) => l.product.slug)).size;
-  const tier = [...comboTiers].reverse().find((t) => distinct >= t.min);
-  const discountPct = tier?.pct ?? 0;
-  const base = loose.reduce((a, l) => a + l.total, 0);
-  const discount = Math.round((base * discountPct) / 100 / 100) * 100;
-  const next = comboTiers.find((t) => distinct < t.min);
-  return {
-    subtotal,
-    discountPct,
-    discount,
-    total: subtotal - discount,
-    distinct,
-    nextTier: next && distinct > 0 ? { missing: next.min - distinct, pct: next.pct } : null,
-  };
-}
+/* Sin descuento por combinar desde el 24-sep-2026 (orden de Santiago): el
+   total es la suma de las líneas. Los combos ya traen su propio precio. */
 
 interface Toast {
   id: number;
@@ -67,10 +35,10 @@ interface Toast {
   undo?: () => void;
 }
 
-interface CartState extends Totals {
+interface CartState {
   lines: ResolvedLine[];
   count: number;
-  nextTier: { missing: number; pct: number } | null;
+  total: number;
   open: boolean;
   setOpen: (v: boolean) => void;
   add: (slug: string, planId: string, qty?: number) => void;
@@ -104,17 +72,13 @@ function resolve(lines: CartLine[]): ResolvedLine[] {
   return out;
 }
 
-export function buildOrderMessage(lines: ResolvedLine[], t: Totals) {
+export function buildOrderMessage(lines: ResolvedLine[], total: number) {
   const rows = lines.map((l) => {
     const price = l.plan.price === 0 ? "a cotizar" : formatCOP(l.total);
     return `• ${l.product.name} (${planLabel(l.plan)}) x${l.qty}: ${price}`;
   });
   const out = [`Hola ${site.name}, quiero hacer este pedido:`, "", ...rows, ""];
-  if (t.discount > 0) {
-    out.push(`Subtotal: ${formatCOP(t.subtotal)}`);
-    out.push(`Descuento por combinar (${t.discountPct}%): -${formatCOP(t.discount)}`);
-  }
-  out.push(`Total: ${formatCOP(t.total)}`);
+  out.push(`Total: ${formatCOP(total)}`);
   if (lines.some((l) => isRestricted(l.product))) {
     out.push("", "Confirmo que soy mayor de 18 años.");
   }
@@ -228,16 +192,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo<CartState>(() => {
     const lines = resolve(Array.isArray(raw) ? raw : []);
     const count = lines.reduce((a, l) => a + l.qty, 0);
-    const t = computeTotals(lines);
+    const total = lines.reduce((a, l) => a + l.total, 0);
     const shopify = enlaceCarritoShopify(lines);
     return {
       lines,
       count,
-      subtotal: t.subtotal,
-      discountPct: t.discountPct,
-      discount: t.discount,
-      total: t.total,
-      nextTier: t.nextTier,
+      total,
       open,
       setOpen,
       add,
@@ -245,7 +205,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setQty,
       remove,
       clear,
-      checkoutUrl: shopify ?? waLink(buildOrderMessage(lines, t)),
+      checkoutUrl: shopify ?? waLink(buildOrderMessage(lines, total)),
       checkoutVia: shopify ? "shopify" : "whatsapp",
       toast,
       dismissToast,

@@ -164,32 +164,8 @@ export function CartDrawer() {
                 </ul>
 
                 <div className="space-y-3 border-t border-line px-5 py-4">
-                  <AnimatePresence mode="wait">
-                    {cart.nextTier && (
-                      <motion.p
-                        key={cart.nextTier.missing + "-" + cart.nextTier.pct}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
-                        className="rounded-xl bg-gold-soft px-3 py-2 text-sm text-ink"
-                      >
-                        Agrega {cart.nextTier.missing} {cart.nextTier.missing === 1 ? "producto distinto" : "productos distintos"} más y
-                        obtén <strong className="text-gold">{cart.nextTier.pct}% de descuento</strong>.
-                      </motion.p>
-                    )}
-                  </AnimatePresence>
-                  <dl className="space-y-1.5 text-sm [&_dd]:font-mono [&_dd]:tabular-nums">
-                    <div className="flex justify-between text-mute">
-                      <dt>Subtotal</dt>
-                      <dd>{formatCOP(cart.subtotal)}</dd>
-                    </div>
-                    {cart.discount > 0 && (
-                      <div className="flex justify-between text-gold">
-                        <dt>Descuento por combinar ({cart.discountPct}%)</dt>
-                        <dd>-{formatCOP(cart.discount)}</dd>
-                      </div>
-                    )}
-                    <div className="flex justify-between pt-1 text-lg font-extrabold">
+                  <dl className="text-sm [&_dd]:font-mono [&_dd]:tabular-nums">
+                    <div className="flex justify-between text-lg font-extrabold">
                       <dt>Total</dt>
                       <dd>{formatCOP(cart.total)}</dd>
                     </div>

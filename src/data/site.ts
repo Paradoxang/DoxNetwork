@@ -30,18 +30,6 @@ export const site = {
   dox: "https://doxdesigns.dev",
 };
 
-/**
- * Descuento automático al combinar productos distintos (mecánica "arma tu
- * combo" de ZeroDelay). Cuenta solo productos sueltos: los combos ya traen su
- * descuento y no se acumulan. Entre 5% y 15%, nunca más de 20% (recomendación
- * de los estudios). TODO: ajústalo a tu margen; array vacío lo desactiva.
- */
-export const comboTiers = [
-  { min: 2, pct: 5 },
-  { min: 3, pct: 10 },
-  { min: 4, pct: 15 },
-];
-
 /** Mensajes de la barra superior rotativa (la de Emprendered, sin promesas vacías). */
 export const announcements = [
   "Nuevo: relojería y tecnología con envío a toda Colombia",

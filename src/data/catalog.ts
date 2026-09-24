@@ -605,7 +605,8 @@ const baseInput: ProductInput[] = [
  * el valor está en el ticket, no en el descuento), redondeado a 900.
  *
  * Solo pantallas y pines: los combos de IA y edición (Universitario y
- * Creador de contenido) se retiraron el 24-sep-2026 por orden de Santiago.
+ * Creador de contenido) se retiraron el 24-sep-2026 por orden de Santiago,
+ * y no vuelven. ChatGPT, Canva, CapCut y compañía se venden solo sueltos.
  */
 const combosInput: ProductInput[] = [
   {

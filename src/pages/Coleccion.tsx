@@ -45,7 +45,7 @@ const replicaFaq = {
 const shippingFaq = { q: "¿Cómo llega mi pedido?", a: `${shipping.short}. ${shipping.detail}` };
 const mixFaq = {
   q: "¿Puedo pedir junto con productos digitales o perfumes?",
-  a: "Sí, en el mismo carrito. Lo digital llega por WhatsApp y lo físico por envío. El descuento por combinar aplica solo a los productos digitales.",
+  a: "Sí, en el mismo carrito. Lo digital llega por WhatsApp y lo físico por envío.",
 };
 
 const configs: Record<LineaFisica, Config> = {

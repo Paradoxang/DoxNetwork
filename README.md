@@ -32,7 +32,7 @@ npm run preview  # sirve dist/ para probar el build
 
 | Qué | Archivo |
 |---|---|
-| WhatsApp, pagos, horario, garantía, tiempo de entrega, descuentos por combinar, anuncios | `src/data/site.ts` |
+| WhatsApp, pagos, horario, garantía, tiempo de entrega, anuncios | `src/data/site.ts` |
 | Categorías, productos, planes, precios, stock y combos | `src/data/catalog.ts` |
 | Slides del carrusel y reseñas reales | `src/data/promos.ts` |
 | Preguntas frecuentes | `src/sections/Faq.tsx` |
@@ -78,8 +78,8 @@ internos: están en `.gitignore` y no se suben al repositorio.
 - 4 combos con identidad, solo de pantallas y pines ("Maratón de series", "Fan del
   deporte", "Plan familia", "Cita al cine"). Los de IA y edición ("Universitario",
   "Creador de contenido") y el armador `/arma-tu-combo` se retiraron el 24-sep-2026.
-- Descuento por combinar en el carrito: 5% con 2 productos digitales distintos, 10%
-  con 3 y 15% con 4 o más. No se acumula con los combos.
+- Sin descuento por combinar en el carrito (retirado el 24-sep-2026): el único
+  precio rebajado es el de cada combo.
 - Ficha estándar (acceso, dispositivos, vigencia, entrega, garantía) y garantía
   escrita: el hueco más grande de los tres competidores.
 - FAQ orientada a objeciones, categorías "Próximamente", favoritos, stock visible,
