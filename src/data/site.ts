@@ -47,7 +47,6 @@ export const announcements = [
   "Nuevo: relojería y tecnología con envío a toda Colombia",
   `Streaming, IA y software por WhatsApp en ~${site.deliveryMinutes} minutos`,
   "Perfumería: réplicas 1.1 y AAA para ella, para él y unisex",
-  "Arma tu combo digital y ahorra hasta 15%",
 ];
 
 export function waLink(text: string) {

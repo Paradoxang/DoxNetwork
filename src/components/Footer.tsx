@@ -108,11 +108,6 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link to="/arma-tu-combo" className="text-mute transition-colors hover:text-neb">
-                Arma tu combo
-              </Link>
-            </li>
-            <li>
               <Link to="/#garantia" className="text-mute transition-colors hover:text-neb">
                 Garantía
               </Link>

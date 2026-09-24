@@ -19,7 +19,6 @@ import { UIProvider } from "@/lib/ui";
 import { Catalog } from "@/pages/Catalog";
 import { Coleccion } from "@/pages/Coleccion";
 import { Comedero } from "@/pages/Comedero";
-import { ComboBuilder } from "@/pages/ComboBuilder";
 import { Favorites } from "@/pages/Favorites";
 import { Home } from "@/pages/Home";
 import { NotFound } from "@/pages/NotFound";
@@ -79,7 +78,7 @@ function Shell() {
   /* Páginas con su propio botón grande abajo: el flotante de WhatsApp y la
      barra del carrito se les montan encima y tapan justo lo que paga la
      visita. En /comedero, que es landing de pauta, sería tapar el CTA. */
-  const ctaPropio = location.pathname === "/arma-tu-combo" || location.pathname === "/comedero";
+  const ctaPropio = location.pathname === "/comedero";
 
   const barUp = count > 0 && !ctaPropio;
 
@@ -153,7 +152,6 @@ export const routes: RouteRecord[] = [
       { path: "relojeria", element: <Coleccion linea="relojeria" /> },
       { path: "tecnologia", element: <Coleccion linea="tecnologia" /> },
       { path: "vapes", element: <Coleccion linea="vapes" /> },
-      { path: "arma-tu-combo", element: <ComboBuilder /> },
       // Landing de pauta de un solo producto, fuera del catálogo: el comedero
       // vive en Shopify y se cobra contra entrega. Ver src/data/comedero.ts.
       { path: "comedero", element: <Comedero /> },

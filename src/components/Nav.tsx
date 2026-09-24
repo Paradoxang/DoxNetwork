@@ -10,7 +10,6 @@ import {
   Search,
   ShieldCheck,
   ShoppingBag,
-  Sparkles,
   Store,
   X,
 } from "lucide-react";
@@ -391,7 +390,6 @@ function CategoriesPanel() {
 
         <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
           <Link to="/catalogo?ofertas=1" className="chip min-h-[34px] text-[13px]">Ofertas</Link>
-          <Link to="/arma-tu-combo" className="chip min-h-[34px] text-[13px]">Arma tu combo</Link>
           <Link to="/#dox-designs" className="chip min-h-[34px] text-[13px]">Páginas web</Link>
           <Link to={lineas.vapes.path} className="chip min-h-[34px] text-[13px] text-faint">{lineas.vapes.name} · +18</Link>
           <Link to="/catalogo" className="ml-auto flex items-center gap-1.5 font-semibold text-neb hover:underline">
@@ -431,39 +429,22 @@ function CategoriesPanel() {
 
 function CombosPanel() {
   return (
-    <div className="grid grid-cols-[1fr_280px] gap-6">
-      <div>
-        <p className="kicker">Combos con identidad</p>
-        <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-3">
-          {combos.map((c) => (
-            <li key={c.slug}>
-              <Link to={`/producto/${c.slug}`} className="group flex h-full flex-col rounded-2xl p-3 transition-colors hover:bg-surface">
-                <span className="flex items-center justify-between gap-2">
-                  <span className="font-bold group-hover:text-neb">{c.name}</span>
-                  <span className="text-xs font-bold text-gold">-{bestDiscount(c)}%</span>
-                </span>
-                <span className="mt-0.5 text-[13px] text-mute">{c.tagline}</span>
-                <span className="num mt-1.5 text-sm font-semibold">{formatCOP(fromPrice(c))}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <Link
-        to="/arma-tu-combo"
-        className="group flex flex-col justify-between rounded-2xl border border-line bg-neb-soft p-5 transition-colors hover:border-neb"
-      >
-        <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-neb text-neb-ink">
-          <Sparkles className="h-5 w-5" />
-        </span>
-        <span>
-          <span className="mt-6 block text-xl font-extrabold leading-tight">Arma tu propio combo</span>
-          <span className="mt-1 block text-sm text-mute">Elige lo que quieras: 2 productos 5%, 3 productos 10%, 4 o más 15%.</span>
-          <span className="mt-4 flex items-center gap-1.5 text-sm font-semibold text-neb">
-            Empezar <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-          </span>
-        </span>
-      </Link>
+    <div>
+      <p className="kicker">Combos con identidad</p>
+      <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-4">
+        {combos.map((c) => (
+          <li key={c.slug}>
+            <Link to={`/producto/${c.slug}`} className="group flex h-full flex-col rounded-2xl p-3 transition-colors hover:bg-surface">
+              <span className="flex items-center justify-between gap-2">
+                <span className="font-bold group-hover:text-neb">{c.name}</span>
+                <span className="text-xs font-bold text-gold">-{bestDiscount(c)}%</span>
+              </span>
+              <span className="mt-0.5 text-[13px] text-mute">{c.tagline}</span>
+              <span className="num mt-1.5 text-sm font-semibold">{formatCOP(fromPrice(c))}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -604,7 +585,6 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
               { to: lineas.vapes.path, label: `${lineas.vapes.name} · +18` },
               { to: "/comedero", label: "Mascotas · contra entrega" },
               { to: "/catalogo?ofertas=1", label: "Ofertas" },
-              { to: "/arma-tu-combo", label: "Arma tu combo" },
               { to: "/favoritos", label: "Favoritos" },
               { to: "/#garantia", label: "Garantía" },
               { to: "/#preguntas", label: "Preguntas frecuentes" },

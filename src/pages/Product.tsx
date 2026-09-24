@@ -319,7 +319,7 @@ export function Product() {
               <p className="mt-6 text-sm text-faint">
                 ¿Dudas con el plan? Revisa las{" "}
                 <Link to="/#preguntas" className="font-semibold text-neb hover:underline">preguntas frecuentes</Link> o{" "}
-                <Link to="/arma-tu-combo" className="font-semibold text-neb hover:underline">combínalo y ahorra</Link>.
+                <Link to="/catalogo?categoria=combos" className="font-semibold text-neb hover:underline">mira los combos</Link>.
               </p>
             )}
           </Reveal>

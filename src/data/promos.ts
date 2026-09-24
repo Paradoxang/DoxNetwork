@@ -5,7 +5,7 @@
  * pinta con su fondo de marca (degradado del tono + órbita) y se ve completo.
  * Cómo generar cada imagen con Nano Banana: docs/brief-imagenes-nano-banana.md
  */
-import { fromPrice, productBySlug, products } from "@/data/catalog";
+import { fromPrice, products } from "@/data/catalog";
 import { relojes, tecnologia } from "@/data/lineas";
 import { perfumeMinPrice, perfumes } from "@/data/perfumeria";
 import { formatCOP } from "@/data/site";
@@ -50,16 +50,6 @@ export const promos: Promo[] = [
     cta: { label: "Ver perfumería", to: "/perfumeria" },
     hue: "#e7a35a",
     showcase: ["perfume-lattafa-yara", "perfume-dior-sauvage", "perfume-carolina-herrera-good-girl"],
-  },
-  {
-    id: "combo-universitario",
-    kicker: "Combo de la semana",
-    title: "Universitario: IA, diseño e inglés",
-    text: `ChatGPT Plus, Canva Pro y Duolingo juntos por ${formatCOP(fromPrice(productBySlug("combo-universitario")!))}.`,
-    cta: { label: "Ver combo", to: "/producto/combo-universitario" },
-    hue: "#2fb38c",
-    image: "/promos/promo-universitario.webp",
-    imageMobile: "/promos/promo-universitario-m.webp",
   },
   {
     id: "fan-del-deporte",

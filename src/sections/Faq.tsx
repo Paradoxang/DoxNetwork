@@ -50,7 +50,7 @@ export const faqs = [
   {
     q: "¿Cómo funcionan los combos?",
     a: comboTiers.length
-      ? `Hay dos formas: los combos armados, que ya vienen con precio rebajado, o armar el tuyo. Al combinar productos digitales distintos el descuento se aplica solo: ${comboTiers
+      ? `Los combos ya vienen con precio rebajado frente a comprar cada plataforma por separado. Y si juntas en el carrito productos digitales distintos, el descuento se aplica solo: ${comboTiers
           .map((t) => `${t.pct}% con ${t.min}`)
           .join(", ")} o más.`
       : "Tenemos combos armados con precio rebajado frente a comprar cada plataforma por separado.",

@@ -600,9 +600,12 @@ const baseInput: ProductInput[] = [
 
 /**
  * Combos con identidad (la mecánica más fuerte de ZeroDelay). El nombre
- * segmenta solo: el estudiante se reconoce en "Universitario". Su precio se
+ * segmenta solo: el futbolero se reconoce en "Fan del deporte". Su precio se
  * calcula abajo: suma de las partes menos `comboDiscount` (12–15%, nunca más:
  * el valor está en el ticket, no en el descuento), redondeado a 900.
+ *
+ * Solo pantallas y pines: los combos de IA y edición (Universitario y
+ * Creador de contenido) se retiraron el 24-sep-2026 por orden de Santiago.
  */
 const combosInput: ProductInput[] = [
   {
@@ -624,43 +627,6 @@ const combosInput: ProductInput[] = [
     features: ["3 plataformas", "Pantallas propias", "Reposición si falla durante la vigencia"],
     badge: "popular",
     featured: true,
-  },
-  {
-    slug: "combo-universitario",
-    comboDiscount: 0.15,
-    image: "/promos/combo-universitario.webp",
-    name: "Universitario",
-    category: "combos",
-    forWho: "Para estudiar, presentar y practicar idiomas",
-    tagline: "ChatGPT Plus + Canva Pro + Duolingo",
-    description: "IA para tus trabajos, Canva para tus presentaciones y Duolingo para el inglés.",
-    hue: "#2fb38c",
-    includes: [
-      { slug: "chatgpt", planId: "plus" },
-      { slug: "canva-pro", planId: "inv45" },
-      { slug: "duolingo-super", planId: "1m" },
-    ],
-    plans: [{ id: "combo", tier: "Combo", duration: "30 días", price: 0 }],
-    features: ["IA, diseño e idiomas", "Tus propias cuentas", "Soporte durante la vigencia"],
-    featured: true,
-  },
-  {
-    slug: "combo-creador",
-    comboDiscount: 0.14,
-    image: "/promos/combo-creador.webp",
-    name: "Creador de contenido",
-    category: "combos",
-    forWho: "Para el que publica todos los días",
-    tagline: "CapCut Pro + Canva Pro 12 meses + Spotify",
-    description: "Edita video, diseña todo el año y ponle música a tu proceso.",
-    hue: "#27b3c4",
-    includes: [
-      { slug: "capcut-pro", planId: "1m" },
-      { slug: "canva-pro", planId: "inv12" },
-      { slug: "spotify", planId: "1m" },
-    ],
-    plans: [{ id: "combo", tier: "Combo", duration: "30 días + Canva 12 meses", price: 0 }],
-    features: ["Video, diseño y música", "Canva por un año", "Soporte durante la vigencia"],
   },
   {
     slug: "combo-futbolero",

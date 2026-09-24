@@ -25,7 +25,6 @@ npm run preview  # sirve dist/ para probar el build
 | `/` | Inicio: hero, confianza, carrusel de promos, categorías, combos, pestañas de productos, cómo comprar, garantía, reseñas y preguntas |
 | `/catalogo` | Catálogo con búsqueda, categorías, ofertas y orden (`?categoria=`, `?q=`, `?ofertas=1`, `?orden=`) |
 | `/producto/:slug` | Ficha: selector de plan por ejes, detalles, desglose del combo y WhatsApp con enlace |
-| `/arma-tu-combo` | Armador de combos con descuento en vivo |
 | `/favoritos` | Lista de deseos |
 | `/terminos` | Términos, garantía y devoluciones |
 
@@ -76,10 +75,11 @@ internos: están en `.gitignore` y no se suben al repositorio.
 **Aplicado**
 - Precio = costo de proveedor × `MARKUP` (3), limitado por la mediana del mercado y el plan oficial (17-sep-2026: el × 3 dejaba 21 de 26 planes por encima de la mediana). Costo de referencia: Torostream y, si falta, Emprendered.
 - Escalera por producto: acceso × calidad × duración.
-- 6 combos con identidad ("Universitario", "Fan del deporte"…), con ahorro real
-  del 11% al 16%.
-- "Arma tu combo": 5% con 2 productos, 10% con 3 y 15% con 4 o más. No se acumula
-  con combos armados.
+- 4 combos con identidad, solo de pantallas y pines ("Maratón de series", "Fan del
+  deporte", "Plan familia", "Cita al cine"). Los de IA y edición ("Universitario",
+  "Creador de contenido") y el armador `/arma-tu-combo` se retiraron el 24-sep-2026.
+- Descuento por combinar en el carrito: 5% con 2 productos digitales distintos, 10%
+  con 3 y 15% con 4 o más. No se acumula con los combos.
 - Ficha estándar (acceso, dispositivos, vigencia, entrega, garantía) y garantía
   escrita: el hueco más grande de los tres competidores.
 - FAQ orientada a objeciones, categorías "Próximamente", favoritos, stock visible,

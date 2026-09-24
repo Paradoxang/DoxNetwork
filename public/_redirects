@@ -1,0 +1,5 @@
+# Rutas retiradas el 24-sep-2026: los enlaces viejos (WhatsApp, anuncios,
+# buscadores) caen en los combos en vez de en la página 404.
+/arma-tu-combo                    /catalogo?categoria=combos 301
+/producto/combo-universitario     /catalogo?categoria=combos 301
+/producto/combo-creador           /catalogo?categoria=combos 301

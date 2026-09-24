@@ -1,13 +1,12 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Check, Plus, Sparkles } from "lucide-react";
+import { ArrowRight, Check, Plus } from "lucide-react";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
 import { ProductArt } from "@/components/ProductArt";
 import { SectionHeading } from "@/components/SectionHeading";
 import { bestDiscount, cheapestPlan, planOf, productBySlug, products, type Product } from "@/data/catalog";
-import { comboTiers, formatCOP } from "@/data/site";
+import { formatCOP } from "@/data/site";
 import { useCart } from "@/lib/cart";
 import { useBatchReveal } from "@/lib/useBatchReveal";
 
@@ -16,7 +15,6 @@ const combos = products.filter((p) => p.category === "combos");
 export function CombosSection() {
   const scope = useRef<HTMLElement>(null);
   useBatchReveal(scope);
-  const maxPct = comboTiers.length ? comboTiers[comboTiers.length - 1].pct : 0;
 
   return (
     <section ref={scope} id="combos" className="difiere slant relative overflow-hidden bg-bg-soft">
@@ -36,36 +34,12 @@ export function CombosSection() {
           Varias plataformas por menos de lo que cuestan por separado.
         </SectionHeading>
 
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-10 grid gap-4 sm:grid-cols-2">
           {combos.map((c) => (
             <li key={c.slug} data-reveal>
               <ComboCard combo={c} />
             </li>
           ))}
-          {maxPct > 0 && (
-            <li data-reveal>
-              <Link
-                to="/arma-tu-combo"
-                className="card card-hover group relative flex h-full min-h-[280px] flex-col justify-between overflow-hidden border-dashed bg-neb-soft p-6"
-              >
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-neb text-neb-ink">
-                  <Sparkles className="h-5 w-5" />
-                </span>
-                {/* Apoyado en el borde inferior: arriba lo cortaba la tarjeta */}
-                <Astro pose="regalo" decorative small className="absolute -right-2 bottom-0 h-28 md:h-36" />
-                <span>
-                  <span className="kicker">A tu medida</span>
-                  <span className="mt-2 block text-2xl font-extrabold leading-tight">Arma tu propio combo</span>
-                  <span className="mt-2 block text-sm text-mute">
-                    Combina lo que quieras y ahorra hasta {maxPct}%. El descuento se aplica solo.
-                  </span>
-                  <span className="mt-4 flex items-center gap-1.5 font-semibold text-neb">
-                    Empezar <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </span>
-              </Link>
-            </li>
-          )}
         </ul>
       </div>
     </section>
