@@ -72,7 +72,8 @@ export function PromoPeek() {
 
   return (
     <AnimatePresence>
-      {show && !open && (
+      {/* Solo en el inicio: en /perfumeria esa esquina es del stock secreto */}
+      {show && !open && location.pathname === "/" && (
         <motion.aside
           aria-label="Promoción"
           initial={{ opacity: 0, y: 20 }}

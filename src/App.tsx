@@ -7,6 +7,7 @@ import { Footer } from "@/components/Footer";
 import { MobileCartBar } from "@/components/MobileCartBar";
 import { Nav } from "@/components/Nav";
 import { PromoPeek } from "@/components/PromoPeek";
+import { StockSecreto } from "@/components/StockSecreto";
 import { SearchPalette } from "@/components/SearchPalette";
 import { Toast } from "@/components/Toast";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -129,6 +130,7 @@ function Shell() {
 
       {!ctaPropio && <MobileCartBar />}
       <PromoPeek />
+      <StockSecreto />
       <Toast />
       <CartDrawer />
       <SearchPalette />

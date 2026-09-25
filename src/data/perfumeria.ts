@@ -87,6 +87,18 @@ export const shipping = {
 export const disclaimer =
   "Vendemos réplicas: no son productos originales de las marcas ni están asociadas a ellas. Los nombres de marca se usan solo como referencia.";
 
+/**
+ * Gancho del "stock secreto" (orden de Santiago, 25-sep-2026): muchas
+ * fragancias no están en la vitrina y se consiguen con otros proveedores.
+ * El mensaje de WhatsApp termina en ": " para que el cliente escriba el
+ * nombre, y el encabezado en negrita avisa de dónde viene la consulta.
+ */
+export const stockSecreto = {
+  titulo: "¿No encuentras la que estás buscando?",
+  texto: "Pregunta por nuestro stock secreto 😉",
+  mensaje: "🤫 *Stock secreto*\nBuenas, quiero preguntar por: ",
+};
+
 function toProduct([id, cost, line, brand, para, quality, family, slug, photo]: PerfumeRow): Product {
   const kind = /^(set|kit)\b/i.test(line) ? "set" : "perfume";
   const name = !brand || line.toLowerCase().includes(brand.toLowerCase()) ? line : `${brand} ${line}`;
