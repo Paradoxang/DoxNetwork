@@ -30,11 +30,17 @@ export function ResenasProducto({ slug, linea }: { slug: string; linea: LineaRes
             {alcance === "producto" ? "Lo que dicen quienes lo compraron" : `Lo que dicen de ${nombreLinea[linea]}`}
           </h2>
         </div>
-        <p className="flex items-center gap-2 text-sm text-mute">
-          <Star className="h-4 w-4 fill-gold text-gold" aria-hidden="true" />
-          <span className="num font-semibold text-ink">{promedio.toFixed(1).replace(".", ",")}</span> de 5 ·{" "}
-          {lista.length} {lista.length === 1 ? "reseña" : "reseñas"}
-        </p>
+        <div className="text-sm text-mute sm:text-right">
+          <p className="flex items-center gap-2 sm:justify-end">
+            <Star className="h-4 w-4 fill-gold text-gold" aria-hidden="true" />
+            <span className="num font-semibold text-ink">{promedio.toFixed(1).replace(".", ",")}</span> de 5 ·{" "}
+            {lista.length} {lista.length === 1 ? "reseña" : "reseñas"}
+          </p>
+          {/* Transparencia: si vienen del proveedor, se dice arriba y en cada tarjeta */}
+          {lista.some((r) => r.fuente) && (
+            <p className="mt-1 text-xs text-faint">Reseñas de clientes de nuestro proveedor, del mismo producto, copiadas tal cual.</p>
+          )}
+        </div>
       </Reveal>
       <div className="mt-8">
         <MarqueeResenas resenas={lista} />
