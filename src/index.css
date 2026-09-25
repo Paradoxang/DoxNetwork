@@ -193,6 +193,32 @@
   --font-heading: var(--font-display);
 }
 
+/* Marquesina de reseñas (components/ui/marquee.tsx). Nombre propio: la
+   `marquee` de abajo es la de la banda de promesas y avanza media pista.
+   Va en `@theme inline` para que la utilidad lleve el valor escrito y
+   `--duration` se resuelva en la pista, que es donde se define. */
+@theme inline {
+  --animate-marquee-x: marquee-x var(--duration) infinite linear;
+  --animate-marquee-y: marquee-y var(--duration) linear infinite;
+
+  @keyframes marquee-x {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-y {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+}
+
 @font-face {
   font-family: "Kenney Future";
   src: url("/fonts/kenney-future-narrow.ttf") format("truetype");
@@ -700,11 +726,13 @@
   display: none;
 }
 [data-perf="ligero"] .spotlight,
+[data-perf="ligero"] [data-cristal],
 [data-perf="ligero"] [class*="backdrop-blur"] {
   backdrop-filter: none !important;
   background: var(--bg);
 }
 [data-perf="ligero"] .marquee,
+[data-perf="ligero"] .marquee-pista,
 [data-perf="ligero"] .flota,
 [data-perf="ligero"] .typing-dot {
   animation: none !important;

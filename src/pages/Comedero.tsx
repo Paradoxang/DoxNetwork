@@ -8,6 +8,7 @@ import { Seo } from "@/components/Seo";
 import { SectionHeading } from "@/components/SectionHeading";
 import { FaqItem } from "@/components/ShopControls";
 import { Telon } from "@/components/Telon";
+import { ResenasProducto } from "@/components/ResenasProducto";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import {
   avisos,
@@ -295,6 +296,9 @@ export function Comedero() {
           </div>
         </div>
       </section>
+
+      {/* ── Reseñas: solo aparecen cuando hay reales (src/data/resenas.ts) ── */}
+      <ResenasProducto slug={productoComedero.slug} linea="mascotas" />
 
       {/* ── 5 · Para quién sí y para quién no ── */}
       <section className="border-y border-line bg-surface">

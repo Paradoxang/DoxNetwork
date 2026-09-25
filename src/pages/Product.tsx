@@ -14,6 +14,8 @@ import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, Reveal } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
 import { NotFound } from "@/pages/NotFound";
+import { ResenasProducto } from "@/components/ResenasProducto";
+import type { LineaResenas } from "@/data/resenas";
 
 export function Product() {
   const { slug = "" } = useParams();
@@ -56,6 +58,12 @@ export function Product() {
         .map((x) => x.p)
     : [];
   const listPath = perfume ? "/perfumeria" : articulo ? lineas[articulo.line].path : "/catalogo";
+  // Reseñas en perfumes, relojes y vapes (tecnología no, por ahora)
+  const lineaResenas: LineaResenas | undefined = perfume
+    ? "perfumeria"
+    : articulo?.line === "relojeria" || articulo?.line === "vapes"
+      ? articulo.line
+      : undefined;
 
   // Mensaje precargado con nombre, plan y enlace (lo mejor de Torostream)
   const buyNow = waLink(
@@ -231,6 +239,8 @@ export function Product() {
           </Reveal>
         </div>
       </section>
+
+      {lineaResenas && <ResenasProducto slug={product.slug} linea={lineaResenas} />}
 
       {related.length > 0 && (
         <section className="border-t border-line bg-bg-soft">
