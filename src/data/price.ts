@@ -33,18 +33,13 @@ export const MIN_MARGIN = 12000;
  * Alza del proveedor del 22-sep-2026.
  *
  * El proveedor pedía 20% en perfumería, 15% en relojería y 5% en vapes; se
- * dejan las cinco líneas en 10% por decisión de Santiago.
- *
- * Se aplica sobre el precio final YA calculado, o sea después de los topes
- * de mercado y de plan oficial. Es deliberado: el proveedor subió y el precio
- * de venta sube con él, así que esos topes dejan de ser un techo absoluto y
- * quedan como la referencia sobre la que se calculó la base. Comprobado que
- * ningún plan queda por encima de su precio oficial después del alza.
+ * dejan todas las líneas en 10% por decisión de Santiago. Se aplica sobre el
+ * precio ya calculado por `goodsPrice`. (La línea digital, que también subió,
+ * salió de la tienda el 25-sep-2026.)
  *
  * Para revertir o ajustar una línea, se cambia aquí y nada más.
  */
 export const ALZA = {
-  digital: 1.1,
   perfumeria: 1.1,
   relojeria: 1.1,
   tecnologia: 1.1,
@@ -67,11 +62,10 @@ export const conAlza = (n: number, linea: LineaPrecio) => near900(n * ALZA[linea
  * Si el proveedor entrega su lista de PVP, sus precios van aquí en lugar
  * del cálculo y el tachado pasa a ser un dato suyo y no nuestro.
  *
- * Un mismo porcentaje en las 518 fichas se nota; para que no cante,
- * basta con separar estos cinco valores.
+ * Un mismo porcentaje en todas las fichas se nota; para que no cante,
+ * basta con separar estos valores.
  */
 export const DESCUENTO_VISIBLE: Record<LineaPrecio, number> = {
-  digital: 0.55,
   perfumeria: 0.55,
   relojeria: 0.55,
   tecnologia: 0.55,

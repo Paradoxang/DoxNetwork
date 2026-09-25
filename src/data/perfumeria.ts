@@ -1,5 +1,5 @@
 /**
- * Perfumería: productos físicos, fuera del catálogo digital.
+ * Perfumería: la línea principal de la tienda desde el 25-sep-2026.
  *
  * Los datos crudos viven en perfumes.ts (generado desde el export del
  * proveedor). Aquí se convierten en `Product` para reutilizar carrito,
@@ -81,7 +81,7 @@ export const perfumeCategory = {
 /** TODO: condiciones reales de envío (ciudades, costo y tiempos). */
 export const shipping = {
   short: "Envío a toda Colombia",
-  detail: "El costo y el tiempo de envío se confirman por WhatsApp según tu ciudad.",
+  detail: "El costo del envío lo ves en el checkout antes de pagar; si compras por WhatsApp, te lo confirmamos según tu ciudad.",
 };
 
 export const disclaimer =
@@ -119,7 +119,7 @@ function toProduct([id, cost, line, brand, para, quality, family, slug, photo]: 
     description,
     hue: fam?.hue ?? "#b89a6a",
     plans: [{ id: "u", tier: q.label, duration: "", price: goodsPrice(cost, false, "perfumeria"), cost }],
-    features: [q.label, shipping.short, "Confirmas tu pedido por WhatsApp"],
+    features: [q.label, shipping.short, "Pagas por Nequi o Llave Bre-B"],
     image: `/perfumes/${slug}.webp`,
     perfume: { line, brand, para, quality, family: family ?? undefined, kind, photo: Boolean(photo), supplierId: id },
   };
@@ -128,6 +128,17 @@ function toProduct([id, cost, line, brand, para, quality, family, slug, photo]: 
 export const perfumes: Product[] = perfumeRows.map(toProduct);
 
 export const isPerfume = (p: Product) => Boolean(p.perfume);
+
+/** Los cuatro accesos por público: en la página de perfumería, el menú y el inicio. */
+export type ParaFilter = Para | "sets";
+export const paraOptions: { id: ParaFilter; label: string; hint: string }[] = [
+  { id: "dama", label: "Para ella", hint: "Florales, dulces y frutales" },
+  { id: "hombre", label: "Para él", hint: "Frescas, amaderadas y especiadas" },
+  { id: "unisex", label: "Unisex", hint: "Árabes, ámbar y oud" },
+  { id: "sets", label: "Sets y kits", hint: "Para regalar o probar varias" },
+];
+export const matchesPara = (p: Product, para: ParaFilter | "") =>
+  !para || (para === "sets" ? p.perfume!.kind === "set" : p.perfume!.para === para && p.perfume!.kind === "perfume");
 
 export const perfumeBrands = [...new Set(perfumes.map((p) => p.perfume!.brand).filter(Boolean))].sort((a, b) =>
   a.localeCompare(b, "es")

@@ -1,14 +1,16 @@
-import { BellRing, RefreshCcw, ShieldCheck } from "lucide-react";
+import { BadgeCheck, PackageCheck, ShieldCheck } from "lucide-react";
 import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { reportHours } from "@/data/legal";
 import { site, waLink } from "@/data/site";
 import { Reveal } from "@/lib/anim";
 
 /**
  * Garantía escrita: lo que ningún competidor pone en su web y lo que, según
- * los estudios, decide al cliente que ya se quemó en otra tienda.
- * TODO: publica solo lo que puedas cumplir (site.warrantyHours).
+ * los estudios, decide al cliente que ya se quemó en otra tienda. Desde que
+ * la tienda es solo física (25-sep-2026) la cifra grande es el plazo para
+ * reportar novedades del envío, el mismo de la política de envíos (legal.ts).
  *
  * Va como franja invertida a sangre (menta sobre texto oscuro) y con la cifra
  * de reposición a tamaño de titular: es la idea del brief de inspiración, que
@@ -17,14 +19,14 @@ import { Reveal } from "@/lib/anim";
  */
 const items = [
   {
-    icon: RefreshCcw,
-    title: `Reposición en menos de ${site.warrantyHours} h`,
-    text: "Si tu cuenta, perfil o código digital falla durante la vigencia, te damos uno nuevo sin costo.",
+    icon: PackageCheck,
+    title: "Si llega mal, lo cambiamos",
+    text: `Si tu pedido llega dañado, incompleto o distinto y nos lo reportas en ${reportHours} h con fotos o un video, asumimos el cambio y los envíos.`,
   },
   {
-    icon: BellRing,
-    title: "Productos físicos, sin sorpresas",
-    text: "Antes de pagar te confirmamos por escrito disponibilidad, envío y garantía. Nada se renueva ni se cobra solo.",
+    icon: BadgeCheck,
+    title: "Garantía legal en cada producto",
+    text: "Te confirmamos por escrito el término de garantía de tu producto. Nada se renueva ni se cobra solo.",
   },
   {
     icon: WhatsAppIcon,
@@ -42,16 +44,16 @@ export function Guarantee() {
         <Reveal>
           <p className="kicker text-mint-ink/70">05 · Garantía</p>
           <div className="mt-4 flex items-end gap-4">
-            <span className="display text-[clamp(84px,13vw,176px)] leading-[0.82] text-mint-ink">{site.warrantyHours}</span>
+            <span className="display text-[clamp(84px,13vw,176px)] leading-[0.82] text-mint-ink">{reportHours}</span>
             <span className="mb-3 font-mono text-2xl font-bold tracking-tight md:mb-5 md:text-3xl">H</span>
             <span className="mb-4 max-w-[180px] text-sm font-semibold uppercase leading-tight tracking-[0.08em] text-mint-ink/75 md:mb-6">
-              Reposición digital, por escrito
+              Para reportar novedades al recibir
             </span>
           </div>
           <h2 className="display mt-6 text-[clamp(26px,3.4vw,40px)] text-mint-ink">Compras con respaldo</h2>
           <p className="mt-3 max-w-md leading-relaxed text-mint-ink/80">
-            Lo digital tiene reposición por escrito durante toda la vigencia. En perfumes, relojes y tecnología te confirmamos la
-            garantía de tu producto antes de que pagues.
+            Revisa tu paquete al recibirlo. Si algo no llegó como pediste, nos escribes y lo resolvemos. Perfumes, relojes y
+            tecnología tienen su garantía legal, por escrito.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-4">
             <a

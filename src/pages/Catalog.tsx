@@ -3,29 +3,21 @@ import { ArrowRight, Plus, Search, X } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { Astro, type AstroPose } from "@/components/Astro";
-import { CategoryIcon, LineIcon } from "@/components/CategoryIcon";
+import { LineIcon } from "@/components/CategoryIcon";
 import { ProductCard } from "@/components/ProductCard";
 import { Select, useUrlFilters } from "@/components/ShopControls";
 import { SideRail, type RailGroup } from "@/components/SideRail";
 import { Seo } from "@/components/Seo";
 import { Telon } from "@/components/Telon";
-import {
-  allProducts,
-  bestDiscount,
-  categories,
-  categoryById,
-  fromPrice,
-  isAvailable,
-  isOnSale,
-  type CategoryId,
-  type Product,
-} from "@/data/catalog";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { allProducts, categoryById, fromPrice, isAvailable, type Product } from "@/data/catalog";
 import { lineaOf, lineaOrder, lineas, type LineaId } from "@/data/lineas";
-import { site } from "@/data/site";
+import { stockSecreto } from "@/data/perfumeria";
+import { site, waLink } from "@/data/site";
 import { EASE, Reveal } from "@/lib/anim";
 import { normalize } from "@/lib/ui";
 
-type Sort = "relevancia" | "menor" | "mayor" | "ahorro" | "az";
+type Sort = "relevancia" | "menor" | "mayor" | "az";
 
 const PAGE = 24;
 
@@ -42,14 +34,21 @@ const byLine = Object.fromEntries(
 ) as Record<LineaId, Product[]>;
 
 /**
- * "Toda la tienda" intercala las líneas (digital, perfume, reloj,
- * tecnología, digital…) para que la primera página muestre la red completa
- * y no 36 plataformas seguidas de 176 perfumes.
+ * "Toda la tienda" intercala las líneas con el foco en perfumería (perfume,
+ * reloj, perfume, tecnología…), para que la primera página muestre todo y no
+ * 176 perfumes seguidos de 204 gadgets.
  */
 const mixed: Product[] = (() => {
+  const order: LineaId[] = ["perfumeria", "relojeria", "perfumeria", "tecnologia"];
+  const next: Partial<Record<LineaId, number>> = {};
+  const total = lineaOrder.reduce((n, id) => n + byLine[id].length, 0);
   const out: Product[] = [];
-  const max = Math.max(...lineaOrder.map((id) => byLine[id].length));
-  for (let i = 0; i < max; i++) for (const id of lineaOrder) if (byLine[id][i]) out.push(byLine[id][i]);
+  for (let i = 0; out.length < total; i++) {
+    const id = order[i % order.length];
+    const k = next[id] ?? 0;
+    next[id] = k + 1;
+    if (byLine[id][k]) out.push(byLine[id][k]);
+  }
   return out;
 })();
 
@@ -62,19 +61,15 @@ export function Catalog() {
   const motionOn = animOn && !reduced;
 
   const q = params.get("q") ?? "";
-  const cat = (params.get("categoria") ?? "") as CategoryId | "";
-  const onlySale = params.get("ofertas") === "1";
-  // Una categoría digital o "ofertas" implican la línea digital (enlaces viejos siguen sirviendo)
-  const rawLinea = (cat || onlySale ? "digital" : params.get("linea")) ?? "";
-  // Solo líneas públicas: vapes tiene su propia sección con verificación de edad
+  // Solo líneas públicas: vapes tiene su propia sección con verificación de edad.
+  // Los enlaces viejos a categorías digitales u ofertas caen en toda la tienda.
+  const rawLinea = params.get("linea") ?? "";
   const linea = (lineaOrder.includes(rawLinea as LineaId) ? rawLinea : "") as LineaId | "";
   const sort = (params.get("orden") as Sort) || "relevancia";
 
   const list = useMemo(() => {
     const words = normalize(q.trim()).split(/\s+/).filter(Boolean);
     let out = (linea ? byLine[linea] : mixed).filter((p) => {
-      if (cat && p.category !== cat) return false;
-      if (onlySale && !isOnSale(p)) return false;
       if (!words.length) return true;
       const hay = normalize(`${p.name} ${p.tagline} ${categoryById(p.category)?.name ?? ""} ${lineas[lineaOf(p)].name}`);
       return words.every((w) => hay.includes(w));
@@ -82,34 +77,20 @@ export function Catalog() {
     out = [...out].sort((a, b) => Number(isAvailable(b)) - Number(isAvailable(a)));
     if (sort === "menor") out.sort((a, b) => fromPrice(a) - fromPrice(b));
     if (sort === "mayor") out.sort((a, b) => fromPrice(b) - fromPrice(a));
-    if (sort === "ahorro") out.sort((a, b) => bestDiscount(b) - bestDiscount(a));
     if (sort === "az") out.sort((a, b) => a.name.localeCompare(b.name, "es"));
     return out;
-  }, [q, cat, onlySale, linea, sort]);
+  }, [q, linea, sort]);
 
-  const current = cat ? categoryById(cat) : undefined;
   const line = linea ? lineas[linea] : undefined;
-  const poseCategoria: Partial<Record<CategoryId, AstroPose>> = {
-    combos: "celebra",
-    "cine-tv": "cine",
-    gaming: "gamer",
-    musica: "audifonos",
-    ia: "piensa",
-    creatividad: "laptop",
-    aprende: "estuche",
-  };
   const poseLinea: Partial<Record<LineaId, AstroPose>> = {
     perfumeria: "spray",
     relojeria: "reloj",
     tecnologia: "carga",
   };
-  const astroPose: AstroPose =
-    (onlySale ? "urgente" : cat ? poseCategoria[cat] : linea ? poseLinea[linea] : undefined) ?? "senala";
-  const hasFilters = Boolean(q || cat || onlySale || linea);
+  const astroPose: AstroPose = (linea ? poseLinea[linea] : undefined) ?? "senala";
+  const hasFilters = Boolean(q || linea);
   const visible = list.slice(0, limit);
 
-  // El rail de las colecciones, aquí con las líneas de la red y las categorías
-  // digitales. Una categoría implica la línea digital, igual que en los filtros.
   const railGrupos: RailGroup[] = [
     {
       label: "Líneas",
@@ -118,33 +99,16 @@ export function Catalog() {
           key: "todas",
           label: "Toda la tienda",
           count: mixed.length,
-          active: !linea && !cat && !onlySale,
-          onSelect: () => update({ linea: null, categoria: null, ofertas: null }),
+          active: !linea,
+          onSelect: () => update({ linea: null }),
         },
         ...lineaOrder.map((id) => ({
           key: id,
           label: lineas[id].name,
           count: byLine[id].length,
-          active: linea === id && !cat && !onlySale,
-          onSelect: () => update({ linea: linea === id && !cat ? null : id, categoria: null, ofertas: null }),
+          active: linea === id,
+          onSelect: () => update({ linea: linea === id ? null : id }),
         })),
-      ],
-    },
-    {
-      label: "Categorías digitales",
-      items: categories.map((c) => ({
-        key: c.id,
-        label: c.name,
-        count: byLine.digital.filter((p) => p.category === c.id).length,
-        active: cat === c.id,
-        onSelect: () => update({ categoria: cat === c.id ? null : c.id, linea: null, ofertas: null }),
-      })),
-    },
-    {
-      label: "Precio",
-      items: [
-        { key: "todo", label: "Todo", active: !onlySale, onSelect: () => update({ ofertas: null }) },
-        { key: "ofertas", label: "Solo con ahorro", active: onlySale, onSelect: () => update({ ofertas: onlySale ? null : "1", linea: null, categoria: null }) },
       ],
     },
   ];
@@ -154,7 +118,7 @@ export function Catalog() {
       <SideRail
         linea={{
           name: line ? line.name : "Toda la tienda",
-          blurb: line ? line.blurb : "Digital, perfumería, relojería y tecnología",
+          blurb: line ? line.blurb : "Perfumería, relojería y tecnología",
           path: "/catalogo",
           hue: line ? line.hue : "#9aa9ff",
         }}
@@ -163,8 +127,8 @@ export function Catalog() {
         grupos={railGrupos}
       />
       <Seo
-        title={`Catálogo · ${site.name}`}
-        description="Toda la red en un lugar: streaming, IA y software, perfumería, relojería y tecnología. Precios claros y pedido por WhatsApp."
+        title={`Toda la tienda · ${site.name}`}
+        description="Perfumería 1.1 y AAA, relojería y tecnología con envío a toda Colombia. Pagas por Nequi o Llave Bre-B."
         path="/catalogo"
       />
       <div className="xl:pl-[228px]">
@@ -172,16 +136,10 @@ export function Catalog() {
       <section className="mx-auto max-w-[1200px] px-4 pb-24 pt-[140px] md:px-6 md:pt-[164px]">
         <div className="flex items-end justify-between gap-6">
           <Reveal>
-            <p className="kicker">Catálogo</p>
-            <h1 className="display mt-3 text-[clamp(34px,5.5vw,60px)]">
-              {onlySale ? "Con ahorro" : current ? current.name : line ? line.name : "Toda la tienda"}
-            </h1>
+            <p className="kicker">Tienda</p>
+            <h1 className="display mt-3 text-[clamp(34px,5.5vw,60px)]">{line ? line.name : "Toda la tienda"}</h1>
             <p className="mt-3 max-w-xl text-mute">
-              {current
-                ? current.blurb + "."
-                : line
-                  ? line.blurb + "."
-                  : "Digital, perfumería, relojería y tecnología. Agrega al carrito y confirma tu pedido por WhatsApp."}
+              {line ? line.blurb + "." : "Perfumería, relojería y tecnología. Agrega al carrito y finaliza la compra sin registrarte."}
             </p>
           </Reveal>
           {/* ASTRO cambia de pose según lo que se está viendo */}
@@ -206,7 +164,7 @@ export function Catalog() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <div className="relative flex-1">
               <label htmlFor="cat-q" className="sr-only">
-                Buscar en el catálogo
+                Buscar en la tienda
               </label>
               <Search className="pointer-events-none absolute left-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-faint" />
               <input
@@ -214,7 +172,7 @@ export function Catalog() {
                 type="search"
                 value={q}
                 onChange={(e) => update({ q: e.target.value || null })}
-                placeholder="Buscar: Netflix, Sauvage, Kairos, AirPods…"
+                placeholder="Buscar: Sauvage, Yara, Kairos, AirPods…"
                 className="field pl-11"
                 autoComplete="off"
               />
@@ -228,15 +186,14 @@ export function Catalog() {
                 { value: "relevancia", label: "Relevancia" },
                 { value: "menor", label: "Precio: menor a mayor" },
                 { value: "mayor", label: "Precio: mayor a menor" },
-                { value: "ahorro", label: "Mayor ahorro" },
                 { value: "az", label: "Nombre: A–Z" },
               ]}
             />
           </div>
 
-          {/* Líneas de la red */}
+          {/* Líneas de la tienda */}
           <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0" role="group" aria-label="Filtrar por línea">
-            <button type="button" className="chip" aria-pressed={!linea} onClick={() => update({ linea: null, categoria: null, ofertas: null })}>
+            <button type="button" className="chip" aria-pressed={!linea} onClick={() => update({ linea: null })}>
               Toda la tienda
             </button>
             {lineaOrder.map((id) => (
@@ -244,8 +201,8 @@ export function Catalog() {
                 key={id}
                 type="button"
                 className="chip"
-                aria-pressed={linea === id && !cat && !onlySale}
-                onClick={() => update({ linea: linea === id && !cat && !onlySale ? null : id, categoria: null, ofertas: null })}
+                aria-pressed={linea === id}
+                onClick={() => update({ linea: linea === id ? null : id })}
               >
                 <LineIcon id={id} className="h-4 w-4" />
                 {lineas[id].name}
@@ -258,29 +215,8 @@ export function Catalog() {
             </Link>
           </div>
 
-          {/* Categorías digitales, solo dentro de Digital */}
-          {linea === "digital" && (
-            <div className="no-scrollbar -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0" role="group" aria-label="Filtrar por categoría digital">
-              <button type="button" className="chip" aria-pressed={onlySale} onClick={() => update({ ofertas: onlySale ? null : "1", linea: "digital" })}>
-                Ofertas
-              </button>
-              {categories.map((c) => (
-                <button
-                  key={c.id}
-                  type="button"
-                  className="chip"
-                  aria-pressed={cat === c.id}
-                  onClick={() => update({ categoria: cat === c.id ? null : c.id, linea: "digital" })}
-                >
-                  <CategoryIcon id={c.id} className="h-4 w-4" />
-                  {c.name}
-                </button>
-              ))}
-            </div>
-          )}
-
-          {/* Las líneas físicas tienen su página con filtros propios */}
-          {line && linea !== "digital" && (
+          {/* Cada línea tiene su página con filtros propios */}
+          {line && (
             <Link to={line.path} className="flex items-center gap-2 text-sm font-semibold text-neb hover:underline">
               Ver {line.name.toLowerCase()} con todos sus filtros <ArrowRight className="h-4 w-4" />
             </Link>
@@ -336,10 +272,15 @@ export function Catalog() {
             >
               <Astro pose="chibi-espera" small decorative className="h-40" />
               <p className="text-lg font-bold">No encontramos resultados</p>
-              <p className="max-w-sm text-mute">Prueba con otra palabra o escríbenos: si no está, te lo conseguimos.</p>
-              <button type="button" className="btn btn-ghost mt-2" onClick={clear}>
-                Ver toda la tienda
-              </button>
+              <p className="max-w-sm text-mute">Prueba con otra palabra. Si buscas una fragancia, pregunta por nuestro stock secreto.</p>
+              <div className="mt-2 flex flex-wrap justify-center gap-3">
+                <a href={waLink(stockSecreto.mensaje + q.trim())} target="_blank" rel="noopener noreferrer" className="btn btn-buy">
+                  <WhatsAppIcon className="h-[18px] w-[18px]" /> Stock secreto 😉
+                </a>
+                <button type="button" className="btn btn-ghost" onClick={clear}>
+                  Ver toda la tienda
+                </button>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

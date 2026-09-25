@@ -1,5 +1,6 @@
 /**
- * Líneas de la red: digital, perfumería, relojería y tecnología.
+ * Líneas de la red: perfumería, relojería, tecnología y vapes. (La digital
+ * salió de la tienda el 25-sep-2026.)
  *
  * Aquí viven los metadatos de cada línea (nombre, ruta, color) y los
  * artículos de relojería y tecnología, que llegan crudos en articulos.ts
@@ -22,7 +23,7 @@ import { vapeRows } from "./vapes";
 import { disclaimer, shipping } from "./perfumeria";
 import { goodsPrice } from "./price";
 
-export type LineaId = "digital" | "perfumeria" | "relojeria" | "tecnologia" | "vapes";
+export type LineaId = "perfumeria" | "relojeria" | "tecnologia" | "vapes";
 export type LineaArticulo = "relojeria" | "tecnologia" | "vapes";
 export type Condicion = "original" | "replica";
 export type SubId = "relojes" | "accesorios" | "smartwatches" | "audio" | "carga" | "gaming" | "soportes" | "hogar" | "otros" | "vapes";
@@ -57,13 +58,6 @@ export interface Linea {
 }
 
 export const lineas: Record<LineaId, Linea> = {
-  digital: {
-    id: "digital",
-    name: "Digital",
-    blurb: "Streaming, IA, software y gaming por WhatsApp",
-    path: "/catalogo?linea=digital",
-    hue: "#8fa2ff",
-  },
   perfumeria: {
     id: "perfumeria",
     name: "Perfumería",
@@ -94,8 +88,8 @@ export const lineas: Record<LineaId, Linea> = {
   },
 };
 
-/** Líneas que se muestran y promocionan en toda la tienda. Vapes queda fuera a propósito. */
-export const lineaOrder: LineaId[] = ["digital", "perfumeria", "relojeria", "tecnologia"];
+/** Líneas que se muestran y promocionan en toda la tienda, perfumería primero. Vapes queda fuera a propósito. */
+export const lineaOrder: LineaId[] = ["perfumeria", "relojeria", "tecnologia"];
 
 /** Advertencia que acompaña a todo producto de vapeo. */
 export const vapeWarning =
@@ -103,7 +97,7 @@ export const vapeWarning =
 
 export const isRestricted = (p: Product) => p.articulo?.line === "vapes";
 
-export const lineaOf = (p: Product): LineaId => (p.perfume ? "perfumeria" : p.articulo ? p.articulo.line : "digital");
+export const lineaOf = (p: Product): LineaId => (p.perfume ? "perfumeria" : (p.articulo?.line ?? "perfumeria"));
 export const isPhysical = (p: Product) => Boolean(p.perfume || p.articulo || p.fisico);
 
 export const subLabel: Record<SubId, string> = {
@@ -166,7 +160,7 @@ function toProduct([id, cost, name, brand, line, sub, condition, slug, soldOut]:
     features:
       line === "vapes"
         ? ["Solo mayores de 18 años", shipping.short, "Confirmas tu pedido y tu edad por WhatsApp"]
-        : [cond ? conditionInfo[cond].label : subLabel[sub], shipping.short, "Confirmas tu pedido por WhatsApp"],
+        : [cond ? conditionInfo[cond].label : subLabel[sub], shipping.short, "Pagas por Nequi o Llave Bre-B"],
     image: `/tienda/${slug}.webp`,
     stock: soldOut ? 0 : undefined,
     articulo: { line, sub, brand, condition: cond, supplierId: id },

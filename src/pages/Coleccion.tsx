@@ -44,15 +44,15 @@ const replicaFaq = {
 };
 const shippingFaq = { q: "¿Cómo llega mi pedido?", a: `${shipping.short}. ${shipping.detail}` };
 const mixFaq = {
-  q: "¿Puedo pedir junto con productos digitales o perfumes?",
-  a: "Sí, en el mismo carrito. Lo digital llega por WhatsApp y lo físico por envío.",
+  q: "¿Puedo pedir junto con perfumes?",
+  a: "Sí, en el mismo carrito: perfumes, relojes y tecnología se pagan en una sola compra.",
 };
 
 const configs: Record<LineaFisica, Config> = {
   relojeria: {
     kicker: "Relojería · Nuevo",
     title: ["Relojes que", "se notan"],
-    text: "Kairos originales, ediciones oficiales de Nacional, América y la Selección, y réplicas de los modelos más buscados. Confirmas por WhatsApp y te lo enviamos.",
+    text: "Kairos originales, ediciones oficiales de Nacional, América y la Selección, y réplicas de los modelos más buscados. Pagas sin tarjeta y te lo enviamos.",
     showcase: ["relojeria-rolex-submarine-f11", "relojeria-kairos-oficial-seleccion-colombia", "relojeria-audemars-piguet-royal-oak-ch125"],
     tiles: [
       { label: "Originales", hint: "Kairos y Q&Q", params: { condicion: "original" } },
@@ -65,7 +65,7 @@ const configs: Record<LineaFisica, Config> = {
   tecnologia: {
     kicker: "Tecnología · Nuevo",
     title: ["Tecnología para", "todo el día"],
-    text: "Audífonos y parlantes, smartwatches, cargadores, gaming, soportes y gadgets. Precios claros, confirmas por WhatsApp y te lo enviamos a toda Colombia.",
+    text: "Audífonos y parlantes, smartwatches, cargadores, gaming, soportes y gadgets. Precios claros, pagas sin tarjeta y te lo enviamos a toda Colombia.",
     showcase: ["tecnologia-parlante-portatil-kimiso-kms-374", "tecnologia-smartwatch-mobulaa-ub6-pro", "tecnologia-proyector-hy300"],
     tiles: [
       { label: "Audio", hint: "Audífonos, diademas y parlantes", params: { sub: "audio" } },

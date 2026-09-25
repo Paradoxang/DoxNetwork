@@ -1,8 +1,8 @@
 import { Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
-import { categories } from "@/data/catalog";
 import { legalDocs } from "@/data/legal";
 import { lineaOrder, lineas } from "@/data/lineas";
+import { paraOptions, stockSecreto } from "@/data/perfumeria";
 import { site, waLink } from "@/data/site";
 import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
@@ -57,15 +57,20 @@ export function Footer() {
               </Link>
             </li>
           </ul>
-          <p className="kicker mt-8">Digital</p>
+          <p className="kicker mt-8">Perfumería</p>
           <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm md:grid-cols-1">
-            {categories.map((c) => (
-              <li key={c.id}>
-                <Link to={`/catalogo?categoria=${c.id}`} className="text-mute transition-colors hover:text-neb">
-                  {c.name}
+            {paraOptions.map((o) => (
+              <li key={o.id}>
+                <Link to={`/perfumeria?para=${o.id}`} className="text-mute transition-colors hover:text-neb">
+                  {o.label}
                 </Link>
               </li>
             ))}
+            <li>
+              <a href={waLink(stockSecreto.mensaje)} target="_blank" rel="noopener noreferrer" className="text-mute transition-colors hover:text-mint">
+                Stock secreto 😉
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -136,7 +141,7 @@ export function Footer() {
       </div>
 
       <p className="mx-auto max-w-[1200px] px-4 pb-6 text-xs leading-relaxed text-faint md:px-6">
-        {site.name} no está afiliada ni patrocinada por las plataformas mencionadas. Los nombres y marcas pertenecen a
+        {site.name} no está afiliada ni patrocinada por las marcas mencionadas. Los nombres y marcas pertenecen a
         sus respectivos dueños y se usan solo para identificar los productos.
       </p>
 

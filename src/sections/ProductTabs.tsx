@@ -12,14 +12,13 @@ import { tint } from "@/data/paleta";
 import { EASE, Reveal } from "@/lib/anim";
 
 /**
- * Una pestaña por línea de la red, más "Destacados" que las mezcla. Antes
- * eran pestañas de streaming (más vendidos, ofertas…): ahora la primera
- * vista del inicio muestra perfumes, relojes y tecnología junto a lo digital.
+ * Una pestaña por línea, más "Destacados" que las mezcla con la mitad en
+ * perfumes: desde el 25-sep-2026 la tienda es solo física y el foco es la
+ * perfumería, que además va primero.
  * Animated Tabs (brief, fase 2) lleva el indicador; framer, el cruce de rejillas.
  */
 const tabs = [
   { id: "red", label: "Destacados", hue: "#9aa9ff", list: destacadosRed.slice(0, 8), more: { to: "/catalogo", label: "Ver toda la tienda" } },
-  { id: "digital", label: "Digital", hue: lineas.digital.hue, list: destacados.digital, more: { to: "/catalogo?linea=digital", label: "Ver digital" } },
   { id: "perfumeria", label: "Perfumería", hue: lineas.perfumeria.hue, list: destacados.perfumeria, more: { to: "/perfumeria", label: "Ver perfumería" } },
   { id: "relojeria", label: "Relojería", hue: lineas.relojeria.hue, list: destacados.relojeria, more: { to: "/relojeria", label: "Ver relojería" } },
   { id: "tecnologia", label: "Tecnología", hue: lineas.tecnologia.hue, list: destacados.tecnologia, more: { to: "/tecnologia", label: "Ver tecnología" } },

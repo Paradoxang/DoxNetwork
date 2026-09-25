@@ -1,13 +1,12 @@
-import { ArrowRight, ArrowUpRight, Code2, Headphones, Search, Sparkles, SprayCan, Tv, Watch } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Code2, Gift, Headphones, PawPrint, Search, SprayCan, Watch } from "lucide-react";
 import { lazy, Suspense, useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
 import { glowHandlers } from "@/components/ui/glowing-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { products } from "@/data/catalog";
 import { relojes, tecnologia } from "@/data/lineas";
-import { perfumes } from "@/data/perfumeria";
+import { matchesPara, perfumes, type ParaFilter } from "@/data/perfumeria";
 import { useAnimacion } from "@/lib/motion";
 import { alCambiarModo, modoActual } from "@/lib/perf";
 import { useUI } from "@/lib/ui";
@@ -19,29 +18,23 @@ const BlackHoleHeroSection = lazy(() =>
   import("@/components/ui/blackhole-hero-section").then((m) => ({ default: m.BlackHoleHeroSection }))
 );
 
-const count = (...cats: string[]) => products.filter((p) => cats.includes(p.category)).length;
+const cuantos = (para: ParaFilter) => perfumes.filter((p) => matchesPara(p, para)).length;
 
-/** Las líneas de la red. El orden va de lo que más se vende a lo más nuevo. */
+/** Las puertas de la tienda: primero la perfumería, que es el foco, y luego el resto. */
 const nodes = [
-  {
-    icon: Tv,
-    title: "Streaming y TV",
-    n: count("streaming", "cine-tv", "musica"),
-    text: "plataformas y cine",
-    to: "/catalogo?categoria=streaming",
-  },
-  {
-    icon: Sparkles,
-    title: "IA y software",
-    text: "ChatGPT, Canva, Office",
-    to: "/catalogo?categoria=ia",
-  },
   {
     icon: SprayCan,
     title: "Perfumería",
     n: perfumes.length,
-    text: "fragancias",
+    text: "fragancias 1.1 y AAA",
     to: "/perfumeria",
+  },
+  {
+    icon: Gift,
+    title: "Sets y kits",
+    n: cuantos("sets"),
+    text: "para regalar",
+    to: "/perfumeria?para=sets",
   },
   {
     icon: Watch,
@@ -49,7 +42,6 @@ const nodes = [
     n: relojes.length,
     text: "originales y réplicas",
     to: "/relojeria",
-    isNew: true,
   },
   {
     icon: Headphones,
@@ -57,6 +49,12 @@ const nodes = [
     n: tecnologia.length,
     text: "gadgets y accesorios",
     to: "/tecnologia",
+  },
+  {
+    icon: PawPrint,
+    title: "Mascotas",
+    text: "Comedero, pagas al recibir",
+    to: "/comedero",
     isNew: true,
   },
   {
@@ -157,14 +155,14 @@ export function Hero() {
         <div data-intro className="relative z-10 mx-auto w-full max-w-[1200px] px-4 pt-[132px] md:flex md:min-h-[min(100svh,880px)] md:items-center md:px-6 md:pb-24 md:pt-[150px]">
           <div className="max-w-[600px]">
             <p className="kicker" data-hero-in>
-              Dox Network · Software Solutions
+              Dox Network · Perfumería y más
             </p>
             <h1 data-hero-title className="display mt-5 text-[clamp(40px,6.2vw,74px)] leading-[1] text-white">
-              Todo lo que usas, en una sola red.
+              Tu fragancia favorita, en una sola red.
             </h1>
             <p data-hero-in className="mt-6 max-w-xl text-[17px] leading-relaxed text-mute md:text-lg">
-              Streaming e IA, perfumería, relojería, tecnología y páginas web a la medida. Una sola tienda, envíos a toda
-              Colombia, pagos locales y atención de personas por WhatsApp.
+              Perfumes 1.1 y AAA para ella, para él y unisex, además de relojería y tecnología. Envíos a toda Colombia, pagas
+              por Nequi o Llave Bre-B y te atiende una persona por WhatsApp.
             </p>
 
             <form data-hero-in onSubmit={onSearch} role="search" className="mt-8 flex max-w-xl gap-2">
@@ -179,7 +177,7 @@ export function Hero() {
                   type="search"
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  placeholder="Netflix, un perfume, un reloj, AirPods…"
+                  placeholder="Yara, Sauvage, un reloj, AirPods…"
                   className="field bg-white/[0.06] pl-11 backdrop-blur-md"
                   autoComplete="off"
                 />
@@ -221,7 +219,7 @@ export function Hero() {
             </ul>
 
             <Link data-hero-in to="/catalogo" className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-neb hover:underline md:hidden">
-              Ver todo el catálogo <ArrowRight className="h-4 w-4" />
+              Ver toda la tienda <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -291,7 +289,7 @@ export function Hero() {
               className="absolute left-[74%] top-[40%] z-20 w-max max-w-[170px] origin-bottom-left md:left-[78%] md:top-[22%] md:max-w-[180px] rounded-2xl rounded-bl-sm border border-white/15 bg-[#0f1424]/85 px-3.5 py-2.5 text-left shadow-[0_18px_44px_rgba(3,6,15,0.5)] backdrop-blur-md transition-colors hover:border-neb"
             >
               <span className="block text-[13px] font-extrabold text-white sm:text-sm">¡Hola! Soy ASTRO</span>
-              <span className="mt-0.5 block text-xs text-mute sm:text-[13px]">¿Qué buscas hoy en la red?</span>
+              <span className="mt-0.5 block text-xs text-mute sm:text-[13px]">¿Qué fragancia buscas hoy?</span>
             </button>
           </div>
         </div>

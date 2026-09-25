@@ -1,37 +1,12 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import {
-  BadgeCheck,
-  CalendarClock,
-  Check,
-  ChevronRight,
-  Info,
-  MonitorSmartphone,
-  ShieldCheck,
-  ShoppingBag,
-  Sparkles,
-  Tag,
-  Truck,
-  UserRound,
-  Wallet,
-  Zap,
-} from "lucide-react";
+import { BadgeCheck, Check, ChevronRight, Info, ShoppingBag, Sparkles, Tag, Truck, UserRound, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { PlanPicker } from "@/components/PlanPicker";
 import { ProductArt } from "@/components/ProductArt";
 import { FavoriteButton, ProductBadge, ProductCard, StockHint } from "@/components/ProductCard";
 import { Seo } from "@/components/Seo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import {
-  categoryById,
-  discountPct,
-  isAvailable,
-  isCombo,
-  planLabel,
-  planOf,
-  productBySlug,
-  products,
-} from "@/data/catalog";
+import { categoryById, discountPct, isAvailable, planLabel, productBySlug } from "@/data/catalog";
 import { articulos, conditionInfo, isRestricted, lineas, subLabel, vapeWarning } from "@/data/lineas";
 import { AgeGate } from "@/components/AgeGate";
 import { disclaimer, families, paraLabel, perfumes, qualityInfo, shipping } from "@/data/perfumeria";
@@ -58,12 +33,10 @@ export function Product() {
   const category = categoryById(product.category);
   const available = isAvailable(product);
   const quote = plan.price === 0;
-  const combo = isCombo(product);
   const off = discountPct(plan);
   const url = `${site.url}/producto/${product.slug}`;
   const perfume = product.perfume;
   const articulo = product.articulo;
-  const physical = Boolean(perfume || articulo);
   const restricted = isRestricted(product);
   const related = articulo
     ? // Misma subcategoría primero; entre ellos, misma marca
@@ -81,8 +54,8 @@ export function Product() {
         .sort((a, b) => b.score - a.score)
         .slice(0, 4)
         .map((x) => x.p)
-    : products.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 4);
-  const listPath = perfume ? "/perfumeria" : articulo ? lineas[articulo.line].path : `/catalogo?categoria=${product.category}`;
+    : [];
+  const listPath = perfume ? "/perfumeria" : articulo ? lineas[articulo.line].path : "/catalogo";
 
   // Mensaje precargado con nombre, plan y enlace (lo mejor de Torostream)
   const buyNow = waLink(
@@ -98,7 +71,7 @@ export function Product() {
         articulo.condition && { icon: BadgeCheck, label: "Condición", value: conditionInfo[articulo.condition].label },
         { icon: Truck, label: "Envío", value: shipping.short },
         { icon: Wallet, label: "Pago", value: site.payments.slice(0, 2).join(" · ") },
-      ].filter(Boolean) as { icon: typeof Zap; label: string; value: string }[])
+      ].filter(Boolean) as { icon: typeof Tag; label: string; value: string }[])
     : perfume
     ? ([
         perfume.brand && { icon: Tag, label: "Fragancia de referencia", value: perfume.brand },
@@ -107,18 +80,8 @@ export function Product() {
         perfume.family && { icon: Sparkles, label: "Familia olfativa", value: families[perfume.family].label },
         { icon: Truck, label: "Envío", value: shipping.short },
         { icon: Wallet, label: "Pago", value: site.payments.slice(0, 2).join(" · ") },
-      ].filter(Boolean) as { icon: typeof Zap; label: string; value: string }[])
-    : [
-    plan.access && {
-      icon: UserRound,
-      label: "Tipo de acceso",
-      value: plan.access === "Pantalla" ? "Pantalla · perfil propio" : "Completa · cuenta entera",
-    },
-    product.devices && { icon: MonitorSmartphone, label: "Dispositivos", value: product.devices },
-    { icon: CalendarClock, label: "Vigencia", value: plan.duration },
-    { icon: Zap, label: "Entrega", value: `WhatsApp · ~${site.deliveryMinutes} min` },
-    { icon: ShieldCheck, label: "Garantía", value: `Reposición en < ${site.warrantyHours} h` },
-  ].filter(Boolean) as { icon: typeof Zap; label: string; value: string }[];
+      ].filter(Boolean) as { icon: typeof Tag; label: string; value: string }[])
+    : [];
 
   const body = (
     <>
@@ -159,62 +122,19 @@ export function Product() {
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
           <Reveal className="lg:sticky lg:top-28 lg:self-start">
             <div className="relative">
-              <ProductArt product={product} plan={plan} size="lg" className="card rounded-[22px]" />
+              <ProductArt product={product} size="lg" className="card rounded-[22px]" />
               <FavoriteButton product={product} className="absolute right-4 top-4 h-11 w-11" />
             </div>
-            {combo && (
-              <div className="card mt-4 p-5">
-                <p className="kicker">Qué incluye</p>
-                <ul className="mt-4 space-y-3">
-                  {product.includes!.map((i, n) => {
-                    const part = productBySlug(i.slug)!;
-                    const pl = planOf(i.slug, i.planId)!;
-                    return (
-                      <li key={`${i.slug}-${i.planId}-${n}`} className="flex items-center justify-between gap-3">
-                        <Link to={`/producto/${part.slug}`} className="flex min-w-0 items-center gap-3 hover:text-neb">
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-extrabold text-white" style={{ background: part.hue }}>
-                            {part.name.slice(0, 2).toUpperCase()}
-                          </span>
-                          <span className="min-w-0">
-                            <span className="block truncate font-bold">{part.name}</span>
-                            <span className="block truncate text-xs text-faint">{planLabel(pl)}</span>
-                          </span>
-                        </Link>
-                        <span className="num shrink-0 text-sm text-mute">{formatCOP(pl.price)}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-                {plan.compareAt && (
-                  <div className="mt-4 space-y-1 border-t border-line pt-4 text-sm">
-                    <p className="flex justify-between text-mute">
-                      <span>Por separado</span>
-                      <span className="line-through">{formatCOP(plan.compareAt)}</span>
-                    </p>
-                    <p className="flex justify-between font-extrabold">
-                      <span>En combo</span>
-                      <span>{formatCOP(plan.price)}</span>
-                    </p>
-                    <p className="flex justify-between font-bold text-gold">
-                      <span>Ahorras</span>
-                      <span>{formatCOP(plan.compareAt - plan.price)} ({off}%)</span>
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
           </Reveal>
 
           <Reveal delay={0.08} className="flex flex-col">
             <div className="flex flex-wrap items-center gap-3">
-              <span className={`text-sm font-semibold text-faint ${physical ? "uppercase tracking-[0.08em]" : ""}`}>
-                {combo
-                  ? product.forWho
-                  : perfume
-                    ? perfume.brand || category?.name
-                    : articulo
-                      ? `${lineas[articulo.line].name} · ${subLabel[articulo.sub]}`
-                      : category?.name}
+              <span className="text-sm font-semibold uppercase tracking-[0.08em] text-faint">
+                {perfume
+                  ? perfume.brand || category?.name
+                  : articulo
+                    ? `${lineas[articulo.line].name} · ${subLabel[articulo.sub]}`
+                    : category?.name}
               </span>
               <ProductBadge product={product} />
               <StockHint product={product} />
@@ -244,10 +164,6 @@ export function Product() {
               </AnimatePresence>
             </div>
             {!quote && <p className="mt-1.5 text-sm text-faint">{planLabel(plan)}</p>}
-
-            <div className="mt-7">
-              <PlanPicker product={product} value={plan} onChange={(p) => setPlanId(p.id)} />
-            </div>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row">
               {available && !quote && (
@@ -303,25 +219,15 @@ export function Product() {
               ))}
             </ul>
 
-            {physical ? (
-              <>
-                <p className="mt-6 text-sm text-faint">{shipping.detail}</p>
-                <p className="mt-4 flex gap-3 rounded-2xl border border-line bg-surface p-4 text-sm text-mute">
-                  <Info className="mt-0.5 h-4 w-4 shrink-0 text-faint" />
-                  {restricted
-                    ? vapeWarning
-                    : articulo && articulo.condition !== "replica"
-                      ? "Las fotos son del proveedor. Si tienes dudas del modelo, color o garantía, pregúntanos por WhatsApp antes de pagar."
-                      : disclaimer}
-                </p>
-              </>
-            ) : (
-              <p className="mt-6 text-sm text-faint">
-                ¿Dudas con el plan? Revisa las{" "}
-                <Link to="/#preguntas" className="font-semibold text-neb hover:underline">preguntas frecuentes</Link> o{" "}
-                <Link to="/catalogo?categoria=combos" className="font-semibold text-neb hover:underline">mira los combos</Link>.
-              </p>
-            )}
+            <p className="mt-6 text-sm text-faint">{shipping.detail}</p>
+            <p className="mt-4 flex gap-3 rounded-2xl border border-line bg-surface p-4 text-sm text-mute">
+              <Info className="mt-0.5 h-4 w-4 shrink-0 text-faint" />
+              {restricted
+                ? vapeWarning
+                : articulo && articulo.condition !== "replica"
+                  ? "Las fotos son del proveedor. Si tienes dudas del modelo, color o garantía, pregúntanos por WhatsApp antes de pagar."
+                  : disclaimer}
+            </p>
           </Reveal>
         </div>
       </section>
@@ -330,7 +236,7 @@ export function Product() {
         <section className="border-t border-line bg-bg-soft">
           <div className="mx-auto max-w-[1200px] px-4 py-16 md:px-6">
             <h2 className="display text-[clamp(24px,3vw,32px)]">{perfume ? "Fragancias parecidas" : articulo ? "Más en " + lineas[articulo.line].name : "También te puede interesar"}</h2>
-            <ul className={`mt-8 grid gap-4 lg:grid-cols-4 ${physical ? "grid-cols-2" : "grid-cols-1 sm:grid-cols-2"}`}>
+            <ul className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
               {related.map((p) => (
                 <li key={p.slug}>
                   <ProductCard product={p} />

@@ -1,7 +1,10 @@
 # DoxNetwork
 
-Tienda de productos digitales (streaming, pines de cine, música, IA, diseño,
-gaming e idiomas) con compra por WhatsApp. Hermana de
+Tienda de productos físicos con el foco en perfumería (réplicas 1.1 y AAA),
+más relojería, tecnología, mascotas y vapes, con envío a toda Colombia. El
+carrito termina en el checkout de Shopify (Nequi o Llave Bre-B) o, si algo no
+está cargado allí, en WhatsApp. Desde el 25-sep-2026 no vende nada digital
+(streaming, IA, software, gaming, pines ni combos). Hermana de
 [Dox Designs](https://doxdesigns.dev): misma base técnica y misma identidad, en una
 clave más amable para comprar.
 
@@ -22,9 +25,12 @@ npm run preview  # sirve dist/ para probar el build
 
 | Ruta | Qué es |
 |---|---|
-| `/` | Inicio: hero, confianza, carrusel de promos, categorías, combos, pestañas de productos, cómo comprar, garantía, reseñas y preguntas |
-| `/catalogo` | Catálogo con búsqueda, categorías, ofertas y orden (`?categoria=`, `?q=`, `?ofertas=1`, `?orden=`) |
-| `/producto/:slug` | Ficha: selector de plan por ejes, detalles, desglose del combo y WhatsApp con enlace |
+| `/` | Inicio: hero, confianza, líneas, carrusel de promos, perfumería, pestañas de productos, cómo comprar, garantía, reseñas y preguntas |
+| `/perfumeria` | Perfumería con filtros por público, familia, calidad y casa (`?para=`, `?familia=`, `?calidad=`, `?casa=`, `?orden=`) |
+| `/relojeria`, `/tecnologia`, `/vapes` | Colecciones con sus filtros; vapes con verificación de edad |
+| `/comedero` | Landing de pauta del comedero de mascotas (Shopify, contra entrega) |
+| `/catalogo` | Toda la tienda con búsqueda, línea y orden (`?linea=`, `?q=`, `?orden=`) |
+| `/producto/:slug` | Ficha: detalles, relacionados, carrito y WhatsApp con enlace |
 | `/favoritos` | Lista de deseos |
 | `/terminos` | Términos, garantía y devoluciones |
 
@@ -32,8 +38,10 @@ npm run preview  # sirve dist/ para probar el build
 
 | Qué | Archivo |
 |---|---|
-| WhatsApp, pagos, horario, garantía, tiempo de entrega, anuncios | `src/data/site.ts` |
-| Categorías, productos, planes, precios, stock y combos | `src/data/catalog.ts` |
+| WhatsApp, pagos, horario, anuncios | `src/data/site.ts` |
+| Perfumes, stock secreto y accesos por público | `src/data/perfumeria.ts` (filas en `perfumes.ts`) |
+| Relojería, tecnología y vapes | `src/data/lineas.ts` (filas en `articulos.ts` y `vapes.ts`) |
+| Precios, alza y descuento de vitrina | `src/data/price.ts` |
 | Slides del carrusel y reseñas reales | `src/data/promos.ts` |
 | Preguntas frecuentes | `src/sections/Faq.tsx` |
 | Colores (oscuro y claro) | `src/index.css` |
@@ -45,27 +53,16 @@ Todo lo que hay que revisar antes de publicar está marcado con `TODO`:
 grep -rn "TODO" src
 ```
 
-### Productos y planes
+### Productos y precios
 
-Cada plan se describe por ejes: `access` (Pantalla / Completa), `tier`
-(Estándar, Premium, Platino, Go, Plus…) y `duration`. La ficha solo muestra los
-ejes que cambian dentro del producto.
-
-- `cost`: precio de proveedor. El precio de venta se calcula solo, redondeado
-  a terminación 900: `cost × MARKUP` (o el `markup` del plan), sin pasar de la
-  mediana del mercado (`market`) ni del 80% del plan oficial (`official`), y sin
-  bajar de `cost × 1,5` (o `× 1,2` frente al oficial). La regla completa está en
-  la cabecera de `src/data/catalog.ts`. Sin `cost`, el plan lleva `price` fijo.
-- `per`: en planes de varios periodos, se tacha contra `n` veces el precio del
-  plan mensual. Sin `cost` ni `price`, vale eso menos `per.off`.
-- Productos físicos: `goodsPrice` en `src/data/price.ts` (× 2 hasta $30.000 de
-  costo; encima, costo + $30.000; originales de más de $100.000, costo × 1,35).
-- Combos: `comboDiscount` (0.12 = 12%) sobre la suma de sus partes.
+- Precio de venta: `goodsPrice` en `src/data/price.ts` (× 2 hasta $30.000 de
+  costo; encima, costo + $30.000; originales de más de $100.000, costo × 1,35;
+  nunca menos de $12.000 de margen), con el alza del 22-sep-2026 encima.
+- Tachado: `DESCUENTO_VISIBLE` (−55%), calculado hacia atrás desde el precio.
+  No es un precio anterior.
 - `stock`: si existe y es 5 o menos, se muestra "Quedan N". En 0, el producto
   aparece como agotado. Úsalo solo con inventario real.
-- Combos: `includes` lista producto y plan. El precio y el tachado se calculan
-  solos a partir de las partes.
-- `price: 0` = "A cotizar".
+- Las URLs de lo que se retiró redirigen al inicio desde `public/_redirects`.
 
 ## Decisiones tomadas a partir de los estudios de competencia
 
@@ -73,16 +70,12 @@ Estudios de ZeroDelay, Torostream y Emprendered (16-sep-2026). Son documentos
 internos: están en `.gitignore` y no se suben al repositorio.
 
 **Aplicado**
-- Precio = costo de proveedor × `MARKUP` (3), limitado por la mediana del mercado y el plan oficial (17-sep-2026: el × 3 dejaba 21 de 26 planes por encima de la mediana). Costo de referencia: Torostream y, si falta, Emprendered.
-- Escalera por producto: acceso × calidad × duración.
-- 4 combos con identidad, solo de pantallas y pines ("Maratón de series", "Fan del
-  deporte", "Plan familia", "Cita al cine"). Los de IA y edición ("Universitario",
-  "Creador de contenido") y el armador `/arma-tu-combo` se retiraron el 24-sep-2026.
-- Sin descuento por combinar en el carrito (retirado el 24-sep-2026): el único
-  precio rebajado es el de cada combo.
-- Ficha estándar (acceso, dispositivos, vigencia, entrega, garantía) y garantía
-  escrita: el hueco más grande de los tres competidores.
-- FAQ orientada a objeciones, categorías "Próximamente", favoritos, stock visible,
+- La línea digital (streaming, IA, software, gaming, pines y combos) salió de la
+  tienda el 25-sep-2026. Antes se retiraron los combos de IA y edición, el
+  armador de combos y el descuento por combinar (24-sep-2026).
+- Ficha estándar y garantía escrita: el hueco más grande de los tres
+  competidores.
+- FAQ orientada a objeciones, favoritos, stock visible,
   WhatsApp con el producto y su enlace, deshacer en el aviso de agregado y barra
   de carrito en móvil.
 - Popup de entrada en versión discreta: tarjeta pequeña, una vez por sesión y
@@ -109,7 +102,7 @@ misma altura que el planeta, y nodos de red en los vértices.
 ## Navegación
 
 - Barra de anuncios rotativa (se pausa con el puntero).
-- Menús desplegables de Categorías (mega menú), Combos y Ayuda. Se abren con
+- Menús desplegables de Tienda (mega menú), Perfumería y Ayuda. Se abren con
   hover, clic o teclado; Esc cierra y devuelve el foco.
 - Cabecera que se oculta al bajar y vuelve al subir.
 - Buscador con `Ctrl/Cmd + K` o `/`, con flechas y Enter.
@@ -121,8 +114,7 @@ misma altura que el planeta, y nodos de red en los vértices.
   (`ScrollTrigger.batch`), línea de "Cómo comprar", escudo de la garantía y
   reloj del carrusel.
 - **Framer Motion:** menús, píldora del nav, buscador, carrito, avisos,
-  pestañas, selector de plan, armador de combos (contadores y progreso),
-  favoritos y filtros.
+  pestañas, favoritos y filtros.
 - Nunca animan el mismo nodo, y todo respeta `prefers-reduced-motion`.
 
 ## Despliegue en Cloudflare

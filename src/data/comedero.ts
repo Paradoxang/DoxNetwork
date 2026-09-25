@@ -36,8 +36,8 @@ export const comedero = {
 };
 
 /**
- * Cómo se presenta la línea en el menú «Tienda» (junto a Digital, Perfumería,
- * Relojería y Tecnología). No es una LineaId del catálogo a propósito: es un
+ * Cómo se presenta la línea en el menú «Tienda» (junto a Perfumería, Relojería
+ * y Tecnología). No es una LineaId del catálogo a propósito: es un
  * solo producto que vive en Shopify, y meterlo en `lineas.ts` arrastraría
  * conteos, filtros y colecciones que no tiene.
  */

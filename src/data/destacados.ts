@@ -2,13 +2,12 @@
  * Selecciones a mano por línea para el inicio, el menú y las vitrinas.
  * Si un slug deja de existir (cambió el catálogo) simplemente se omite.
  */
-import { isAvailable, productBySlug, products, type Product } from "./catalog";
+import { isAvailable, productBySlug, type Product } from "./catalog";
 import type { LineaId } from "./lineas";
 
 const pick = (slugs: string[]) => slugs.map((s) => productBySlug(s)).filter((p): p is Product => Boolean(p && isAvailable(p)));
 
 export const destacados: Record<LineaId, Product[]> = {
-  digital: products.filter((p) => !p.includes && (p.badge === "popular" || p.featured)).slice(0, 8),
   perfumeria: pick([
     "perfume-lattafa-yara",
     "perfume-dior-sauvage",
@@ -43,16 +42,26 @@ export const destacados: Record<LineaId, Product[]> = {
   vapes: [],
 };
 
-/** Una muestra de toda la red, intercalada: digital, perfume, reloj, tecnología… */
+/**
+ * Una muestra de toda la tienda con el foco en perfumería: la mitad son
+ * perfumes, intercalados con relojes y tecnología (perfume, reloj, perfume,
+ * tecnología…).
+ */
 export const destacadosRed: Product[] = (() => {
-  const order: LineaId[] = ["digital", "perfumeria", "relojeria", "tecnologia"];
+  const order: LineaId[] = ["perfumeria", "relojeria", "perfumeria", "tecnologia"];
+  const next: Partial<Record<LineaId, number>> = {};
   const out: Product[] = [];
-  for (let i = 0; i < 8; i++) for (const id of order) if (destacados[id][i]) out.push(destacados[id][i]);
+  for (let i = 0; out.length < 8 && i < 32; i++) {
+    const id = order[i % order.length];
+    const p = destacados[id][next[id] ?? 0];
+    next[id] = (next[id] ?? 0) + 1;
+    if (p) out.push(p);
+  }
   return out;
 })();
 
-/** Miniatura de un producto para mosaicos pequeños (logo, foto de perfume o de artículo). */
-export const thumbOf = (p: Product) => (p.logo ? p.logo : p.image ? (p.perfume || p.articulo ? p.image.replace(/\.webp$/, "-sm.webp") : p.image) : undefined);
+/** Miniatura de un producto para mosaicos pequeños (foto de perfume o de artículo). */
+export const thumbOf = (p: Product) => (p.image ? (p.perfume || p.articulo ? p.image.replace(/\.webp$/, "-sm.webp") : p.image) : undefined);
 
 /**
  * Miniatura mínima (180 px) para los mosaicos de "01 · La red" y el carrito,
@@ -60,4 +69,4 @@ export const thumbOf = (p: Product) => (p.logo ? p.logo : p.image ? (p.perfume |
  * verse igual.
  */
 export const microThumbOf = (p: Product) =>
-  p.logo ? p.logo : p.image ? (p.perfume || p.articulo ? p.image.replace(/\.webp$/, "-xs.webp") : p.image) : undefined;
+  p.image ? (p.perfume || p.articulo ? p.image.replace(/\.webp$/, "-xs.webp") : p.image) : undefined;

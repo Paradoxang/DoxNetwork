@@ -1,6 +1,7 @@
 import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { stockSecreto } from "@/data/perfumeria";
 import { site, waLink } from "@/data/site";
 import { Reveal } from "@/lib/anim";
 
@@ -18,15 +19,15 @@ export function Cta() {
       <div className="relative mx-auto flex max-w-[1200px] flex-col gap-8 px-4 py-16 md:flex-row md:items-center md:justify-between md:px-6 md:py-20 2xl:pr-56">
         <Reveal>
           <p className="kicker text-gold-ink/70">¿No lo encuentras?</p>
-          <h2 className="display mt-3 max-w-xl text-[clamp(30px,4.4vw,52px)] text-gold-ink">Pídelo y te lo conseguimos</h2>
+          <h2 className="display mt-3 max-w-xl text-[clamp(30px,4.4vw,52px)] text-gold-ink">Pregunta por el stock secreto 😉</h2>
           <p className="mt-4 max-w-md leading-relaxed text-gold-ink/80">
-            Si buscas una plataforma, una licencia, una fragancia o un servicio que no está en la tienda, escríbenos y te cotizamos.
+            Si buscas una fragancia, un reloj o un gadget que no ves en la tienda, escríbenos el nombre y te decimos si lo tenemos.
           </p>
         </Reveal>
 
         <Reveal delay={0.08} className="shrink-0">
           <a
-            href={waLink(`Hola ${site.name}, estoy buscando un producto que no vi en el catálogo:`)}
+            href={waLink(stockSecreto.mensaje)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex min-h-[52px] items-center gap-2 rounded-full bg-gold-ink px-6 font-bold text-gold transition-transform hover:brightness-110"

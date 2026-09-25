@@ -14,22 +14,22 @@ const steps = [
   {
     icon: MousePointerClick,
     title: "Elige",
-    text: "Agrega al carrito lo que quieras de toda la red: plataformas, perfumes, relojes o tecnología. Sin registrarte.",
-  },
-  {
-    icon: MessageCircle,
-    title: "Confirma por WhatsApp",
-    text: "Tu pedido llega armado a nuestro WhatsApp y te respondemos con los datos de pago. Te atiende una persona.",
+    text: "Agrega al carrito tus perfumes, relojes o tecnología. Sin registrarte y sin formularios largos.",
   },
   {
     icon: CreditCard,
-    title: "Paga y recibe",
-    text: `Pagas por ${site.payments.slice(0, 3).join(", ")}. Lo digital llega al chat en ~${site.deliveryMinutes} minutos y lo físico sale con envío a toda Colombia.`,
+    title: "Paga sin tarjeta",
+    text: "Al finalizar la compra pagas por Nequi o Llave Bre-B, y ves el envío antes de pagar.",
+  },
+  {
+    icon: MessageCircle,
+    title: "Recibe en casa",
+    text: "Tu pedido sale con envío a toda Colombia. Antes y después de comprar te atiende una persona por WhatsApp.",
   },
 ];
 
 // Pedido de ejemplo con productos y precios reales del catálogo
-const sample = [destacados.digital[0], destacados.perfumeria[0]].filter(Boolean) as Product[];
+const sample = [destacados.perfumeria[0], destacados.relojeria[0]].filter(Boolean) as Product[];
 const total = sample.reduce((n, p) => n + p.plans[0].price, 0);
 
 /**
@@ -61,7 +61,7 @@ export function HowItWorks() {
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-20">
         <div>
           <SectionHeading kicker="04 · Cómo comprar" title="Tres pasos y listo">
-            Sin registros ni formularios largos. Compres lo que compres, todo pasa en un chat.
+            Eliges, pagas sin tarjeta y te llega a la puerta. Si algo no te queda claro, escríbenos.
           </SectionHeading>
 
           <ol className="mt-12 lg:mt-4">
@@ -210,8 +210,42 @@ function Screen({ step }: { step: number }) {
             <span className="num font-semibold">{formatCOP(total)}</span>
           </div>
           <span className="btn btn-buy mt-3 w-full justify-center text-sm">
-            <WhatsAppIcon /> Enviar pedido por WhatsApp
+            <ShoppingBag className="h-4 w-4" /> Ir a pagar
           </span>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === 1) {
+    return (
+      <div className="flex h-full flex-col">
+        <div className="flex items-center gap-2 border-b border-line bg-surface px-4 py-3.5">
+          <CreditCard className="h-4 w-4 text-neb" />
+          <span className="text-sm font-semibold">Finalizar compra</span>
+        </div>
+        <div className="flex-1 space-y-3 overflow-hidden p-3">
+          <div className="rounded-2xl border border-line bg-surface p-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Envío</p>
+            <p className="mt-1 text-[13px]">A tu dirección, en cualquier ciudad de Colombia</p>
+          </div>
+          <div className="rounded-2xl border border-line bg-surface p-3">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Pago</p>
+            {["Nequi", "Llave Bre-B"].map((m, i) => (
+              <p key={m} className="mt-2 flex items-center gap-2 text-[13px]">
+                <span className={`h-3.5 w-3.5 rounded-full border-2 ${i === 0 ? "border-neb bg-neb" : "border-line-strong"}`} />
+                {m}
+              </p>
+            ))}
+            <p className="mt-2 text-[11px] text-faint">Sin tarjeta de crédito.</p>
+          </div>
+        </div>
+        <div className="border-t border-line bg-surface p-3">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-mute">Productos</span>
+            <span className="num font-semibold">{formatCOP(total)}</span>
+          </div>
+          <span className="btn btn-primary mt-3 w-full justify-center text-sm">Completar pedido</span>
         </div>
       </div>
     );
@@ -221,34 +255,9 @@ function Screen({ step }: { step: number }) {
     <div className="flex h-full flex-col">
       <ChatHeader />
       <div className="flex flex-1 flex-col justify-end gap-2 overflow-hidden p-3">
-        {step === 1 ? (
-          <>
-            <Bubble out time="10:02">
-              Hola {site.name}, quiero hacer este pedido:
-              <br />
-              {sample.map((p) => (
-                <span key={p.slug} className="block">
-                  • {p.name} x1: <span className="num">{formatCOP(p.plans[0].price)}</span>
-                </span>
-              ))}
-              <span className="mt-1 block font-semibold">
-                Total: <span className="num">{formatCOP(total)}</span>
-              </span>
-            </Bubble>
-            <Bubble time="10:03">¡Hola! Ya tenemos tu pedido. Te paso los datos para pagar por {site.payments[0]} o {site.payments[1]} 👇</Bubble>
-          </>
-        ) : (
-          <>
-            <Bubble out time="10:06">
-              <span className="mb-1.5 flex items-center gap-2 rounded-xl bg-bg/40 px-2.5 py-2 text-[12px] text-mute">
-                <CreditCard className="h-4 w-4" /> comprobante.jpg
-              </span>
-              Listo, ya pagué
-            </Bubble>
-            <Bubble time="10:08">Pago confirmado ✅ Aquí van los datos de acceso de tu {sample[0]?.name ?? "plan"}.</Bubble>
-            <Bubble time="10:09">Tu perfume ya está en preparación. Te enviamos la guía de envío por este chat 📦</Bubble>
-          </>
-        )}
+        <Bubble out time="10:12">Hola {site.name}, ya hice mi pedido del {sample[0]?.name ?? "perfume"} 🙌</Bubble>
+        <Bubble time="10:13">¡Hola! Ya lo tenemos. Está en preparación y te compartimos la guía de envío por este chat 📦</Bubble>
+        <Bubble out time="10:14">¡Gracias!</Bubble>
       </div>
       <div className="flex items-center gap-2 border-t border-line bg-surface px-3 py-2.5">
         <span className="flex-1 rounded-full bg-surface-2 px-3 py-2 text-[12px] text-faint">Mensaje</span>

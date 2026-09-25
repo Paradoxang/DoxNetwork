@@ -1,4 +1,4 @@
-import { ShieldCheck, Truck, Wallet, Zap } from "lucide-react";
+import { ShieldCheck, SprayCan, Truck, Wallet } from "lucide-react";
 import { Deco } from "@/components/Deco";
 import { tint } from "@/data/paleta";
 import { site } from "@/data/site";
@@ -7,10 +7,10 @@ import { Reveal } from "@/lib/anim";
 // Barra de confianza justo debajo del hero (estructura mínima de los tres estudios).
 // TODO: confirma que cada promesa es real en tu operación antes de publicarla.
 const items = [
-  { icon: Zap, hue: "#b48cff", title: "Digital en minutos", text: `Streaming, IA y software por WhatsApp en ~${site.deliveryMinutes} min.` },
-  { icon: Truck, hue: "#5fb8e8", title: "Envíos a toda Colombia", text: "Perfumes, relojes y tecnología. Costo y tiempo por WhatsApp." },
-  { icon: ShieldCheck, hue: "#5fd8a4", title: "Garantía por escrito", text: `Reposición digital en menos de ${site.warrantyHours} h; en lo físico, antes de pagar.` },
-  { icon: Wallet, hue: "#f2c46d", title: "Pagos locales", text: `${site.payments.slice(0, 3).join(", ")}. Sin tarjeta.` },
+  { icon: SprayCan, hue: "#ef8fb8", title: "Perfumería 1.1 y AAA", text: "Para ella, para él y unisex. ¿No está la tuya? Pregunta por el stock secreto." },
+  { icon: Truck, hue: "#5fb8e8", title: "Envíos a toda Colombia", text: "Perfumes, relojes y tecnología. El envío lo ves antes de pagar." },
+  { icon: Wallet, hue: "#f2c46d", title: "Pagas sin tarjeta", text: `${site.payments.map((p) => (p === "Bre-B" ? "Llave Bre-B" : p)).join(" o ")} al finalizar la compra.` },
+  { icon: ShieldCheck, hue: "#5fd8a4", title: "Te atiende una persona", text: "Dudas, pedidos y garantía por WhatsApp, antes y después de comprar." },
 ];
 
 export function Benefits() {

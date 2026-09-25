@@ -1,17 +1,18 @@
-import { ArrowUpRight, Code2 } from "lucide-react";
+import { ArrowUpRight, Code2, PawPrint } from "lucide-react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Astro, type AstroPose } from "@/components/Astro";
-import { CategoryIcon, LineIcon } from "@/components/CategoryIcon";
+import { LineIcon } from "@/components/CategoryIcon";
 import { Deco, type DecoName } from "@/components/Deco";
 import { SectionHeading } from "@/components/SectionHeading";
 import { glowHandlers } from "@/components/ui/glowing-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
-import { allProducts, categories, fromPrice, products, upcoming, type Product } from "@/data/catalog";
+import { allProducts, fromPrice, type Product } from "@/data/catalog";
+import { comedero, imagenes, lineaMascotas } from "@/data/comedero";
 import { destacados, microThumbOf } from "@/data/destacados";
 import { lineaOf, lineaOrder, lineas, vapes, type LineaId } from "@/data/lineas";
-import { categoryHue, tint } from "@/data/paleta";
+import { tint } from "@/data/paleta";
 import { formatCOP } from "@/data/site";
 import { useBatchReveal } from "@/lib/useBatchReveal";
 
@@ -22,11 +23,10 @@ const stats = Object.fromEntries(
   })
 ) as Record<LineaId, { count: number; min: number }>;
 
-const isNew: Partial<Record<LineaId, boolean>> = { relojeria: true, tecnologia: true };
+const isNew: Partial<Record<LineaId, boolean>> = {};
 
 /** ASTRO presenta cada línea desde la esquina de su baldosa. */
 const chibi: Partial<Record<LineaId, AstroPose>> = {
-  digital: "chibi-streaming",
   perfumeria: "chibi-perfume",
   relojeria: "chibi-reloj",
   tecnologia: "chibi-audifonos",
@@ -42,9 +42,10 @@ const adorno: Partial<Record<LineaId, DecoName>> = {
 
 /**
  * 01 · La red, como Bento Grid (brief de rediseño, fase 2): el tamaño de cada
- * baldosa sigue al peso de la línea. Perfumería (176) y Tecnología (204) van
- * grandes, Relojería mediana, Páginas web chica, y Digital ocupa una franja
- * con sus categorías dentro. El borde luminoso es la única respuesta al puntero.
+ * baldosa sigue al peso de la línea. Perfumería, el foco de la tienda, es la
+ * más alta; Tecnología va ancha, Relojería mediana, Páginas web chica, y
+ * Mascotas ocupa la franja que era de lo digital hasta el 25-sep-2026. El
+ * borde luminoso es la única respuesta al puntero.
  */
 export function Categories() {
   const scope = useRef<HTMLElement>(null);
@@ -53,7 +54,7 @@ export function Categories() {
   return (
     <section ref={scope} id="categorias" className="mx-auto max-w-[1200px] px-4 pb-10 pt-20 md:px-6 md:pb-12 md:pt-24">
       <SectionHeading kicker="01 · La red" title="Todo lo que encuentras aquí">
-        Cuatro líneas en una sola tienda, con el mismo carrito y el mismo WhatsApp.
+        Perfumería primero, y relojería, tecnología y mascotas en la misma tienda, con el mismo carrito y el mismo WhatsApp.
       </SectionHeading>
 
       <ul className="mt-10 grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-6 lg:grid-rows-[auto_auto_auto]">
@@ -95,58 +96,44 @@ export function Categories() {
           </Link>
         </li>
 
-        {/* Digital: franja ancha con sus categorías */}
+        {/* Mascotas: el comedero, que vive en Shopify y se paga al recibir */}
         <li data-reveal className="col-span-2 lg:col-span-4">
-          <div
+          <Link
+            to={lineaMascotas.path}
             {...glowHandlers}
-            className="glow-border card relative flex min-h-full flex-col gap-5 overflow-hidden p-5 md:p-6"
-            style={{ background: `radial-gradient(90% 140% at 0% 0%, ${tint(lineas.digital.hue, 16)}, transparent 60%), var(--surface)`, borderColor: tint(lineas.digital.hue, 24) }}
+            className="glow-border card card-hover group relative flex min-h-full flex-col gap-5 overflow-hidden p-5 sm:flex-row sm:items-center md:p-6"
+            style={{ background: `radial-gradient(90% 140% at 0% 0%, ${tint(lineaMascotas.hue, 16)}, transparent 60%), var(--surface)`, borderColor: tint(lineaMascotas.hue, 24) }}
           >
-            <Deco name="esfera" className="deco-esquina -right-12 -top-16 w-64" opacity={0.26} pesado />
-            <Link to={lineas.digital.path} className="relative group flex items-start gap-4">
-              <span
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
-                style={{ background: tint(lineas.digital.hue, 18), color: lineas.digital.hue }}
-              >
-                <LineIcon id="digital" />
-              </span>
-              <span className="min-w-0">
-                <span className="flex items-center gap-2 text-xl font-bold leading-tight group-hover:text-neb">
-                  {lineas.digital.name} <ArrowUpRight className="h-4 w-4 text-faint" aria-hidden="true" />
+            <span className="min-w-0 flex-1">
+              <span className="flex items-start justify-between gap-3">
+                <span
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
+                  style={{ background: tint(lineaMascotas.hue, 18), color: lineaMascotas.hue }}
+                >
+                  <PawPrint className="h-5 w-5" aria-hidden="true" strokeWidth={1.8} />
                 </span>
-                <span className="mt-1 block text-sm leading-snug text-mute">{lineas.digital.blurb}</span>
-                <span className="num mt-2 block text-xs text-faint">
-                  <NumberTicker value={stats.digital.count} className="text-ink" /> productos · desde{" "}
-                  <span className="text-ink">{formatCOP(stats.digital.min)}</span>
-                </span>
+                <span className="rounded-full bg-gold-soft px-2 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-wider text-gold sm:hidden">Nuevo</span>
               </span>
-            </Link>
-            <div className="pointer-events-none absolute right-3 top-2 z-10 hidden h-28 lg:block">
-              <Astro pose="chibi-streaming" small enter={false} decorative className="h-full" />
-            </div>
-            <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:flex-wrap md:overflow-visible md:px-0">
-              {categories.map((c) => (
-                <li key={c.id} className="shrink-0">
-                  <Link
-                    to={`/catalogo?categoria=${c.id}`}
-                    className="chip whitespace-nowrap"
-                    style={{ borderColor: tint(categoryHue[c.id] ?? lineas.digital.hue, 30) }}
-                  >
-                    <CategoryIcon id={c.id} className="h-4 w-4" style={{ color: categoryHue[c.id] }} />
-                    {c.name}
-                    <span className="num text-xs text-faint">{products.filter((p) => p.category === c.id).length}</span>
-                  </Link>
-                </li>
-              ))}
-              {upcoming.map((u) => (
-                <li key={u.name} className="shrink-0">
-                  <span className="chip cursor-default whitespace-nowrap border-dashed text-faint" aria-label={`${u.name}, próximamente`}>
-                    {u.name} · Próximamente
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+              <span className="mt-4 flex items-center gap-2 text-2xl font-bold leading-tight group-hover:text-neb">
+                {lineaMascotas.name} <ArrowUpRight className="h-4 w-4 text-faint" aria-hidden="true" />
+              </span>
+              <span className="mt-1 block text-sm leading-snug text-mute">{comedero.nombre}</span>
+              <span className="num mt-3 block text-xs text-faint">
+                <span className="text-ink">{formatCOP(comedero.precio)}</span> · envío gratis · pagas al recibir
+              </span>
+            </span>
+            <span className="product-media aspect-[4/3] w-full shrink-0 overflow-hidden rounded-2xl sm:w-[44%]" aria-hidden="true">
+              <img
+                src={imagenes.portadaSm}
+                alt=""
+                width={480}
+                height={360}
+                loading="lazy"
+                decoding="async"
+                className="relative z-[1] h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </span>
+          </Link>
         </li>
         {/* Vapes: su propia baldosa, sin fotos ni precios y con la verificación de edad */}
         <li data-reveal className="col-span-2 lg:col-span-2">
@@ -167,7 +154,7 @@ export function Categories() {
             </div>
             <p className="mt-4 text-2xl font-bold leading-tight md:pr-28">{lineas.vapes.name}</p>
             <p className="mt-1 text-sm leading-snug text-mute md:pr-28">{lineas.vapes.blurb}</p>
-            <p className="mt-4 text-[13px] leading-relaxed text-faint">
+            <p className="mt-4 text-[13px] leading-relaxed text-faint md:pr-24">
               Al entrar se verifica tu edad. Contienen nicotina, una sustancia adictiva que afecta la salud.
             </p>
             <p className="num mt-auto pt-5 text-xs text-faint">

@@ -29,10 +29,10 @@ export interface LegalDoc {
   sections: LegalSection[];
 }
 
-export const legalUpdated = "17 de septiembre de 2026";
+export const legalUpdated = "25 de septiembre de 2026";
 
-/** TODO: plazo real para reportar novedades de un envío al recibirlo. */
-const reportHours = 48;
+/** TODO: plazo real para reportar novedades de un envío al recibirlo. Lo usa también la garantía del inicio. */
+export const reportHours = 48;
 
 const contacto = `WhatsApp ${site.whatsappDisplay} (${site.hours})`;
 
@@ -43,8 +43,8 @@ const terminos: LegalDoc = {
   short: "Términos",
   description: `Condiciones de uso del sitio y de compra en ${site.name}.`,
   summary: [
-    "El pedido se arma en el carrito y se confirma por WhatsApp: queda en firme cuando confirmamos disponibilidad y total y recibimos el pago.",
-    "Vendemos productos digitales, perfumería, relojería, tecnología y vapes (solo mayores de 18 años). Cada ficha dice si un producto es original o réplica.",
+    "Compras desde el carrito: finalizas en nuestro checkout, donde pagas por Nequi o Llave Bre-B, o nos envías el pedido por WhatsApp. La compra queda en firme cuando confirmamos el pago.",
+    "Vendemos perfumería, relojería, tecnología, productos para mascotas y vapes (solo mayores de 18 años). Cada ficha dice si un producto es original o réplica.",
     "Envíos, cambios, garantías y datos personales tienen su propia política, enlazada abajo.",
   ],
   sections: [
@@ -59,7 +59,7 @@ const terminos: LegalDoc = {
       id: "contacto",
       title: "Quiénes somos y cómo contactarnos",
       body: [
-        `${site.name} es una tienda en línea que atiende sus pedidos por WhatsApp. Para cualquier consulta, pedido, garantía o reclamo escríbenos por ${contacto}.`,
+        `${site.name} es una tienda en línea con atención por WhatsApp. Para cualquier consulta, pedido, garantía o reclamo escríbenos por ${contacto}.`,
       ],
     },
     {
@@ -67,8 +67,8 @@ const terminos: LegalDoc = {
       title: "Qué vendemos",
       body: [
         [
-          "Productos digitales: acceso a plataformas de streaming, música, inteligencia artificial y software, pines de cine y recargas.",
-          "Productos físicos: perfumería, relojería y tecnología, con envío a toda Colombia.",
+          "Perfumería, relojería y tecnología, con envío a toda Colombia.",
+          "Productos para mascotas, como el comedero por gravedad, que se paga al recibir (contra entrega).",
           "Vapes: productos para mayores de 18 años, en una sección con verificación de edad.",
           "Páginas web a la medida con Dox Designs, bajo cotización.",
         ],
@@ -78,8 +78,8 @@ const terminos: LegalDoc = {
       id: "pedidos",
       title: "Cómo se hace un pedido",
       body: [
-        "Agregas productos al carrito y lo envías por WhatsApp. Ese mensaje es una solicitud: el carrito no reserva productos ni congela precios.",
-        "Te respondemos con la disponibilidad, el valor total (incluido el envío cuando aplique) y los datos de pago. La compra queda en firme cuando confirmamos el pedido y recibimos el pago.",
+        "Agregas productos al carrito y finalizas la compra en nuestro checkout, operado por Shopify: allí dejas tus datos de envío, ves el costo del envío y eliges cómo pagar. Si algún producto del carrito no se puede comprar en línea, el carrito te lleva a WhatsApp con el pedido armado y te respondemos con la disponibilidad, el total y los datos de pago.",
+        "El carrito no reserva productos ni congela precios. La compra queda en firme cuando confirmamos el pago.",
         "Si después del pago un producto resulta no estar disponible, te ofrecemos una alternativa o te devolvemos el valor pagado por ese producto.",
       ],
     },
@@ -88,18 +88,7 @@ const terminos: LegalDoc = {
       title: "Precios y pagos",
       body: [
         `Los precios están en pesos colombianos (COP) y pueden cambiar sin previo aviso; se respeta el precio confirmado en tu pedido. Medios de pago: ${site.payments.join(", ")}.`,
-        "Los combos tienen su precio rebajado frente a comprar cada producto por separado. No hay otros descuentos automáticos por combinar productos.",
         "No pedimos ni guardamos datos de tarjetas.",
-      ],
-    },
-    {
-      id: "digitales",
-      title: "Productos digitales",
-      body: [
-        "Cada producto indica su tipo de acceso, su vigencia y cuántos dispositivos admite. Son de uso personal durante la vigencia contratada.",
-        "Para conservar la garantía no cambies contraseñas, correos, perfiles ni planes de las cuentas entregadas, ni las compartas más allá de lo que incluye tu plan.",
-        "Nada se renueva ni se cobra automáticamente: al vencer decides si renuevas.",
-        `${site.name} no está afiliada ni patrocinada por las plataformas mencionadas.`,
       ],
     },
     {
@@ -144,7 +133,7 @@ const terminos: LegalDoc = {
       id: "uso",
       title: "Uso del sitio y responsabilidad",
       body: [
-        "Te comprometes a usar el sitio y los productos de forma lícita. No respondemos por el uso indebido de cuentas o productos por parte del comprador ni por interrupciones de las plataformas de terceros fuera de lo que cubre la garantía.",
+        "Te comprometes a usar el sitio y los productos de forma lícita. No respondemos por el uso indebido de los productos por parte del comprador.",
         "Hacemos lo posible por mantener la información actualizada, pero pueden existir errores de digitación en nombres, fotos o precios; en ese caso te lo informamos antes de confirmar el pago.",
       ],
     },
@@ -172,8 +161,8 @@ const privacidad: LegalDoc = {
   short: "Privacidad",
   description: `Cómo ${site.name} recolecta, usa y protege tus datos personales.`,
   summary: [
-    "El sitio no tiene registro, formularios, cookies de publicidad ni analítica. Tu carrito y tus favoritos se guardan solo en tu navegador.",
-    "Los datos que nos das por WhatsApp (nombre, número, dirección, pago) se usan para gestionar tu pedido, el envío y el soporte. No los vendemos.",
+    "El sitio no tiene registro. Usa el píxel de Meta para medir la publicidad, y tu carrito y tus favoritos se guardan solo en tu navegador.",
+    "Los datos que nos das en el checkout o por WhatsApp (nombre, número, dirección, pago) se usan para gestionar tu pedido, el envío y el soporte. No los vendemos.",
     "Puedes conocer, actualizar, rectificar o pedir que eliminemos tus datos escribiéndonos por WhatsApp.",
   ],
   sections: [
@@ -181,7 +170,7 @@ const privacidad: LegalDoc = {
       id: "marco",
       title: "Alcance y marco legal",
       body: [
-        `Esta política aplica a los datos personales que ${site.name} trata a través del sitio y de WhatsApp, conforme a la Ley 1581 de 2012 y sus decretos reglamentarios (Decreto 1074 de 2015).`,
+        `Esta política aplica a los datos personales que ${site.name} trata a través del sitio, del checkout y de WhatsApp, conforme a la Ley 1581 de 2012 y sus decretos reglamentarios (Decreto 1074 de 2015).`,
       ],
     },
     {
@@ -189,20 +178,19 @@ const privacidad: LegalDoc = {
       title: "Qué datos tratamos",
       body: [
         [
-          "Datos de contacto: nombre, número de WhatsApp y los mensajes que nos envías.",
+          "Datos de contacto: nombre, número de teléfono o WhatsApp, el correo si lo das en el checkout y los mensajes que nos envías.",
           "Datos del pedido: productos, valores, comprobantes de pago y número de pedido.",
           "Datos de envío: ciudad, dirección y, si la transportadora o la verificación de edad lo requieren, número de documento.",
-          "Datos de activación: el correo electrónico al que se activa un producto digital, cuando el producto lo requiere.",
         ],
-        "No pedimos contraseñas de tus cuentas personales ni datos de tarjetas, y no tratamos datos sensibles.",
+        "No pedimos datos de tarjetas ni tratamos datos sensibles.",
       ],
     },
     {
       id: "navegador",
       title: "Lo que se guarda en tu navegador",
       body: [
-        "El sitio no usa cookies de publicidad ni herramientas de analítica. Usa el almacenamiento local de tu navegador para recordar tu carrito, tus favoritos, el tema claro u oscuro, la confirmación de mayoría de edad y si ya viste un aviso promocional.",
-        "Esa información se queda en tu dispositivo, no nos llega y puedes borrarla cuando quieras desde la configuración de tu navegador.",
+        "El sitio usa el almacenamiento local de tu navegador para recordar tu carrito, tus favoritos, el tema claro u oscuro, la confirmación de mayoría de edad y si ya viste un aviso promocional. Esa información se queda en tu dispositivo, no nos llega y puedes borrarla cuando quieras desde la configuración de tu navegador.",
+        "Además carga el píxel de Meta, que puede guardar cookies de Meta para medir nuestra publicidad, y Cloudflare cuenta las visitas sin cookies. Los dos se explican abajo, en «Con quién los compartimos».",
       ],
     },
     {
@@ -211,10 +199,9 @@ const privacidad: LegalDoc = {
       body: [
         [
           "Gestionar tu pedido: confirmar disponibilidad, precio y pago.",
-          "Entregar productos digitales y coordinar envíos de productos físicos.",
+          "Coordinar el envío de tus productos.",
           "Darte soporte y atender garantías, cambios, peticiones, quejas y reclamos.",
           "Verificar la mayoría de edad en la compra de vapes.",
-          "Avisarte sobre el vencimiento o la renovación de un producto que compraste.",
           "Cumplir obligaciones legales, contables y tributarias.",
         ],
         "Solo te enviaremos promociones si nos lo autorizas expresamente, y puedes pedir que dejemos de hacerlo en cualquier momento.",
@@ -224,7 +211,7 @@ const privacidad: LegalDoc = {
       id: "autorizacion",
       title: "Autorización",
       body: [
-        "Al escribirnos por WhatsApp y enviarnos un pedido nos autorizas a tratar tus datos para las finalidades descritas. Puedes revocar esa autorización cuando quieras, salvo en lo que sea necesario para cumplir una obligación legal o contractual pendiente.",
+        "Al finalizar una compra en el checkout, o al escribirnos por WhatsApp y enviarnos un pedido, nos autorizas a tratar tus datos para las finalidades descritas. Puedes revocar esa autorización cuando quieras, salvo en lo que sea necesario para cumplir una obligación legal o contractual pendiente.",
       ],
     },
     {
@@ -234,9 +221,10 @@ const privacidad: LegalDoc = {
         "No vendemos ni alquilamos tus datos. Solo los compartimos, en lo necesario, con:",
         [
           "Transportadoras, para entregar tus productos físicos.",
-          "Proveedores de los productos, cuando se requiere para despachar o activar tu pedido.",
+          "Proveedores de los productos, cuando se requiere para despachar tu pedido.",
+          "Shopify, la plataforma de nuestro checkout: allí dejas tus datos de contacto y de envío al finalizar la compra.",
           "WhatsApp (Meta), el canal por el que nos comunicamos.",
-          "Cloudflare, el servicio donde está alojado el sitio, que registra datos técnicos de las visitas (como la dirección IP) por seguridad.",
+          "Cloudflare, el servicio donde está alojado el sitio, que registra datos técnicos de las visitas (como la dirección IP) por seguridad y cuenta las visitas sin cookies.",
           "Meta (Facebook e Instagram), a través de su píxel: registra la visita de quien entra a la página del comedero de mascotas y a cualquier otra donde lo pongamos, llegue o no desde un anuncio, para medir nuestra publicidad. Meta lo trata con su propia política de datos, y puedes desconectarlo desde «Tu actividad fuera de Meta» en tu cuenta de Facebook o Instagram.",
           "Autoridades, cuando una norma o una orden lo exija.",
         ],
@@ -294,26 +282,18 @@ const envios: LegalDoc = {
   path: "/envios",
   title: "Envíos y entregas",
   short: "Envíos",
-  description: `Cómo se entregan los productos digitales y cómo se envían los productos físicos de ${site.name}.`,
+  description: `Cómo se envían los productos de ${site.name}.`,
   summary: [
-    `Lo digital llega por WhatsApp en unos ${site.deliveryMinutes} minutos en horario de atención.`,
-    "Lo físico se envía a toda Colombia: el costo, la transportadora y el tiempo se confirman antes del pago.",
+    "Enviamos a toda Colombia. En el checkout ves el costo del envío antes de pagar; si compras por WhatsApp, te lo confirmamos antes del pago.",
+    "Cuando el pedido sale te compartimos la guía para que le hagas seguimiento.",
     `Revisa tu paquete al recibirlo y repórtanos cualquier novedad en las ${reportHours} horas siguientes.`,
   ],
   sections: [
     {
-      id: "digitales",
-      title: "Productos digitales",
-      body: [
-        `Se entregan por el mismo chat de WhatsApp en unos ${site.deliveryMinutes} minutos después de confirmar el pago, dentro del horario de atención (${site.hours}). Los pedidos pagados fuera de horario se entregan al inicio del siguiente horario.`,
-        "Los productos que se activan en tu correo pueden tardar un poco más; te avisamos si es el caso.",
-      ],
-    },
-    {
       id: "fisicos",
       title: "Productos físicos",
       body: [
-        "Enviamos perfumería, relojería, tecnología y vapes a toda Colombia. Antes del pago te confirmamos el costo del envío, la transportadora y el tiempo estimado según tu ciudad.",
+        "Enviamos perfumería, relojería, tecnología, productos para mascotas y vapes a toda Colombia. En el checkout ves el costo del envío antes de pagar; si compras por WhatsApp, antes del pago te confirmamos el costo, la transportadora y el tiempo estimado según tu ciudad.",
         "Cuando el pedido sale te compartimos la guía para que le hagas seguimiento. Los tiempos de entrega dependen de la transportadora y pueden variar en temporadas altas o zonas de difícil acceso.",
       ],
     },
@@ -349,24 +329,16 @@ const cambios: LegalDoc = {
   short: "Garantías",
   description: `Garantía, derecho de retracto, devoluciones y reversión del pago en ${site.name}.`,
   summary: [
-    `Productos digitales: si fallan durante la vigencia, los reponemos en menos de ${site.warrantyHours} horas.`,
-    "Productos físicos: tienen garantía legal; te confirmamos su término por escrito al comprar.",
+    "Tus productos tienen garantía legal; te confirmamos su término por escrito al comprar.",
+    `Si tu pedido llega dañado, incompleto o distinto y lo reportas en las ${reportHours} horas siguientes, asumimos el cambio y los envíos.`,
     "Tienes derecho de retracto de 5 días hábiles en compras a distancia, con las excepciones que fija la ley.",
   ],
   sections: [
     {
-      id: "digitales",
-      title: "Garantía de productos digitales",
-      body: [
-        `Si tu cuenta, perfil o código falla durante la vigencia contratada, repórtalo por WhatsApp con tu número de pedido y lo reponemos sin costo en menos de ${site.warrantyHours} horas dentro del horario de atención.`,
-        "La garantía no cubre fallas causadas por cambios de contraseña, correo, perfil o plan hechos por el comprador, ni el uso en más dispositivos de los que incluye el plan.",
-      ],
-    },
-    {
       id: "fisicos",
-      title: "Garantía de productos físicos",
+      title: "Garantía de los productos",
       body: [
-        "Los productos físicos tienen la garantía legal que establece la Ley 1480 de 2011. Al confirmar tu compra te informamos por escrito el término de garantía de tu producto; si no se informa uno, aplica el que fija la ley.",
+        "Los productos tienen la garantía legal que establece la Ley 1480 de 2011. Al confirmar tu compra te informamos por escrito el término de garantía de tu producto; si no se informa uno, aplica el que fija la ley.",
         "Para solicitarla escríbenos por WhatsApp con tu número de pedido, una descripción de la falla y fotos o un video. Según el caso y lo que establece la ley, se repara el producto, se cambia por otro igual o se devuelve el dinero.",
         [
           "No cubre daños por mal uso, golpes, caídas, humedad o manipulación del producto.",
@@ -383,7 +355,6 @@ const cambios: LegalDoc = {
         "Te devolvemos el dinero pagado dentro de los treinta (30) días calendario siguientes a tu solicitud.",
         "Según la ley, el retracto no aplica, entre otros casos, a:",
         [
-          "Productos digitales ya entregados o activados, porque su prestación empezó con tu consentimiento.",
           "Bienes de uso personal, como perfumes, vapes y audífonos intraauriculares, una vez abiertos o usados.",
         ],
       ],

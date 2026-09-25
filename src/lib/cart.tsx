@@ -27,7 +27,7 @@ export interface ResolvedLine extends CartLine {
 }
 
 /* Sin descuento por combinar desde el 24-sep-2026 (orden de Santiago): el
-   total es la suma de las líneas. Los combos ya traen su propio precio. */
+   total es la suma de las líneas. */
 
 interface Toast {
   id: number;

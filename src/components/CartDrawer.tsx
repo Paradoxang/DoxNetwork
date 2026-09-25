@@ -117,7 +117,7 @@ export function CartDrawer() {
                         transition={{ duration: 0.3, ease: EASE }}
                         className="card flex gap-3 p-3"
                       >
-                        <ProductArt product={l.product} plan={l.plan} size="sm" className="w-20 shrink-0 self-start rounded-xl" />
+                        <ProductArt product={l.product} size="sm" className="w-20 shrink-0 self-start rounded-xl" />
                         <div className="flex min-w-0 flex-1 flex-col">
                           <div className="flex items-start justify-between gap-2">
                             <div className="min-w-0">
@@ -186,7 +186,7 @@ export function CartDrawer() {
                   )}
                   {/* Toda la cesta física y cargada en Shopify → su checkout (Nequi o Llave Bre-B;
                       contra entrega solo si es únicamente el comedero).
-                      Cualquier digital, agotado o sin mapa → WhatsApp, como siempre. */}
+                      Cualquier agotado o sin mapa → WhatsApp, como siempre. */}
                   <a href={cart.checkoutUrl} target="_blank" rel="noopener noreferrer" className="btn btn-buy w-full">
                     {cart.checkoutVia === "shopify" ? (
                       <>

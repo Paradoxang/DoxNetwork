@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { ProductArt } from "@/components/ProductArt";
-import { allProducts, categories, categoryById, fromPrice, type CategoryId, type Product } from "@/data/catalog";
+import { allProducts, categoryById, fromPrice, type CategoryId, type Product } from "@/data/catalog";
 import { destacadosRed } from "@/data/destacados";
 import { isRestricted, lineaOf, lineaOrder, lineas, subLabel, type LineaId } from "@/data/lineas";
-import { formatCOP } from "@/data/site";
+import { paraOptions, stockSecreto } from "@/data/perfumeria";
+import { formatCOP, waLink } from "@/data/site";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { EASE, lockScroll } from "@/lib/anim";
 import { normalize, useUI } from "@/lib/ui";
 
@@ -28,7 +30,7 @@ interface Result {
  * agrupados por tipo y una vista previa del resultado activo a la derecha.
  * Busca en vivo sobre nombre, descripción corta y categoría, sin tildes.
  * Flechas para moverse, Enter para ir, Esc para cerrar. Vacío muestra los
- * destacados de la red. La vista previa se oculta en móvil: ahí manda la lista.
+ * destacados de la tienda. La vista previa se oculta en móvil: ahí manda la lista.
  */
 export function SearchPalette() {
   const { searchOpen: open, setSearchOpen: setOpen, searchSeed } = useUI();
@@ -61,18 +63,19 @@ export function SearchPalette() {
         to: `/producto/${p.slug}`,
         icon: p.category,
         price: fromPrice(p),
-        group: "Destacados de la red",
+        group: "Destacados",
         product: p,
       }));
     }
     const lines = ([...lineaOrder, "vapes"] as LineaId[])
-      .filter((id) => id !== "digital" && normalize(`${lineas[id].name} ${lineas[id].blurb} ${id === "vapes" ? "vape vapeador" : ""}`).includes(nq))
+      .filter((id) => normalize(`${lineas[id].name} ${lineas[id].blurb} ${id === "vapes" ? "vape vapeador" : ""}`).includes(nq))
       .map((id) => ({ key: `l-${id}`, label: lineas[id].name, hint: lineas[id].blurb, to: lineas[id].path, icon: id as CategoryId, group: "Líneas" }));
     const cats = [
       ...lines,
-      ...categories
-        .filter((c) => normalize(`${c.name} ${c.blurb}`).includes(nq))
-        .map((c) => ({ key: `c-${c.id}`, label: c.name, hint: c.blurb, to: `/catalogo?categoria=${c.id}`, icon: c.id, group: "Categorías" })),
+      // Los accesos por público de la perfumería: "para ella", "unisex", "sets"…
+      ...paraOptions
+        .filter((o) => normalize(`${o.label} perfume ${o.hint}`).includes(nq))
+        .map((o) => ({ key: `p-${o.id}`, label: `Perfumes · ${o.label}`, hint: o.hint, to: `/perfumeria?para=${o.id}`, icon: "perfumeria" as CategoryId, group: "Perfumería" })),
     ].slice(0, 3);
     // Todas las palabras, en cualquier orden: "sauvage dior" encuentra "Dior Sauvage"
     const words = nq.split(/\s+/);
@@ -158,7 +161,7 @@ export function SearchPalette() {
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 onKeyDown={onKey}
-                placeholder="Busca Netflix, un perfume, un reloj, AirPods…"
+                placeholder="Busca un perfume, un reloj, AirPods…"
                 className="h-[64px] w-full bg-transparent text-[18px] text-ink outline-none placeholder:text-faint"
                 role="combobox"
                 aria-expanded="true"
@@ -215,8 +218,17 @@ export function SearchPalette() {
                   <Astro pose="chibi-espera" small enter={false} float={false} decorative className="mb-3 h-28" />
                   Sin resultados para “{q}”.
                   <button type="button" onClick={() => go()} className="mt-3 flex w-full items-center justify-center gap-1.5 font-semibold text-neb">
-                    Buscar en todo el catálogo <ArrowRight className="h-4 w-4" />
+                    Buscar en toda la tienda <ArrowRight className="h-4 w-4" />
                   </button>
+                  {/* Una fragancia que no está: el stock secreto, con lo que ya escribió */}
+                  <a
+                    href={waLink(stockSecreto.mensaje + q.trim())}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 flex w-full items-center justify-center gap-1.5 font-semibold text-mint"
+                  >
+                    <WhatsAppIcon className="h-4 w-4" /> Preguntar por el stock secreto 😉
+                  </a>
                 </li>
               )}
               </ul>

@@ -4,7 +4,7 @@ import { scrollToTarget } from "@/lib/anim";
 /**
  * Navegación por capítulos (idea de VOID): una píldora flotante que dice en qué
  * parte de la página vas y deja saltar a cualquier otra. El inicio ya numera
- * sus secciones (01 · La red, 02 · Combos…), así que esto solo hace visible
+ * sus secciones (01 · La red, 02 · Perfumería…), así que esto solo hace visible
  * una estructura que ya existe.
  *
  * Solo en escritorio: en móvil la barra inferior ya está ocupada por el
@@ -12,7 +12,7 @@ import { scrollToTarget } from "@/lib/anim";
  */
 const capitulos = [
   { id: "categorias", n: "01", label: "La red" },
-  { id: "combos", n: "02", label: "Combos" },
+  { id: "perfumes", n: "02", label: "Perfumería" },
   { id: "productos", n: "03", label: "Productos" },
   { id: "como-comprar", n: "04", label: "Cómo comprar" },
   { id: "garantia", n: "05", label: "Garantía" },

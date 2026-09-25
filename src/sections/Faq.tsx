@@ -6,58 +6,52 @@ import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
 import { SectionHeading } from "@/components/SectionHeading";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { reportHours } from "@/data/legal";
+import { qualityInfo } from "@/data/perfumeria";
 import { site, waLink } from "@/data/site";
 import { EASE, Reveal } from "@/lib/anim";
 
 /**
  * Preguntas que responden objeciones, no que informan (lección de ZeroDelay).
  * Torostream y Emprendered tienen el FAQ vacío: aquí está la ventaja.
+ * Desde el 25-sep-2026 son preguntas de la tienda física: se fueron las de
+ * pantallas, planes, reposición y renovaciones.
  * TODO: ajusta cada respuesta a tus condiciones reales.
  */
+const lower = (t: string) => t.charAt(0).toLowerCase() + t.slice(1);
+
 export const faqs = [
   {
     q: "¿Qué venden en DoxNetwork?",
-    a: "Productos digitales (streaming, música, IA, software, pines de cine y gaming), perfumería, relojería y tecnología, y páginas web a la medida con Dox Designs. Todo se pide por el mismo carrito y el mismo WhatsApp.",
+    a: "Perfumería 1.1 y AAA para ella, para él y unisex, relojería, tecnología y productos para mascotas, además de páginas web a la medida con Dox Designs. Todo se pide por el mismo carrito.",
   },
   {
-    q: "¿Hacen envíos? ¿Cuánto tardan?",
-    a: `Lo digital llega por WhatsApp en unos ${site.deliveryMinutes} minutos en horario de atención (${site.hours}). Perfumes, relojes y tecnología se envían a toda Colombia: el costo y el tiempo te los confirmamos por WhatsApp según tu ciudad.`,
+    q: "¿No encuentras la fragancia que buscas?",
+    a: `Pregunta por nuestro stock secreto: escríbenos por WhatsApp el nombre de la fragancia y te decimos si la tenemos.`,
   },
   {
-    q: "¿Los productos físicos son originales?",
+    q: "¿Los perfumes y los relojes son originales?",
     a: "Cada ficha lo dice. Hay productos originales (como los relojes Kairos) y réplicas (perfumes 1.1 y AAA, algunos relojes y audífonos). Las réplicas no son productos de las marcas ni están asociadas a ellas.",
   },
   {
-    q: "¿Qué diferencia hay entre Pantalla y Completa?",
-    a: "Pantalla es un perfil propio dentro de una cuenta compartida: lo usas tú solo, en un dispositivo a la vez. Completa es la cuenta entera con todos sus perfiles, ideal para compartir en casa.",
+    q: "¿Qué diferencia hay entre 1.1 y AAA?",
+    a: `${qualityInfo["1.1"].label}: ${lower(qualityInfo["1.1"].text)} ${qualityInfo.AAA.label}: ${lower(qualityInfo.AAA.text)}`,
   },
   {
-    q: "¿Qué cambia entre Estándar, Premium y Platino?",
-    a: "La calidad y lo que incluye el plan oficial de cada plataforma. Premium y Platino suelen sumar 4K, más dispositivos a la vez o extras como ESPN en Disney+. En cada ficha lo ves detallado.",
-  },
-  {
-    q: "¿Qué pasa si un producto digital deja de funcionar?",
-    a: `Escríbenos con tu número de pedido. Te reponemos la cuenta o el perfil en menos de ${site.warrantyHours} horas y sin costo, durante toda la vigencia de tu plan.`,
-  },
-  {
-    q: "¿Hay cobros o renovaciones automáticas?",
-    a: "No. Nada se renueva solo ni guardamos tarjetas. Antes de que venza te escribimos y tú decides si renuevas.",
+    q: "¿Hacen envíos? ¿Cuánto tardan?",
+    a: "Sí, a toda Colombia. El costo del envío lo ves en el checkout antes de pagar, y cuando tu pedido sale te compartimos la guía para que le hagas seguimiento.",
   },
   {
     q: "¿Qué medios de pago aceptan?",
-    a: `${site.payments.join(", ")}. Al confirmar el pedido te compartimos los datos para pagar.`,
+    a: "Nequi o Llave Bre-B, al finalizar la compra. No necesitas tarjeta.",
   },
   {
-    q: "¿Cómo funcionan los combos?",
-    a: "Cada combo junta varias plataformas por un precio rebajado frente a comprarlas por separado. Lo agregas al carrito como cualquier producto.",
-  },
-  {
-    q: "¿Los pines de cine y las recargas son oficiales?",
-    a: "Sí. Son códigos oficiales que redimes directamente en la taquilla, la app del cine o el juego. Para las recargas de juegos solo necesitamos tu ID, nunca tu contraseña.",
+    q: "¿Qué pasa si mi pedido llega mal?",
+    a: `Si llega dañado, incompleto o distinto, repórtalo por WhatsApp en las ${reportHours} horas siguientes con fotos o un video, y asumimos el cambio y los envíos. Además, cada producto tiene su garantía legal.`,
   },
   {
     q: "¿Necesito crear una cuenta en la tienda?",
-    a: "No. Armas tu carrito, lo envías por WhatsApp y listo. Tu carrito y tus favoritos quedan guardados en este navegador.",
+    a: "No. Armas tu carrito y finalizas la compra sin registrarte. Tu carrito y tus favoritos quedan guardados en este navegador.",
   },
   {
     q: "¿Puedo revender o comprar al por mayor?",

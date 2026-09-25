@@ -16,23 +16,36 @@ import {
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
-import { CategoryIcon, LineIcon } from "@/components/CategoryIcon";
+import { LineIcon } from "@/components/CategoryIcon";
 import { LogoDN } from "@/components/LogoDN";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import { allProducts, bestDiscount, categories, fromPrice, products } from "@/data/catalog";
+import { allProducts } from "@/data/catalog";
 import { destacados } from "@/data/destacados";
 import { lineaMascotas } from "@/data/comedero";
+import { reportHours } from "@/data/legal";
 import { lineaOf, lineaOrder, lineas, type LineaId } from "@/data/lineas";
-import { formatCOP, site, waLink } from "@/data/site";
+import { matchesPara, paraOptions, perfumes, stockSecreto } from "@/data/perfumeria";
+import { site, waLink } from "@/data/site";
 import { EASE, lockScroll } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
 import { useUI } from "@/lib/ui";
 
-type MenuId = "categorias" | "combos" | "ayuda";
+type MenuId = "categorias" | "perfumeria" | "ayuda";
 
-const combos = products.filter((p) => p.category === "combos");
-const countIn = (id: string) => products.filter((p) => p.category === id).length;
+/** Ofertas = perfumería de menor a mayor precio: el foco de la tienda. */
+const OFERTAS = "/perfumeria?orden=menor";
+const porPublico = (id: (typeof paraOptions)[number]["id"]) => perfumes.filter((p) => matchesPara(p, id)).length;
+/** Las casas con más fragancias, para el menú de perfumería. */
+const casas = Object.entries(
+  perfumes.reduce<Record<string, number>>((acc, p) => {
+    if (p.perfume!.brand) acc[p.perfume!.brand] = (acc[p.perfume!.brand] ?? 0) + 1;
+    return acc;
+  }, {})
+)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 8)
+  .map(([casa]) => casa);
 const lineCount = Object.fromEntries(lineaOrder.map((id) => [id, allProducts.filter((p) => lineaOf(p) === id).length])) as Record<LineaId, number>;
 
 /**
@@ -179,10 +192,10 @@ export function Nav() {
 
           <nav className="hidden items-center lg:flex" aria-label="Principal">
             {trigger("categorias", "Tienda")}
-            {trigger("combos", "Combos")}
-            {/* Brief de rediseño: perfumería, relojería y tecnología viven en el desplegable Tienda */}
+            {trigger("perfumeria", "Perfumería")}
+            {/* Desde el 25-sep-2026 no hay combos: su lugar es la perfumería, y las ofertas van a ella */}
             <Link
-              to="/catalogo?ofertas=1"
+              to={OFERTAS}
               onPointerEnter={() => {
                 setHover("ofertas");
                 leave();
@@ -268,7 +281,7 @@ export function Nav() {
                   className="mx-auto max-w-[1200px] px-6 py-6"
                 >
                   {menu === "categorias" && <CategoriesPanel />}
-                  {menu === "combos" && <CombosPanel />}
+                  {menu === "perfumeria" && <PerfumeriaPanel />}
                   {menu === "ayuda" && <HelpPanel />}
                 </motion.div>
               </AnimatePresence>
@@ -334,7 +347,7 @@ function CountBubble({ n, tone }: { n: number; tone: "mint" | "neb" }) {
 // ── Paneles ──
 
 function CategoriesPanel() {
-  const nuevos = [destacados.tecnologia[0], destacados.relojeria[0]].filter(Boolean);
+  const vitrina = destacados.perfumeria.slice(0, 2);
   return (
     <div className="grid grid-cols-[1fr_280px] gap-6">
       <div>
@@ -375,21 +388,8 @@ function CategoriesPanel() {
           </li>
         </ul>
 
-        <p className="kicker mt-5 border-t border-line pt-5 text-faint">Categorías digitales</p>
-        <ul className="mt-3 grid grid-cols-2 gap-1 xl:grid-cols-4">
-          {categories.map((c) => (
-            <li key={c.id}>
-              <Link to={`/catalogo?categoria=${c.id}`} className="group flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm transition-colors hover:bg-surface">
-                <CategoryIcon id={c.id} className="h-4 w-4 shrink-0 text-neb" />
-                <span className="font-semibold group-hover:text-ink">{c.name}</span>
-                <span className="ml-auto text-xs text-faint">{countIn(c.id)}</span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-
         <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
-          <Link to="/catalogo?ofertas=1" className="chip min-h-[34px] text-[13px]">Ofertas</Link>
+          <Link to={OFERTAS} className="chip min-h-[34px] text-[13px]">Ofertas en perfumería</Link>
           <Link to="/#dox-designs" className="chip min-h-[34px] text-[13px]">Páginas web</Link>
           <Link to={lineas.vapes.path} className="chip min-h-[34px] text-[13px] text-faint">{lineas.vapes.name} · +18</Link>
           <Link to="/catalogo" className="ml-auto flex items-center gap-1.5 font-semibold text-neb hover:underline">
@@ -399,15 +399,15 @@ function CategoriesPanel() {
       </div>
 
       <Link
-        to="/tecnologia"
+        to="/perfumeria"
         className="group relative flex flex-col overflow-hidden rounded-2xl border border-line p-5"
-        style={{ background: `radial-gradient(120% 80% at 100% 0%, ${lineas.tecnologia.hue}33, transparent 60%), var(--surface)` }}
+        style={{ background: `radial-gradient(120% 80% at 100% 0%, ${lineas.perfumeria.hue}33, transparent 60%), var(--surface)` }}
       >
-        <span className="kicker">Nuevo en la red</span>
-        <span className="mt-2 text-xl font-extrabold leading-tight">Relojería y tecnología</span>
-        <span className="mt-1 text-sm text-mute">Con envío a toda Colombia.</span>
+        <span className="kicker">Lo más pedido</span>
+        <span className="mt-2 text-xl font-extrabold leading-tight">Perfumería 1.1 y AAA</span>
+        <span className="mt-1 text-sm text-mute">{perfumes.length} fragancias con envío a toda Colombia.</span>
         <span className="mt-4 flex gap-2" aria-hidden="true">
-          {nuevos.map((p) => (
+          {vitrina.map((p) => (
             <img
               key={p.slug}
               src={p.image!.replace(/\.webp$/, "-sm.webp")}
@@ -420,40 +420,70 @@ function CategoriesPanel() {
           ))}
         </span>
         <span className="mt-auto flex items-center gap-1.5 pt-4 text-sm font-semibold text-neb">
-          Ver lo nuevo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          Ver perfumería <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </span>
       </Link>
     </div>
   );
 }
 
-function CombosPanel() {
+function PerfumeriaPanel() {
   return (
-    <div>
-      <p className="kicker">Combos con identidad</p>
-      <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-4">
-        {combos.map((c) => (
-          <li key={c.slug}>
-            <Link to={`/producto/${c.slug}`} className="group flex h-full flex-col rounded-2xl p-3 transition-colors hover:bg-surface">
-              <span className="flex items-center justify-between gap-2">
-                <span className="font-bold group-hover:text-neb">{c.name}</span>
-                <span className="text-xs font-bold text-gold">-{bestDiscount(c)}%</span>
-              </span>
-              <span className="mt-0.5 text-[13px] text-mute">{c.tagline}</span>
-              <span className="num mt-1.5 text-sm font-semibold">{formatCOP(fromPrice(c))}</span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="grid grid-cols-[1fr_280px] gap-6">
+      <div>
+        <p className="kicker">Por público</p>
+        <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-4">
+          {paraOptions.map((o) => (
+            <li key={o.id}>
+              <Link to={`/perfumeria?para=${o.id}`} className="group flex h-full flex-col rounded-2xl p-3 transition-colors hover:bg-surface">
+                <span className="font-bold group-hover:text-neb">{o.label}</span>
+                <span className="mt-0.5 text-[13px] text-mute">{o.hint}</span>
+                <span className="mt-1.5 text-xs font-semibold text-faint">{porPublico(o.id)} fragancias</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <p className="kicker mt-5 border-t border-line pt-5 text-faint">Casas más pedidas</p>
+        <ul className="mt-3 flex flex-wrap gap-2">
+          {casas.map((c) => (
+            <li key={c}>
+              <Link to={`/perfumeria?casa=${encodeURIComponent(c)}`} className="chip min-h-[34px] text-[13px]">
+                {c}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
+          <Link to={OFERTAS} className="chip min-h-[34px] text-[13px]">Ofertas</Link>
+          <Link to="/perfumeria" className="ml-auto flex items-center gap-1.5 font-semibold text-neb hover:underline">
+            Ver las {perfumes.length} fragancias <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </div>
+
+      <a
+        href={waLink(stockSecreto.mensaje)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group flex flex-col justify-between rounded-2xl border border-line bg-mint-soft p-5 transition-colors hover:border-mint"
+      >
+        <WhatsAppIcon className="h-8 w-8 text-mint" />
+        <span>
+          <span className="mt-6 block text-lg font-extrabold leading-tight">{stockSecreto.titulo}</span>
+          <span className="mt-1 block text-sm text-mute">{stockSecreto.texto}</span>
+        </span>
+      </a>
     </div>
   );
 }
 
 function HelpPanel() {
   const items: { icon: ReactNode; title: string; text: string; to?: string; href?: string }[] = [
-    { icon: <HelpCircle className="h-5 w-5" />, title: "Cómo comprar", text: "Tres pasos, todo por WhatsApp", to: "/#como-comprar" },
-    { icon: <ShieldCheck className="h-5 w-5" />, title: "Garantía", text: `Reponemos en menos de ${site.warrantyHours} h`, to: "/#garantia" },
-    { icon: <MessageCircle className="h-5 w-5" />, title: "Preguntas frecuentes", text: "Pantalla, completa, pagos y más", to: "/#preguntas" },
+    { icon: <HelpCircle className="h-5 w-5" />, title: "Cómo comprar", text: "Eliges, pagas sin tarjeta y te llega", to: "/#como-comprar" },
+    { icon: <ShieldCheck className="h-5 w-5" />, title: "Garantía", text: `Novedades del envío en ${reportHours} h`, to: "/#garantia" },
+    { icon: <MessageCircle className="h-5 w-5" />, title: "Preguntas frecuentes", text: "Envíos, pagos, réplicas y más", to: "/#preguntas" },
     {
       icon: <Store className="h-5 w-5" />,
       title: "¿Quieres revender?",
@@ -505,7 +535,7 @@ function HelpPanel() {
 // ── Menú móvil ──
 
 function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void }) {
-  const [section, setSection] = useState<"red" | "cat" | "combos" | null>("red");
+  const [section, setSection] = useState<"red" | "perfumeria" | null>("red");
   const reduced = useReducedMotion();
 
   return (
@@ -554,29 +584,27 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
               </ul>
             </Accordion>
 
-            <Accordion label="Categorías digitales" open={section === "cat"} onToggle={() => setSection((s) => (s === "cat" ? null : "cat"))}>
+            <Accordion label="Perfumería" open={section === "perfumeria"} onToggle={() => setSection((s) => (s === "perfumeria" ? null : "perfumeria"))}>
               <ul className="grid grid-cols-2 gap-2">
-                {categories.map((c) => (
-                  <li key={c.id}>
-                    <Link to={`/catalogo?categoria=${c.id}`} className="flex min-h-[52px] items-center gap-2.5 rounded-xl bg-surface p-3 text-sm font-semibold">
-                      <CategoryIcon id={c.id} className="h-[18px] w-[18px] shrink-0 text-neb" />
-                      {c.name}
+                {paraOptions.map((o) => (
+                  <li key={o.id}>
+                    <Link to={`/perfumeria?para=${o.id}`} className="flex min-h-[52px] flex-col justify-center rounded-xl bg-surface p-3 text-sm font-semibold">
+                      {o.label}
+                      <span className="block text-xs font-semibold text-faint">{porPublico(o.id)} fragancias</span>
                     </Link>
                   </li>
                 ))}
-              </ul>
-            </Accordion>
-
-            <Accordion label="Combos" open={section === "combos"} onToggle={() => setSection((s) => (s === "combos" ? null : "combos"))}>
-              <ul className="space-y-1">
-                {combos.map((c) => (
-                  <li key={c.slug}>
-                    <Link to={`/producto/${c.slug}`} className="flex min-h-[48px] items-center justify-between rounded-xl px-3 py-2 hover:bg-surface">
-                      <span className="font-semibold">{c.name}</span>
-                      <span className="num text-sm font-semibold">{formatCOP(fromPrice(c))}</span>
-                    </Link>
-                  </li>
-                ))}
+                <li className="col-span-2">
+                  <a
+                    href={waLink(stockSecreto.mensaje)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex min-h-[52px] items-center gap-2.5 rounded-xl bg-mint-soft p-3 text-sm font-semibold"
+                  >
+                    <WhatsAppIcon className="h-[18px] w-[18px] shrink-0 text-mint" />
+                    ¿No está la tuya? Stock secreto 😉
+                  </a>
+                </li>
               </ul>
             </Accordion>
 
@@ -584,7 +612,7 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
               { to: "/catalogo", label: "Toda la tienda" },
               { to: lineas.vapes.path, label: `${lineas.vapes.name} · +18` },
               { to: "/comedero", label: "Mascotas · contra entrega" },
-              { to: "/catalogo?ofertas=1", label: "Ofertas" },
+              { to: OFERTAS, label: "Ofertas en perfumería" },
               { to: "/favoritos", label: "Favoritos" },
               { to: "/#garantia", label: "Garantía" },
               { to: "/#preguntas", label: "Preguntas frecuentes" },

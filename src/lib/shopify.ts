@@ -16,9 +16,8 @@ import { isPhysical } from "@/data/lineas";
  *
  * La regla, acordada el 23-sep-2026: solo si TODO lo que hay en la cesta es
  * físico y está en el mapa, el botón abre ese checkout. Cualquier producto
- * digital, agotado o sin mapa devuelve la cesta a WhatsApp, como siempre. Los
- * digitales no están en Shopify a propósito (Meta y Shopify prohíben vender
- * cuentas compartidas), y los agotados están en DRAFT allí.
+ * agotado o sin mapa devuelve la cesta a WhatsApp, como siempre: los agotados
+ * están en DRAFT allí. (Desde el 25-sep-2026 la tienda no vende nada digital.)
  *
  * El mapa lo exporta Mercurio desde Shopify a docs/shopify-variantes.json
  * (2-COMUN/taller/shopify/exportar-variantes-dox.mjs) y va versionado: el

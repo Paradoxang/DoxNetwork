@@ -14,7 +14,6 @@ export type TelonName =
   | "telon-perfumeria"
   | "telon-relojeria"
   | "telon-tecnologia"
-  | "telon-digital"
   | "telon-vapes"
   | "telon-aurora"
   | "telon-nebulosa";

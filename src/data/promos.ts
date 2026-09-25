@@ -5,12 +5,13 @@
  * pinta con su fondo de marca (degradado del tono + órbita) y se ve completo.
  * Cómo generar cada imagen con Nano Banana: docs/brief-imagenes-nano-banana.md
  */
-import { fromPrice, products } from "@/data/catalog";
 import { relojes, tecnologia } from "@/data/lineas";
 import { perfumeMinPrice, perfumes } from "@/data/perfumeria";
 import { formatCOP } from "@/data/site";
 
 const minOf = (list: { plans: { price: number }[] }[]) => Math.min(...list.map((p) => p.plans[0].price));
+const sets = perfumes.filter((p) => p.perfume!.kind === "set");
+const arabes = perfumes.filter((p) => p.perfume!.brand === "Lattafa" || p.perfume!.brand === "Armaf");
 
 export interface Promo {
   id: string;
@@ -30,19 +31,6 @@ export interface Promo {
 
 export const promos: Promo[] = [
   {
-    id: "nuevo-relojeria-tecnologia",
-    kicker: "Nuevo en la red",
-    title: "Relojería y tecnología con envío a toda Colombia",
-    text: `${relojes.length} relojes desde ${formatCOP(minOf(relojes.filter((p) => p.articulo!.sub === "relojes")))} y ${tecnologia.length} productos de tecnología desde ${formatCOP(minOf(tecnologia))}.`,
-    cta: { label: "Ver tecnología", to: "/tecnologia" },
-    hue: "#5fb8e8",
-    showcase: [
-      "tecnologia-parlante-portatil-kimiso-kms-374",
-      "relojeria-kairos-oficial-seleccion-colombia",
-      "tecnologia-smartwatch-mobulaa-ub6-pro",
-    ],
-  },
-  {
     id: "perfumeria",
     kicker: "Perfumería",
     title: "Tu fragancia favorita, en réplica 1.1",
@@ -52,24 +40,35 @@ export const promos: Promo[] = [
     showcase: ["perfume-lattafa-yara", "perfume-dior-sauvage", "perfume-carolina-herrera-good-girl"],
   },
   {
-    id: "fan-del-deporte",
-    kicker: "Temporada de fútbol",
-    title: "Fan del deporte: todos los partidos",
-    text: "DirecTV GO, Paramount+ y Disney+ Premium con ESPN.",
-    cta: { label: "Ver combo", to: "/producto/combo-futbolero" },
-    hue: "#2f7fd6",
-    image: "/promos/promo-futbol.webp",
-    imageMobile: "/promos/promo-futbol-m.webp",
+    id: "sets-regalo",
+    kicker: "Para regalar",
+    title: "Sets y kits de perfume",
+    text: `${sets.length} presentaciones de regalo desde ${formatCOP(minOf(sets))}: varias fragancias en una sola caja.`,
+    cta: { label: "Ver sets y kits", to: "/perfumeria?para=sets" },
+    hue: "#ef8fb8",
+    showcase: ["perfume-set-lattafa-yara-x4", "perfume-set-dior-sauvage-miniaturas-x3", "perfume-set-ariana-grande-x3"],
   },
   {
-    id: "pines-cine",
-    kicker: "Plan de fin de semana",
-    title: `Pines de cine desde ${formatCOP(Math.min(...products.filter((p) => p.slug.startsWith("pin-")).map(fromPrice)))}`,
-    text: "Cine Colombia, Cinemark y Procinal. El código llega en minutos.",
-    cta: { label: "Ver pines", to: "/catalogo?categoria=cine-tv" },
-    hue: "#d9364a",
-    image: "/promos/promo-cine.webp",
-    imageMobile: "/promos/promo-cine-m.webp",
+    id: "casas-arabes",
+    kicker: "Las más pedidas",
+    title: "Lattafa y Armaf, las casas árabes del momento",
+    text: `${arabes.length} fragancias de Lattafa y Armaf: Yara, Khamrah, Club de Nuit y más.`,
+    cta: { label: "Ver Lattafa", to: "/perfumeria?casa=Lattafa" },
+    hue: "#c9a46a",
+    showcase: ["perfume-lattafa-khamrah", "perfume-armaf-club-de-nuit-intense-man", "perfume-lattafa-asad-elixir"],
+  },
+  {
+    id: "relojeria-tecnologia",
+    kicker: "También en la tienda",
+    title: "Relojería y tecnología con envío a toda Colombia",
+    text: `${relojes.length} relojes desde ${formatCOP(minOf(relojes.filter((p) => p.articulo!.sub === "relojes")))} y ${tecnologia.length} productos de tecnología desde ${formatCOP(minOf(tecnologia))}.`,
+    cta: { label: "Ver tecnología", to: "/tecnologia" },
+    hue: "#5fb8e8",
+    showcase: [
+      "tecnologia-parlante-portatil-kimiso-kms-374",
+      "relojeria-kairos-oficial-seleccion-colombia",
+      "tecnologia-smartwatch-mobulaa-ub6-pro",
+    ],
   },
 ];
 

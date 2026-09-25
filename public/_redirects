@@ -1,5 +1,43 @@
-# Rutas retiradas el 24-sep-2026: los enlaces viejos (WhatsApp, anuncios,
-# buscadores) caen en los combos en vez de en la página 404.
-/arma-tu-combo                    /catalogo?categoria=combos 301
-/producto/combo-universitario     /catalogo?categoria=combos 301
-/producto/combo-creador           /catalogo?categoria=combos 301
+# Rutas retiradas. Los enlaces viejos (WhatsApp, anuncios, buscadores) caen
+# en el inicio en vez de en la página 404.
+#
+# 24-sep-2026: el armador de combos y los combos de IA y edición.
+# 25-sep-2026: toda la línea digital (streaming, IA, software, gaming, pines
+# y combos). La tienda es solo física desde entonces.
+/arma-tu-combo                    / 301
+/producto/combo-universitario     / 301
+/producto/combo-creador           / 301
+/producto/pagina-web-dox-designs  /#dox-designs 301
+/producto/netflix                    / 301
+/producto/disney-plus                / 301
+/producto/max                        / 301
+/producto/prime-video                / 301
+/producto/paramount-plus             / 301
+/producto/crunchyroll                / 301
+/producto/apple-tv                   / 301
+/producto/vix-plus                   / 301
+/producto/universal-plus             / 301
+/producto/mubi                       / 301
+/producto/plex                       / 301
+/producto/directv-go                 / 301
+/producto/claro-video-win            / 301
+/producto/pin-cine-colombia          / 301
+/producto/pin-cinemark               / 301
+/producto/pin-procinal               / 301
+/producto/spotify                    / 301
+/producto/youtube-premium            / 301
+/producto/chatgpt                    / 301
+/producto/gemini-pro                 / 301
+/producto/canva-pro                  / 301
+/producto/capcut-pro                 / 301
+/producto/microsoft-365              / 301
+/producto/vpn-premium                / 301
+/producto/xbox-game-pass             / 301
+/producto/playstation-plus           / 301
+/producto/free-fire                  / 301
+/producto/duolingo-super             / 301
+/producto/pack-plantillas-instagram  / 301
+/producto/combo-maraton              / 301
+/producto/combo-futbolero            / 301
+/producto/combo-familia              / 301
+/producto/combo-cita-cine            / 301

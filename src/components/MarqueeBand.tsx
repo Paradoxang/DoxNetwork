@@ -11,12 +11,12 @@ import { Deco } from "@/components/Deco";
  * atrás va oculta para los lectores de pantalla.
  */
 const promesas = [
+  "Perfumes 1.1 y AAA",
   "Envíos a toda Colombia",
-  "Pagas al confirmar",
-  "Garantía por escrito",
+  "Nequi o Llave Bre-B",
   "Te atiende una persona",
   "Sin registro ni tarjetas",
-  "Digital en ~15 min",
+  "Pregunta por el stock secreto",
 ];
 
 export function MarqueeBand() {

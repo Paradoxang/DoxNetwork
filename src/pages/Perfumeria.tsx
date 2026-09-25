@@ -15,12 +15,15 @@ import { lineas } from "@/data/lineas";
 import {
   disclaimer,
   families,
+  matchesPara,
+  paraOptions,
   perfumeBrands,
   perfumeMinPrice,
   perfumes,
   qualityInfo,
   shipping,
   type Family,
+  type ParaFilter,
   type Quality,
 } from "@/data/perfumeria";
 import { formatCOP, site, waLink } from "@/data/site";
@@ -28,7 +31,6 @@ import { EASE, Reveal, scrollToTarget } from "@/lib/anim";
 import { useAnimacion } from "@/lib/motion";
 import { normalize } from "@/lib/ui";
 
-type ParaFilter = "dama" | "hombre" | "unisex" | "sets";
 type Sort = "destacados" | "menor" | "mayor" | "az";
 
 const PAGE = 24;
@@ -38,16 +40,6 @@ const EMPTY = new URLSearchParams();
 const showcase = ["perfume-lattafa-yara", "perfume-dior-sauvage", "perfume-carolina-herrera-good-girl"]
   .map((s) => productBySlug(s))
   .filter(Boolean) as Product[];
-
-const paraOptions: { id: ParaFilter; label: string; hint: string }[] = [
-  { id: "dama", label: "Para ella", hint: "Florales, dulces y frutales" },
-  { id: "hombre", label: "Para él", hint: "Frescas, amaderadas y especiadas" },
-  { id: "unisex", label: "Unisex", hint: "Árabes, ámbar y oud" },
-  { id: "sets", label: "Sets y kits", hint: "Para regalar o probar varias" },
-];
-
-const matchesPara = (p: Product, para: ParaFilter | "") =>
-  !para || (para === "sets" ? p.perfume!.kind === "set" : p.perfume!.para === para && p.perfume!.kind === "perfume");
 
 const faqs = [
   {
@@ -63,8 +55,8 @@ const faqs = [
     a: `${shipping.short}. ${shipping.detail}`,
   },
   {
-    q: "¿Puedo pedir perfumes junto con productos digitales?",
-    a: "Sí, en el mismo carrito. Los digitales llegan por WhatsApp y los perfumes por envío.",
+    q: "¿No encuentras la fragancia que buscas?",
+    a: "Pregunta por nuestro stock secreto: escríbenos por WhatsApp el nombre de la fragancia y te decimos si la tenemos.",
   },
   {
     q: "No sé cuál elegir, ¿me ayudan?",
@@ -228,7 +220,7 @@ export function Perfumeria() {
               Fragancias que <span className="text-gold">dejan huella</span>
             </h1>
             <p className="mt-4 max-w-lg text-lg leading-relaxed text-mute">
-              Réplicas 1.1 y AAA de los perfumes más buscados, para ella, para él y unisex. Eliges, confirmas por WhatsApp y te lo enviamos.
+              Réplicas 1.1 y AAA de los perfumes más buscados, para ella, para él y unisex. Eliges, pagas por Nequi o Llave Bre-B y te lo enviamos.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" className="btn btn-primary" onClick={() => update({}, true)}>

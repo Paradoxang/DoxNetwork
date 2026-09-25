@@ -1,32 +1,32 @@
 import { ChapterNav } from "@/components/ChapterNav";
-import { Deco } from "@/components/Deco";
 import { MarqueeBand } from "@/components/MarqueeBand";
 import { Seo } from "@/components/Seo";
 import { site } from "@/data/site";
 import { Benefits } from "@/sections/Benefits";
 import { Categories } from "@/sections/Categories";
-import { CombosSection } from "@/sections/CombosSection";
 import { Cta } from "@/sections/Cta";
 import { DoxDesigns } from "@/sections/DoxDesigns";
 import { Faq, faqs } from "@/sections/Faq";
 import { Guarantee } from "@/sections/Guarantee";
 import { Hero } from "@/sections/Hero";
-import { TiendaTeaser } from "@/sections/TiendaTeaser";
 import { HowItWorks } from "@/sections/HowItWorks";
+import { PerfumeriaSection } from "@/sections/PerfumeriaSection";
 import { ProductTabs } from "@/sections/ProductTabs";
 import { PromoCarousel } from "@/sections/PromoCarousel";
 import { Reviews } from "@/sections/Reviews";
 
 /**
- * Orden del inicio, cruzando los tres estudios:
- * propuesta de valor → confianza → promos → categorías → combos (el gancho
- * de ticket) → productos → cómo comprar → garantía → reseñas → objeciones.
+ * Orden del inicio, cruzando los tres estudios y con el foco en perfumería
+ * desde que la tienda dejó lo digital (25-sep-2026):
+ * propuesta de valor → confianza → líneas → promos → perfumería (donde
+ * estaban los combos) → productos → cómo comprar → garantía → reseñas →
+ * objeciones.
  */
 export function Home() {
   return (
     <>
       <Seo
-        title="Dox Network Software Solutions"
+        title={`${site.name} · Perfumería, relojería y tecnología`}
         description={site.description}
         path="/"
         jsonLd={{
@@ -49,13 +49,8 @@ export function Home() {
       <Categories />
       <PromoCarousel />
       <MarqueeBand />
-      <CombosSection />
+      <PerfumeriaSection />
       <ProductTabs />
-      {/* Cambio de mundo: de lo digital a lo físico, con el cromo líquido a sangre */}
-      <div aria-hidden="true" className="relative h-24 overflow-hidden md:h-36">
-        <Deco name="vortice" className="left-1/2 top-1/2 w-[150vw] max-w-none -translate-x-1/2 -translate-y-1/2" opacity={0.4} fade pesado />
-      </div>
-      <TiendaTeaser />
       <HowItWorks />
       <Guarantee />
       <DoxDesigns />
