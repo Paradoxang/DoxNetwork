@@ -2,31 +2,50 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   ChevronDown,
+  Crown,
+  Flame,
+  Flower2,
+  Gift,
   Heart,
   HelpCircle,
+  Lock,
   Menu,
   MessageCircle,
+  Moon,
   PawPrint,
   Search,
   ShieldCheck,
   ShoppingBag,
   Store,
+  Tag,
   X,
+  type LucideIcon,
 } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { Astro } from "@/components/Astro";
 import { LineIcon } from "@/components/CategoryIcon";
 import { LogoDN } from "@/components/LogoDN";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
-import { allProducts } from "@/data/catalog";
-import { destacados } from "@/data/destacados";
+import { allProducts, type Product } from "@/data/catalog";
+import { destacados, microThumbOf } from "@/data/destacados";
 import { lineaMascotas } from "@/data/comedero";
 import { reportHours } from "@/data/legal";
 import { lineaOf, lineaOrder, lineas, type LineaId } from "@/data/lineas";
-import { matchesPara, paraOptions, perfumes, stockSecreto } from "@/data/perfumeria";
-import { site, waLink } from "@/data/site";
+import {
+  families,
+  matchesPara,
+  paraOptions,
+  perfumeMinPrice,
+  perfumes,
+  stockSecreto,
+  type Family,
+  type ParaFilter,
+} from "@/data/perfumeria";
+import { tint } from "@/data/paleta";
+import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, lockScroll } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
 import { useUI } from "@/lib/ui";
@@ -35,7 +54,18 @@ type MenuId = "categorias" | "perfumeria" | "ayuda";
 
 /** Ofertas = perfumería de menor a mayor precio: el foco de la tienda. */
 const OFERTAS = "/perfumeria?orden=menor";
-const porPublico = (id: (typeof paraOptions)[number]["id"]) => perfumes.filter((p) => matchesPara(p, id)).length;
+const porPublico = (id: ParaFilter) => perfumes.filter((p) => matchesPara(p, id)).length;
+/** Icono y tono de cada público en el menú de perfumería. */
+const estiloPublico: Record<ParaFilter, { icon: LucideIcon; hue: string }> = {
+  dama: { icon: Flower2, hue: "#ef8fb8" },
+  hombre: { icon: Flame, hue: "#5fb8e8" },
+  unisex: { icon: Moon, hue: "#c9a46a" },
+  sets: { icon: Gift, hue: "#b48cff" },
+};
+/** Tres frascos por público: primero los destacados, luego el resto. */
+const muestraDe = (id: ParaFilter): Product[] =>
+  [...new Set([...destacados.perfumeria, ...perfumes])].filter((p) => matchesPara(p, id)).slice(0, 3);
+const porFamilia = (f: Family) => perfumes.filter((p) => p.perfume!.family === f).length;
 /** Las casas con más fragancias, para el menú de perfumería. */
 const casas = Object.entries(
   perfumes.reduce<Record<string, number>>((acc, p) => {
@@ -44,8 +74,7 @@ const casas = Object.entries(
   }, {})
 )
   .sort((a, b) => b[1] - a[1])
-  .slice(0, 8)
-  .map(([casa]) => casa);
+  .slice(0, 8);
 const lineCount = Object.fromEntries(lineaOrder.map((id) => [id, allProducts.filter((p) => lineaOf(p) === id).length])) as Record<LineaId, number>;
 
 /**
@@ -428,51 +457,135 @@ function CategoriesPanel() {
 }
 
 function PerfumeriaPanel() {
+  const secreto = destacados.perfumeria.slice(3, 6);
   return (
     <div className="grid grid-cols-[1fr_280px] gap-6">
       <div>
         <p className="kicker">Por público</p>
-        <ul className="mt-4 grid grid-cols-2 gap-1.5 xl:grid-cols-4">
-          {paraOptions.map((o) => (
-            <li key={o.id}>
-              <Link to={`/perfumeria?para=${o.id}`} className="group flex h-full flex-col rounded-2xl p-3 transition-colors hover:bg-surface">
-                <span className="font-bold group-hover:text-neb">{o.label}</span>
-                <span className="mt-0.5 text-[13px] text-mute">{o.hint}</span>
-                <span className="mt-1.5 text-xs font-semibold text-faint">{porPublico(o.id)} fragancias</span>
-              </Link>
-            </li>
-          ))}
+        <ul className="mt-4 grid grid-cols-2 gap-2 xl:grid-cols-4">
+          {paraOptions.map((o) => {
+            const { icon: Icon, hue } = estiloPublico[o.id];
+            return (
+              <li key={o.id}>
+                <Link
+                  to={`/perfumeria?para=${o.id}`}
+                  className="group relative flex h-full flex-col rounded-2xl p-3 transition-[background-color,box-shadow] hover:bg-surface hover:ring-1 hover:ring-line"
+                  style={{ background: `radial-gradient(90% 75% at 100% 0%, ${tint(hue, 14)}, transparent 75%)` }}
+                >
+                  <span className="flex items-start justify-between gap-2">
+                    <span
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
+                      style={{ background: tint(hue, 20), color: hue }}
+                    >
+                      <Icon className="h-[18px] w-[18px]" aria-hidden="true" strokeWidth={1.9} />
+                    </span>
+                    {/* Pila de frascos del público */}
+                    <span className="flex -space-x-3" aria-hidden="true">
+                      {muestraDe(o.id).map((p) => (
+                        <img
+                          key={p.slug}
+                          src={microThumbOf(p)}
+                          alt=""
+                          width={40}
+                          height={40}
+                          loading="lazy"
+                          className="h-10 w-10 rounded-full border-2 border-bg bg-white object-contain p-0.5 transition-transform group-hover:-translate-y-0.5"
+                        />
+                      ))}
+                    </span>
+                  </span>
+                  <span className="mt-3 font-bold group-hover:text-neb">{o.label}</span>
+                  <span className="mt-0.5 text-[13px] leading-snug text-mute">{o.hint}</span>
+                  <span className="mt-auto pt-2 text-xs font-semibold" style={{ color: hue }}>
+                    {porPublico(o.id)} fragancias
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
-        <p className="kicker mt-5 border-t border-line pt-5 text-faint">Casas más pedidas</p>
-        <ul className="mt-3 flex flex-wrap gap-2">
-          {casas.map((c) => (
-            <li key={c}>
-              <Link to={`/perfumeria?casa=${encodeURIComponent(c)}`} className="chip min-h-[34px] text-[13px]">
-                {c}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="mt-5 grid gap-5 border-t border-line pt-5 xl:grid-cols-2">
+          <div>
+            <p className="kicker text-faint">Familias olfativas</p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {(Object.keys(families) as Family[]).map((f) => (
+                <li key={f}>
+                  <Link
+                    to={`/perfumeria?familia=${f}`}
+                    className="chip min-h-[34px] text-[13px]"
+                    style={{ borderColor: tint(families[f].hue, 40), background: tint(families[f].hue, 10) }}
+                  >
+                    <span className="h-2 w-2 rounded-full" style={{ background: families[f].hue }} aria-hidden="true" />
+                    {families[f].label}
+                    <span className="text-xs text-faint">{porFamilia(f)}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="kicker text-faint">Casas más pedidas</p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {casas.map(([c, n], i) => (
+                <li key={c}>
+                  <Link to={`/perfumeria?casa=${encodeURIComponent(c)}`} className="chip min-h-[34px] text-[13px]">
+                    {i === 0 && <Crown className="h-3.5 w-3.5 text-gold" aria-label="La casa con más fragancias" />}
+                    {c}
+                    <span className="text-xs text-faint">{n}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
         <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
-          <Link to={OFERTAS} className="chip min-h-[34px] text-[13px]">Ofertas</Link>
+          <Link
+            to={OFERTAS}
+            className="chip min-h-[34px] text-[13px]"
+            style={{ borderColor: "color-mix(in srgb, var(--gold) 45%, transparent)", background: "var(--gold-soft)" }}
+          >
+            <Tag className="h-3.5 w-3.5 text-gold" aria-hidden="true" />
+            Ofertas · desde <span className="num font-semibold text-gold">{formatCOP(perfumeMinPrice)}</span>
+          </Link>
           <Link to="/perfumeria" className="ml-auto flex items-center gap-1.5 font-semibold text-neb hover:underline">
             Ver las {perfumes.length} fragancias <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </div>
 
+      {/* Stock secreto: frascos a oscuras con candado, ASTRO sorprendido y el botón a WhatsApp */}
       <a
         href={waLink(stockSecreto.mensaje)}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex flex-col justify-between rounded-2xl border border-line bg-mint-soft p-5 transition-colors hover:border-mint"
+        className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-mint-soft p-5 transition-colors hover:border-mint"
       >
-        <WhatsAppIcon className="h-8 w-8 text-mint" />
-        <span>
-          <span className="mt-6 block text-lg font-extrabold leading-tight">{stockSecreto.titulo}</span>
-          <span className="mt-1 block text-sm text-mute">{stockSecreto.texto}</span>
+        <span className="relative flex min-h-28 flex-1 items-center justify-center" aria-hidden="true">
+          {secreto.map((p, i) => (
+            <img
+              key={p.slug}
+              src={microThumbOf(p)}
+              alt=""
+              width={84}
+              height={84}
+              loading="lazy"
+              className="h-[84px] w-[84px] rounded-2xl border border-line bg-white object-contain p-1 blur-[3px] brightness-75 transition-[filter] duration-500 group-hover:blur-[1.5px]"
+              style={{ transform: `rotate(${(i - 1) * 12}deg) translateY(${i === 1 ? -6 : 4}px)`, marginLeft: i ? -18 : 0, zIndex: i === 1 ? 2 : 1 }}
+            />
+          ))}
+          <span className="absolute z-10 flex items-center gap-1.5 rounded-full border border-mint/40 bg-bg/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-mint backdrop-blur-sm">
+            <Lock className="h-3.5 w-3.5" /> Secreto
+          </span>
+          <span className="pointer-events-none absolute -right-3 -top-3 h-16">
+            <Astro pose="chibi-sorpresa" small enter={false} float={false} decorative className="h-full" />
+          </span>
+        </span>
+        <span className="block pt-4 text-lg font-extrabold leading-tight">{stockSecreto.titulo}</span>
+        <span className="mt-1 block text-sm text-mute">{stockSecreto.texto}</span>
+        <span className="mt-4 flex items-center justify-center gap-2 rounded-full bg-mint px-4 py-2.5 text-sm font-bold text-mint-ink transition-transform group-hover:scale-[1.02]">
+          <WhatsAppIcon className="h-4 w-4" /> Preguntar por WhatsApp
         </span>
       </a>
     </div>
@@ -586,14 +699,22 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
 
             <Accordion label="Perfumería" open={section === "perfumeria"} onToggle={() => setSection((s) => (s === "perfumeria" ? null : "perfumeria"))}>
               <ul className="grid grid-cols-2 gap-2">
-                {paraOptions.map((o) => (
-                  <li key={o.id}>
-                    <Link to={`/perfumeria?para=${o.id}`} className="flex min-h-[52px] flex-col justify-center rounded-xl bg-surface p-3 text-sm font-semibold">
-                      {o.label}
-                      <span className="block text-xs font-semibold text-faint">{porPublico(o.id)} fragancias</span>
-                    </Link>
-                  </li>
-                ))}
+                {paraOptions.map((o) => {
+                  const { icon: Icon, hue } = estiloPublico[o.id];
+                  return (
+                    <li key={o.id}>
+                      <Link to={`/perfumeria?para=${o.id}`} className="flex min-h-[56px] items-center gap-2.5 rounded-xl bg-surface p-3 text-sm font-semibold">
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" style={{ background: tint(hue, 20), color: hue }}>
+                          <Icon className="h-4 w-4" aria-hidden="true" />
+                        </span>
+                        <span>
+                          {o.label}
+                          <span className="block text-xs font-semibold text-faint">{porPublico(o.id)} fragancias</span>
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
                 <li className="col-span-2">
                   <a
                     href={waLink(stockSecreto.mensaje)}
