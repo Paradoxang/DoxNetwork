@@ -79,7 +79,9 @@ function Shell() {
 
   /* Páginas con su propio botón grande abajo: el flotante de WhatsApp y la
      barra del carrito se les montan encima y tapan justo lo que paga la
-     visita. En /comedero, que es landing de pauta, sería tapar el CTA. */
+     visita. En /comedero, que es landing de pauta, sería tapar el CTA; además
+     esa página no lleva nada que mande a WhatsApp antes de comprar (orden de
+     Santiago, 25-sep-2026), así que el flotante se esconde en todo ancho. */
   const ctaPropio = location.pathname === "/comedero";
 
   const barUp = count > 0 && !ctaPropio;
@@ -124,7 +126,7 @@ function Shell() {
         aria-label="Escríbenos por WhatsApp"
         className={`fixed right-5 z-[55] flex h-14 w-14 items-center justify-center rounded-full bg-mint text-mint-ink shadow-[var(--shadow)] transition-[transform,bottom] duration-300 hover:scale-105 ${
           barUp ? "bottom-[92px] md:bottom-5" : "bottom-5"
-        } ${ctaPropio ? "max-lg:hidden" : ""}`}
+        } ${ctaPropio ? "hidden" : ""}`}
       >
         <WhatsAppIcon className="h-7 w-7" />
       </a>

@@ -16,13 +16,13 @@ const nombreLinea: Record<LineaResenas, string> = {
  * src/data/resenas.ts: una sección de testimonios vacía o inventada resta la
  * confianza que busca ganar.
  */
-export function ResenasProducto({ slug, linea }: { slug: string; linea: LineaResenas }) {
+export function ResenasProducto({ slug, linea, id }: { slug: string; linea: LineaResenas; id?: string }) {
   const { lista, alcance } = resenasDe(slug, linea);
   if (!lista.length) return null;
   const promedio = lista.reduce((n, r) => n + r.estrellas, 0) / lista.length;
 
   return (
-    <section aria-labelledby={`resenas-${slug}`} className="border-t border-line py-16">
+    <section id={id} aria-labelledby={`resenas-${slug}`} className="scroll-mt-24 border-t border-line py-16">
       <Reveal className="mx-auto flex max-w-[1200px] flex-wrap items-end justify-between gap-4 px-4 md:px-6">
         <div>
           <p className="kicker">Reseñas</p>
