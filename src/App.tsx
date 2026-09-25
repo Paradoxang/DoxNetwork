@@ -24,6 +24,7 @@ import { Favorites } from "@/pages/Favorites";
 import { Home } from "@/pages/Home";
 import { NotFound } from "@/pages/NotFound";
 import { Perfumeria } from "@/pages/Perfumeria";
+import { PaginasWeb } from "@/pages/PaginasWeb";
 import { Product } from "@/pages/Product";
 import { Legal } from "@/pages/Legal";
 
@@ -157,6 +158,8 @@ export const routes: RouteRecord[] = [
       // Landing de pauta de un solo producto, fuera del catálogo: el comedero
       // vive en Shopify y se cobra contra entrega. Ver src/data/comedero.ts.
       { path: "comedero", element: <Comedero /> },
+      // El servicio de páginas web de Dox Designs, con entrada propia en el menú
+      { path: "paginas-web", element: <PaginasWeb /> },
       { path: "favoritos", element: <Favorites /> },
       { path: "terminos", element: <Legal slug="terminos" /> },
       { path: "privacidad", element: <Legal slug="privacidad" /> },

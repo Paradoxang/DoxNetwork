@@ -29,6 +29,7 @@ npm run preview  # sirve dist/ para probar el build
 | `/perfumeria` | Perfumería con filtros por público, familia, calidad y casa (`?para=`, `?familia=`, `?calidad=`, `?casa=`, `?orden=`) |
 | `/relojeria`, `/tecnologia`, `/vapes` | Colecciones con sus filtros; vapes con verificación de edad |
 | `/comedero` | Landing de pauta del comedero de mascotas (Shopify, contra entrega) |
+| `/paginas-web` | Servicio de páginas web de Dox Designs: servicios, portafolio, proceso y cotización por WhatsApp (datos en `src/data/dox.ts`) |
 | `/catalogo` | Toda la tienda con búsqueda, línea y orden (`?linea=`, `?q=`, `?orden=`) |
 | `/producto/:slug` | Ficha: detalles, relacionados, carrito y WhatsApp con enlace |
 | `/favoritos` | Lista de deseos |
@@ -102,7 +103,7 @@ misma altura que el planeta, y nodos de red en los vértices.
 ## Navegación
 
 - Barra de anuncios rotativa (se pausa con el puntero).
-- Menús desplegables de Tienda (mega menú), Perfumería y Ayuda. Se abren con
+- Menús desplegables de Tienda (mega menú), Perfumería, Páginas web y Ayuda. Se abren con
   hover, clic o teclado; Esc cierra y devuelve el foco.
 - Cabecera que se oculta al bajar y vuelve al subir.
 - Buscador con `Ctrl/Cmd + K` o `/`, con flechas y Enter.

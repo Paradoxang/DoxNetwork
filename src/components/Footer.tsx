@@ -1,5 +1,6 @@
 import { Instagram } from "lucide-react";
 import { Link } from "react-router-dom";
+import { DOX_PATH } from "@/data/dox";
 import { legalDocs } from "@/data/legal";
 import { lineaOrder, lineas } from "@/data/lineas";
 import { paraOptions, stockSecreto } from "@/data/perfumeria";
@@ -108,7 +109,7 @@ export function Footer() {
               </a>
             </li>
             <li>
-              <Link to="/#dox-designs" className="text-mute transition-colors hover:text-neb">
+              <Link to={DOX_PATH} className="text-mute transition-colors hover:text-neb">
                 ¿Quieres tu página web?
               </Link>
             </li>

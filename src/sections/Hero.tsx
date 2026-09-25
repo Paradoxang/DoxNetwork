@@ -5,6 +5,7 @@ import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
 import { glowHandlers } from "@/components/ui/glowing-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
+import { DOX_PATH } from "@/data/dox";
 import { relojes, tecnologia } from "@/data/lineas";
 import { matchesPara, perfumes, type ParaFilter } from "@/data/perfumeria";
 import { useAnimacion } from "@/lib/motion";
@@ -61,7 +62,7 @@ const nodes = [
     icon: Code2,
     title: "Páginas web",
     text: "A la medida, con Dox Designs",
-    to: "/#dox-designs",
+    to: DOX_PATH,
   },
 ];
 

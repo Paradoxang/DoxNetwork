@@ -10,22 +10,66 @@ export const dox = {
   whatsappText: "Hola Dox Designs, vengo de DoxNetwork y quiero cotizar una página web para mi negocio.",
 };
 
-export const doxServices = [
+/** Página propia del servicio en esta tienda (el menú y el inicio llevan aquí). */
+export const DOX_PATH = "/paginas-web";
+
+export type DoxServiceId = "web" | "tienda" | "apps" | "ia";
+
+export const doxServices: { id: DoxServiceId; title: string; text: string }[] = [
   {
+    id: "web",
     title: "Páginas web y landings",
     text: "Sitios responsive para negocios, consultorios y marcas personales.",
   },
   {
+    id: "tienda",
     title: "Tiendas online",
     text: "E-commerce con catálogo y compra fácil, como esta tienda.",
   },
   {
+    id: "apps",
     title: "Aplicaciones a medida",
     text: "Sistemas y paneles internos full-stack con .NET, Next.js y SQL Server.",
   },
   {
+    id: "ia",
     title: "Integración de IA",
     text: "Chat-bots y asistentes entrenados para tu negocio.",
+  },
+];
+
+/**
+ * Cómo se trabaja, para la página del servicio. TODO (Santiago): revisa que
+ * describa tu proceso real; son promesas públicas.
+ */
+export const doxPasos = [
+  { title: "Nos cuentas tu idea", text: "Por WhatsApp: qué vendes, a quién le vendes y qué necesitas que haga tu página." },
+  { title: "Te cotizamos", text: "Recibes el alcance, el precio y la fecha de entrega antes de empezar. Sin compromiso." },
+  { title: "Diseñamos y construimos", text: "Te mostramos avances y ajustamos contigo hasta que quede como la quieres." },
+  { title: "Publicamos", text: "Tu página queda en línea, lista para compartir y para que tus clientes te escriban." },
+];
+
+/** Preguntas de la página del servicio. Sin precios ni plazos fijos: van en la cotización. */
+export const doxFaqs = [
+  {
+    q: "¿Cuánto cuesta una página web?",
+    a: "Depende de lo que necesites: no cuesta lo mismo una landing que una tienda online o una aplicación. Escríbenos y te cotizamos sin compromiso.",
+  },
+  {
+    q: "¿Cuánto se demora?",
+    a: "Depende del alcance. La fecha de entrega va en la cotización, antes de empezar.",
+  },
+  {
+    q: "¿Qué necesito para empezar?",
+    a: "Contarnos cómo es tu negocio. Si tienes logo, fotos y textos, mejor; si no, lo vemos juntos.",
+  },
+  {
+    q: "¿Pueden hacer una tienda como esta?",
+    a: "Sí. DoxNetwork la diseñó y la programó Dox Designs: catálogo con buscador y filtros, carrito y checkout.",
+  },
+  {
+    q: "¿Dónde están?",
+    a: "En Cali, Colombia. Todo se coordina por WhatsApp, así que no importa en qué ciudad esté tu negocio.",
   },
 ];
 

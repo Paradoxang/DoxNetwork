@@ -25,6 +25,7 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { Link, useLocation } from "react-router-dom";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Astro } from "@/components/Astro";
+import { ServiceIcon } from "@/components/DoxIcon";
 import { LineIcon } from "@/components/CategoryIcon";
 import { LogoDN } from "@/components/LogoDN";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -32,6 +33,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { allProducts, type Product } from "@/data/catalog";
 import { destacados, microThumbOf } from "@/data/destacados";
 import { lineaMascotas } from "@/data/comedero";
+import { DOX_PATH, dox, doxProjects, doxServices } from "@/data/dox";
 import { reportHours } from "@/data/legal";
 import { lineaOf, lineaOrder, lineas, type LineaId } from "@/data/lineas";
 import {
@@ -50,7 +52,7 @@ import { EASE, lockScroll } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
 import { useUI } from "@/lib/ui";
 
-type MenuId = "categorias" | "perfumeria" | "ayuda";
+type MenuId = "categorias" | "perfumeria" | "web" | "ayuda";
 
 /** Ofertas = perfumería de menor a mayor precio: el foco de la tienda. */
 const OFERTAS = "/perfumeria?orden=menor";
@@ -167,7 +169,7 @@ export function Nav() {
         if (e.pointerType === "mouse") enter(id);
       }}
       onPointerLeave={(e) => e.pointerType === "mouse" && leave()}
-      className={`relative flex items-center gap-1 whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold transition-colors ${
+      className={`relative flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-2 text-[14px] xl:px-3.5 xl:text-[15px] font-semibold transition-colors ${
         menu === id ? "text-ink" : "text-mute hover:text-ink"
       }`}
     >
@@ -229,11 +231,12 @@ export function Nav() {
                 setHover("ofertas");
                 leave();
               }}
-              className="relative whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold text-mute transition-colors hover:text-ink"
+              className="relative whitespace-nowrap rounded-full px-2.5 py-2 text-[14px] xl:px-3.5 xl:text-[15px] font-semibold text-mute transition-colors hover:text-ink"
             >
               {hover === "ofertas" && <Pill reduced={reduced} />}
               <span className="relative">Ofertas</span>
             </Link>
+            {trigger("web", "Páginas web")}
             {trigger("ayuda", "Ayuda")}
           </nav>
 
@@ -311,6 +314,7 @@ export function Nav() {
                 >
                   {menu === "categorias" && <CategoriesPanel />}
                   {menu === "perfumeria" && <PerfumeriaPanel />}
+                  {menu === "web" && <WebPanel />}
                   {menu === "ayuda" && <HelpPanel />}
                 </motion.div>
               </AnimatePresence>
@@ -419,7 +423,7 @@ function CategoriesPanel() {
 
         <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-line pt-4 text-sm">
           <Link to={OFERTAS} className="chip min-h-[34px] text-[13px]">Ofertas en perfumería</Link>
-          <Link to="/#dox-designs" className="chip min-h-[34px] text-[13px]">Páginas web</Link>
+          <Link to={DOX_PATH} className="chip min-h-[34px] text-[13px]">Páginas web</Link>
           <Link to={lineas.vapes.path} className="chip min-h-[34px] text-[13px] text-faint">{lineas.vapes.name} · +18</Link>
           <Link to="/catalogo" className="ml-auto flex items-center gap-1.5 font-semibold text-neb hover:underline">
             Ver toda la tienda <ArrowRight className="h-4 w-4" />
@@ -592,6 +596,83 @@ function PerfumeriaPanel() {
   );
 }
 
+/** Promoción del servicio de páginas web de Dox Designs, con su página propia. */
+function WebPanel() {
+  return (
+    <div className="grid grid-cols-[1fr_300px] gap-6">
+      <div>
+        <p className="kicker">Dox Designs · Páginas web</p>
+        <ul className="mt-4 grid grid-cols-2 gap-1.5">
+          {doxServices.map((sv) => (
+            <li key={sv.id}>
+              <Link to={`${DOX_PATH}#servicios`} className="group flex h-full items-start gap-3 rounded-2xl p-3 transition-colors hover:bg-surface">
+                <ServiceIcon id={sv.id} />
+                <span>
+                  <span className="block font-bold leading-snug group-hover:text-neb">{sv.title}</span>
+                  <span className="mt-0.5 block text-[13px] leading-snug text-mute">{sv.text}</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-4 flex items-center justify-between border-t border-line pt-4">
+          <p className="kicker text-faint">Proyectos recientes</p>
+          <Link to={`${DOX_PATH}#proyectos`} className="flex items-center gap-1.5 text-sm font-semibold text-neb hover:underline">
+            Ver el portafolio <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <ul className="mt-3 grid grid-cols-3 gap-3">
+          {doxProjects.slice(0, 3).map((pr) => (
+            <li key={pr.slug}>
+              <Link to={`${DOX_PATH}#proyectos`} className="group block">
+                <span className="block aspect-[16/9] overflow-hidden rounded-xl border border-line bg-surface-2">
+                  <img
+                    src={`/dox/${pr.slug}.webp`}
+                    alt=""
+                    width={320}
+                    height={180}
+                    loading="lazy"
+                    className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.05]"
+                  />
+                </span>
+                <span className="mt-1.5 block truncate text-[13px] font-semibold group-hover:text-neb">{pr.name}</span>
+                <span className="block truncate text-xs text-faint">{pr.tag}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div
+        className="relative flex flex-col overflow-hidden rounded-2xl border border-line p-5"
+        style={{ background: "radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--neb) 26%, transparent), transparent 62%), var(--surface)" }}
+      >
+        <span className="flex items-center gap-2.5">
+          <img src="/dox/isotipo.webp" alt="" width={36} height={36} className="h-9 w-9 rounded-full" />
+          <span className="text-sm font-semibold text-mute">Hecho por Dox Designs</span>
+        </span>
+        <span className="pointer-events-none absolute -right-2 top-3 h-24">
+          <Astro pose="laptop" small enter={false} float={false} decorative className="h-full" />
+        </span>
+        <span className="mt-auto block pt-10 text-lg font-extrabold leading-tight">¿Tu negocio necesita una página como esta?</span>
+        <span className="mt-1 block text-sm text-mute">Esta tienda la hicimos nosotros. Te cotizamos la tuya sin compromiso.</span>
+        <a
+          href={waLink(dox.whatsappText)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 flex items-center justify-center gap-2 rounded-full bg-mint px-4 py-2.5 text-sm font-bold text-mint-ink transition-transform hover:scale-[1.02]"
+        >
+          <WhatsAppIcon className="h-4 w-4" /> Cotizar mi página
+        </a>
+        <Link to={DOX_PATH} className="mt-3 flex items-center justify-center gap-1.5 text-sm font-semibold text-neb hover:underline">
+          Conocer el servicio <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 function HelpPanel() {
   const items: { icon: ReactNode; title: string; text: string; to?: string; href?: string }[] = [
     { icon: <HelpCircle className="h-5 w-5" />, title: "Cómo comprar", text: "Eliges, pagas sin tarjeta y te llega", to: "/#como-comprar" },
@@ -728,6 +809,19 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
                 </li>
               </ul>
             </Accordion>
+
+            <Link
+              to={DOX_PATH}
+              className="flex min-h-[64px] items-center gap-3 rounded-2xl border border-line p-3"
+              style={{ background: "radial-gradient(120% 90% at 100% 0%, color-mix(in srgb, var(--neb) 22%, transparent), transparent 65%), var(--surface)" }}
+            >
+              <img src="/dox/isotipo.webp" alt="" width={40} height={40} className="h-10 w-10 shrink-0 rounded-full" />
+              <span className="min-w-0 flex-1">
+                <span className="block font-bold">Páginas web</span>
+                <span className="block text-xs font-semibold text-faint">Tu página o tienda online con Dox Designs</span>
+              </span>
+              <ArrowRight className="h-4 w-4 shrink-0 text-neb" />
+            </Link>
 
             {[
               { to: "/catalogo", label: "Toda la tienda" },

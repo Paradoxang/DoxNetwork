@@ -10,6 +10,7 @@ import { glowHandlers } from "@/components/ui/glowing-effect";
 import { NumberTicker } from "@/components/ui/number-ticker";
 import { allProducts, fromPrice, type Product } from "@/data/catalog";
 import { comedero, imagenes, lineaMascotas } from "@/data/comedero";
+import { DOX_PATH } from "@/data/dox";
 import { destacados, microThumbOf } from "@/data/destacados";
 import { lineaOf, lineaOrder, lineas, vapes, type LineaId } from "@/data/lineas";
 import { tint } from "@/data/paleta";
@@ -82,7 +83,7 @@ export function Categories() {
         {/* Páginas web: chica, un solo servicio */}
         <li data-reveal className="col-span-1">
           <Link
-            to="/#dox-designs"
+            to={DOX_PATH}
             {...glowHandlers}
             className="glow-border card card-hover group relative flex min-h-[248px] flex-col overflow-hidden p-4 md:p-5 lg:min-h-full"
           >

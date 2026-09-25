@@ -1,11 +1,13 @@
 import { Astro } from "@/components/Astro";
 import { useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Check, Play } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Play } from "lucide-react";
 import { useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { ServiceIcon } from "@/components/DoxIcon";
 import { Deco } from "@/components/Deco";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { GlareCard } from "@/components/ui/glare-card";
-import { dox, doxProjects, doxServices, doxStats, type DoxProject } from "@/data/dox";
+import { DOX_PATH, dox, doxProjects, doxServices, doxStats, type DoxProject } from "@/data/dox";
 import { waLink } from "@/data/site";
 import { Reveal, Tilt } from "@/lib/anim";
 import { useAnimacion } from "@/lib/motion";
@@ -108,9 +110,7 @@ export function DoxDesigns() {
               {doxServices.map((s, i) => (
                 <li key={s.title}>
                   <Reveal delay={0.12 + i * 0.05} className="flex h-full gap-3 rounded-2xl border border-line bg-surface p-4">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-neb-soft text-neb">
-                      <Check className="h-4 w-4" strokeWidth={2.5} />
-                    </span>
+                    <ServiceIcon id={s.id} />
                     <span>
                       <span className="block font-bold">{s.title}</span>
                       <span className="mt-0.5 block text-sm leading-relaxed text-mute">{s.text}</span>
@@ -121,14 +121,14 @@ export function DoxDesigns() {
             </ul>
 
             <Reveal delay={0.3} className="mt-8 flex flex-wrap gap-3">
-                <a href={dox.url} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                  Visitar doxdesigns.dev <ArrowUpRight className="h-4 w-4" />
-                </a>
+              <Link to={DOX_PATH} className="btn btn-primary">
+                Conocer el servicio <ArrowRight className="h-4 w-4" />
+              </Link>
               <a href={waLink(dox.whatsappText)} target="_blank" rel="noopener noreferrer" className="btn btn-buy">
                 <WhatsAppIcon /> Cotizar mi página
               </a>
-              <a href={dox.servicesUrl} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
-                Ver servicios
+              <a href={dox.url} target="_blank" rel="noopener noreferrer" className="btn btn-ghost">
+                doxdesigns.dev <ArrowUpRight className="h-4 w-4" />
               </a>
             </Reveal>
           </div>
@@ -202,7 +202,8 @@ export function DoxDesigns() {
   );
 }
 
-function ProjectCard({ project }: { project: DoxProject }) {
+/** Tarjeta de proyecto con video al pasar el puntero. La usa también la página del servicio. */
+export function ProjectCard({ project }: { project: DoxProject }) {
   const video = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const reduced = useReducedMotion();
