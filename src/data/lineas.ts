@@ -160,7 +160,7 @@ function toProduct([id, cost, name, brand, line, sub, condition, slug, soldOut]:
     features:
       line === "vapes"
         ? ["Solo mayores de 18 años", shipping.short, "Confirmas tu pedido y tu edad por WhatsApp"]
-        : [cond ? conditionInfo[cond].label : subLabel[sub], shipping.short, "Pagas con tarjeta, PSE, Nequi o Bre-B"],
+        : [cond ? conditionInfo[cond].label : subLabel[sub], shipping.short, "Llega en 3 a 6 días hábiles"],
     image: `/tienda/${slug}.webp`,
     stock: soldOut ? 0 : undefined,
     articulo: { line, sub, brand, condition: cond, supplierId: id },

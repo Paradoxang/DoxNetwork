@@ -1,5 +1,4 @@
 import type { Product } from "./catalog";
-import { pagos } from "./site";
 import { conAtribucion, filtrarAtribucion } from "@/lib/atribucion";
 
 /**
@@ -85,8 +84,8 @@ export const landing = {
       "Para croqueta seca, perros y gatos",
       "Perilla para ajustar la salida a su croqueta",
     ],
-    /* El mensaje de pago va junto al precio: ya no es solo contra entrega (Bold, 26-sep-2026) */
-    precioNota: pagos.conContraEntrega,
+    /* Los medios van como logos debajo de «Comprar»: junto al precio solo el envío, como en Shopify */
+    precioNota: "Envío gratis a toda Colombia",
     resenasTexto: "5,0 · 5 reseñas de clientes del proveedor",
     fotos: [
       { src: m("trio.webp"), alt: "Comedero por gravedad en verde, gris y azul", color: "Verde" as Color | undefined, rotulo: "" },
@@ -120,7 +119,6 @@ export const landing = {
       },
     ] as { cantidad: number; titulo: string; detalle: string; insignia?: string; descuento: number }[],
     boton: "Comprar",
-    pagos: ["Tarjeta", "PSE", "Nequi", "Bre-B", "Contra entrega"],
     entrega: {
       min: 3,
       max: 6,
@@ -331,7 +329,7 @@ export const productoComedero: Product = {
   description: comedero.resumen,
   hue: lineaMascotas.hue,
   plans: colores.map((c) => ({ id: c.nombre.toLowerCase(), tier: c.nombre, duration: "", price: comedero.precio })),
-  features: ["Sin pilas ni enchufe", "Solo alimento seco", "Paga como prefieras"],
+  features: ["Sin pilas ni enchufe", "Solo alimento seco", "Envío gratis a toda Colombia"],
   image: imagenes.portada,
   fisico: true,
 };

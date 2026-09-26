@@ -9,6 +9,7 @@ import { EASE, lockScroll } from "@/lib/anim";
 import { Astro } from "@/components/Astro";
 import { ProductArt } from "@/components/ProductArt";
 import { isPhysical, isRestricted } from "@/data/lineas";
+import { MediosPago } from "@/components/MediosPago";
 import { pixel } from "@/components/MetaPixel";
 import { varianteShopify } from "@/lib/shopify";
 import { productoComedero } from "@/data/comedero";
@@ -58,6 +59,8 @@ export function CartDrawer() {
   // producto del catálogo, Payfy lo quita y queda lo que cobra Bold
   // (tarjeta, PSE, Nequi y Bre-B).
   const alRecibir = cart.lines.length > 0 && cart.lines.every((l) => l.slug === productoComedero.slug);
+  /* Los logos de pago van debajo de «Ir a pagar», como en las fichas; con vapes en la cesta, solo el texto (Ley 2354). */
+  const logosPago = cart.checkoutVia === "shopify" && !cart.lines.some((l) => isRestricted(l.product));
   /* Meta recibe el inicio de pago con lo que hay en la cesta, menos los vapes (Ley 2354). */
   const alPagar = () => {
     const lineas = cart.lines.filter((l) => !isRestricted(l.product));
@@ -190,7 +193,7 @@ export function CartDrawer() {
                   {cart.checkoutVia === "shopify" ? (
                     <p className="flex items-start gap-2 text-xs text-faint">
                       <Truck className="h-3.5 w-3.5 shrink-0" />{" "}
-                      {alRecibir ? pagos.conContraEntrega : pagos.sinContraEntrega}
+                      {logosPago ? "Envío gratis a toda Colombia." : alRecibir ? pagos.conContraEntrega : pagos.sinContraEntrega}
                     </p>
                   ) : (
                     cart.lines.some((l) => isPhysical(l.product)) && (
@@ -215,6 +218,11 @@ export function CartDrawer() {
                       </>
                     )}
                   </a>
+                  {logosPago && (
+                    <div className="pb-2">
+                      <MediosPago compacto contraEntrega={alRecibir} />
+                    </div>
+                  )}
                   <p className="text-center text-xs leading-relaxed text-faint">
                     Al enviar tu pedido aceptas los{" "}
                     <Link to="/terminos" onClick={() => setOpen(false)} className="underline hover:text-ink">términos</Link> y la{" "}

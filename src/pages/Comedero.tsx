@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { MediosPago } from "@/components/MediosPago";
 import { pixel } from "@/components/MetaPixel";
 import { ResenasProducto } from "@/components/ResenasProducto";
 import { Seo } from "@/components/Seo";
@@ -296,13 +297,8 @@ export function Comedero() {
     </div>
   );
 
-  const pagos = () => (
-    <ul className="dn-pagos" aria-label="Formas de pago">
-      {O.pagos.map((p) => (
-        <li key={p}>{p}</li>
-      ))}
-    </ul>
-  );
+  /* Logos de pago, con el sello de contra entrega: como el snippet dn-medios-pago de Shopify */
+  const pagos = (compacto = false) => <MediosPago contraEntrega compacto={compacto} />;
 
   const C = landing.calculadora;
   const diasA = Math.floor(C.gramosMin / Math.max(1, gramos));
@@ -555,7 +551,7 @@ export function Comedero() {
                 ))}
               </div>
               {comprar()}
-              {pagos()}
+              {pagos(true)}
             </div>
           </dialog>
         </section>

@@ -119,7 +119,7 @@ function toProduct([id, cost, line, brand, para, quality, family, slug, photo]: 
     description,
     hue: fam?.hue ?? "#b89a6a",
     plans: [{ id: "u", tier: q.label, duration: "", price: goodsPrice(cost, false, "perfumeria"), cost }],
-    features: [q.label, shipping.short, "Pagas con tarjeta, PSE, Nequi o Bre-B"],
+    features: [q.label, shipping.short, "Llega en 3 a 6 días hábiles"],
     image: `/perfumes/${slug}.webp`,
     perfume: { line, brand, para, quality, family: family ?? undefined, kind, photo: Boolean(photo), supplierId: id },
   };

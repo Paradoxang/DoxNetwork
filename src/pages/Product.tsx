@@ -19,6 +19,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { AgeGate } from "@/components/AgeGate";
+import { MediosPago } from "@/components/MediosPago";
 import { pixel } from "@/components/MetaPixel";
 import { ProductArt } from "@/components/ProductArt";
 import { FavoriteButton, ProductBadge, ProductCard, StockHint } from "@/components/ProductCard";
@@ -228,17 +229,8 @@ export function Product() {
       </button>
     ) : null;
 
-  /* Los medios, como dato y sin gancho: en los vapes no se anuncian (Ley 2354). */
-  const pagos = () =>
-    restricted ? null : (
-    <ul className="flex flex-wrap gap-2" aria-label="Formas de pago">
-      {site.payments.map((p) => (
-        <li key={p} className="rounded-full border border-line-strong px-3 py-1 font-mono text-[11px] tracking-wide text-mute">
-          {p}
-        </li>
-      ))}
-    </ul>
-  );
+  /* Los logos de pago debajo de «Comprar»; en los vapes no se anuncian (Ley 2354). */
+  const pagos = (compacto = false) => (restricted ? null : <MediosPago compacto={compacto} />);
 
   const selectorPlan = () =>
     product.plans.length > 1 && (
@@ -336,14 +328,14 @@ export function Product() {
               {comprar(true)}
               {agregar()}
             </div>
+            {/* Los logos de pago, pegados a los botones también en móvil (sin order) */}
+            {pagos()}
 
             {available && !quote && (
               <a href={porWhatsApp} target="_blank" rel="noopener noreferrer" className="mt-3 text-sm font-semibold text-mute underline underline-offset-4 hover:text-ink max-lg:order-2 max-sm:text-center">
                 ¿Prefieres pedir por WhatsApp?
               </a>
             )}
-
-            <div className="mt-4 max-lg:order-2">{pagos()}</div>
 
             <div className="mt-4 flex gap-3 rounded-2xl border border-mint/30 bg-mint-soft p-3.5 max-lg:order-2">
               <Truck className="mt-0.5 h-5 w-5 shrink-0 text-mint" aria-hidden="true" />
@@ -592,7 +584,7 @@ export function Product() {
             {comprar()}
             {agregar()}
           </div>
-          <div className="mt-4 flex justify-center">{pagos()}</div>
+          {pagos(true)}
         </div>
       </dialog>
     </>
