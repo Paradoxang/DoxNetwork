@@ -21,6 +21,11 @@ export function PromoCarousel() {
   const [userPaused, setUserPaused] = useState(false);
   const [hoverPaused, setHoverPaused] = useState(false);
   const reduced = useReducedMotion();
+  /* El prerender no sabe si el sistema pide menos movimiento: el botón de
+     pausa sale en el HTML y se quita después de hidratar. Quitarlo en el
+     primer render rompía la hidratación de todo el inicio (error #418). */
+  const [hidratado, setHidratado] = useState(false);
+  useEffect(() => setHidratado(true), []);
   const bar = useRef<HTMLSpanElement>(null);
   const tween = useRef<gsap.core.Tween | null>(null);
   const paused = userPaused || hoverPaused || Boolean(reduced);
@@ -147,7 +152,7 @@ export function PromoCarousel() {
           <span className="mr-auto text-sm font-semibold text-white/80 sm:hidden">
             {index + 1} / {promos.length}
           </span>
-          {!reduced && (
+          {!(hidratado && reduced) && (
             <button
               type="button"
               onClick={() => setUserPaused((v) => !v)}
