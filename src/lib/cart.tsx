@@ -12,6 +12,7 @@ import { planLabel, productBySlug, type Plan, type Product } from "@/data/catalo
 import { isPhysical, isRestricted } from "@/data/lineas";
 import { formatCOP, site, waLink } from "@/data/site";
 import { descuentoSegundoComedero, productoComedero } from "@/data/comedero";
+import { conAtribucion, useAtribucion } from "@/lib/atribucion";
 import { enlaceCarritoShopify } from "@/lib/shopify";
 
 export interface CartLine {
@@ -203,6 +204,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [setFavorites]
   );
 
+  // Los utm/fbclid con los que llegó la visita viajan al checkout
+  const atribucion = useAtribucion();
+
   const value = useMemo<CartState>(() => {
     const lines = resolve(Array.isArray(raw) ? raw : []);
     const count = lines.reduce((a, l) => a + l.qty, 0);
@@ -219,14 +223,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       setQty,
       remove,
       clear,
-      checkoutUrl: shopify ?? waLink(buildOrderMessage(lines, total)),
+      checkoutUrl: shopify ? conAtribucion(shopify, atribucion) : waLink(buildOrderMessage(lines, total)),
       checkoutVia: shopify ? "shopify" : "whatsapp",
       toast,
       dismissToast,
       favorites: Array.isArray(favorites) ? favorites.filter((s) => productBySlug(s)) : [],
       toggleFavorite,
     };
-  }, [raw, open, add, addMany, setQty, remove, clear, toast, dismissToast, favorites, toggleFavorite]);
+  }, [raw, open, add, addMany, setQty, remove, clear, toast, dismissToast, favorites, toggleFavorite, atribucion]);
 
   return <CartCtx.Provider value={value}>{children}</CartCtx.Provider>;
 }

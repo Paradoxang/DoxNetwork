@@ -1,5 +1,6 @@
 import type { Product } from "./catalog";
 import { pagos } from "./site";
+import { conAtribucion, filtrarAtribucion } from "@/lib/atribucion";
 
 /**
  * Comedero por gravedad 3,2 L · datos de la landing /comedero.
@@ -352,11 +353,5 @@ export const mensajeAviso = (color?: Color) =>
 export const descuentoSegundoComedero = landing.oferta.packs.find((p) => p.cantidad === 2)?.descuento ?? 0;
 
 export function enlaceCheckout(variante: string, search = "", cantidad = 1): string {
-  const base = `https://${comedero.tienda}/cart/${variante}:${cantidad}`;
-  if (!search) return base;
-  const entra = new URLSearchParams(search);
-  const salen = new URLSearchParams();
-  for (const [k, v] of entra) if (k.startsWith("utm_") || k === "fbclid" || k === "gclid") salen.set(k, v);
-  const cola = salen.toString();
-  return cola ? `${base}?${cola}` : base;
+  return conAtribucion(`https://${comedero.tienda}/cart/${variante}:${cantidad}`, filtrarAtribucion(search));
 }

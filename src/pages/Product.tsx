@@ -33,6 +33,7 @@ import { formatCOP, pagos as pagosTexto, site, waLink } from "@/data/site";
 import { ENTREGA, fechaEntrega } from "@/lib/entrega";
 import { Reveal } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
+import { conAtribucion, useAtribucion } from "@/lib/atribucion";
 import { enlaceCarritoShopify, varianteShopify } from "@/lib/shopify";
 import { NotFound } from "@/pages/NotFound";
 
@@ -116,6 +117,7 @@ export function Product() {
   const hoja = useRef<HTMLDialogElement>(null);
   const [barra, setBarra] = useState(false);
   const [entrega, setEntrega] = useState<[string, string] | null>(null);
+  const atribucion = useAtribucion();
 
   // Al saltar a otro producto (relacionados) se vuelve a su primer plan, y Meta recibe el ViewContent
   useEffect(() => {
@@ -157,9 +159,11 @@ export function Product() {
   const listPath = perfume ? "/perfumeria" : articulo ? lineas[articulo.line].path : "/catalogo";
   const rotulo = perfume ? perfume.brand || category?.name : articulo ? `${lineas[articulo.line].name} · ${articulo.brand || subLabel[articulo.sub]}` : category?.name;
 
-  /* «Comprar» abre el pago de Shopify con este producto. Si no estuviera cargado
-     allí, el pedido va por WhatsApp como siempre. */
-  const checkout = available && !quote ? enlaceCarritoShopify([{ slug: product.slug, planId: plan.id, qty: 1, product }]) : null;
+  /* «Comprar» abre el pago de Shopify con este producto y la atribución del
+     anuncio que trajo la visita. Si no estuviera cargado allí, el pedido va
+     por WhatsApp como siempre. */
+  const carrito = available && !quote ? enlaceCarritoShopify([{ slug: product.slug, planId: plan.id, qty: 1, product }]) : null;
+  const checkout = carrito && conAtribucion(carrito, atribucion);
   const porWhatsApp = waLink(
     quote
       ? `Hola ${site.name}, quiero cotizar: ${product.name}.\n${url}`

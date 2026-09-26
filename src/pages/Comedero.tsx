@@ -16,6 +16,7 @@ import {
 } from "@/data/comedero";
 import { porProducto } from "@/data/resenas";
 import { formatCOP, site, waLink } from "@/data/site";
+import { useAtribucion } from "@/lib/atribucion";
 import { useCart } from "@/lib/cart";
 import { fechaEntrega } from "@/lib/entrega";
 import "@/styles/comedero-landing.css";
@@ -93,10 +94,9 @@ export function Comedero() {
   const [conSonido, setConSonido] = useState<number | null>(null);
 
   /* Los UTM con los que llegó la visita viajan hasta el checkout: sin ellos la
-     venta no se puede atribuir a la campaña que la trajo. En SSR no hay
-     `window`, así que se leen después de montar. */
-  const [search, setSearch] = useState("");
-  useEffect(() => setSearch(window.location.search), []);
+     venta no se puede atribuir a la campaña que la trajo. También si llegó
+     por otra página de la tienda (lib/atribucion.ts). */
+  const atribucion = useAtribucion();
 
   useEffect(() => {
     pixel("ViewContent", evento());
@@ -105,7 +105,7 @@ export function Comedero() {
   const variante = colores.find((c) => c.nombre === color)!.variante;
   const pack = O.packs.find((p) => p.cantidad === cantidad) ?? O.packs[0];
   const total = precioPack(pack);
-  const checkout = enlaceCheckout(variante, search, cantidad);
+  const checkout = enlaceCheckout(variante, atribucion, cantidad);
   const resenas = porProducto[productoComedero.slug] ?? [];
   const promedio = resenas.length ? resenas.reduce((n, r) => n + r.estrellas, 0) / resenas.length : 0;
 
