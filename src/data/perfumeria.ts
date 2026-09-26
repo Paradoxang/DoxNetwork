@@ -78,10 +78,10 @@ export const perfumeCategory = {
   blurb: "Réplicas 1.1 y AAA de tus fragancias favoritas",
 };
 
-/** TODO: condiciones reales de envío (ciudades, costo y tiempos). */
+/** Envío gratis a toda Colombia, de 3 a 6 días hábiles: lo decidió Santiago el 25-sep-2026. */
 export const shipping = {
-  short: "Envío a toda Colombia",
-  detail: "El costo del envío lo ves en el checkout antes de pagar; si compras por WhatsApp, te lo confirmamos según tu ciudad.",
+  short: "Envío gratis a toda Colombia",
+  detail: "Llega en 3 a 6 días hábiles y te pasamos el número de guía para seguirlo.",
 };
 
 export const disclaimer =

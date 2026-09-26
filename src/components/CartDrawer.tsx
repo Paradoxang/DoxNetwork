@@ -174,8 +174,8 @@ export function CartDrawer() {
                   {cart.checkoutVia === "shopify" ? (
                     <p className="flex items-start gap-2 text-xs text-faint">
                       <Truck className="h-3.5 w-3.5 shrink-0" />{" "}
-                      {alRecibir ? "Pagas al recibir, sin tarjeta." : "Pagas por Nequi o Llave Bre-B al finalizar la compra, sin tarjeta."} El
-                      envío lo ves en el siguiente paso.
+                      {alRecibir ? "Pagas al recibir, sin tarjeta." : "Pagas por Nequi o Llave Bre-B al finalizar la compra, sin tarjeta."} Envío
+                      gratis a toda Colombia.
                     </p>
                   ) : (
                     cart.lines.some((l) => isPhysical(l.product)) && (

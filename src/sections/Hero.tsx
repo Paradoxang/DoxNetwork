@@ -162,7 +162,7 @@ export function Hero() {
               Tu fragancia favorita, en una sola red.
             </h1>
             <p data-hero-in className="mt-6 max-w-xl text-[17px] leading-relaxed text-mute md:text-lg">
-              Perfumes 1.1 y AAA para ella, para él y unisex, además de relojería y tecnología. Envíos a toda Colombia, pagas
+              Perfumes 1.1 y AAA para ella, para él y unisex, además de relojería y tecnología. Envío gratis a toda Colombia, pagas
               por Nequi o Llave Bre-B y te atiende una persona por WhatsApp.
             </p>
 

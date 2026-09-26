@@ -65,7 +65,7 @@ const configs: Record<LineaFisica, Config> = {
   tecnologia: {
     kicker: "Tecnología · Nuevo",
     title: ["Tecnología para", "todo el día"],
-    text: "Audífonos y parlantes, smartwatches, cargadores, gaming, soportes y gadgets. Precios claros, pagas sin tarjeta y te lo enviamos a toda Colombia.",
+    text: "Audífonos y parlantes, smartwatches, cargadores, gaming, soportes y gadgets. Precios claros, pagas sin tarjeta y te lo enviamos gratis a toda Colombia.",
     showcase: ["tecnologia-parlante-portatil-kimiso-kms-374", "tecnologia-smartwatch-mobulaa-ub6-pro", "tecnologia-proyector-hy300"],
     tiles: [
       { label: "Audio", hint: "Audífonos, diademas y parlantes", params: { sub: "audio" } },

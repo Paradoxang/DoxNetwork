@@ -19,12 +19,12 @@ const steps = [
   {
     icon: CreditCard,
     title: "Paga sin tarjeta",
-    text: "Al finalizar la compra pagas por Nequi o Llave Bre-B, y ves el envío antes de pagar.",
+    text: "Al finalizar la compra pagas por Nequi o Llave Bre-B. El envío es gratis.",
   },
   {
     icon: MessageCircle,
     title: "Recibe en casa",
-    text: "Tu pedido sale con envío a toda Colombia. Antes y después de comprar te atiende una persona por WhatsApp.",
+    text: "Llega en 3 a 6 días hábiles a cualquier ciudad de Colombia. Antes y después de comprar te atiende una persona por WhatsApp.",
   },
 ];
 
@@ -227,7 +227,7 @@ function Screen({ step }: { step: number }) {
         <div className="flex-1 space-y-3 overflow-hidden p-3">
           <div className="rounded-2xl border border-line bg-surface p-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Envío</p>
-            <p className="mt-1 text-[13px]">A tu dirección, en cualquier ciudad de Colombia</p>
+            <p className="mt-1 text-[13px]">Gratis, a cualquier ciudad de Colombia</p>
           </div>
           <div className="rounded-2xl border border-line bg-surface p-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Pago</p>

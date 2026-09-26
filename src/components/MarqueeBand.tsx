@@ -12,7 +12,7 @@ import { Deco } from "@/components/Deco";
  */
 const promesas = [
   "Perfumes 1.1 y AAA",
-  "Envíos a toda Colombia",
+  "Envío gratis a toda Colombia",
   "Nequi o Llave Bre-B",
   "Te atiende una persona",
   "Sin registro ni tarjetas",

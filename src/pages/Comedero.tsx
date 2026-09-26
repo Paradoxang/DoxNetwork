@@ -17,6 +17,7 @@ import {
 import { porProducto } from "@/data/resenas";
 import { formatCOP, site, waLink } from "@/data/site";
 import { useCart } from "@/lib/cart";
+import { fechaEntrega } from "@/lib/entrega";
 import "@/styles/comedero-landing.css";
 
 /**
@@ -71,20 +72,6 @@ const IrAComprar = ({ children }: { children: ReactNode }) => (
     {children}
   </a>
 );
-
-/** Días hábiles (lunes a viernes, sin festivos) desde hoy, como en dn-landing.js. */
-function fechaEntrega(dias: number, festivos: string[]) {
-  const clave = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-  const d = new Date();
-  d.setHours(12, 0, 0, 0);
-  let c = 0;
-  while (c < dias) {
-    d.setDate(d.getDate() + 1);
-    const w = d.getDay();
-    if (w !== 0 && w !== 6 && !festivos.includes(clave(d))) c++;
-  }
-  return new Intl.DateTimeFormat("es-CO", { weekday: "short", day: "numeric", month: "short" }).format(d).replace(/\./g, "");
-}
 
 export function Comedero() {
   const cart = useCart();

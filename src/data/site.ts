@@ -10,7 +10,7 @@ export const site = {
   url: "https://doxnetworks.com",
   tagline: "Perfumes, relojes y tecnología en una sola red.",
   description:
-    "Perfumería 1.1 y AAA para ella, para él y unisex, relojería y tecnología con envío a toda Colombia. Pagas por Nequi o Llave Bre-B y te atiende una persona por WhatsApp.",
+    "Perfumería 1.1 y AAA para ella, para él y unisex, relojería y tecnología con envío gratis a toda Colombia. Pagas por Nequi o Llave Bre-B y te atiende una persona por WhatsApp.",
 
   /** Número de la tienda, solo dígitos con indicativo. Confirmado el 21-sep-2026. */
   whatsapp: "573189819384",
@@ -27,7 +27,7 @@ export const site = {
 /** Mensajes de la barra superior rotativa (la de Emprendered, sin promesas vacías). */
 export const announcements = [
   "Perfumería 1.1 y AAA para ella, para él y unisex",
-  "Envíos a toda Colombia · pagas por Nequi o Llave Bre-B",
+  "Envío gratis a toda Colombia · pagas por Nequi o Llave Bre-B",
   "¿No encuentras tu fragancia? Pregunta por el stock secreto 😉",
 ];
 

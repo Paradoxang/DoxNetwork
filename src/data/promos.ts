@@ -60,7 +60,7 @@ export const promos: Promo[] = [
   {
     id: "relojeria-tecnologia",
     kicker: "También en la tienda",
-    title: "Relojería y tecnología con envío a toda Colombia",
+    title: "Relojería y tecnología con envío gratis",
     text: `${relojes.length} relojes desde ${formatCOP(minOf(relojes.filter((p) => p.articulo!.sub === "relojes")))} y ${tecnologia.length} productos de tecnología desde ${formatCOP(minOf(tecnologia))}.`,
     cta: { label: "Ver tecnología", to: "/tecnologia" },
     hue: "#5fb8e8",

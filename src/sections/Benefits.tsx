@@ -8,7 +8,7 @@ import { Reveal } from "@/lib/anim";
 // TODO: confirma que cada promesa es real en tu operación antes de publicarla.
 const items = [
   { icon: SprayCan, hue: "#ef8fb8", title: "Perfumería 1.1 y AAA", text: "Para ella, para él y unisex. ¿No está la tuya? Pregunta por el stock secreto." },
-  { icon: Truck, hue: "#5fb8e8", title: "Envíos a toda Colombia", text: "Perfumes, relojes y tecnología. El envío lo ves antes de pagar." },
+  { icon: Truck, hue: "#5fb8e8", title: "Envío gratis a toda Colombia", text: "Perfumes, relojes y tecnología. Llega en 3 a 6 días hábiles." },
   { icon: Wallet, hue: "#f2c46d", title: "Pagas sin tarjeta", text: `${site.payments.map((p) => (p === "Bre-B" ? "Llave Bre-B" : p)).join(" o ")} al finalizar la compra.` },
   { icon: ShieldCheck, hue: "#5fd8a4", title: "Te atiende una persona", text: "Dudas, pedidos y garantía por WhatsApp, antes y después de comprar." },
 ];

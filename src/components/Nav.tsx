@@ -438,7 +438,7 @@ function CategoriesPanel() {
       >
         <span className="kicker">Lo más pedido</span>
         <span className="mt-2 text-xl font-extrabold leading-tight">Perfumería 1.1 y AAA</span>
-        <span className="mt-1 text-sm text-mute">{perfumes.length} fragancias con envío a toda Colombia.</span>
+        <span className="mt-1 text-sm text-mute">{perfumes.length} fragancias con envío gratis a toda Colombia.</span>
         <span className="mt-4 flex gap-2" aria-hidden="true">
           {vitrina.map((p) => (
             <img

@@ -67,7 +67,7 @@ const terminos: LegalDoc = {
       title: "Qué vendemos",
       body: [
         [
-          "Perfumería, relojería y tecnología, con envío a toda Colombia.",
+          "Perfumería, relojería y tecnología, con envío gratis a toda Colombia.",
           "Productos para mascotas, como el comedero por gravedad, que se paga al recibir (contra entrega).",
           "Vapes: productos para mayores de 18 años, en una sección con verificación de edad.",
           "Páginas web a la medida con Dox Designs, bajo cotización.",
@@ -78,7 +78,7 @@ const terminos: LegalDoc = {
       id: "pedidos",
       title: "Cómo se hace un pedido",
       body: [
-        "Agregas productos al carrito y finalizas la compra en nuestro checkout, operado por Shopify: allí dejas tus datos de envío, ves el costo del envío y eliges cómo pagar. Si algún producto del carrito no se puede comprar en línea, el carrito te lleva a WhatsApp con el pedido armado y te respondemos con la disponibilidad, el total y los datos de pago.",
+        "Agregas productos al carrito y finalizas la compra en nuestro checkout, operado por Shopify: allí dejas tus datos de envío y eliges cómo pagar; el envío es gratis. Si algún producto del carrito no se puede comprar en línea, el carrito te lleva a WhatsApp con el pedido armado y te respondemos con la disponibilidad, el total y los datos de pago.",
         "El carrito no reserva productos ni congela precios. La compra queda en firme cuando confirmamos el pago.",
         "Si después del pago un producto resulta no estar disponible, te ofrecemos una alternativa o te devolvemos el valor pagado por ese producto.",
       ],
@@ -284,7 +284,7 @@ const envios: LegalDoc = {
   short: "Envíos",
   description: `Cómo se envían los productos de ${site.name}.`,
   summary: [
-    "Enviamos a toda Colombia. En el checkout ves el costo del envío antes de pagar; si compras por WhatsApp, te lo confirmamos antes del pago.",
+    "El envío es gratis a toda Colombia y llega en 3 a 6 días hábiles, según tu ciudad.",
     "Cuando el pedido sale te compartimos la guía para que le hagas seguimiento.",
     `Revisa tu paquete al recibirlo y repórtanos cualquier novedad en las ${reportHours} horas siguientes.`,
   ],
@@ -293,7 +293,7 @@ const envios: LegalDoc = {
       id: "fisicos",
       title: "Productos físicos",
       body: [
-        "Enviamos perfumería, relojería, tecnología, productos para mascotas y vapes a toda Colombia. En el checkout ves el costo del envío antes de pagar; si compras por WhatsApp, antes del pago te confirmamos el costo, la transportadora y el tiempo estimado según tu ciudad.",
+        "Enviamos perfumería, relojería, tecnología, productos para mascotas y vapes a toda Colombia, y el envío es gratis: va incluido en el precio. Llega en 3 a 6 días hábiles (de lunes a viernes, sin festivos); la fecha la confirma la transportadora según tu ciudad.",
         "Cuando el pedido sale te compartimos la guía para que le hagas seguimiento. Los tiempos de entrega dependen de la transportadora y pueden variar en temporadas altas o zonas de difícil acceso.",
       ],
     },

@@ -128,7 +128,7 @@ export function Catalog() {
       />
       <Seo
         title={`Toda la tienda · ${site.name}`}
-        description="Perfumería 1.1 y AAA, relojería y tecnología con envío a toda Colombia. Pagas por Nequi o Llave Bre-B."
+        description="Perfumería 1.1 y AAA, relojería y tecnología con envío gratis a toda Colombia. Pagas por Nequi o Llave Bre-B."
         path="/catalogo"
       />
       <div className="xl:pl-[228px]">

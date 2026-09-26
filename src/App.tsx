@@ -83,8 +83,11 @@ function Shell() {
      esa página no lleva nada que mande a WhatsApp antes de comprar (orden de
      Santiago, 25-sep-2026), así que el flotante se esconde en todo ancho. */
   const ctaPropio = location.pathname === "/comedero";
+  /* La ficha de producto trae su barra fija de compra: la del carrito sobra y,
+     en móvil, el flotante de WhatsApp se le montaría encima. */
+  const ficha = location.pathname.startsWith("/producto/");
 
-  const barUp = count > 0 && !ctaPropio;
+  const barUp = count > 0 && !ctaPropio && !ficha;
 
   return (
     <div className="relative min-h-screen bg-bg font-sans text-ink">
@@ -126,12 +129,12 @@ function Shell() {
         aria-label="Escríbenos por WhatsApp"
         className={`fixed right-5 z-[55] flex h-14 w-14 items-center justify-center rounded-full bg-mint text-mint-ink shadow-[var(--shadow)] transition-[transform,bottom] duration-300 hover:scale-105 ${
           barUp ? "bottom-[92px] md:bottom-5" : "bottom-5"
-        } ${ctaPropio ? "hidden" : ""}`}
+        } ${ctaPropio ? "hidden" : ficha ? "max-md:hidden" : ""}`}
       >
         <WhatsAppIcon className="h-7 w-7" />
       </a>
 
-      {!ctaPropio && <MobileCartBar />}
+      {!ctaPropio && !ficha && <MobileCartBar />}
       <PromoPeek />
       <StockSecreto />
       <Toast />

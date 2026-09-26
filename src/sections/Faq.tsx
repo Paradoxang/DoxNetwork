@@ -39,7 +39,7 @@ export const faqs = [
   },
   {
     q: "¿Hacen envíos? ¿Cuánto tardan?",
-    a: "Sí, a toda Colombia. El costo del envío lo ves en el checkout antes de pagar, y cuando tu pedido sale te compartimos la guía para que le hagas seguimiento.",
+    a: "Sí, gratis a toda Colombia. Llega en 3 a 6 días hábiles, y cuando tu pedido sale te compartimos la guía para que le hagas seguimiento.",
   },
   {
     q: "¿Qué medios de pago aceptan?",
