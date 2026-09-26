@@ -1,4 +1,4 @@
-import { ArrowUpRight, Code2, PawPrint } from "lucide-react";
+import { ArrowRight, Code2, PawPrint } from "lucide-react";
 import type { ReactNode } from "react";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
@@ -26,6 +26,16 @@ const stats = Object.fromEntries(
 
 const isNew: Partial<Record<LineaId, boolean>> = {};
 
+/** El violeta de Dox Designs, para la baldosa de páginas web. */
+const WEB_HUE = "#9aa9ff";
+
+/** Fondo de baldosa: el acento sube desde la esquina de abajo y tiñe el resto. */
+const fondoLinea = (hue: string) =>
+  `radial-gradient(120% 95% at 100% 100%, ${tint(hue, 38)}, transparent 62%), linear-gradient(160deg, ${tint(hue, 18)}, transparent 70%), var(--surface)`;
+
+/** El icono va en una ficha llena del acento, con su resplandor. */
+const fichaIcono = (hue: string) => ({ background: hue, color: "#0b0f1d", boxShadow: `0 8px 24px ${tint(hue, 45)}` });
+
 /** ASTRO presenta cada línea desde la esquina de su baldosa. */
 const chibi: Partial<Record<LineaId, AstroPose>> = {
   perfumeria: "chibi-perfume",
@@ -47,6 +57,10 @@ const adorno: Partial<Record<LineaId, DecoName>> = {
  * más alta; Tecnología va ancha, Relojería mediana, Páginas web chica, y
  * Mascotas ocupa la franja que era de lo digital hasta el 25-sep-2026. El
  * borde luminoso es la única respuesta al puntero.
+ *
+ * Inicio v2 (25-sep-2026): cada baldosa lleva el color de su línea de verdad
+ * (degradado del acento, icono en ficha llena, ASTRO también en el celular y
+ * «Ver …» como píldora). Vapes se queda sobria a propósito: Ley 2354.
  */
 export function Categories() {
   const scope = useRef<HTMLElement>(null);
@@ -86,14 +100,17 @@ export function Categories() {
             to={DOX_PATH}
             {...glowHandlers}
             className="glow-border card card-hover group relative flex min-h-[248px] flex-col overflow-hidden p-4 md:p-5 lg:min-h-full"
+            style={{ background: fondoLinea(WEB_HUE), borderColor: tint(WEB_HUE, 34) }}
           >
-            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-neb-soft text-neb">
-              <Code2 className="h-5 w-5" aria-hidden="true" strokeWidth={1.8} />
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl" style={fichaIcono(WEB_HUE)}>
+              <Code2 className="h-5 w-5" aria-hidden="true" strokeWidth={1.9} />
             </span>
+            <div className="pointer-events-none absolute right-2 top-2 z-10 h-24 md:h-28">
+              <Astro pose="laptop" small enter={false} decorative className="h-full" />
+            </div>
             <p className="mt-auto pt-6 text-lg font-bold leading-tight">Páginas web</p>
             <p className="mt-1 text-[13px] leading-snug text-mute">A la medida, con Dox Designs</p>
             <Deco name="diagrama" className="deco-esquina -bottom-6 -right-10 w-44" opacity={0.28} />
-            <ArrowUpRight className="absolute right-4 top-4 h-4 w-4 text-faint" aria-hidden="true" />
           </Link>
         </li>
 
@@ -103,24 +120,25 @@ export function Categories() {
             to={lineaMascotas.path}
             {...glowHandlers}
             className="glow-border card card-hover group relative flex min-h-full flex-col gap-5 overflow-hidden p-5 sm:flex-row sm:items-center md:p-6"
-            style={{ background: `radial-gradient(90% 140% at 0% 0%, ${tint(lineaMascotas.hue, 16)}, transparent 60%), var(--surface)`, borderColor: tint(lineaMascotas.hue, 24) }}
+            style={{ background: fondoLinea(lineaMascotas.hue), borderColor: tint(lineaMascotas.hue, 34) }}
           >
             <span className="min-w-0 flex-1">
               <span className="flex items-start justify-between gap-3">
-                <span
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl"
-                  style={{ background: tint(lineaMascotas.hue, 18), color: lineaMascotas.hue }}
-                >
-                  <PawPrint className="h-5 w-5" aria-hidden="true" strokeWidth={1.8} />
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl" style={fichaIcono(lineaMascotas.hue)}>
+                  <PawPrint className="h-5 w-5" aria-hidden="true" strokeWidth={1.9} />
                 </span>
                 <span className="rounded-full bg-gold-soft px-2 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-wider text-gold sm:hidden">Nuevo</span>
               </span>
-              <span className="mt-4 flex items-center gap-2 text-2xl font-bold leading-tight group-hover:text-neb">
-                {lineaMascotas.name} <ArrowUpRight className="h-4 w-4 text-faint" aria-hidden="true" />
-              </span>
+              <span className="mt-4 block text-2xl font-bold leading-tight">{lineaMascotas.name}</span>
               <span className="mt-1 block text-sm leading-snug text-mute">{comedero.nombre}</span>
               <span className="num mt-3 block text-xs text-faint">
                 <span className="text-ink">{formatCOP(comedero.precio)}</span> · envío gratis · pagas al recibir
+              </span>
+              <span
+                className="mt-4 inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[12px] font-bold text-ink"
+                style={{ background: tint(lineaMascotas.hue, 18), borderColor: tint(lineaMascotas.hue, 50) }}
+              >
+                Ver el comedero <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
               </span>
             </span>
             <span className="product-media aspect-[4/3] w-full shrink-0 overflow-hidden rounded-2xl sm:w-[44%]" aria-hidden="true">
@@ -178,36 +196,39 @@ function Tile({ id, className = "", compact = false, children }: { id: LineaId; 
       to={l.path}
       {...glowHandlers}
       className={`glow-border card card-hover group relative flex min-h-full flex-col overflow-hidden ${compact ? "p-4 md:p-5" : "p-5 md:p-6"} ${className}`}
-      style={{ background: `radial-gradient(120% 80% at 100% 0%, ${tint(l.hue, 20)}, transparent 62%), var(--surface)`, borderColor: tint(l.hue, 26) }}
+      style={{ background: fondoLinea(l.hue), borderColor: tint(l.hue, 34) }}
     >
       {adorno[id] && <Deco name={adorno[id]!} className={`deco-esquina -right-8 -top-8 ${compact ? "w-28" : "w-40"}`} opacity={0.3} />}
       {chibi[id] && (
-        <div className={`pointer-events-none absolute right-3 top-2 z-10 hidden md:block ${compact ? "h-24" : "h-32"}`}>
+        <div className={`pointer-events-none absolute right-2 top-2 z-10 md:right-3 ${compact ? "h-16 md:h-24" : "h-24 md:h-32"}`}>
           <Astro pose={chibi[id]!} small enter={false} decorative className="h-full" />
         </div>
       )}
       <div className="relative flex items-start justify-between gap-3">
-        <span
-          className={`flex shrink-0 items-center justify-center rounded-2xl ${compact ? "h-10 w-10" : "h-11 w-11"}`}
-          style={{ background: tint(l.hue, 18), color: l.hue }}
-        >
+        <span className={`flex shrink-0 items-center justify-center rounded-2xl ${compact ? "h-10 w-10" : "h-12 w-12"}`} style={fichaIcono(l.hue)}>
           <LineIcon id={id} />
         </span>
-        {isNew[id] ? (
+        {isNew[id] && (
           <span className="rounded-full bg-gold-soft px-2 py-0.5 font-mono text-[11px] font-semibold uppercase tracking-wider text-gold">Nuevo</span>
-        ) : (
-          <ArrowUpRight className="h-4 w-4 text-faint" aria-hidden="true" />
         )}
       </div>
-      <p className={`mt-4 font-bold leading-tight md:pr-24 ${compact ? "text-lg" : "text-2xl"}`}>{l.name}</p>
-      <p className={`mt-1 leading-snug text-mute md:pr-24 ${compact ? "text-[13px]" : "text-sm"}`}>{l.blurb}</p>
+      <p className={`mt-4 font-bold leading-tight ${compact ? "text-lg md:pr-24" : "pr-20 text-2xl md:pr-24"}`}>{l.name}</p>
+      <p className={`mt-1 leading-snug text-mute ${compact ? "text-[13px] md:pr-24" : "pr-20 text-sm md:pr-24"}`}>{l.blurb}</p>
 
       <div className="relative mt-5 flex flex-1 items-center">{children}</div>
 
-      <p className="num mt-4 text-xs text-faint">
-        <NumberTicker value={stats[id].count} className="text-ink" /> productos · desde{" "}
-        <span className="text-ink">{formatCOP(stats[id].min)}</span>
-      </p>
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <p className="num text-xs text-faint">
+          <NumberTicker value={stats[id].count} className="text-ink" /> productos · desde{" "}
+          <span className="text-ink">{formatCOP(stats[id].min)}</span>
+        </p>
+        <span
+          className="inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[12px] font-bold text-ink transition-colors"
+          style={{ background: tint(l.hue, 18), borderColor: tint(l.hue, 50) }}
+        >
+          Ver {l.name.toLowerCase()} <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+        </span>
+      </div>
     </Link>
   );
 }

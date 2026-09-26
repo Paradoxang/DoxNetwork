@@ -674,15 +674,146 @@
   border-top: 0;
 }
 
-/* Agujero negro sin WebGL: un disco de acreción hecho con degradados. Lo usa
-   el hero en modo ligero; no anima nada y pesa lo que ocupa en este archivo. */
-.hole-plano {
+/* ── Inicio v2 (25-sep-2026): nebulosa, órbita de líneas ──
+   Encargo docs/ENCARGO-ASTRO-inicio-v2.md. El fondo del hero ya no es una
+   foto (se pixelaba) ni el WebGL: son degradados, nítidos a cualquier tamaño
+   y sin descarga. El agujero negro sigue en el centro de la órbita, en CSS,
+   para que el eco del pie tenga de dónde venir. */
+.nebulosa {
   background:
-    radial-gradient(closest-side, #05070d 41%, transparent 42%),
-    radial-gradient(50% 50% at 50% 50%, transparent 36%, rgba(242, 178, 79, 0.85) 44%, rgba(255, 246, 224, 0.95) 47%, rgba(59, 79, 196, 0.5) 54%, transparent 66%),
-    radial-gradient(closest-side, rgba(124, 92, 255, 0.18), transparent 100%);
-  transform: rotate(-16deg);
-  filter: blur(1px);
+    radial-gradient(38% 34% at 76% 40%, rgba(124, 92, 255, 0.5), transparent 70%),
+    radial-gradient(30% 28% at 14% 88%, rgba(116, 216, 176, 0.2), transparent 70%),
+    radial-gradient(34% 26% at 62% 6%, rgba(242, 196, 109, 0.18), transparent 70%),
+    radial-gradient(28% 26% at 94% 92%, rgba(239, 143, 184, 0.22), transparent 70%),
+    radial-gradient(70% 70% at 55% 45%, #1b2144, #05070d 85%);
+}
+@media (max-width: 1023px) {
+  /* Apilado: la órbita va arriba, así que la luz violeta sube con ella */
+  .nebulosa {
+    background:
+      radial-gradient(60% 26% at 50% 20%, rgba(124, 92, 255, 0.5), transparent 70%),
+      radial-gradient(50% 20% at 8% 62%, rgba(116, 216, 176, 0.16), transparent 70%),
+      radial-gradient(50% 18% at 96% 44%, rgba(239, 143, 184, 0.2), transparent 70%),
+      radial-gradient(60% 16% at 70% 96%, rgba(242, 196, 109, 0.14), transparent 70%),
+      radial-gradient(120% 60% at 50% 22%, #1b2144, #05070d 85%);
+  }
+}
+/* Campo de estrellas: cinco puntos por baldosa de 250 × 230, repetida */
+.nebulosa::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.6;
+  background-image:
+    radial-gradient(1.6px 1.6px at 24px 36px, #fff 50%, transparent 52%),
+    radial-gradient(1.1px 1.1px at 90px 130px, rgba(255, 255, 255, 0.85) 50%, transparent 52%),
+    radial-gradient(1.3px 1.3px at 160px 70px, rgba(255, 255, 255, 0.75) 50%, transparent 52%),
+    radial-gradient(1px 1px at 210px 190px, rgba(255, 255, 255, 0.7) 50%, transparent 52%),
+    radial-gradient(1.4px 1.4px at 120px 10px, rgba(242, 196, 109, 0.9) 50%, transparent 52%);
+  background-size: 250px 230px;
+  animation: titilar 5s ease-in-out infinite alternate;
+}
+@keyframes titilar {
+  from { opacity: 0.35; }
+  to { opacity: 0.75; }
+}
+
+/* La órbita: ASTRO en el centro, las líneas alrededor. Las posiciones las
+   calcula Hero.tsx; aquí solo van tamaño, anillos y movimiento. */
+.orbita {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1;
+}
+.orbita-anillo {
+  position: absolute;
+  inset: 11%;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  animation: girar 70s linear infinite;
+}
+/* El anillo de dentro es el disco de acreción: violeta con un filo dorado */
+.orbita-anillo-2 {
+  inset: 27%;
+  border: 0;
+  background: conic-gradient(from 20deg, transparent 0 8%, rgba(242, 178, 79, 0.9) 18%, transparent 34%, rgba(115, 132, 242, 0.85) 58%, transparent 76%, rgba(239, 143, 184, 0.6) 88%, transparent);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 1.5px));
+  animation-duration: 40s;
+  animation-direction: reverse;
+}
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+.orbita-disco {
+  position: absolute;
+  inset: 20%;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side, #05070d 50%, transparent 52%),
+    radial-gradient(50% 50% at 50% 50%, transparent 46%, rgba(124, 92, 255, 0.55) 56%, rgba(242, 178, 79, 0.5) 64%, rgba(59, 79, 196, 0.25) 74%, transparent 84%);
+  box-shadow: 0 0 90px rgba(124, 92, 255, 0.28);
+  transform: rotate(-16deg) scaleY(0.92);
+}
+.orbita-item {
+  position: absolute;
+  width: 24%;
+  transform: translate(-50%, -50%);
+}
+.orbita-burbuja {
+  display: grid;
+  place-items: end center;
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 26%, color-mix(in srgb, var(--acento) 75%, #fff), color-mix(in srgb, var(--acento) 50%, #0a0e1b) 72%);
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--acento) 55%, transparent),
+    0 16px 40px color-mix(in srgb, var(--acento) 40%, transparent);
+  animation: burbuja 5s ease-in-out infinite;
+  transition: box-shadow 0.2s ease;
+}
+.orbita-burbuja img {
+  width: 92%;
+  height: 92%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.4));
+}
+@keyframes burbuja {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.orbita-etiqueta {
+  margin-top: 6px;
+  padding: 4px 9px;
+  border: 1px solid color-mix(in srgb, var(--acento) 50%, transparent);
+  border-radius: 999px;
+  background: rgba(10, 14, 27, 0.82);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #fff;
+}
+.orbita-link:hover .orbita-burbuja,
+.orbita-link:focus-visible .orbita-burbuja {
+  box-shadow:
+    0 0 0 4px var(--acento),
+    0 20px 50px color-mix(in srgb, var(--acento) 55%, transparent);
+}
+@media (max-width: 1023px) {
+  .orbita-item { width: 26%; }
+  .orbita-etiqueta { padding: 3px 7px; font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nebulosa::before,
+  .orbita-anillo,
+  .orbita-burbuja {
+    animation: none;
+  }
 }
 
 /* En tema claro el atrezo de las esquinas salta mucho más que sobre navy, y
@@ -734,7 +865,10 @@
 [data-perf="ligero"] .marquee,
 [data-perf="ligero"] .marquee-pista,
 [data-perf="ligero"] .flota,
-[data-perf="ligero"] .typing-dot {
+[data-perf="ligero"] .typing-dot,
+[data-perf="ligero"] .nebulosa::before,
+[data-perf="ligero"] .orbita-anillo,
+[data-perf="ligero"] .orbita-burbuja {
   animation: none !important;
 }
 [data-perf="ligero"] .glow-border::before,

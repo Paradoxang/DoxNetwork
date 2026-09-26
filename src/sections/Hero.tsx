@@ -1,114 +1,68 @@
-import { ArrowRight, ArrowUpRight, Code2, Gift, Headphones, PawPrint, Search, SprayCan, Watch } from "lucide-react";
-import { lazy, Suspense, useEffect, useRef, useState, type FormEvent } from "react";
+import { ArrowRight, MessageCircle, Search, SprayCan, Truck, Wallet } from "lucide-react";
+import { useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { Deco } from "@/components/Deco";
-import { glowHandlers } from "@/components/ui/glowing-effect";
-import { NumberTicker } from "@/components/ui/number-ticker";
+import { lineaMascotas } from "@/data/comedero";
 import { DOX_PATH } from "@/data/dox";
-import { relojes, tecnologia } from "@/data/lineas";
-import { matchesPara, perfumes, type ParaFilter } from "@/data/perfumeria";
+import { lineas } from "@/data/lineas";
 import { useAnimacion } from "@/lib/motion";
-import { alCambiarModo, modoActual } from "@/lib/perf";
 import { useUI } from "@/lib/ui";
 
-/* El agujero negro es lo más caro de la página: 900 líneas de WebGL y la
-   compilación de sus shaders. Sale del paquete principal y entra cuando el
-   navegador termina de hidratar, con el disco plano de CSS como relevo. */
-const BlackHoleHeroSection = lazy(() =>
-  import("@/components/ui/blackhole-hero-section").then((m) => ({ default: m.BlackHoleHeroSection }))
-);
-
-const cuantos = (para: ParaFilter) => perfumes.filter((p) => matchesPara(p, para)).length;
-
-/** Las puertas de la tienda: primero la perfumería, que es el foco, y luego el resto. */
-const nodes = [
+/**
+ * Las líneas alrededor de ASTRO, perfumería arriba y en el sentido del reloj.
+ * Vapes no va: la Ley 2354 no deja promocionarlos, y la apertura es la
+ * vitrina más visible de la tienda.
+ */
+const orbita: { name: string; to: string; acento: string; img: string; w: number; h: number; recorte?: CSSProperties }[] = [
+  { name: "Perfumería", to: lineas.perfumeria.path, acento: lineas.perfumeria.hue, img: "/astro/astro-chibi-perfume-sm.webp", w: 301, h: 360 },
+  { name: "Relojería", to: lineas.relojeria.path, acento: lineas.relojeria.hue, img: "/astro/astro-chibi-reloj-sm.webp", w: 366, h: 360 },
+  { name: "Tecnología", to: lineas.tecnologia.path, acento: lineas.tecnologia.hue, img: "/astro/astro-chibi-audifonos-sm.webp", w: 308, h: 360 },
   {
-    icon: SprayCan,
-    title: "Perfumería",
-    n: perfumes.length,
-    text: "fragancias 1.1 y AAA",
-    to: "/perfumeria",
+    name: "Mascotas",
+    to: lineaMascotas.path,
+    acento: lineaMascotas.hue,
+    img: "/inicio/burbuja-comedero.webp",
+    w: 360,
+    h: 228,
+    // Es ancho: sin esto los extremos se salen del círculo
+    recorte: { width: "84%", height: "84%", objectPosition: "center 70%" },
   },
-  {
-    icon: Gift,
-    title: "Sets y kits",
-    n: cuantos("sets"),
-    text: "para regalar",
-    to: "/perfumeria?para=sets",
-  },
-  {
-    icon: Watch,
-    title: "Relojería",
-    n: relojes.length,
-    text: "originales y réplicas",
-    to: "/relojeria",
-  },
-  {
-    icon: Headphones,
-    title: "Tecnología",
-    n: tecnologia.length,
-    text: "gadgets y accesorios",
-    to: "/tecnologia",
-  },
-  {
-    icon: PawPrint,
-    title: "Mascotas",
-    text: "Comedero, pagas al recibir",
-    to: "/comedero",
-    isNew: true,
-  },
-  {
-    icon: Code2,
-    title: "Páginas web",
-    text: "A la medida, con Dox Designs",
-    to: DOX_PATH,
-  },
+  { name: "Páginas web", to: DOX_PATH, acento: "#9aa9ff", img: "/astro/astro-laptop-sm.webp", w: 241, h: 360 },
 ];
 
-/** Estrecho = el agujero negro va debajo del texto y no detrás. */
-function useNarrow(query = "(max-width: 767px)") {
-  const [narrow, setNarrow] = useState(false);
-  useEffect(() => {
-    const m = window.matchMedia(query);
-    const sync = () => setNarrow(m.matches);
-    sync();
-    m.addEventListener("change", sync);
-    return () => m.removeEventListener("change", sync);
-  }, [query]);
-  return narrow;
-}
+/** Radio de la órbita, en % del lado. Las posiciones salen aquí y no con cos() en CSS: así se ven igual en el prerender. */
+const RADIO = 37.5;
+const posicion = (i: number, n: number): CSSProperties => {
+  const a = ((360 / n) * i - 90) * (Math.PI / 180);
+  return { left: `${(50 + RADIO * Math.cos(a)).toFixed(2)}%`, top: `${(50 + RADIO * Math.sin(a)).toFixed(2)}%` };
+};
+
+const datos = [
+  { icon: Truck, color: "text-mint", text: "Envío gratis a toda Colombia" },
+  { icon: Wallet, color: "text-neb", text: "Nequi o Llave Bre-B" },
+  { icon: MessageCircle, color: "text-gold", text: "Te atiende una persona" },
+];
 
 /**
- * Hero de la red. El fondo es un agujero negro renderizado en WebGL
- * (components/ui/blackhole-hero-section): la "red" que atrae todo lo que
- * vendemos, con el disco en el dorado y el azul nebulosa del isotipo.
+ * Apertura del inicio (v2, 25-sep-2026: docs/ENCARGO-ASTRO-inicio-v2.md).
+ *
+ * El fondo es una nebulosa pintada con degradados (`.nebulosa` en index.css):
+ * nítida a cualquier tamaño y sin descarga. Antes era un WebGL en escritorio y
+ * una foto de 760 px en el celular, que se pixelaba.
+ *
+ * La órbita reúne las líneas alrededor de ASTRO, con el agujero negro de la
+ * marca de fondo, también en CSS. En el celular y la tableta va arriba, antes
+ * del titular; en escritorio, a la derecha.
  *
  * El hero es espacio en los dos temas: va con data-theme="dark" para que los
  * tokens de color de su contenido sean siempre los oscuros, y el Nav hace lo
  * mismo mientras está encima. Abajo se funde con el fondo del tema activo.
- *
- * Escritorio: el agujero a la derecha, velo a la izquierda bajo el texto.
- * Móvil: el texto arriba y el agujero en su propio bloque debajo, con menos
- * pasos por rayo porque el teléfono paga cada uno.
  */
 export function Hero() {
   const scope = useRef<HTMLElement>(null);
   const [q, setQ] = useState("");
   const { openSearch } = useUI();
-  const narrow = useNarrow();
-  const [ligero, setLigero] = useState(modoActual() === "ligero");
-  const [listoParaShader, setListoParaShader] = useState(false);
-  useEffect(() => alCambiarModo((m) => setLigero(m === "ligero")), []);
-  /* En móvil no se monta el shader: compilarlo cuesta más de un segundo de
-     hilo principal en un teléfono de gama media y, a 380 px, el agujero negro
-     se lee igual pintado con degradados. */
-  // Tras hidratar: el shader espera a que el hilo principal respire
-  useEffect(() => {
-    const idle = window.requestIdleCallback ?? ((fn: () => void) => window.setTimeout(fn, 900));
-    const id = idle(() => setListoParaShader(true));
-    return () => (window.cancelIdleCallback ?? window.clearTimeout)(id as number);
-  }, []);
 
   const onSearch = (e: FormEvent) => {
     e.preventDefault();
@@ -117,9 +71,8 @@ export function Hero() {
 
   /* Coreografía de entrada con GSAP:
      1. el titular sube palabra a palabra (SplitText con máscara por palabra),
-     2. el texto y el buscador llegan escalonados,
-     3. los nodos de la red se encienden uno a uno,
-     4. ASTRO flota hacia el frente del agujero y aparece su globo.
+     2. el texto, el buscador y los botones llegan escalonados,
+     3. ASTRO aparece en el centro y las líneas brotan a su alrededor.
      Con movimiento reducido no se anima nada: el CSS ya lo deja visible. */
   useAnimacion(
     ({ gsap, SplitText }) => {
@@ -137,11 +90,10 @@ export function Hero() {
         gsap.set(el.querySelectorAll("[data-intro]"), { autoAlpha: 1 });
         const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
         tl.from(split.words, { yPercent: 110, duration: 1, stagger: 0.06 })
-          .from(el.querySelectorAll("[data-hero-in]"), { y: 18, autoAlpha: 0, duration: 0.8, stagger: 0.08 }, "-=0.7")
-          .from(el.querySelectorAll("[data-node]"), { y: 24, autoAlpha: 0, scale: 0.96, duration: 0.7, stagger: 0.09 }, "-=0.5");
+          .from(el.querySelectorAll("[data-hero-in]"), { y: 18, autoAlpha: 0, duration: 0.8, stagger: 0.08 }, "-=0.7");
 
-        gsap.from(el.querySelector("[data-hero-astro]"), { y: 70, x: -30, rotate: -14, autoAlpha: 0, duration: 1.6, delay: 0.9, ease: "power3.out" });
-        gsap.from(el.querySelector("[data-hero-bubble]"), { scale: 0, autoAlpha: 0, duration: 0.6, delay: 2, ease: "back.out(2)" });
+        gsap.from(el.querySelector("[data-hero-astro]"), { y: 40, scale: 0.9, autoAlpha: 0, duration: 1.2, delay: 0.2, ease: "power3.out" });
+        gsap.from(el.querySelectorAll("[data-orbita-in]"), { scale: 0.4, autoAlpha: 0, duration: 0.7, stagger: 0.09, delay: 0.45, ease: "back.out(1.8)" });
         return () => split.revert();
       });
     },
@@ -150,23 +102,48 @@ export function Hero() {
 
   return (
     <section ref={scope} className="relative isolate overflow-hidden">
-      <div data-theme="dark" className="relative flex flex-col bg-[#05070d]">
+      <div data-theme="dark" className="nebulosa relative">
         <Deco name="polvo" className="-bottom-10 left-0 z-[1] w-[70%] max-w-[900px]" opacity={0.35} pesado />
-        {/* ── Texto ── */}
-        <div data-intro className="relative z-10 mx-auto w-full max-w-[1200px] px-4 pt-[132px] md:flex md:min-h-[min(100svh,880px)] md:items-center md:px-6 md:pb-24 md:pt-[150px]">
-          <div className="max-w-[600px]">
+
+        <div
+          data-intro
+          className="relative z-10 mx-auto grid max-w-[1200px] items-center gap-6 px-4 pb-16 pt-[118px] md:px-6 md:pt-[140px] lg:min-h-[min(100svh,880px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,500px)] lg:gap-12 lg:pb-24 lg:pt-[150px]"
+        >
+          {/* ── Órbita ── arriba en el celular, a la derecha en escritorio */}
+          <nav aria-label="Líneas de la tienda" className="mx-auto w-[min(100%,330px)] md:w-[420px] lg:order-2 lg:w-full">
+            <ul className="orbita">
+              <li aria-hidden="true" className="orbita-disco" />
+              <li aria-hidden="true" className="orbita-anillo" />
+              <li aria-hidden="true" className="orbita-anillo orbita-anillo-2" />
+              <li aria-hidden="true" data-hero-astro className="absolute left-1/2 top-1/2 w-[25%] -translate-x-1/2 -translate-y-[44%]">
+                <Astro pose="saludo" small eager enter={false} decorative className="w-full" />
+              </li>
+              {orbita.map((o, i) => (
+                <li key={o.name} className="orbita-item" style={{ ...posicion(i, orbita.length), ["--acento" as string]: o.acento }}>
+                  <Link data-orbita-in to={o.to} className="orbita-link flex flex-col items-center">
+                    <span className="orbita-burbuja" style={{ animationDelay: `${-i}s` }}>
+                      <img src={o.img} alt="" width={o.w} height={o.h} loading="eager" decoding="async" draggable={false} style={o.recorte} />
+                    </span>
+                    <span className="orbita-etiqueta">{o.name}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* ── Texto ── */}
+          <div className="mx-auto w-full max-w-[600px] lg:order-1 lg:mx-0">
             <p className="kicker" data-hero-in>
               Dox Network · Perfumería y más
             </p>
-            <h1 data-hero-title className="display mt-5 text-[clamp(40px,6.2vw,74px)] leading-[1] text-white">
+            <h1 data-hero-title className="display mt-4 text-[clamp(38px,6.2vw,74px)] leading-[1] text-white lg:mt-5">
               Tu fragancia favorita, en una sola red.
             </h1>
-            <p data-hero-in className="mt-6 max-w-xl text-[17px] leading-relaxed text-mute md:text-lg">
-              Perfumes 1.1 y AAA para ella, para él y unisex, además de relojería y tecnología. Envío gratis a toda Colombia, pagas
-              por Nequi o Llave Bre-B y te atiende una persona por WhatsApp.
+            <p data-hero-in className="mt-5 max-w-xl text-[17px] leading-relaxed text-mute md:text-lg lg:mt-6">
+              Perfumes 1.1 y AAA para ella, para él y unisex, además de relojería y tecnología.
             </p>
 
-            <form data-hero-in onSubmit={onSearch} role="search" className="mt-8 flex max-w-xl gap-2">
+            <form data-hero-in onSubmit={onSearch} role="search" className="mt-7 flex max-w-xl gap-2">
               <label htmlFor="hero-q" className="sr-only">
                 Buscar en la tienda
               </label>
@@ -183,115 +160,32 @@ export function Hero() {
                   autoComplete="off"
                 />
               </div>
-                <button type="submit" className="btn btn-primary shrink-0">
-                  Buscar
-                </button>
+              <button type="submit" className="btn btn-ghost shrink-0 bg-white/[0.04]">
+                Buscar
+              </button>
             </form>
 
-            {/* Los nodos de la red: una puerta por línea de negocio */}
-            <ul className="mt-8 grid max-w-xl grid-cols-2 gap-2.5 sm:grid-cols-3" aria-label="Explora la red">
-              {nodes.map((n) => (
-                <li key={n.title} data-node>
-                  <Link
-                    to={n.to}
-                    {...glowHandlers}
-                    className="glow-border group relative flex h-full flex-col items-start gap-2 rounded-2xl border border-white/10 bg-white/[0.04] p-3 backdrop-blur-md transition-[border-color,background-color] duration-300 hover:border-white/25 hover:bg-white/[0.08] sm:p-3.5"
-                  >
-                    <span
-                      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-colors ${
-                        n.isNew ? "bg-gold-soft text-gold group-hover:bg-gold group-hover:text-gold-ink" : "bg-neb-soft text-neb group-hover:bg-neb group-hover:text-neb-ink"
-                      }`}
-                    >
-                      <n.icon className="h-[18px] w-[18px]" strokeWidth={1.9} />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="flex items-center gap-1.5 text-[14px] font-bold leading-tight text-white sm:text-[15px]">
-                        {n.title}
-                        {n.isNew && <span className="h-1.5 w-1.5 rounded-full bg-gold" aria-label="Nuevo" />}
-                      </span>
-                      <span className="mt-0.5 block text-[12.5px] leading-snug text-mute">
-                        {n.n !== undefined && <NumberTicker value={n.n} className="text-ink" />} {n.text}
-                      </span>
-                    </span>
-                    <ArrowUpRight className="absolute right-2.5 top-2.5 h-3.5 w-3.5 text-faint opacity-0 transition-opacity group-hover:opacity-100" />
-                  </Link>
+            {/* La línea foco va de botón; lo demás está en la órbita */}
+            <div data-hero-in className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3">
+              <Link to={lineas.perfumeria.path} className="btn btn-primary">
+                <SprayCan className="h-[18px] w-[18px]" aria-hidden="true" /> Ver perfumería
+              </Link>
+              <Link to="/catalogo" className="inline-flex min-h-[44px] items-center gap-1.5 text-sm font-semibold text-neb hover:underline">
+                Toda la tienda <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+            </div>
+
+            <ul data-hero-in className="mt-6 flex flex-wrap gap-2" aria-label="Así compras">
+              {datos.map((d) => (
+                <li
+                  key={d.text}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 text-[13px] text-mute backdrop-blur-md"
+                >
+                  <d.icon className={`h-4 w-4 ${d.color}`} aria-hidden="true" strokeWidth={2} />
+                  {d.text}
                 </li>
               ))}
             </ul>
-
-            <Link data-hero-in to="/catalogo" className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-neb hover:underline md:hidden">
-              Ver toda la tienda <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-
-        {/* ── Agujero negro ── En móvil es un bloque bajo el texto; desde md cubre todo el hero. */}
-        <div className="relative -mt-6 h-[380px] md:absolute md:inset-0 md:mt-0 md:h-auto">
-          {ligero || narrow || !listoParaShader ? (
-            /* Sin WebGL. En móvil y mientras el shader carga se usa una foto
-               del propio shader (11 KB, cero hilo principal); en modo ligero,
-               los degradados, que no descargan nada. */
-            <div aria-hidden="true" className="absolute inset-0 overflow-hidden bg-[#05070d]">
-              {ligero ? (
-                <div className="hole-plano absolute right-[6%] top-1/2 aspect-[1/0.62] w-[86%] -translate-y-1/2 md:right-[12%] md:w-[58%]" />
-              ) : (
-                <img
-                  src="/hero/agujero-negro.webp"
-                  alt=""
-                  width={760}
-                  height={760}
-                  {...{ fetchpriority: "high" }}
-                  className="absolute inset-0 h-full w-full object-cover object-[70%_center] md:object-[78%_center]"
-                />
-              )}
-            </div>
-          ) : (
-          <Suspense
-            fallback={
-              <div aria-hidden="true" className="absolute inset-0 overflow-hidden bg-[#05070d]">
-                <div className="hole-plano absolute right-[6%] top-1/2 aspect-[1/0.62] w-[86%] -translate-y-1/2 md:right-[12%] md:w-[58%]" />
-              </div>
-            }
-          >
-          <BlackHoleHeroSection
-            aria-hidden="true"
-            focus={narrow ? [0.62, 0.4] : [0.74, 0.46]}
-            scrim={narrow ? "none" : "left"}
-            scrimStrength={0.85}
-            distance={24}
-            elevation={narrow ? -7 : -5.5}
-            roll={-20}
-            fov={narrow ? 50 : 42}
-            glow={narrow ? 0.85 : 1}
-            steps={narrow ? 180 : 300}
-            resolution={narrow ? 0.6 : 0.7}
-            hotColor="#FFF6E0"
-            midColor="#F2B24F"
-            coolColor="#3B4FC4"
-            doppler={0.4}
-            starBrightness={0.35}
-            className="bg-[#05070d]"
-          />
-          </Suspense>
-          )}
-          {/* Móvil: el bloque se funde con el texto de arriba */}
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#05070d] to-transparent md:hidden" />
-
-          {/* ASTRO flota frente al disco; su globo (anclado a él) abre el buscador */}
-          <div
-            data-hero-astro
-            className="absolute bottom-[4%] left-[4%] z-10 h-[56%] md:bottom-[7%] md:left-[60%] md:h-[32%] lg:left-[59%] lg:h-[36%]"
-          >
-            <Astro pose="saludo" eager enter={false} decorative className="h-full" />
-            <button
-              type="button"
-              data-hero-bubble
-              onClick={() => openSearch()}
-              className="absolute left-[74%] top-[40%] z-20 w-max max-w-[170px] origin-bottom-left md:left-[78%] md:top-[22%] md:max-w-[180px] rounded-2xl rounded-bl-sm border border-white/15 bg-[#0f1424]/85 px-3.5 py-2.5 text-left shadow-[0_18px_44px_rgba(3,6,15,0.5)] backdrop-blur-md transition-colors hover:border-neb"
-            >
-              <span className="block text-[13px] font-extrabold text-white sm:text-sm">¡Hola! Soy ASTRO</span>
-              <span className="mt-0.5 block text-xs text-mute sm:text-[13px]">¿Qué fragancia buscas hoy?</span>
-            </button>
           </div>
         </div>
       </div>

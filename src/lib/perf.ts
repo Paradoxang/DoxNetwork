@@ -2,7 +2,7 @@
  * Modo ligero: la misma tienda, sin lo que cuesta pintar.
  *
  * Esto es un ecommerce y buena parte del tráfico llega por WhatsApp desde
- * gamas medias y bajas. La página tiene un shader WebGL en el hero, capas con
+ * gamas medias y bajas. La página tiene animaciones continuas en el hero, capas con
  * `mix-blend-mode`, desenfoques, grano a pantalla completa y scroll suavizado:
  * en un equipo bueno se mueve solo, en uno flojo se arrastra justo cuando la
  * persona está decidiendo comprar. Por eso hay dos modos.
@@ -20,7 +20,7 @@
  *
  * El resultado vive en `document.documentElement.dataset.perf`, así el CSS
  * apaga lo caro sin que ningún componente tenga que enterarse, y en un evento
- * para los que sí necesitan saberlo (el hero, el scroll suavizado, el tilt).
+ * para los que sí necesitan saberlo (el scroll suavizado, el tilt).
  */
 export type Modo = "completo" | "ligero";
 
