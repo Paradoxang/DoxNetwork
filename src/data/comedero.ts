@@ -100,10 +100,22 @@ export const landing = {
       },
     ] as { src: string; alt: string; color?: Color; rotulo: string }[],
     packsTitulo: "¿Cuántos quieres?",
+    /* `descuento` en pesos, SOLO si existe en Shopify el descuento automático
+       igual, o la página mostraría un precio que el pago no cobra. El de 2 es
+       «Comedero · el segundo con 30 % de descuento»
+       (DiscountAutomaticNode/1508755931170): 30 % de $89.900, una vez por
+       pedido, sin código, también con /cart/<variante>:2. Orden de Santiago,
+       25-sep-2026, 20:00. Sin tachado ni «antes»: el precio es el total. */
     packs: [
-      { cantidad: 1, titulo: "1 comedero", detalle: "Para una mascota" },
-      { cantidad: 2, titulo: "2 comederos", detalle: "Uno para cada mascota, del mismo color" },
-    ],
+      { cantidad: 1, titulo: "1 comedero", detalle: "Para una mascota", descuento: 0 },
+      {
+        cantidad: 2,
+        titulo: "2 comederos",
+        detalle: "Uno para cada mascota, del mismo color",
+        insignia: "El segundo con 30 % menos",
+        descuento: 26970,
+      },
+    ] as { cantidad: number; titulo: string; detalle: string; insignia?: string; descuento: number }[],
     boton: "Comprar · pagas al recibir",
     pagos: ["Contra entrega", "Nequi", "Llave Bre-B"],
     entrega: {
@@ -332,6 +344,9 @@ export const mensajeAviso = (color?: Color) =>
  * comederos» es `/cart/<variante>:2`, a precio de lista). Los UTM, fbclid y
  * gclid de la visita viajan con él para que la venta se atribuya a la campaña.
  */
+/** Lo que resta Shopify al llevar 2 comederos (el segundo con 30 % menos), una vez por pedido. La cesta lo muestra igual. */
+export const descuentoSegundoComedero = landing.oferta.packs.find((p) => p.cantidad === 2)?.descuento ?? 0;
+
 export function enlaceCheckout(variante: string, search = "", cantidad = 1): string {
   const base = `https://${comedero.tienda}/cart/${variante}:${cantidad}`;
   if (!search) return base;

@@ -11,7 +11,7 @@ import {
 import { planLabel, productBySlug, type Plan, type Product } from "@/data/catalog";
 import { isPhysical, isRestricted } from "@/data/lineas";
 import { formatCOP, site, waLink } from "@/data/site";
-import { productoComedero } from "@/data/comedero";
+import { descuentoSegundoComedero, productoComedero } from "@/data/comedero";
 import { enlaceCarritoShopify } from "@/lib/shopify";
 
 export interface CartLine {
@@ -24,6 +24,8 @@ export interface ResolvedLine extends CartLine {
   product: Product;
   plan: Plan;
   total: number;
+  /** Lo que ya se restó de `total` (hoy, solo el segundo comedero con 30 % menos). */
+  ahorro?: number;
 }
 
 /* Sin descuento por combinar desde el 24-sep-2026 (orden de Santiago): el
@@ -61,12 +63,21 @@ const CartCtx = createContext<CartState | null>(null);
 
 function resolve(lines: CartLine[]): ResolvedLine[] {
   const out: ResolvedLine[] = [];
+  let segundoAplicado = false;
   for (const l of lines) {
     // El comedero no está en el catálogo: vive en Shopify y llega a la cesta desde su landing.
     const product = productBySlug(l.slug) ?? (l.slug === productoComedero.slug ? productoComedero : undefined);
     const plan = product?.plans.find((p) => p.id === l.planId);
     // Productos o planes que ya no existen en el catálogo se descartan en silencio.
     if (!product || !plan) continue;
+    /* El segundo comedero con 30 % menos: el descuento automático de Shopify,
+       una vez por pedido. Se muestra solo en una línea de 2 o más del mismo
+       color, que es el caso que el checkout cobra seguro (/cart/<variante>:2). */
+    if (product === productoComedero && l.qty >= 2 && !segundoAplicado && descuentoSegundoComedero > 0) {
+      segundoAplicado = true;
+      out.push({ ...l, product, plan, total: plan.price * l.qty - descuentoSegundoComedero, ahorro: descuentoSegundoComedero });
+      continue;
+    }
     out.push({ ...l, product, plan, total: plan.price * l.qty });
   }
   return out;
@@ -75,7 +86,7 @@ function resolve(lines: CartLine[]): ResolvedLine[] {
 export function buildOrderMessage(lines: ResolvedLine[], total: number) {
   const rows = lines.map((l) => {
     const price = l.plan.price === 0 ? "a cotizar" : formatCOP(l.total);
-    return `• ${l.product.name} (${planLabel(l.plan)}) x${l.qty}: ${price}`;
+    return `• ${l.product.name} (${planLabel(l.plan)}) x${l.qty}: ${price}${l.ahorro ? " (el segundo con 30 % menos)" : ""}`;
   });
   const out = [`Hola ${site.name}, quiero hacer este pedido:`, "", ...rows, ""];
   out.push(`Total: ${formatCOP(total)}`);

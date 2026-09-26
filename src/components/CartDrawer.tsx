@@ -157,6 +157,7 @@ export function CartDrawer() {
                             </div>
                             <span className={l.plan.price === 0 ? "font-bold" : "num font-semibold"}>{l.plan.price === 0 ? "A cotizar" : formatCOP(l.total)}</span>
                           </div>
+                          {l.ahorro ? <p className="mt-1.5 text-right text-xs font-semibold text-mint">El segundo con 30 % menos · te ahorras {formatCOP(l.ahorro)}</p> : null}
                         </div>
                       </motion.li>
                     ))}

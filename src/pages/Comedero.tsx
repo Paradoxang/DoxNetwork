@@ -34,7 +34,9 @@ import "@/styles/comedero-landing.css";
  */
 
 const O = landing.oferta;
-const evento = () => ({ content_name: comedero.nombre, value: comedero.precio, currency: "COP" });
+const evento = (valor = comedero.precio, unidades = 1) => ({ content_name: comedero.nombre, value: valor, num_items: unidades, currency: "COP" });
+/** Lo que cobra el checkout por un paquete: el descuento automático de Shopify ya restado. */
+const precioPack = (p: (typeof O.packs)[number]) => comedero.precio * p.cantidad - p.descuento;
 const px = (top: number, bottom: number): CSSProperties => ({ paddingTop: top, paddingBottom: bottom });
 
 const Check = () => (
@@ -101,7 +103,8 @@ export function Comedero() {
   }, []);
 
   const variante = colores.find((c) => c.nombre === color)!.variante;
-  const total = comedero.precio * cantidad;
+  const pack = O.packs.find((p) => p.cantidad === cantidad) ?? O.packs[0];
+  const total = precioPack(pack);
   const checkout = enlaceCheckout(variante, search, cantidad);
   const resenas = porProducto[productoComedero.slug] ?? [];
   const promedio = resenas.length ? resenas.reduce((n, r) => n + r.estrellas, 0) / resenas.length : 0;
@@ -255,10 +258,10 @@ export function Comedero() {
     else h?.removeAttribute("open");
   };
 
-  const alCheckout = () => pixel("InitiateCheckout", evento());
+  const alCheckout = () => pixel("InitiateCheckout", evento(total, cantidad));
   const alaCesta = () => {
     cart.add(productoComedero.slug, color.toLowerCase(), cantidad);
-    pixel("AddToCart", evento());
+    pixel("AddToCart", evento(total, cantidad));
     cart.setOpen(true);
   };
 
@@ -450,11 +453,15 @@ export function Comedero() {
                     <label key={p.cantidad} className="dn-pack">
                       <input type="radio" name="dn-pack" value={p.cantidad} checked={cantidad === p.cantidad} onChange={() => setCantidad(p.cantidad)} />
                       <span className="dn-pack__caja">
+                        {p.insignia && <em className="dn-pack__insignia">{p.insignia}</em>}
                         <span className="dn-pack__texto">
                           <b>{p.titulo}</b>
-                          <small>{p.detalle}</small>
+                          <small>
+                            {p.detalle}
+                            {p.descuento > 0 && ` · te ahorras ${formatCOP(p.descuento)}`}
+                          </small>
                         </span>
-                        <span className="dn-pack__precio">{formatCOP(comedero.precio * p.cantidad)}</span>
+                        <span className="dn-pack__precio">{formatCOP(precioPack(p))}</span>
                       </span>
                     </label>
                   ))}
