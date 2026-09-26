@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { MetaPixel, pixel } from "@/components/MetaPixel";
+import { pixel } from "@/components/MetaPixel";
 import { ResenasProducto } from "@/components/ResenasProducto";
 import { Seo } from "@/components/Seo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -336,7 +336,6 @@ export function Comedero() {
         image={imagenes.og}
         jsonLd={jsonLd}
       />
-      <MetaPixel />
 
       <div ref={raiz} className="dn-landing" data-theme="dark">
         {/* ── 1 · Oferta ── */}

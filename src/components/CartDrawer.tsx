@@ -8,7 +8,9 @@ import { useCart } from "@/lib/cart";
 import { EASE, lockScroll } from "@/lib/anim";
 import { Astro } from "@/components/Astro";
 import { ProductArt } from "@/components/ProductArt";
-import { isPhysical } from "@/data/lineas";
+import { isPhysical, isRestricted } from "@/data/lineas";
+import { pixel } from "@/components/MetaPixel";
+import { varianteShopify } from "@/lib/shopify";
 import { productoComedero } from "@/data/comedero";
 import { shipping } from "@/data/perfumeria";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -55,6 +57,18 @@ export function CartDrawer() {
   // En Shopify el contra entrega es solo del comedero: si entra cualquier
   // producto del catálogo, Payfy lo quita y quedan Nequi y Llave Bre-B.
   const alRecibir = cart.lines.length > 0 && cart.lines.every((l) => l.slug === productoComedero.slug);
+  /* Meta recibe el inicio de pago con lo que hay en la cesta, menos los vapes (Ley 2354). */
+  const alPagar = () => {
+    const lineas = cart.lines.filter((l) => !isRestricted(l.product));
+    if (!lineas.length) return;
+    pixel("InitiateCheckout", {
+      content_ids: lineas.map((l) => varianteShopify(l.slug, l.planId) ?? l.slug),
+      content_type: "product",
+      value: lineas.reduce((a, l) => a + l.total, 0),
+      num_items: lineas.reduce((a, l) => a + l.qty, 0),
+      currency: "COP",
+    });
+  };
 
   return (
     <AnimatePresence>
@@ -188,7 +202,7 @@ export function CartDrawer() {
                   {/* Toda la cesta física y cargada en Shopify → su checkout (Nequi o Llave Bre-B;
                       contra entrega solo si es únicamente el comedero).
                       Cualquier agotado o sin mapa → WhatsApp, como siempre. */}
-                  <a href={cart.checkoutUrl} target="_blank" rel="noopener noreferrer" className="btn btn-buy w-full">
+                  <a href={cart.checkoutUrl} target="_blank" rel="noopener noreferrer" onClick={alPagar} className="btn btn-buy w-full">
                     {cart.checkoutVia === "shopify" ? (
                       <>
                         <ShoppingBag className="h-5 w-5" aria-hidden="true" />

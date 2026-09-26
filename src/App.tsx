@@ -4,6 +4,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import type { RouteRecord } from "vite-react-ssg";
 import { CartDrawer } from "@/components/CartDrawer";
 import { Footer } from "@/components/Footer";
+import { MetaPixel } from "@/components/MetaPixel";
 import { MobileCartBar } from "@/components/MobileCartBar";
 import { Nav } from "@/components/Nav";
 import { PromoPeek } from "@/components/PromoPeek";
@@ -105,6 +106,8 @@ function Shell() {
       />
       <div aria-hidden="true" className="ambient pointer-events-none fixed inset-0 z-0" />
 
+      {/* Píxel de Meta en todas las páginas: PageView en cada cambio de ruta */}
+      <MetaPixel />
       <Nav />
 
       <motion.main

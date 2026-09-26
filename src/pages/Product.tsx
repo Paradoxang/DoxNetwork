@@ -19,6 +19,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { AgeGate } from "@/components/AgeGate";
+import { pixel } from "@/components/MetaPixel";
 import { ProductArt } from "@/components/ProductArt";
 import { FavoriteButton, ProductBadge, ProductCard, StockHint } from "@/components/ProductCard";
 import { Seo } from "@/components/Seo";
@@ -32,7 +33,7 @@ import { formatCOP, site, waLink } from "@/data/site";
 import { ENTREGA, fechaEntrega } from "@/lib/entrega";
 import { Reveal } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
-import { enlaceCarritoShopify } from "@/lib/shopify";
+import { enlaceCarritoShopify, varianteShopify } from "@/lib/shopify";
 import { NotFound } from "@/pages/NotFound";
 
 /**
@@ -95,6 +96,16 @@ function relacionadosDe(p: Producto) {
   return [];
 }
 
+/** Datos de un evento del píxel para esta ficha: el id es el de la variante en Shopify, o el slug si no está cargada allí. */
+const eventoProducto = (p: Producto, plan: Producto["plans"][number]) => ({
+  content_ids: [varianteShopify(p.slug, plan.id) ?? p.slug],
+  content_type: "product",
+  content_name: p.name,
+  value: plan.price,
+  num_items: 1,
+  currency: "COP",
+});
+
 export function Product() {
   const { slug = "" } = useParams();
   const product = productBySlug(slug);
@@ -106,9 +117,11 @@ export function Product() {
   const [barra, setBarra] = useState(false);
   const [entrega, setEntrega] = useState<[string, string] | null>(null);
 
-  // Al saltar a otro producto (relacionados) se vuelve a su primer plan
+  // Al saltar a otro producto (relacionados) se vuelve a su primer plan, y Meta recibe el ViewContent
   useEffect(() => {
-    if (product) setPlanId(product.plans[0].id);
+    if (!product) return;
+    setPlanId(product.plans[0].id);
+    pixel("ViewContent", eventoProducto(product, product.plans[0]));
   }, [slug]); // eslint-disable-line react-hooks/exhaustive-deps
 
   /* Entrega estimada: solo en el navegador (la fecha del build no es la de quien compra). */
@@ -155,6 +168,7 @@ export function Product() {
   const avisame = waLink(`Hola ${site.name}, ¿cuándo vuelve ${product.name}?\n${url}`);
   const alCarrito = () => {
     add(product.slug, plan.id);
+    pixel("AddToCart", eventoProducto(product, plan));
     hoja.current?.close?.();
     setOpen(true);
   };
@@ -189,7 +203,12 @@ export function Product() {
   /** El botón de compra; en los agotados, «Avísame cuando vuelva». */
   const comprar = (principal = false) =>
     available ? (
-      <a ref={principal ? setBoton : undefined} href={checkout ?? porWhatsApp} className="btn btn-primary min-h-[52px] flex-1 justify-center text-base">
+      <a
+        ref={principal ? setBoton : undefined}
+        href={checkout ?? porWhatsApp}
+        onClick={() => pixel("InitiateCheckout", eventoProducto(product, plan))}
+        className="btn btn-primary min-h-[52px] flex-1 justify-center text-base"
+      >
         Comprar
       </a>
     ) : (
