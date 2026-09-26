@@ -63,6 +63,7 @@ const CartCtx = createContext<CartState | null>(null);
 
 function resolve(lines: CartLine[]): ResolvedLine[] {
   const out: ResolvedLine[] = [];
+  let comederos = 0;
   let segundoAplicado = false;
   for (const l of lines) {
     // El comedero no está en el catálogo: vive en Shopify y llega a la cesta desde su landing.
@@ -71,9 +72,11 @@ function resolve(lines: CartLine[]): ResolvedLine[] {
     // Productos o planes que ya no existen en el catálogo se descartan en silencio.
     if (!product || !plan) continue;
     /* El segundo comedero con 30 % menos: el descuento automático de Shopify,
-       una vez por pedido. Se muestra solo en una línea de 2 o más del mismo
-       color, que es el caso que el checkout cobra seguro (/cart/<variante>:2). */
-    if (product === productoComedero && l.qty >= 2 && !segundoAplicado && descuentoSegundoComedero > 0) {
+       una vez por pedido y por producto, en cualquier combinación de colores
+       (Mercurio lo probó con cart.js: 1 gris + 1 azul = $152.830). Se resta
+       en la línea donde la cesta llega al segundo comedero. */
+    if (product === productoComedero) comederos += l.qty;
+    if (product === productoComedero && comederos >= 2 && !segundoAplicado && descuentoSegundoComedero > 0) {
       segundoAplicado = true;
       out.push({ ...l, product, plan, total: plan.price * l.qty - descuentoSegundoComedero, ahorro: descuentoSegundoComedero });
       continue;
