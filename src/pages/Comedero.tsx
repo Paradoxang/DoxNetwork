@@ -77,6 +77,8 @@ export function Comedero() {
   const cart = useCart();
   const raiz = useRef<HTMLDivElement>(null);
   const pista = useRef<HTMLDivElement>(null);
+  const minis = useRef<HTMLDivElement>(null);
+  const deslizando = useRef<number>();
   const boton = useRef<HTMLAnchorElement>(null);
   const hoja = useRef<HTMLDialogElement>(null);
 
@@ -104,16 +106,29 @@ export function Comedero() {
   const resenas = porProducto[productoComedero.slug] ?? [];
   const promedio = resenas.length ? resenas.reduce((n, r) => n + r.estrellas, 0) / resenas.length : 0;
 
-  /* Galería: puntos que siguen al deslizamiento; ir(i) salta a una foto. */
+  /* Galería, como initCarrusel de dn-landing.js: flechas que dan la vuelta,
+     contador, miniaturas y teclado; el deslizamiento marca la foto actual. */
+  const suave = (): ScrollBehavior => (matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth");
   const ir = (i: number) => {
+    const n = O.fotos.length;
+    i = (i + n) % n;
     const p = pista.current;
     const f = p?.children[i] as HTMLElement | undefined;
-    if (p && f) p.scrollTo({ left: f.offsetLeft - p.offsetLeft, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    if (p && f) p.scrollTo({ left: f.offsetLeft - p.offsetLeft, behavior: suave() });
+    setFoto(i);
   };
   const alDeslizar = () => {
     const p = pista.current;
-    if (p) setFoto(Math.round(p.scrollLeft / Math.max(1, p.clientWidth)));
+    if (!p) return;
+    window.clearTimeout(deslizando.current);
+    deslizando.current = window.setTimeout(() => setFoto(Math.round(p.scrollLeft / Math.max(1, p.clientWidth))), 80);
   };
+  /* La fila de miniaturas se desplaza sola para mostrar la activa. */
+  useEffect(() => {
+    const fila = minis.current;
+    const m = fila?.children[foto] as HTMLElement | undefined;
+    if (fila && m) fila.scrollTo({ left: m.offsetLeft - fila.clientWidth / 2 + m.clientWidth / 2, behavior: suave() });
+  }, [foto]);
   /* Al elegir un color, la galería salta a su foto. */
   const elegirColor = (c: Color) => {
     setColor(c);
@@ -325,7 +340,23 @@ export function Comedero() {
         <section className="dn-section dn-oferta" id="comprar" style={{ ...px(124, 40), "--dn-acento": "#9aa9ff" } as CSSProperties}>
           <div className="dn-container dn-oferta__rejilla">
             <div className="dn-oferta__galeria">
-              <div className="dn-oferta__pista" ref={pista} onScroll={alDeslizar}>
+              <div
+                className="dn-oferta__pista"
+                ref={pista}
+                onScroll={alDeslizar}
+                tabIndex={0}
+                aria-label="Fotos del comedero"
+                onKeyDown={(e) => {
+                  if (e.key === "ArrowLeft") {
+                    e.preventDefault();
+                    ir(foto - 1);
+                  }
+                  if (e.key === "ArrowRight") {
+                    e.preventDefault();
+                    ir(foto + 1);
+                  }
+                }}
+              >
                 {O.fotos.map((f, i) => (
                   <figure key={f.src} className="dn-oferta__foto">
                     <img
@@ -340,27 +371,55 @@ export function Comedero() {
                   </figure>
                 ))}
               </div>
-              <div className="dn-oferta__puntos">
-                {O.fotos.map((f, i) => (
-                  <button key={f.src} type="button" aria-label={`Foto ${i + 1}`} className={i === foto ? "activo" : ""} onClick={() => ir(i)} />
-                ))}
-              </div>
+              {O.fotos.length > 1 && (
+                <>
+                  <button type="button" className="dn-oferta__flecha dn-oferta__flecha--prev" aria-label="Foto anterior" onClick={() => ir(foto - 1)}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="m15 5-7 7 7 7" />
+                    </svg>
+                  </button>
+                  <button type="button" className="dn-oferta__flecha dn-oferta__flecha--next" aria-label="Foto siguiente" onClick={() => ir(foto + 1)}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <path d="m9 5 7 7-7 7" />
+                    </svg>
+                  </button>
+                  <span className="dn-oferta__contador" aria-live="polite">
+                    {foto + 1} / {O.fotos.length}
+                  </span>
+                  {/* Miniaturas: se ven todas las fotos de un vistazo y se tocan para saltar */}
+                  <div className="dn-oferta__minis" role="group" aria-label="Fotos del producto" ref={minis}>
+                    {O.fotos.map((f, i) => (
+                      <button
+                        key={f.src}
+                        type="button"
+                        className={`dn-oferta__mini${i === foto ? " activa" : ""}`}
+                        aria-label={`Ver foto ${i + 1}`}
+                        aria-pressed={i === foto}
+                        onClick={() => ir(i)}
+                      >
+                        <img src={f.src.replace("/comedero/", "/comedero/mini/")} alt="" loading="lazy" width={80} height={80} />
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="dn-oferta__compra">
               <p className="dn-kicker">{O.kicker}</p>
-              {resenas.length > 0 && (
-                <a className="dn-oferta__estrellas" href="#resenas">
-                  <span style={{ "--dn-pct": `${(promedio / 5) * 100}%` } as CSSProperties} />
-                  <small>
-                    {promedio.toFixed(1).replace(".", ",")} · {resenas.length} reseñas de clientes del proveedor
-                  </small>
-                </a>
-              )}
               <h1 className="dn-oferta__titulo" style={{ fontSize: 44 }}>
                 {comedero.titular}
               </h1>
               <p className="dn-oferta__producto">{comedero.nombre}</p>
+              {/* Debajo del nombre, en el primer pantallazo (Santiago, 25-09). Sin reseñas no hay estrellas. */}
+              {resenas.length > 0 && (
+                <a className="dn-oferta__estrellas" href="#resenas">
+                  <span style={{ "--dn-pct": `${(promedio / 5) * 100}%` } as CSSProperties} />
+                  <small>
+                    {promedio.toFixed(1).replace(".", ",")} · {resenas.length} {resenas.length === 1 ? "reseña de cliente" : "reseñas de clientes"} del proveedor
+                  </small>
+                </a>
+              )}
               <p className="dn-oferta__sub">{O.subtitulo}</p>
 
               <ul className="dn-oferta__checks">
