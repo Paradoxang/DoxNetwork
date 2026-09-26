@@ -220,7 +220,7 @@ export function Perfumeria() {
               Fragancias que <span className="text-gold">dejan huella</span>
             </h1>
             <p className="mt-4 max-w-lg text-lg leading-relaxed text-mute">
-              Réplicas 1.1 y AAA de los perfumes más buscados, para ella, para él y unisex. Eliges, pagas por Nequi o Llave Bre-B y te lo enviamos.
+              Réplicas 1.1 y AAA de los perfumes más buscados, para ella, para él y unisex. Eliges, pagas con tarjeta, PSE, Nequi o Bre-B y te lo enviamos.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" className="btn btn-primary" onClick={() => update({}, true)}>

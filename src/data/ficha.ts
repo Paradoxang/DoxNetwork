@@ -120,7 +120,7 @@ export function recibesDe(p: Product): { recibes: string[]; aparte: { titulo: st
 /** «Lo que tienes que saber»: respuestas abiertas, afirmaciones y no preguntas. */
 export function saberDe(p: Product): { titulo: string; texto: string }[] {
   const out = [
-    { titulo: "Pagas por Nequi o Llave Bre-B", texto: "Al finalizar la compra, sin tarjeta. Luego nos mandas el comprobante por WhatsApp." },
+    { titulo: "Pagas como prefieras", texto: "Con tarjeta débito o crédito, PSE, Nequi o Bre-B al finalizar la compra: lo eliges en el pago." },
     { titulo: "Te confirmamos antes de despachar", texto: "Te escribimos por WhatsApp para confirmar tu pedido y la dirección antes de que salga." },
     { titulo: "Llega en 3 a 6 días hábiles", texto: "El envío es gratis a toda Colombia y te pasamos el número de guía para que lo sigas." },
     {
@@ -134,6 +134,10 @@ export function saberDe(p: Product): { titulo: string; texto: string }[] {
     const q = qualityInfo[p.perfume.quality];
     out.splice(0, 0, { titulo: `Es una versión ${q.short}`, texto: q.text });
   }
-  if (p.articulo?.line === "vapes") out.splice(0, 0, { titulo: "Solo para mayores de 18", texto: vapeWarning });
+  if (p.articulo?.line === "vapes") {
+    // Ley 2354: en los vapes el pago se dice como dato, sin gancho
+    out[0] = { titulo: "Cómo se paga", texto: "Con tarjeta débito o crédito, PSE, Nequi o Bre-B al finalizar la compra." };
+    out.splice(0, 0, { titulo: "Solo para mayores de 18", texto: vapeWarning });
+  }
   return out;
 }

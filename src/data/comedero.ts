@@ -1,4 +1,5 @@
 import type { Product } from "./catalog";
+import { pagos } from "./site";
 
 /**
  * Comedero por gravedad 3,2 L · datos de la landing /comedero.
@@ -43,7 +44,7 @@ export const comedero = {
  */
 export const lineaMascotas = {
   name: "Mascotas",
-  blurb: "Comedero por gravedad, pagas al recibir",
+  blurb: "Comedero por gravedad, envío gratis",
   path: "/comedero",
   hue: "#e2a54b",
   count: 1,
@@ -75,7 +76,7 @@ const m = (archivo: string) => `/comedero/dn-cm-${archivo}`;
  */
 export const landing = {
   oferta: {
-    kicker: "Para perros y gatos · pagas al recibir",
+    kicker: "Para perros y gatos · envío gratis",
     subtitulo: comedero.resumen,
     checks: [
       "Tanque de 3,2 litros: lo llenas una vez",
@@ -83,7 +84,8 @@ export const landing = {
       "Para croqueta seca, perros y gatos",
       "Perilla para ajustar la salida a su croqueta",
     ],
-    precioNota: "Envío gratis a toda Colombia",
+    /* El mensaje de pago va junto al precio: ya no es solo contra entrega (Bold, 26-sep-2026) */
+    precioNota: pagos.conContraEntrega,
     resenasTexto: "5,0 · 5 reseñas de clientes del proveedor",
     fotos: [
       { src: m("trio.webp"), alt: "Comedero por gravedad en verde, gris y azul", color: "Verde" as Color | undefined, rotulo: "" },
@@ -116,8 +118,8 @@ export const landing = {
         descuento: 26970,
       },
     ] as { cantidad: number; titulo: string; detalle: string; insignia?: string; descuento: number }[],
-    boton: "Comprar · pagas al recibir",
-    pagos: ["Contra entrega", "Nequi", "Llave Bre-B"],
+    boton: "Comprar",
+    pagos: ["Tarjeta", "PSE", "Nequi", "Bre-B", "Contra entrega"],
     entrega: {
       min: 3,
       max: 6,
@@ -129,7 +131,7 @@ export const landing = {
       nota: "Fecha estimada; la confirma la transportadora según tu ciudad.",
     },
     confianza: ["Te confirmamos por WhatsApp antes de despachar", "Garantía legal y 5 días hábiles de retracto"],
-    barra: { texto: "Comprar", nota: "Pagas al recibir" },
+    barra: { texto: "Comprar", nota: "Envío gratis" },
     hojaTitulo: "Pídelo ahora",
   },
   dolor: {
@@ -208,7 +210,7 @@ export const landing = {
       { numero: "3,2", unidad: "L", texto: "de tanque: lo llenas una vez" },
       { numero: "30", unidad: "cm", texto: "de alto: cabe en un rincón (aprox.)" },
       { numero: "3–6", unidad: "días", texto: "hábiles hasta tu puerta" },
-      { numero: "3", unidad: "", texto: "formas de pago: contra entrega, Nequi o Bre-B" },
+      { numero: "5", unidad: "", texto: "formas de pago: tarjeta, PSE, Nequi, Bre-B o contra entrega" },
     ],
   },
   razones: {
@@ -271,15 +273,17 @@ export const landing = {
     ],
   },
   garantia: {
-    kicker: "Contra entrega",
-    titulo: "Pagas cuando lo tienes en la mano",
-    texto: "Sin adelantos, sin tarjeta, y el envío va por nuestra cuenta.",
-    img: m("pago.webp"),
-    alt: "No pagas nada hasta tenerlo en la puerta",
+    kicker: "Formas de pago",
+    titulo: "Paga como prefieras",
+    texto: "Con tarjeta, PSE, Nequi o Bre-B al pedir, o contra entrega al mensajero. El envío va por nuestra cuenta.",
+    /* Hasta el 26-sep era dn-cm-pago.webp, que dice «No pagas nada hasta
+       tenerlo en la puerta»: con Bold ya no es la única forma de pagar. */
+    img: m("trio.webp"),
+    alt: "El comedero por gravedad en verde, gris y azul",
     pasos: [
-      { titulo: "Eliges color y pides", texto: "Sin pagar nada por adelantado y sin tarjeta." },
+      { titulo: "Eliges color y pides", texto: "En el pago eliges cómo pagar." },
       { titulo: "Te confirmamos por WhatsApp", texto: "Te escribimos para confirmar la dirección y resolver lo que haga falta." },
-      { titulo: "Pagas cuando lo recibes", texto: "Le pagas al mensajero. Si prefieres, también por Nequi o Llave Bre-B." },
+      { titulo: "Te llega a la puerta", texto: "Si elegiste contra entrega, le pagas al mensajero al recibirlo." },
     ],
     sellos: [
       { titulo: "Envío gratis", texto: "A toda Colombia, incluido en el precio." },
@@ -290,7 +294,7 @@ export const landing = {
   },
   cierre: {
     titulo: "Que no vuelva a amanecer vacío",
-    precioNota: "Pagas al recibir · Envío gratis",
+    precioNota: "Envío gratis · también contra entrega",
     boton: "Elegir color y pedir",
     img: m("cristal.webp"),
     alt: "En caso de plato vacío, romper el cristal",
@@ -305,7 +309,7 @@ export const landing = {
         texto: "No mide porciones ni horarios: el alimento baja a medida que se come. Si está a dieta, lo tuyo es un dispensador programable.",
       },
       { titulo: "Se lava con agua y jabón", texto: "Cada vez que lo rellenes. Sécalo bien antes de volver a llenarlo." },
-      { titulo: "Pagas al recibir", texto: "Contra entrega al mensajero, o si prefieres por Nequi o Llave Bre-B. No pedimos tarjeta." },
+      { titulo: "Paga como prefieras", texto: "Con tarjeta débito o crédito, PSE, Nequi o Bre-B al hacer el pedido, o contra entrega al mensajero: lo eliges en el pago." },
       { titulo: "Llega en 3 a 6 días hábiles", texto: "Te confirmamos por WhatsApp antes de despachar y te pasamos la guía para que lo sigas." },
       { titulo: "Si llega mal, lo resolvemos", texto: "Te cubre la garantía legal y tienes 5 días hábiles de retracto desde que lo recibes." },
     ],
@@ -322,11 +326,11 @@ export const productoComedero: Product = {
   slug: "comedero-gravedad-3l",
   name: "Comedero por gravedad · 3,2 L",
   category: "mascotas",
-  tagline: "Para perros y gatos · contra entrega",
+  tagline: "Para perros y gatos · envío gratis",
   description: comedero.resumen,
   hue: lineaMascotas.hue,
   plans: colores.map((c) => ({ id: c.nombre.toLowerCase(), tier: c.nombre, duration: "", price: comedero.precio })),
-  features: ["Sin pilas ni enchufe", "Solo alimento seco", "Pagas al recibir"],
+  features: ["Sin pilas ni enchufe", "Solo alimento seco", "Paga como prefieras"],
   image: imagenes.portada,
   fisico: true,
 };

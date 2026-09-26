@@ -29,7 +29,7 @@ import { thumbOf } from "@/data/destacados";
 import { recibesDe, saberDe, tarjetasDe, textoRetracto, type IconoFicha } from "@/data/ficha";
 import { articulos, isRestricted, lineas, subLabel } from "@/data/lineas";
 import { perfumes } from "@/data/perfumeria";
-import { formatCOP, site, waLink } from "@/data/site";
+import { formatCOP, pagos as pagosTexto, site, waLink } from "@/data/site";
 import { ENTREGA, fechaEntrega } from "@/lib/entrega";
 import { Reveal } from "@/lib/anim";
 import { useCart } from "@/lib/cart";
@@ -224,9 +224,11 @@ export function Product() {
       </button>
     ) : null;
 
-  const pagos = () => (
+  /* Los medios, como dato y sin gancho: en los vapes no se anuncian (Ley 2354). */
+  const pagos = () =>
+    restricted ? null : (
     <ul className="flex flex-wrap gap-2" aria-label="Formas de pago">
-      {["Nequi", "Llave Bre-B"].map((p) => (
+      {site.payments.map((p) => (
         <li key={p} className="rounded-full border border-line-strong px-3 py-1 font-mono text-[11px] tracking-wide text-mute">
           {p}
         </li>
@@ -410,8 +412,8 @@ export function Product() {
           </Reveal>
           <ol className="mt-7 grid gap-5 md:grid-cols-3">
             {[
-              { t: "Pides y pagas", x: "Por Nequi o Llave Bre-B al finalizar la compra. Sin tarjeta." },
-              { t: "Nos mandas el comprobante por WhatsApp", x: "Y te confirmamos el despacho por el mismo chat." },
+              { t: "Pides y pagas", x: "Con tarjeta, PSE, Nequi o Bre-B al finalizar la compra." },
+              { t: "Te confirmamos por WhatsApp", x: "Te escribimos para confirmar el pedido y la dirección antes de despachar." },
               { t: "Te llega a tu casa", x: `Con número de guía para seguirlo, en ${ENTREGA.min} a ${ENTREGA.max} días hábiles.` },
             ].map((p, i) => (
               <li key={p.t}>
@@ -514,7 +516,7 @@ export function Product() {
           <Reveal className="card mt-10 flex flex-col items-center gap-4 p-6 text-center md:flex-row md:justify-between md:text-left">
             <div>
               <p className="text-lg font-extrabold leading-tight">{product.name}</p>
-              <p className="mt-1 text-sm text-mute">Envío gratis · Nequi o Llave Bre-B</p>
+              <p className="mt-1 text-sm text-mute">{restricted ? "Envío gratis" : pagosTexto.sinContraEntrega}</p>
             </div>
             <div className="flex flex-col items-center gap-3 md:flex-row">
               {precio(false)}

@@ -114,7 +114,7 @@ export function Categories() {
           </Link>
         </li>
 
-        {/* Mascotas: el comedero, que vive en Shopify y se paga al recibir */}
+        {/* Mascotas: el comedero, que vive en Shopify y también se puede pagar contra entrega */}
         <li data-reveal className="col-span-2 lg:col-span-4">
           <Link
             to={lineaMascotas.path}
@@ -132,7 +132,7 @@ export function Categories() {
               <span className="mt-4 block text-2xl font-bold leading-tight">{lineaMascotas.name}</span>
               <span className="mt-1 block text-sm leading-snug text-mute">{comedero.nombre}</span>
               <span className="num mt-3 block text-xs text-faint">
-                <span className="text-ink">{formatCOP(comedero.precio)}</span> · envío gratis · pagas al recibir
+                <span className="text-ink">{formatCOP(comedero.precio)}</span> · envío gratis · también contra entrega
               </span>
               <span
                 className="mt-4 inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[12px] font-bold text-ink"

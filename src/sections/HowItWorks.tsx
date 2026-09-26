@@ -18,8 +18,8 @@ const steps = [
   },
   {
     icon: CreditCard,
-    title: "Paga sin tarjeta",
-    text: "Al finalizar la compra pagas por Nequi o Llave Bre-B. El envío es gratis.",
+    title: "Paga como prefieras",
+    text: "Al finalizar la compra pagas con tarjeta, PSE, Nequi o Bre-B. El envío es gratis.",
   },
   {
     icon: MessageCircle,
@@ -61,7 +61,7 @@ export function HowItWorks() {
       <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-20 md:px-6 md:py-24 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-20">
         <div>
           <SectionHeading kicker="04 · Cómo comprar" title="Tres pasos y listo">
-            Eliges, pagas sin tarjeta y te llega a la puerta. Si algo no te queda claro, escríbenos.
+            Eliges, pagas como prefieras y te llega a la puerta. Si algo no te queda claro, escríbenos.
           </SectionHeading>
 
           <ol className="mt-12 lg:mt-4">
@@ -231,13 +231,12 @@ function Screen({ step }: { step: number }) {
           </div>
           <div className="rounded-2xl border border-line bg-surface p-3">
             <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Pago</p>
-            {["Nequi", "Llave Bre-B"].map((m, i) => (
+            {["Tarjeta", "PSE", "Nequi", "Bre-B"].map((m, i) => (
               <p key={m} className="mt-2 flex items-center gap-2 text-[13px]">
                 <span className={`h-3.5 w-3.5 rounded-full border-2 ${i === 0 ? "border-neb bg-neb" : "border-line-strong"}`} />
                 {m}
               </p>
             ))}
-            <p className="mt-2 text-[11px] text-faint">Sin tarjeta de crédito.</p>
           </div>
         </div>
         <div className="border-t border-line bg-surface p-3">

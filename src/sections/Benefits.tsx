@@ -1,7 +1,6 @@
 import { ShieldCheck, SprayCan, Truck, Wallet } from "lucide-react";
 import { Deco } from "@/components/Deco";
 import { tint } from "@/data/paleta";
-import { site } from "@/data/site";
 import { Reveal } from "@/lib/anim";
 
 // Barra de confianza justo debajo del hero (estructura mínima de los tres estudios).
@@ -9,7 +8,7 @@ import { Reveal } from "@/lib/anim";
 const items = [
   { icon: SprayCan, hue: "#ef8fb8", title: "Perfumería 1.1 y AAA", text: "Para ella, para él y unisex. ¿No está la tuya? Pregunta por el stock secreto." },
   { icon: Truck, hue: "#5fb8e8", title: "Envío gratis a toda Colombia", text: "Perfumes, relojes y tecnología. Llega en 3 a 6 días hábiles." },
-  { icon: Wallet, hue: "#f2c46d", title: "Pagas sin tarjeta", text: `${site.payments.map((p) => (p === "Bre-B" ? "Llave Bre-B" : p)).join(" o ")} al finalizar la compra.` },
+  { icon: Wallet, hue: "#f2c46d", title: "Paga como prefieras", text: "Tarjeta débito o crédito, PSE, Nequi o Bre-B al finalizar la compra." },
   { icon: ShieldCheck, hue: "#5fd8a4", title: "Te atiende una persona", text: "Dudas, pedidos y garantía por WhatsApp, antes y después de comprar." },
 ];
 

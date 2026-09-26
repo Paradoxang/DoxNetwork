@@ -675,7 +675,7 @@ function WebPanel() {
 
 function HelpPanel() {
   const items: { icon: ReactNode; title: string; text: string; to?: string; href?: string }[] = [
-    { icon: <HelpCircle className="h-5 w-5" />, title: "Cómo comprar", text: "Eliges, pagas sin tarjeta y te llega", to: "/#como-comprar" },
+    { icon: <HelpCircle className="h-5 w-5" />, title: "Cómo comprar", text: "Eliges, pagas como prefieras y te llega", to: "/#como-comprar" },
     { icon: <ShieldCheck className="h-5 w-5" />, title: "Garantía", text: `Novedades del envío en ${reportHours} h`, to: "/#garantia" },
     { icon: <MessageCircle className="h-5 w-5" />, title: "Preguntas frecuentes", text: "Envíos, pagos, réplicas y más", to: "/#preguntas" },
     {
@@ -771,7 +771,7 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
                     </span>
                     <span>
                       {lineaMascotas.name}
-                      <span className="block text-xs font-semibold text-faint">{lineaMascotas.count} producto · contra entrega</span>
+                      <span className="block text-xs font-semibold text-faint">{lineaMascotas.count} producto · envío gratis</span>
                     </span>
                   </Link>
                 </li>
@@ -826,7 +826,7 @@ function MobileMenu({ open, onSearch }: { open: boolean; onSearch: () => void })
             {[
               { to: "/catalogo", label: "Toda la tienda" },
               { to: lineas.vapes.path, label: `${lineas.vapes.name} · +18` },
-              { to: "/comedero", label: "Mascotas · contra entrega" },
+              { to: "/comedero", label: "Mascotas" },
               { to: OFERTAS, label: "Ofertas en perfumería" },
               { to: "/favoritos", label: "Favoritos" },
               { to: "/#garantia", label: "Garantía" },

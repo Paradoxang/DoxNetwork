@@ -329,8 +329,8 @@ export function Comedero() {
   return (
     <>
       <Seo
-        title={`Comedero por gravedad 3,2 L para perros y gatos · ${formatCOP(comedero.precio)} contra entrega`}
-        description="El alimento baja solo a medida que tu mascota come. Sin pilas ni enchufe. 3,2 litros, tres colores. Envío gratis a toda Colombia, pagas al recibir."
+        title={`Comedero por gravedad 3,2 L para perros y gatos · ${formatCOP(comedero.precio)} con envío gratis`}
+        description="El alimento baja solo a medida que tu mascota come. Sin pilas ni enchufe. 3,2 litros, tres colores. Envío gratis a toda Colombia; paga con tarjeta, PSE, Nequi, Bre-B o contra entrega."
         path="/comedero"
         noindex={!disponible}
         image={imagenes.og}

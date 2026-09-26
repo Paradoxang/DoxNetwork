@@ -43,7 +43,7 @@ export const faqs = [
   },
   {
     q: "¿Qué medios de pago aceptan?",
-    a: "Nequi o Llave Bre-B, al finalizar la compra. No necesitas tarjeta.",
+    a: "Con tarjeta débito o crédito, PSE, Nequi o Bre-B al hacer el pedido: lo eliges en el pago. El comedero también se puede pagar contra entrega, al mensajero.",
   },
   {
     q: "¿Qué pasa si mi pedido llega mal?",

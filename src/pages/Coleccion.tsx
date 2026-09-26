@@ -52,7 +52,7 @@ const configs: Record<LineaFisica, Config> = {
   relojeria: {
     kicker: "Relojería · Nuevo",
     title: ["Relojes que", "se notan"],
-    text: "Kairos originales, ediciones oficiales de Nacional, América y la Selección, y réplicas de los modelos más buscados. Pagas sin tarjeta y te lo enviamos.",
+    text: "Kairos originales, ediciones oficiales de Nacional, América y la Selección, y réplicas de los modelos más buscados. Pagas con tarjeta, PSE, Nequi o Bre-B y te lo enviamos.",
     showcase: ["relojeria-rolex-submarine-f11", "relojeria-kairos-oficial-seleccion-colombia", "relojeria-audemars-piguet-royal-oak-ch125"],
     tiles: [
       { label: "Originales", hint: "Kairos y Q&Q", params: { condicion: "original" } },
@@ -65,7 +65,7 @@ const configs: Record<LineaFisica, Config> = {
   tecnologia: {
     kicker: "Tecnología · Nuevo",
     title: ["Tecnología para", "todo el día"],
-    text: "Audífonos y parlantes, smartwatches, cargadores, gaming, soportes y gadgets. Precios claros, pagas sin tarjeta y te lo enviamos gratis a toda Colombia.",
+    text: "Audífonos y parlantes, smartwatches, cargadores, gaming, soportes y gadgets. Precios claros, pagas como prefieras y te lo enviamos gratis a toda Colombia.",
     showcase: ["tecnologia-parlante-portatil-kimiso-kms-374", "tecnologia-smartwatch-mobulaa-ub6-pro", "tecnologia-proyector-hy300"],
     tiles: [
       { label: "Audio", hint: "Audífonos, diademas y parlantes", params: { sub: "audio" } },

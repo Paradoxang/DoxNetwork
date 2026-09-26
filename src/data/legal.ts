@@ -43,7 +43,7 @@ const terminos: LegalDoc = {
   short: "Términos",
   description: `Condiciones de uso del sitio y de compra en ${site.name}.`,
   summary: [
-    "Compras desde el carrito: finalizas en nuestro checkout, donde pagas por Nequi o Llave Bre-B, o nos envías el pedido por WhatsApp. La compra queda en firme cuando confirmamos el pago.",
+    "Compras desde el carrito: finalizas en nuestro checkout, donde pagas con tarjeta débito o crédito, PSE, Nequi o Bre-B (y contra entrega en los productos que lo permiten), o nos envías el pedido por WhatsApp. La compra queda en firme cuando confirmamos el pago.",
     "Vendemos perfumería, relojería, tecnología, productos para mascotas y vapes (solo mayores de 18 años). Cada ficha dice si un producto es original o réplica.",
     "Envíos, cambios, garantías y datos personales tienen su propia política, enlazada abajo.",
   ],
@@ -68,7 +68,7 @@ const terminos: LegalDoc = {
       body: [
         [
           "Perfumería, relojería y tecnología, con envío gratis a toda Colombia.",
-          "Productos para mascotas, como el comedero por gravedad, que se paga al recibir (contra entrega).",
+          "Productos para mascotas, como el comedero por gravedad, que además se puede pagar al recibirlo (contra entrega).",
           "Vapes: productos para mayores de 18 años, en una sección con verificación de edad.",
           "Páginas web a la medida con Dox Designs, bajo cotización.",
         ],
@@ -87,8 +87,8 @@ const terminos: LegalDoc = {
       id: "precios",
       title: "Precios y pagos",
       body: [
-        `Los precios están en pesos colombianos (COP) y pueden cambiar sin previo aviso; se respeta el precio confirmado en tu pedido. Medios de pago: ${site.payments.join(", ")}.`,
-        "No pedimos ni guardamos datos de tarjetas.",
+        "Los precios están en pesos colombianos (COP) y pueden cambiar sin previo aviso; se respeta el precio confirmado en tu pedido. Medios de pago: tarjeta débito o crédito, PSE, Nequi y Bre-B, que procesa Bold en el checkout de Shopify; en los productos que lo permiten, como el comedero, también contra entrega.",
+        "Los datos de tu tarjeta los recibe Bold, la pasarela de pagos: nosotros no los vemos ni los guardamos.",
       ],
     },
     {
@@ -182,7 +182,7 @@ const privacidad: LegalDoc = {
           "Datos del pedido: productos, valores, comprobantes de pago y número de pedido.",
           "Datos de envío: ciudad, dirección y, si la transportadora o la verificación de edad lo requieren, número de documento.",
         ],
-        "No pedimos datos de tarjetas ni tratamos datos sensibles.",
+        "No vemos ni guardamos los datos de tu tarjeta: los recibe Bold, la pasarela de pagos del checkout. No tratamos datos sensibles.",
       ],
     },
     {
@@ -223,9 +223,10 @@ const privacidad: LegalDoc = {
           "Transportadoras, para entregar tus productos físicos.",
           "Proveedores de los productos, cuando se requiere para despachar tu pedido.",
           "Shopify, la plataforma de nuestro checkout: allí dejas tus datos de contacto y de envío al finalizar la compra.",
+          "Bold, la pasarela de pagos del checkout: si pagas con tarjeta, PSE, Nequi o Bre-B, recibe los datos del pago para procesarlo.",
           "WhatsApp (Meta), el canal por el que nos comunicamos.",
           "Cloudflare, el servicio donde está alojado el sitio, que registra datos técnicos de las visitas (como la dirección IP) por seguridad y cuenta las visitas sin cookies.",
-          "Meta (Facebook e Instagram), a través de su píxel: registra la visita de quien entra a la página del comedero de mascotas y a cualquier otra donde lo pongamos, llegue o no desde un anuncio, para medir nuestra publicidad. Meta lo trata con su propia política de datos, y puedes desconectarlo desde «Tu actividad fuera de Meta» en tu cuenta de Facebook o Instagram.",
+          "Meta (Facebook e Instagram), a través de su píxel: registra las visitas a las páginas del sitio (salvo las de vapes), llegue o no la persona desde un anuncio, y si ve un producto, lo agrega al carrito o va a pagar, para medir nuestra publicidad. Meta lo trata con su propia política de datos, y puedes desconectarlo desde «Tu actividad fuera de Meta» en tu cuenta de Facebook o Instagram.",
           "Autoridades, cuando una norma o una orden lo exija.",
         ],
         "Algunos de estos servicios guardan información fuera de Colombia, bajo sus propias políticas de protección de datos.",

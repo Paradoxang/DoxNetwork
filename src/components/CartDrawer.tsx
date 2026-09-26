@@ -3,7 +3,7 @@ import { Minus, Plus, ShoppingBag, Trash2, Truck, X } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { planLabel } from "@/data/catalog";
-import { formatCOP } from "@/data/site";
+import { formatCOP, pagos } from "@/data/site";
 import { useCart } from "@/lib/cart";
 import { EASE, lockScroll } from "@/lib/anim";
 import { Astro } from "@/components/Astro";
@@ -55,7 +55,8 @@ export function CartDrawer() {
 
   const hasQuote = cart.lines.some((l) => l.plan.price === 0);
   // En Shopify el contra entrega es solo del comedero: si entra cualquier
-  // producto del catálogo, Payfy lo quita y quedan Nequi y Llave Bre-B.
+  // producto del catálogo, Payfy lo quita y queda lo que cobra Bold
+  // (tarjeta, PSE, Nequi y Bre-B).
   const alRecibir = cart.lines.length > 0 && cart.lines.every((l) => l.slug === productoComedero.slug);
   /* Meta recibe el inicio de pago con lo que hay en la cesta, menos los vapes (Ley 2354). */
   const alPagar = () => {
@@ -189,8 +190,7 @@ export function CartDrawer() {
                   {cart.checkoutVia === "shopify" ? (
                     <p className="flex items-start gap-2 text-xs text-faint">
                       <Truck className="h-3.5 w-3.5 shrink-0" />{" "}
-                      {alRecibir ? "Pagas al recibir, sin tarjeta." : "Pagas por Nequi o Llave Bre-B al finalizar la compra, sin tarjeta."} Envío
-                      gratis a toda Colombia.
+                      {alRecibir ? pagos.conContraEntrega : pagos.sinContraEntrega}
                     </p>
                   ) : (
                     cart.lines.some((l) => isPhysical(l.product)) && (
@@ -199,8 +199,8 @@ export function CartDrawer() {
                       </p>
                     )
                   )}
-                  {/* Toda la cesta física y cargada en Shopify → su checkout (Nequi o Llave Bre-B;
-                      contra entrega solo si es únicamente el comedero).
+                  {/* Toda la cesta física y cargada en Shopify → su checkout (tarjeta, PSE, Nequi o
+                      Bre-B con Bold; contra entrega solo si es únicamente el comedero).
                       Cualquier agotado o sin mapa → WhatsApp, como siempre. */}
                   <a href={cart.checkoutUrl} target="_blank" rel="noopener noreferrer" onClick={alPagar} className="btn btn-buy w-full">
                     {cart.checkoutVia === "shopify" ? (

@@ -40,7 +40,7 @@ const posicion = (i: number, n: number): CSSProperties => {
 
 const datos = [
   { icon: Truck, color: "text-mint", text: "Envío gratis a toda Colombia" },
-  { icon: Wallet, color: "text-neb", text: "Nequi o Llave Bre-B" },
+  { icon: Wallet, color: "text-neb", text: "Tarjeta, PSE, Nequi o Bre-B" },
   { icon: MessageCircle, color: "text-gold", text: "Te atiende una persona" },
 ];
 

@@ -54,7 +54,7 @@ export function Footer() {
             {/* Contra entrega, fuera del catálogo: vive en Shopify */}
             <li>
               <Link to="/comedero" className="font-semibold text-ink transition-colors hover:text-neb">
-                Mascotas · contra entrega
+                Mascotas
               </Link>
             </li>
           </ul>
