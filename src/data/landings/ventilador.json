@@ -500,10 +500,18 @@
             "pregunta": "Si llega mal, avísanos en 10 días",
             "respuesta": "<p>Si llega roto, incompleto, no funciona o no es lo que pediste, escríbenos dentro de los 10 días siguientes a recibirlo. Te recomendamos grabar un video al abrir la caja. Además tienes 5 días hábiles de retracto.</p>"
           }
+        },
+        "q7": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Funciona a 110 V",
+            "respuesta": "<p>Funciona a 110 V, el voltaje de las casas en Colombia.</p>"
+          }
         }
       },
       "block_order": [
         "q1",
+        "q7",
         "q2",
         "q3",
         "q4",
