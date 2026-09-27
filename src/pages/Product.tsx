@@ -136,11 +136,16 @@ export function Product() {
     }
   }, []);
 
-  /* Barra fija: aparece cuando el botón principal ya quedó arriba, fuera de pantalla. */
+  /* Barra fija: se ve siempre que el botón principal no esté en pantalla, desde el
+     primer pantallazo (en el celular «Comprar» queda debajo de la galería) y
+     después de pasarlo. Como dn-landing.js de Shopify desde el 27-sep-2026. */
+  /* En los vapes sigue como antes: solo después de pasar el botón, nunca de gancho
+     en el primer pantallazo (Ley 2354). */
   useEffect(() => {
     setBarra(false);
     if (!boton || !("IntersectionObserver" in window)) return;
-    const io = new IntersectionObserver(([e]) => setBarra(!e.isIntersecting && e.boundingClientRect.top < 0));
+    const vape = product ? isRestricted(product) : false;
+    const io = new IntersectionObserver(([e]) => setBarra(!e.isIntersecting && (!vape || e.boundingClientRect.top < 0)));
     io.observe(boton);
     return () => io.disconnect();
   }, [boton, slug]);

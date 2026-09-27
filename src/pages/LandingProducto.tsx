@@ -152,11 +152,13 @@ export function LandingProducto({ slug }: { slug: string }) {
     }
   }, [slug]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  /* Barra fija: aparece cuando el botón principal ya quedó arriba */
+  /* Barra fija: se ve siempre que el botón principal no esté en pantalla, desde el
+     primer pantallazo (en el celular «Comprar» queda debajo de la galería) y
+     después de pasarlo. Como dn-landing.js de Shopify desde el 27-sep-2026. */
   useEffect(() => {
     const b = boton.current;
     if (!b || !("IntersectionObserver" in window)) return;
-    const io = new IntersectionObserver(([e]) => setBarra(!e.isIntersecting && e.boundingClientRect.top < 0));
+    const io = new IntersectionObserver(([e]) => setBarra(!e.isIntersecting));
     io.observe(b);
     return () => io.disconnect();
   }, [slug]);
