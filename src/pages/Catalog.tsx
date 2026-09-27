@@ -27,7 +27,7 @@ const byLine = Object.fromEntries(
     id,
     allProducts
       .filter((p) => lineaOf(p) === id)
-      .map((p, i) => ({ p, i, score: (isAvailable(p) ? 4 : 0) + (p.badge === "popular" ? 2 : 0) + (p.featured ? 1 : 0) }))
+      .map((p, i) => ({ p, i, score: (p.landing ? 8 : 0) + (isAvailable(p) ? 4 : 0) + (p.badge === "popular" ? 2 : 0) + (p.featured ? 1 : 0) }))
       .sort((a, b) => b.score - a.score || a.i - b.i)
       .map((x) => x.p),
   ])

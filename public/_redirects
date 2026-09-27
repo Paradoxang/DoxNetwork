@@ -8,6 +8,9 @@
 /producto/combo-universitario     / 301
 /producto/combo-creador           / 301
 /producto/pagina-web-dox-designs  /paginas-web 301
+# 26-sep-2026: los productos con página de venta propia no usan la ficha.
+/producto/bombillo-ventilador-led /ventilador 301
+/producto/aspiradora-carro-12v    /aspiradora 301
 /producto/netflix                    / 301
 /producto/disney-plus                / 301
 /producto/max                        / 301

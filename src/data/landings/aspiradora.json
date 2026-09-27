@@ -1,0 +1,561 @@
+{
+  "order": [
+    "oferta",
+    "lavadero",
+    "pasos",
+    "cifras",
+    "comparativa",
+    "rincones",
+    "paraquien",
+    "garantia",
+    "cierre",
+    "faq"
+  ],
+  "sections": {
+    "oferta": {
+      "type": "dn-oferta",
+      "blocks": {
+        "f1": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-ap-1.webp",
+            "alt": "Aspiradora para carro limpiando tapetes, sillas y tablero",
+            "color": "",
+            "rotulo": ""
+          }
+        },
+        "f2": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-ap-3.webp",
+            "alt": "Aspiradora para carro 12 V",
+            "color": "",
+            "rotulo": ""
+          }
+        },
+        "f3": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-ap-2.webp",
+            "alt": "Aspiradora con su cable, enchufe para el encendedor y accesorios",
+            "color": "",
+            "rotulo": ""
+          }
+        },
+        "f4": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-ap-4.webp",
+            "alt": "Aspiradora para carro vista de lado",
+            "color": "",
+            "rotulo": ""
+          }
+        },
+        "f5": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-ap-5.webp",
+            "alt": "Filtro de la aspiradora",
+            "color": "",
+            "rotulo": ""
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "f3",
+        "f4",
+        "f5"
+      ],
+      "settings": {
+        "kicker": "Para tu carro · envío gratis",
+        "headline": "Tu carro aspirado, sin ir al lavadero",
+        "resenas_texto": "",
+        "resenas_pct": 100,
+        "subtitulo": "Se conecta al encendedor del carro: no hay que cargarla y funciona mientras esté conectada.",
+        "check1": "Se conecta al encendedor del carro (12 V)",
+        "check2": "120 W de potencia",
+        "check3": "Cable de 4,5 m para moverte por el carro",
+        "check4": "Cepillo y boquillas para tapetes y rendijas",
+        "precio_nota": "Envío gratis a toda Colombia",
+        "colores": "",
+        "packs_titulo": "¿Cuántas quieres?",
+        "etiqueta_cod": "contraentrega",
+        "boton_texto": "Comprar",
+        "agotado_texto": "Sin disponibilidad ahora",
+        "ir_al_pago": true,
+        "pagos": "Tarjeta · PSE · Nequi · Bre-B · Contra entrega",
+        "mostrar_entrega": true,
+        "dias_min": 3,
+        "dias_max": 6,
+        "festivos": "2026-10-12,2026-11-02,2026-11-16,2026-12-08,2026-12-25,2027-01-01,2027-01-11,2027-03-22,2027-03-25,2027-03-26",
+        "entrega_respaldo": "Llega en 3 a 6 días hábiles",
+        "entrega_nota": "Fecha estimada; la confirma la transportadora según tu ciudad.",
+        "confianza1": "Te confirmamos por WhatsApp antes de despachar",
+        "confianza2": "Si llega rota, incompleta o no funciona: 10 días para reclamar",
+        "confianza3": "Graba un video al abrir la caja: lo pide la garantía",
+        "confianza4": "5 días hábiles de retracto, como manda la ley",
+        "wa_numero": "",
+        "wa_mensaje": "",
+        "wa_texto": "",
+        "barra_fija": true,
+        "barra_texto": "Comprar",
+        "barra_nota": "Envío gratis",
+        "hoja_titulo": "Pídela ahora",
+        "acento": "#74d8b0",
+        "heading_size": 44,
+        "padding_top": 16,
+        "padding_bottom": 40
+      }
+    },
+    "lavadero": {
+      "type": "dn-imagen-texto",
+      "blocks": {
+        "r1": {
+          "type": "punto",
+          "settings": {
+            "titulo": "Se conecta al encendedor:",
+            "texto": "no hay que cargarla."
+          }
+        },
+        "r2": {
+          "type": "punto",
+          "settings": {
+            "titulo": "120 W de potencia,",
+            "texto": "según la ficha del proveedor."
+          }
+        },
+        "r3": {
+          "type": "punto",
+          "settings": {
+            "titulo": "Cable de 4,5 m:",
+            "texto": "para moverte por el carro."
+          }
+        },
+        "r4": {
+          "type": "punto",
+          "settings": {
+            "titulo": "Cepillo y boquillas:",
+            "texto": "para tapetes y rendijas entre las sillas."
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4"
+      ],
+      "settings": {
+        "imagen_asset": "dn-ap-1.webp",
+        "alt": "Aspiradora para carro limpiando tapetes, sillas y tablero",
+        "rotulo": "",
+        "imagen_derecha": false,
+        "kicker": "Haz la cuenta",
+        "headline": "Cada aspirada en el lavadero se paga",
+        "texto": "<p>Cada vez que el carro se ensucia por dentro toca ir al lavadero, pagar y esperar.</p><p>Con esta la aspiras tú: en el garaje, en el parqueadero o en la calle, cuando quieras.</p>",
+        "boton_texto": "La quiero",
+        "boton_enlace": "",
+        "acento": "#74d8b0",
+        "heading_size": 36,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "pasos": {
+      "type": "dn-pasos",
+      "blocks": {
+        "s1": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Conéctala al encendedor",
+            "texto": "Enchufa el cable en la toma de 12 V del carro."
+          }
+        },
+        "s2": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Elige la boquilla",
+            "texto": "El cepillo para los tapetes; las boquillas para las rendijas entre las sillas."
+          }
+        },
+        "s3": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Vacía el depósito",
+            "texto": "Cuando se llene, lo vacías y sigues."
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "kicker": "Cómo se usa",
+        "headline": "Conectas, aspiras y listo",
+        "texto": "",
+        "boton_texto": "",
+        "acento": "#74d8b0",
+        "heading_size": 36,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "cifras": {
+      "type": "dn-cifras",
+      "blocks": {
+        "c1": {
+          "type": "cifra",
+          "settings": {
+            "numero": "120",
+            "unidad": "W",
+            "texto": "de potencia"
+          }
+        },
+        "c2": {
+          "type": "cifra",
+          "settings": {
+            "numero": "4,5",
+            "unidad": "m",
+            "texto": "de cable hasta el encendedor"
+          }
+        },
+        "c3": {
+          "type": "cifra",
+          "settings": {
+            "numero": "700",
+            "unidad": "g",
+            "texto": "de peso: la manejas con una mano"
+          }
+        },
+        "c4": {
+          "type": "cifra",
+          "settings": {
+            "numero": "3–6",
+            "unidad": "días",
+            "texto": "hábiles hasta tu puerta"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "kicker": "En datos",
+        "headline": "Lo que llega a tu casa",
+        "nota": "Datos del proveedor.",
+        "acento": "#f2c46d",
+        "heading_size": 32,
+        "padding_top": 32,
+        "padding_bottom": 40
+      }
+    },
+    "comparativa": {
+      "type": "dn-comparativa",
+      "blocks": {
+        "t1": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "De dónde saca la energía",
+            "a": "Del encendedor del carro",
+            "b": "De una batería",
+            "mejor": "igual"
+          }
+        },
+        "t2": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "Hay que cargarla",
+            "a": "No",
+            "b": "Sí",
+            "mejor": "a"
+          }
+        },
+        "t3": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "Se queda sin carga",
+            "a": "No: va conectada",
+            "b": "Cuando se acaba la batería",
+            "mejor": "a"
+          }
+        },
+        "t4": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "Cable",
+            "a": "Sí, de 4,5 m",
+            "b": "No tiene",
+            "mejor": "b"
+          }
+        },
+        "t5": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "Sirve en la casa",
+            "a": "No: va al encendedor del carro",
+            "b": "Sí",
+            "mejor": "b"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ],
+      "settings": {
+        "kicker": "Comparado",
+        "headline": "Con cable o inalámbrica",
+        "col_a": "Esta aspiradora",
+        "col_b": "Inalámbrica",
+        "nota": "Si quieres una sola aspiradora para la casa y el carro, la inalámbrica es lo tuyo. Esta es para el carro, y lo decimos.",
+        "acento": "#74d8b0",
+        "heading_size": 38,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "imagen_asset": "dn-ap-3.webp"
+      }
+    },
+    "rincones": {
+      "type": "dn-imagen-texto",
+      "settings": {
+        "imagen_asset": "dn-ap-2.webp",
+        "alt": "Aspiradora con su cable, enchufe para el encendedor y accesorios",
+        "rotulo": "",
+        "imagen_derecha": true,
+        "kicker": "Donde la mano no llega",
+        "headline": "Lo que hay debajo de la silla",
+        "texto": "<p>Debajo de las sillas, entre los rieles y en los portavasos se junta mugre que no ves.</p><p>El cepillo y las boquillas entran en las rendijas entre los asientos y en los tapetes.</p>",
+        "boton_texto": "",
+        "boton_enlace": "",
+        "acento": "#74d8b0",
+        "heading_size": 32,
+        "padding_top": 32,
+        "padding_bottom": 48
+      }
+    },
+    "paraquien": {
+      "type": "dn-listas",
+      "blocks": {
+        "a1": {
+          "type": "si",
+          "settings": {
+            "texto": "Tienes carro y lo aspiras en el lavadero."
+          }
+        },
+        "a2": {
+          "type": "si",
+          "settings": {
+            "texto": "No quieres estar pendiente de cargar una batería."
+          }
+        },
+        "a3": {
+          "type": "si",
+          "settings": {
+            "texto": "Llevas niños o pasajeros y el carro se ensucia rápido."
+          }
+        },
+        "a4": {
+          "type": "si",
+          "settings": {
+            "texto": "Trabajas con tu carro: plataforma, taxi o ventas."
+          }
+        },
+        "b1": {
+          "type": "no",
+          "settings": {
+            "texto": "Buscas una aspiradora para la casa: esta va al encendedor del carro."
+          }
+        },
+        "b2": {
+          "type": "no",
+          "settings": {
+            "texto": "No quieres cables: para eso está la inalámbrica."
+          }
+        },
+        "b3": {
+          "type": "no",
+          "settings": {
+            "texto": "Tu carro no tiene toma de encendedor de 12 V."
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "b1",
+        "b2",
+        "b3"
+      ],
+      "settings": {
+        "kicker": "Antes de pedir",
+        "headline": "Para quién es, y para quién no",
+        "texto": "Preferimos que lo sepas ahora y no cuando llegue.",
+        "titulo_si": "Te sirve si…",
+        "titulo_no": "No te sirve si…",
+        "acento": "#74d8b0",
+        "heading_size": 32,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "garantia": {
+      "type": "dn-garantia",
+      "blocks": {
+        "g1": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Pides y eliges cómo pagar",
+            "texto": "Con tarjeta, PSE, Nequi, Bre-B o contra entrega: lo eliges en el pago."
+          }
+        },
+        "g2": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Te confirmamos por WhatsApp",
+            "texto": "Te escribimos para confirmar la dirección y resolver lo que haga falta."
+          }
+        },
+        "g3": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Te llega a la puerta",
+            "texto": "Con envío gratis. Si elegiste contra entrega, le pagas al mensajero."
+          }
+        },
+        "h1": {
+          "type": "sello",
+          "settings": {
+            "titulo": "Envío gratis",
+            "texto": "A toda Colombia, incluido en el precio."
+          }
+        },
+        "h2": {
+          "type": "sello",
+          "settings": {
+            "titulo": "10 días para reclamar",
+            "texto": "Si llega rota, incompleta, no funciona o no es lo que pediste. Graba el desempaque en un solo video."
+          }
+        },
+        "h3": {
+          "type": "sello",
+          "settings": {
+            "titulo": "5 días de retracto",
+            "texto": "Hábiles desde que la recibes, como manda la ley."
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "h1",
+        "h2",
+        "h3"
+      ],
+      "settings": {
+        "kicker": "Formas de pago",
+        "headline": "Paga como prefieras",
+        "texto": "Tarjeta, PSE, Nequi, Bre-B o contra entrega. Y el envío va por nuestra cuenta.",
+        "imagen_asset": "dn-ap-3.webp",
+        "alt": "Aspiradora para carro 12 V",
+        "boton_texto": "Pedir la mía",
+        "acento": "#74d8b0",
+        "heading_size": 34,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "cierre": {
+      "type": "dn-cta",
+      "settings": {
+        "headline": "Tu carro, limpio cuando tú quieras",
+        "precio_nota": "Envío gratis · también contra entrega",
+        "boton_texto": "Pedir la mía",
+        "imagen_asset": "dn-ap-3.webp",
+        "alt": "Aspiradora para carro 12 V",
+        "acento": "#74d8b0",
+        "heading_size": 38,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "faq": {
+      "type": "dn-faq",
+      "blocks": {
+        "q1": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Va conectada al encendedor",
+            "respuesta": "<p>Funciona con la toma de 12 V del carro. No va en el enchufe de la casa.</p>"
+          }
+        },
+        "q2": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "No hay que cargarla",
+            "respuesta": "<p>Funciona mientras esté conectada al encendedor del carro.</p>"
+          }
+        },
+        "q3": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Trae cepillo y boquillas",
+            "respuesta": "<p>Para los tapetes y las rendijas entre las sillas.</p>"
+          }
+        },
+        "q4": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Paga como prefieras",
+            "respuesta": "<p>Con tarjeta débito o crédito, PSE, Nequi o Bre-B al hacer el pedido, o contra entrega al mensajero. Lo eliges en el pago.</p>"
+          }
+        },
+        "q5": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Llega en 3 a 6 días hábiles",
+            "respuesta": "<p>Te confirmamos por WhatsApp antes de despachar y te pasamos la guía para que la sigas.</p>"
+          }
+        },
+        "q6": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Graba cuando abras la caja",
+            "respuesta": "<p>La garantía del proveedor pide un video del desempaque, sin cortes. Si llega rota, incompleta, no funciona o no es lo que pediste, escríbenos dentro de los 10 días siguientes a recibirla. Además tienes 5 días hábiles de retracto.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
+      "settings": {
+        "abiertas": true,
+        "kicker": "Sin letra pequeña",
+        "headline": "Lo que tienes que saber",
+        "texto": "",
+        "boton_texto": "Pedir la mía",
+        "acento": "#74d8b0",
+        "heading_size": 34,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    }
+  }
+}

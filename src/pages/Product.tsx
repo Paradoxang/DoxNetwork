@@ -17,7 +17,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import { AgeGate } from "@/components/AgeGate";
 import { MediosPago } from "@/components/MediosPago";
 import { pixel } from "@/components/MetaPixel";
@@ -146,6 +146,8 @@ export function Product() {
   }, [boton, slug]);
 
   if (!product) return <NotFound />;
+  // Los que tienen página de venta propia no usan la ficha
+  if (product.landing) return <Navigate to={product.landing} replace />;
 
   const plan = product.plans.find((p) => p.id === planId) ?? product.plans[0];
   const category = categoryById(product.category);

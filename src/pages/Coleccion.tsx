@@ -12,9 +12,9 @@ import { SideRail, type RailGroup } from "@/components/SideRail";
 import { FaqItem, Select, useUrlFilters } from "@/components/ShopControls";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { Seo } from "@/components/Seo";
-import { productBySlug, type Product } from "@/data/catalog";
+import { allProducts, enlaceProducto, productBySlug, type Product } from "@/data/catalog";
 import { destacados } from "@/data/destacados";
-import { articulos, conditionInfo, lineas, subLabel, vapeWarning, type Condicion, type SubId } from "@/data/lineas";
+import { conditionInfo, lineas, subLabel, vapeWarning, type Condicion, type SubId } from "@/data/lineas";
 import { disclaimer, shipping } from "@/data/perfumeria";
 import { formatCOP, site, waLink } from "@/data/site";
 import { EASE, Reveal, scrollToTarget } from "@/lib/anim";
@@ -126,9 +126,10 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
 
   const pool = useMemo(() => {
     const picked = new Set(destacados[linea].map((p) => p.slug));
-    return articulos
-      .filter((p) => p.articulo!.line === linea)
-      .map((p, i) => ({ p, i, score: (picked.has(p.slug) ? 4 : 0) + (p.articulo!.brand ? 1 : 0) }))
+    // Los productos estrella (con página de venta propia) van primero
+    return allProducts
+      .filter((p) => p.articulo?.line === linea)
+      .map((p, i) => ({ p, i, score: (p.landing ? 8 : 0) + (picked.has(p.slug) ? 4 : 0) + (p.articulo!.brand ? 1 : 0) }))
       .sort((a, b) => b.score - a.score || a.i - b.i)
       .map((x) => x.p);
   }, [linea]);
@@ -347,7 +348,7 @@ export function Coleccion({ linea }: { linea: LineaFisica }) {
               return (
                 <div key={p.slug} className={`absolute w-[42%] transition-transform duration-700 ease-out ${pos}`}>
                   <Link
-                    to={`/producto/${p.slug}`}
+                    to={enlaceProducto(p)}
                     tabIndex={-1}
                     data-plate
                     className="relative block overflow-hidden rounded-[26px] border border-white/10 shadow-[0_30px_60px_-20px_rgba(3,6,15,0.7)]"

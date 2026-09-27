@@ -28,6 +28,8 @@ import { Perfumeria } from "@/pages/Perfumeria";
 import { PaginasWeb } from "@/pages/PaginasWeb";
 import { Product } from "@/pages/Product";
 import { Legal } from "@/pages/Legal";
+import { LandingProducto } from "@/pages/LandingProducto";
+import { landings } from "@/data/landings";
 
 function Layout() {
   return (
@@ -83,7 +85,7 @@ function Shell() {
      visita. En /comedero, que es landing de pauta, sería tapar el CTA; además
      esa página no lleva nada que mande a WhatsApp antes de comprar (orden de
      Santiago, 25-sep-2026), así que el flotante se esconde en todo ancho. */
-  const ctaPropio = location.pathname === "/comedero";
+  const ctaPropio = location.pathname === "/comedero" || landings.some((l) => l.path === location.pathname);
   /* La ficha de producto trae su barra fija de compra: la del carrito sobra y,
      en móvil, el flotante de WhatsApp se le montaría encima. */
   const ficha = location.pathname.startsWith("/producto/");
@@ -157,7 +159,7 @@ export const routes: RouteRecord[] = [
       {
         path: "producto/:slug",
         element: <Product />,
-        getStaticPaths: () => allProducts.map((p) => `producto/${p.slug}`),
+        getStaticPaths: () => allProducts.filter((p) => !p.landing).map((p) => `producto/${p.slug}`),
       },
       { path: "perfumeria", element: <Perfumeria /> },
       { path: "relojeria", element: <Coleccion linea="relojeria" /> },
@@ -166,6 +168,8 @@ export const routes: RouteRecord[] = [
       // Landing de pauta de un solo producto, fuera del catálogo: el comedero
       // vive en Shopify y se cobra contra entrega. Ver src/data/comedero.ts.
       { path: "comedero", element: <Comedero /> },
+      // Páginas de venta calcadas de su plantilla de Shopify (Tor, 26-sep-2026). Ver src/data/landings.ts.
+      ...landings.map((l) => ({ path: l.path.slice(1), element: <LandingProducto slug={l.slug} /> })),
       // El servicio de páginas web de Dox Designs, con entrada propia en el menú
       { path: "paginas-web", element: <PaginasWeb /> },
       { path: "favoritos", element: <Favorites /> },

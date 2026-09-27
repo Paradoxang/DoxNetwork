@@ -11,7 +11,7 @@ import {
 import { planLabel, productBySlug, type Plan, type Product } from "@/data/catalog";
 import { isPhysical, isRestricted } from "@/data/lineas";
 import { formatCOP, site, waLink } from "@/data/site";
-import { descuentoSegundoComedero, productoComedero } from "@/data/comedero";
+import { productoComedero } from "@/data/comedero";
 import { conAtribucion, useAtribucion } from "@/lib/atribucion";
 import { enlaceCarritoShopify } from "@/lib/shopify";
 
@@ -64,22 +64,23 @@ const CartCtx = createContext<CartState | null>(null);
 
 function resolve(lines: CartLine[]): ResolvedLine[] {
   const out: ResolvedLine[] = [];
-  let comederos = 0;
-  let segundoAplicado = false;
+  const unidades = new Map<string, number>();
+  const aplicado = new Set<string>();
   for (const l of lines) {
     // El comedero no está en el catálogo: vive en Shopify y llega a la cesta desde su landing.
     const product = productBySlug(l.slug) ?? (l.slug === productoComedero.slug ? productoComedero : undefined);
     const plan = product?.plans.find((p) => p.id === l.planId);
     // Productos o planes que ya no existen en el catálogo se descartan en silencio.
     if (!product || !plan) continue;
-    /* El segundo comedero con 30 % menos: el descuento automático de Shopify,
-       una vez por pedido y por producto, en cualquier combinación de colores
-       (Mercurio lo probó con cart.js: 1 gris + 1 azul = $152.830). Se resta
-       en la línea donde la cesta llega al segundo comedero. */
-    if (product === productoComedero) comederos += l.qty;
-    if (product === productoComedero && comederos >= 2 && !segundoAplicado && descuentoSegundoComedero > 0) {
-      segundoAplicado = true;
-      out.push({ ...l, product, plan, total: plan.price * l.qty - descuentoSegundoComedero, ahorro: descuentoSegundoComedero });
+    /* El segundo con 30 % menos (comedero, ventilador): el descuento automático
+       de Shopify, una vez por pedido y por producto, en cualquier combinación
+       de colores (Mercurio lo probó con cart.js: 1 gris + 1 azul = $152.830).
+       Se resta en la línea donde la cesta llega a la segunda unidad. */
+    const n = (unidades.get(product.slug) ?? 0) + l.qty;
+    unidades.set(product.slug, n);
+    if (product.segundo && n >= 2 && !aplicado.has(product.slug)) {
+      aplicado.add(product.slug);
+      out.push({ ...l, product, plan, total: plan.price * l.qty - product.segundo, ahorro: product.segundo });
       continue;
     }
     out.push({ ...l, product, plan, total: plan.price * l.qty });

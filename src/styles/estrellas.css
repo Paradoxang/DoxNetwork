@@ -1,0 +1,50 @@
+/* ============================================================================
+   Productos estrella de la portada: calco de la sección dn-estrellas del tema
+   de Shopify (Tor, 26-sep-2026). Su CSS va tal cual debajo; aquí arriba solo
+   se apuntan sus tokens --dn-* a los del sitio, que siguen al tema claro u
+   oscuro. Las clases base (.dn-section, .dn-container, .dn-kicker, .dn-boton)
+   vienen del calco de /comedero (comedero-landing.css).
+   ========================================================================= */
+.dn-estrellas {
+  --dn-bg-soft: var(--bg-soft);
+  --dn-ink: var(--ink);
+  --dn-mute: var(--mute);
+  --dn-line-strong: var(--line-strong);
+  --dn-brand: var(--brand);
+  --dn-gold: var(--gold);
+  --dn-display: var(--font-display);
+  --dn-sans: var(--font-sans);
+  --dn-mono: var(--font-mono);
+  --dn-margen: 20px;
+  --dn-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* --- dn-estrellas.liquid --------------------------------------------------- */
+.dn-estrellas { font-family: var(--dn-sans); color: var(--dn-ink); }
+.dn-estrellas__cabeza { max-width: 760px; margin: 0 0 24px; }
+.dn-estrellas__titulo { font-family: var(--dn-display); font-weight: 700; line-height: 1.08; margin: 0 0 10px; text-wrap: balance; }
+.dn-estrellas__texto { color: var(--dn-mute); font-size: 16px; line-height: 1.6; margin: 0; max-width: 62ch; }
+.dn-estrellas__rejilla { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.dn-estrella { display: grid; grid-template-columns: minmax(0, 1fr); border-radius: 22px; border: 1px solid var(--dn-line-strong); overflow: hidden; text-decoration: none; color: inherit;
+  background: radial-gradient(80% 70% at 50% 0%, color-mix(in srgb, var(--dn-acento) 20%, transparent), transparent 70%), var(--dn-bg-soft); }
+.dn-estrella__media { position: relative; aspect-ratio: 4 / 3; background: #f2f3f6; }
+.dn-estrella__media img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.dn-estrella__insignia { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 11px; border-radius: 999px;
+  background: #0f1424; color: var(--dn-gold); font-family: var(--dn-mono); font-size: 11.5px; letter-spacing: 0.14em; text-transform: uppercase; }
+.dn-estrella__insignia svg { width: 13px; height: 13px; }
+.dn-estrella__cuerpo { display: grid; gap: 10px; padding: 18px 18px 20px; align-content: start; }
+.dn-estrella__etiqueta { font-family: var(--dn-mono); font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dn-acento); margin: 0; }
+.dn-estrella__nombre { font-family: var(--dn-display); font-weight: 700; font-size: 24px; line-height: 1.15; margin: 0; text-wrap: balance; }
+.dn-estrella__gancho { color: var(--dn-mute); font-size: 16px; line-height: 1.55; margin: 0; }
+.dn-estrella__pie { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-top: 6px; }
+.dn-estrella__precio { display: grid; gap: 2px; }
+.dn-estrella__precio b { font-family: var(--dn-mono); font-weight: 600; font-size: 26px; color: var(--dn-gold); line-height: 1.1; }
+.dn-estrella__precio small { color: var(--dn-mute); font-size: 13.5px; }
+.dn-estrella .dn-boton { font-size: 16px; padding: 14px 22px; }
+.dn-estrella:hover .dn-boton, .dn-estrella:focus-visible .dn-boton { filter: brightness(1.07); }
+.dn-estrella:focus-visible { outline: 2px solid var(--dn-acento); outline-offset: 3px; }
+@media (min-width: 750px) {
+  .dn-estrellas__rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .dn-estrella__cuerpo { padding: 22px 24px 24px; }
+  .dn-estrella__nombre { font-size: 28px; }
+}

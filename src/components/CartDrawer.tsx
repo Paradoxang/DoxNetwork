@@ -12,7 +12,6 @@ import { isPhysical, isRestricted } from "@/data/lineas";
 import { MediosPago } from "@/components/MediosPago";
 import { pixel } from "@/components/MetaPixel";
 import { varianteShopify } from "@/lib/shopify";
-import { productoComedero } from "@/data/comedero";
 import { shipping } from "@/data/perfumeria";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
@@ -58,7 +57,7 @@ export function CartDrawer() {
   // En Shopify el contra entrega es solo del comedero: si entra cualquier
   // producto del catálogo, Payfy lo quita y queda lo que cobra Bold
   // (tarjeta, PSE, Nequi y Bre-B).
-  const alRecibir = cart.lines.length > 0 && cart.lines.every((l) => l.slug === productoComedero.slug);
+  const alRecibir = cart.lines.length > 0 && cart.lines.every((l) => l.product.contraEntrega);
   /* Los logos de pago van debajo de «Ir a pagar», como en las fichas; con vapes en la cesta, solo el texto (Ley 2354). */
   const logosPago = cart.checkoutVia === "shopify" && !cart.lines.some((l) => isRestricted(l.product));
   /* Meta recibe el inicio de pago con lo que hay en la cesta, menos los vapes (Ley 2354). */

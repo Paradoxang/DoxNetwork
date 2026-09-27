@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Astro } from "@/components/Astro";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { ProductArt } from "@/components/ProductArt";
-import { allProducts, categoryById, fromPrice, type CategoryId, type Product } from "@/data/catalog";
+import { allProducts, categoryById, enlaceProducto, fromPrice, type CategoryId, type Product } from "@/data/catalog";
 import { destacadosRed } from "@/data/destacados";
 import { isRestricted, lineaOf, lineaOrder, lineas, subLabel, type LineaId } from "@/data/lineas";
 import { paraOptions, stockSecreto } from "@/data/perfumeria";
@@ -60,7 +60,7 @@ export function SearchPalette() {
         key: p.slug,
         label: p.name,
         hint: lineas[lineaOf(p)].name,
-        to: `/producto/${p.slug}`,
+        to: enlaceProducto(p),
         icon: p.category,
         price: fromPrice(p),
         group: "Destacados",
@@ -94,7 +94,7 @@ export function SearchPalette() {
           : p.articulo
             ? `${lineas[p.articulo.line].name} · ${p.articulo.brand || subLabel[p.articulo.sub]}`
             : categoryById(p.category)?.name ?? "",
-        to: `/producto/${p.slug}`,
+        to: enlaceProducto(p),
         icon: p.category,
         price: fromPrice(p),
         group: "Productos",

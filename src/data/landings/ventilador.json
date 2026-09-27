@@ -1,0 +1,526 @@
+{
+  "order": [
+    "oferta",
+    "sinobra",
+    "pasos",
+    "cifras",
+    "comparativa",
+    "paraquien",
+    "garantia",
+    "cierre",
+    "faq"
+  ],
+  "sections": {
+    "oferta": {
+      "type": "dn-oferta",
+      "blocks": {
+        "f1": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-vt-1.webp",
+            "alt": "Bombillo ventilador LED con su control remoto y sus tonos de luz",
+            "color": "",
+            "rotulo": ""
+          }
+        },
+        "f2": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-vt-2.webp",
+            "alt": "Bombillo ventilador encendido en el techo de una cocina",
+            "color": "",
+            "rotulo": "Imagen ilustrativa"
+          }
+        },
+        "p1": {
+          "type": "pack",
+          "settings": {
+            "cantidad": 1,
+            "titulo": "1 ventilador",
+            "detalle": "Para un cuarto",
+            "insignia": "",
+            "descuento": 0
+          }
+        },
+        "p2": {
+          "type": "pack",
+          "settings": {
+            "cantidad": 2,
+            "titulo": "2 ventiladores",
+            "detalle": "Uno para cada cuarto · te ahorras $40.470",
+            "insignia": "El segundo con 30 % menos",
+            "descuento": 40470
+          }
+        }
+      },
+      "block_order": [
+        "f1",
+        "f2",
+        "p1",
+        "p2"
+      ],
+      "settings": {
+        "kicker": "Luz y ventilador en un solo bombillo · envío gratis",
+        "headline": "Ventilador de techo sin obra ni electricista",
+        "resenas_texto": "",
+        "resenas_pct": 100,
+        "subtitulo": "Se enrosca donde va el bombillo y lo manejas con el control: luz y ventilador, juntos o por separado.",
+        "check1": "Se enrosca en el portabombillo normal (rosca E27)",
+        "check2": "Luz y ventilador por separado: prende uno, el otro o los dos",
+        "check3": "Con control remoto, para manejarlo desde la cama",
+        "check4": "No perforas el techo: sirve si vives en arriendo",
+        "precio_nota": "Envío gratis a toda Colombia",
+        "colores": "",
+        "packs_titulo": "¿Cuántos quieres?",
+        "etiqueta_cod": "contraentrega",
+        "boton_texto": "Comprar",
+        "agotado_texto": "Sin disponibilidad ahora",
+        "ir_al_pago": true,
+        "pagos": "Tarjeta · PSE · Nequi · Bre-B · Contra entrega",
+        "mostrar_entrega": true,
+        "dias_min": 3,
+        "dias_max": 6,
+        "festivos": "2026-10-12,2026-11-02,2026-11-16,2026-12-08,2026-12-25,2027-01-01,2027-01-11,2027-03-22,2027-03-25,2027-03-26",
+        "entrega_respaldo": "Llega en 3 a 6 días hábiles",
+        "entrega_nota": "Fecha estimada; la confirma la transportadora según tu ciudad.",
+        "confianza1": "Te confirmamos por WhatsApp antes de despachar",
+        "confianza2": "Si llega roto, incompleto o no funciona: 10 días para reclamar",
+        "confianza3": "5 días hábiles de retracto, como manda la ley",
+        "confianza4": "",
+        "wa_numero": "",
+        "wa_mensaje": "",
+        "wa_texto": "",
+        "barra_fija": true,
+        "barra_texto": "Comprar",
+        "barra_nota": "Envío gratis",
+        "hoja_titulo": "Pídelo ahora",
+        "acento": "#74d8b0",
+        "heading_size": 44,
+        "padding_top": 16,
+        "padding_bottom": 40
+      }
+    },
+    "sinobra": {
+      "type": "dn-imagen-texto",
+      "blocks": {
+        "r1": {
+          "type": "punto",
+          "settings": {
+            "titulo": "Se enrosca:",
+            "texto": "en la rosca E27 de un bombillo normal."
+          }
+        },
+        "r2": {
+          "type": "punto",
+          "settings": {
+            "titulo": "Sin perforar:",
+            "texto": "no le haces un solo hueco al techo."
+          }
+        },
+        "r3": {
+          "type": "punto",
+          "settings": {
+            "titulo": "Te lo llevas:",
+            "texto": "si te mudas, lo desenroscas."
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3"
+      ],
+      "settings": {
+        "imagen_asset": "dn-vt-2.webp",
+        "alt": "Bombillo ventilador funcionando en el techo de una cocina",
+        "rotulo": "Imagen ilustrativa",
+        "imagen_derecha": false,
+        "kicker": "¿Te suena?",
+        "headline": "Poner un ventilador de techo es una obra",
+        "texto": "<p>Hay que llamar al electricista, pasar cable, fijar un soporte al techo y pagar la instalación. Y si vives en arriendo, casi nunca te dejan.</p><p>Este va donde ya tienes el bombillo.</p>",
+        "boton_texto": "Lo quiero",
+        "boton_enlace": "",
+        "acento": "#74d8b0",
+        "heading_size": 36,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "pasos": {
+      "type": "dn-pasos",
+      "blocks": {
+        "s1": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Apaga y quita el bombillo",
+            "texto": "Con el interruptor apagado, desenrosca el bombillo que tienes."
+          }
+        },
+        "s2": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Enrosca el ventilador",
+            "texto": "Va en el mismo portabombillo: rosca E27."
+          }
+        },
+        "s3": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Manéjalo con el control",
+            "texto": "Prende la luz, el ventilador o los dos, sin levantarte."
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "kicker": "Cómo se pone",
+        "headline": "Lo pones tú, como un bombillo",
+        "texto": "",
+        "boton_texto": "",
+        "acento": "#74d8b0",
+        "heading_size": 36,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "cifras": {
+      "type": "dn-cifras",
+      "blocks": {
+        "c1": {
+          "type": "cifra",
+          "settings": {
+            "numero": "2",
+            "unidad": "en 1",
+            "texto": "luz y ventilador en el mismo bombillo"
+          }
+        },
+        "c2": {
+          "type": "cifra",
+          "settings": {
+            "numero": "E27",
+            "unidad": "",
+            "texto": "la rosca de un bombillo normal"
+          }
+        },
+        "c3": {
+          "type": "cifra",
+          "settings": {
+            "numero": "40",
+            "unidad": "W",
+            "texto": "de luz LED"
+          }
+        },
+        "c4": {
+          "type": "cifra",
+          "settings": {
+            "numero": "3–6",
+            "unidad": "días",
+            "texto": "hábiles hasta tu puerta"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ],
+      "settings": {
+        "kicker": "En datos",
+        "headline": "Lo que llega a tu casa",
+        "nota": "Datos del proveedor.",
+        "acento": "#f2c46d",
+        "heading_size": 32,
+        "padding_top": 32,
+        "padding_bottom": 40
+      }
+    },
+    "comparativa": {
+      "type": "dn-comparativa",
+      "blocks": {
+        "t1": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "Instalación",
+            "a": "Se enrosca como un bombillo",
+            "b": "Electricista, cable y soporte",
+            "mejor": "a"
+          }
+        },
+        "t2": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "Huecos en el techo",
+            "a": "Ninguno",
+            "b": "Sí, para el soporte",
+            "mejor": "a"
+          }
+        },
+        "t3": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "Si te mudas",
+            "a": "Lo desenroscas y te lo llevas",
+            "b": "Se queda, o toca desmontarlo",
+            "mejor": "a"
+          }
+        },
+        "t4": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "Luz",
+            "a": "Trae luz LED",
+            "b": "Depende del modelo",
+            "mejor": "a"
+          }
+        },
+        "t5": {
+          "type": "fila",
+          "settings": {
+            "aspecto": "Aspas",
+            "a": "Pequeñas, dentro de la lámpara",
+            "b": "Grandes: mueven más aire",
+            "mejor": "b"
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4",
+        "t5"
+      ],
+      "settings": {
+        "kicker": "Comparado",
+        "headline": "Frente a un ventilador de techo normal",
+        "col_a": "Bombillo ventilador",
+        "col_b": "Ventilador de techo",
+        "nota": "Si necesitas mover mucho aire en una sala grande, el de techo con aspas grandes es lo tuyo. Este es para un cuarto, y lo decimos.",
+        "acento": "#74d8b0",
+        "heading_size": 38,
+        "padding_top": 56,
+        "padding_bottom": 56,
+        "imagen_asset": "dn-vt-1.webp"
+      }
+    },
+    "paraquien": {
+      "type": "dn-listas",
+      "blocks": {
+        "a1": {
+          "type": "si",
+          "settings": {
+            "texto": "Tu cuarto tiene bombillo de rosca normal y no tiene ventilador."
+          }
+        },
+        "a2": {
+          "type": "si",
+          "settings": {
+            "texto": "Vives en arriendo y no puedes perforar el techo."
+          }
+        },
+        "a3": {
+          "type": "si",
+          "settings": {
+            "texto": "Quieres apagar la luz sin apagar el aire."
+          }
+        },
+        "a4": {
+          "type": "si",
+          "settings": {
+            "texto": "Te estorba el ventilador de pie o su cable."
+          }
+        },
+        "b1": {
+          "type": "no",
+          "settings": {
+            "texto": "Buscas enfriar el cuarto: un ventilador mueve el aire, no lo enfría."
+          }
+        },
+        "b2": {
+          "type": "no",
+          "settings": {
+            "texto": "Tu techo no tiene portabombillo de rosca (un panel LED empotrado, por ejemplo)."
+          }
+        },
+        "b3": {
+          "type": "no",
+          "settings": {
+            "texto": "Necesitas mover mucho aire en una sala grande."
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "b1",
+        "b2",
+        "b3"
+      ],
+      "settings": {
+        "kicker": "Antes de pedir",
+        "headline": "Para quién es, y para quién no",
+        "texto": "Preferimos que lo sepas ahora y no cuando llegue.",
+        "titulo_si": "Te sirve si…",
+        "titulo_no": "No te sirve si…",
+        "acento": "#74d8b0",
+        "heading_size": 32,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "garantia": {
+      "type": "dn-garantia",
+      "blocks": {
+        "g1": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Pides y eliges cómo pagar",
+            "texto": "Con tarjeta, PSE, Nequi, Bre-B o contra entrega: lo eliges en el pago."
+          }
+        },
+        "g2": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Te confirmamos por WhatsApp",
+            "texto": "Te escribimos para confirmar la dirección y resolver lo que haga falta."
+          }
+        },
+        "g3": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Te llega a la puerta",
+            "texto": "Con envío gratis. Si elegiste contra entrega, le pagas al mensajero."
+          }
+        },
+        "h1": {
+          "type": "sello",
+          "settings": {
+            "titulo": "Envío gratis",
+            "texto": "A toda Colombia, incluido en el precio."
+          }
+        },
+        "h2": {
+          "type": "sello",
+          "settings": {
+            "titulo": "10 días para reclamar",
+            "texto": "Si llega roto, incompleto, no funciona o no es lo que pediste."
+          }
+        },
+        "h3": {
+          "type": "sello",
+          "settings": {
+            "titulo": "5 días de retracto",
+            "texto": "Hábiles desde que lo recibes, como manda la ley."
+          }
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3",
+        "h1",
+        "h2",
+        "h3"
+      ],
+      "settings": {
+        "kicker": "Formas de pago",
+        "headline": "Paga como prefieras",
+        "texto": "Tarjeta, PSE, Nequi, Bre-B o contra entrega. Y el envío va por nuestra cuenta.",
+        "imagen_asset": "dn-vt-1.webp",
+        "alt": "Bombillo ventilador LED con control remoto",
+        "boton_texto": "Pedir el mío",
+        "acento": "#74d8b0",
+        "heading_size": 34,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "cierre": {
+      "type": "dn-cta",
+      "settings": {
+        "headline": "Esta noche, con aire y sin obra",
+        "precio_nota": "Envío gratis · también contra entrega",
+        "boton_texto": "Pedir el mío",
+        "imagen_asset": "dn-vt-1.webp",
+        "alt": "Bombillo ventilador LED con control remoto",
+        "acento": "#74d8b0",
+        "heading_size": 38,
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "faq": {
+      "type": "dn-faq",
+      "blocks": {
+        "q1": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Va donde va el bombillo",
+            "respuesta": "<p>En un portabombillo de rosca normal (E27). Si tu techo tiene un panel LED empotrado o una lámpara sin rosca, no entra.</p>"
+          }
+        },
+        "q2": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Mueve el aire, no lo enfría",
+            "respuesta": "<p>Es un ventilador: refresca porque mueve el aire, pero no baja la temperatura como un aire acondicionado.</p>"
+          }
+        },
+        "q3": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Luz y ventilador, por separado",
+            "respuesta": "<p>Con el control prendes la luz, el ventilador o los dos.</p>"
+          }
+        },
+        "q4": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Paga como prefieras",
+            "respuesta": "<p>Con tarjeta débito o crédito, PSE, Nequi o Bre-B al hacer el pedido, o contra entrega al mensajero. Lo eliges en el pago.</p>"
+          }
+        },
+        "q5": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Llega en 3 a 6 días hábiles",
+            "respuesta": "<p>Te confirmamos por WhatsApp antes de despachar y te pasamos la guía para que lo sigas.</p>"
+          }
+        },
+        "q6": {
+          "type": "pregunta",
+          "settings": {
+            "pregunta": "Si llega mal, avísanos en 10 días",
+            "respuesta": "<p>Si llega roto, incompleto, no funciona o no es lo que pediste, escríbenos dentro de los 10 días siguientes a recibirlo. Te recomendamos grabar un video al abrir la caja. Además tienes 5 días hábiles de retracto.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
+      "settings": {
+        "abiertas": true,
+        "kicker": "Sin letra pequeña",
+        "headline": "Lo que tienes que saber",
+        "texto": "",
+        "boton_texto": "Pedir el mío",
+        "acento": "#74d8b0",
+        "heading_size": 34,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    }
+  }
+}

@@ -332,6 +332,8 @@ export const productoComedero: Product = {
   features: ["Sin pilas ni enchufe", "Solo alimento seco", "Envío gratis a toda Colombia"],
   image: imagenes.portada,
   fisico: true,
+  contraEntrega: true,
+  segundo: landing.oferta.packs.find((p) => p.cantidad === 2)?.descuento,
 };
 
 /** ID de variante de Shopify para un plan (color) del comedero. */

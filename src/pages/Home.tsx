@@ -11,6 +11,7 @@ import { Guarantee } from "@/sections/Guarantee";
 import { Hero } from "@/sections/Hero";
 import { HowItWorks } from "@/sections/HowItWorks";
 import { PerfumeriaSection } from "@/sections/PerfumeriaSection";
+import { ProductosEstrella } from "@/sections/ProductosEstrella";
 import { ProductTabs } from "@/sections/ProductTabs";
 import { PromoCarousel } from "@/sections/PromoCarousel";
 import { Reviews } from "@/sections/Reviews";
@@ -45,6 +46,8 @@ export function Home() {
         }}
       />
       <Hero />
+      {/* Productos estrella, justo después de la apertura (como en Shopify) */}
+      <ProductosEstrella />
       <Benefits />
       <Categories />
       <PromoCarousel />

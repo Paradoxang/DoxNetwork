@@ -17,6 +17,7 @@
  * (price.ts) y se calcula hacia atrás: no es un precio anterior.
  */
 
+import { productosLanding } from "./landings";
 import { articulos, lineas } from "./lineas";
 import { perfumeCategory, perfumes, type PerfumeInfo } from "./perfumeria";
 import type { ArticuloInfo } from "./lineas";
@@ -72,10 +73,17 @@ export interface Product {
   articulo?: ArticuloInfo;
   /** Físico sin ficha de artículo ni perfume: se envía igual. Lo usa el comedero. */
   fisico?: true;
+  /** Tiene página de venta propia (/ventilador…): sus enlaces van ahí y no a la ficha. */
+  landing?: string;
+  /** Se puede pagar contra entrega (productos de Dropi con la etiqueta `contraentrega`). */
+  contraEntrega?: true;
+  /** Descuento automático de Shopify al llevar 2 o más (una vez por pedido), en pesos. */
+  segundo?: number;
 }
 
-/** Toda la tienda (perfumería, relojería, tecnología y vapes): carrito, favoritos, buscador y fichas. */
-export const allProducts: Product[] = [...perfumes, ...articulos];
+/** Toda la tienda (perfumería, relojería, tecnología y vapes): carrito, favoritos, buscador y fichas.
+    Los productos con página de venta (landings.ts) entran solo cuando están encendidos. */
+export const allProducts: Product[] = [...perfumes, ...articulos, ...productosLanding];
 
 // ── Utilidades ──
 
@@ -88,6 +96,9 @@ export const categoryById = (id: string): Category | undefined =>
       ? { id, name: lineas[id].name, blurb: lineas[id].blurb }
       : undefined;
 export const productBySlug = (slug: string) => bySlug.get(slug);
+
+/** A dónde lleva un producto: su página de venta si la tiene, si no su ficha. */
+export const enlaceProducto = (p: Product) => p.landing ?? `/producto/${p.slug}`;
 
 export const cheapestPlan = (p: Product) => p.plans.reduce((a, b) => (b.price < a.price ? b : a));
 export const fromPrice = (p: Product) => cheapestPlan(p).price;
@@ -114,6 +125,8 @@ export const initials = (name: string) =>
 /* ── Descuento de vitrina, en todas las líneas ──
    Va al final a propósito: necesita los precios ya calculados. */
 for (const p of allProducts) {
+  // Las páginas de venta no llevan tachado: el precio es el de su plantilla de Shopify
+  if (p.landing) continue;
   const linea = p.category as LineaPrecio;
   for (const pl of p.plans) {
     if (!pl.price) continue;

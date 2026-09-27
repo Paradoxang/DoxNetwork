@@ -3,6 +3,7 @@ import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   bestDiscount,
+  enlaceProducto,
   categoryById,
   cheapestPlan,
   isAvailable,
@@ -93,7 +94,7 @@ export function ProductCard({ product, variant }: { product: Product; variant?: 
   const perfume = product.perfume;
   const articulo = product.articulo;
   const off = bestDiscount(product);
-  const href = `/producto/${product.slug}`;
+  const href = enlaceProducto(product);
 
   const badge: ProductCardProps["badge"] = !available
     ? { label: "Agotado", tone: "muted" }
