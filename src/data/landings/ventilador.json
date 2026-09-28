@@ -1,6 +1,7 @@
 {
   "order": [
     "oferta",
+    "duda",
     "sinobra",
     "pasos",
     "cifras",
@@ -81,12 +82,12 @@
         "dias_min": 3,
         "dias_max": 6,
         "festivos": "2026-10-12,2026-11-02,2026-11-16,2026-12-08,2026-12-25,2027-01-01,2027-01-11,2027-03-22,2027-03-25,2027-03-26",
-        "entrega_respaldo": "Llega en 3 a 6 días hábiles",
+        "entrega_respaldo": "3 a 6 días hábiles",
         "entrega_nota": "Fecha estimada; la confirma la transportadora según tu ciudad.",
-        "confianza1": "Te confirmamos por WhatsApp antes de despachar",
-        "confianza2": "Si llega roto, incompleto o no funciona: 10 días para reclamar",
-        "confianza3": "5 días hábiles de retracto, como manda la ley",
-        "confianza4": "",
+        "confianza1": "Envío gratis | a toda Colombia",
+        "confianza2": "Pagas al recibir | o antes, como prefieras",
+        "confianza3": "10 días para reclamar | si llega roto, incompleto o no funciona",
+        "confianza4": "5 días de retracto | hábiles, desde que lo recibes",
         "wa_numero": "",
         "wa_mensaje": "",
         "wa_texto": "",
@@ -97,7 +98,10 @@
         "acento": "#74d8b0",
         "heading_size": 44,
         "padding_top": 16,
-        "padding_bottom": 40
+        "padding_bottom": 40,
+        "aviso": "Lleva 2 ventiladores: el segundo con 30 % menos · envío gratis",
+        "prepago_mostrar": true,
+        "confianza_nota": ""
       }
     },
     "sinobra": {
@@ -525,6 +529,60 @@
         "texto": "",
         "boton_texto": "Pedir el mío",
         "acento": "#74d8b0",
+        "heading_size": 34,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "duda": {
+      "type": "dn-duda",
+      "blocks": {
+        "punto_1": {
+          "type": "punto",
+          "settings": {
+            "tipo": "si",
+            "texto": "Rosca E27: va donde hoy tienes el bombillo"
+          }
+        },
+        "punto_2": {
+          "type": "punto",
+          "settings": {
+            "tipo": "si",
+            "texto": "Luz y ventilador por separado, con control remoto"
+          }
+        },
+        "punto_3": {
+          "type": "punto",
+          "settings": {
+            "tipo": "no",
+            "texto": "No enfría el aire: lo mueve, como cualquier ventilador"
+          }
+        },
+        "punto_4": {
+          "type": "punto",
+          "settings": {
+            "tipo": "no",
+            "texto": "Si tu techo tiene un panel LED empotrado, no entra"
+          }
+        }
+      },
+      "block_order": [
+        "punto_1",
+        "punto_2",
+        "punto_3",
+        "punto_4"
+      ],
+      "settings": {
+        "acento": "#74d8b0",
+        "imagen_asset": "dn-vt-1.webp",
+        "alt": "Bombillo ventilador con rosca E27 y su control remoto",
+        "pregunta": "¿Un ventilador en el bombillo?",
+        "remate": "Suena raro. Funciona así.",
+        "respuesta": "<p>Se enrosca en el portabombillo de rosca normal (E27) de tu techo, como cualquier bombillo, y funciona a 110 V, el voltaje de las casas en Colombia. Con el control prendes la luz, el ventilador o los dos. Sin electricista y sin hacerle huecos al techo.</p>",
+        "cita": "",
+        "cita_autor": "",
+        "cita_fuente": "",
+        "kicker": "La duda que todos tienen",
         "heading_size": 34,
         "padding_top": 48,
         "padding_bottom": 48

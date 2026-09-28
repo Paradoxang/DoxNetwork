@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { PasosEntrega, RejillaConfianza } from "@/components/ConfianzaEntrega";
 import { MediosPago } from "@/components/MediosPago";
 import { pixel } from "@/components/MetaPixel";
 import { ResenasProducto } from "@/components/ResenasProducto";
@@ -19,7 +20,8 @@ import { porProducto } from "@/data/resenas";
 import { formatCOP, site, waLink } from "@/data/site";
 import { useAtribucion } from "@/lib/atribucion";
 import { useCart } from "@/lib/cart";
-import { fechaEntrega } from "@/lib/entrega";
+import { rangoEntrega } from "@/lib/entrega";
+import { BloquePrepago, LineaPrepago, usePrepago } from "@/lib/prepago";
 import "@/styles/comedero-landing.css";
 
 /**
@@ -90,7 +92,8 @@ export function Comedero() {
   const [cantidad, setCantidad] = useState(1);
   const [foto, setFoto] = useState(0);
   const [barra, setBarra] = useState(false);
-  const [entrega, setEntrega] = useState<[string, string] | null>(null);
+  const [entrega, setEntrega] = useState<string | null>(null);
+  const prepago = usePrepago();
   const [gramos, setGramos] = useState(landing.calculadora.presets[0].gramos);
   const [conSonido, setConSonido] = useState<number | null>(null);
 
@@ -143,7 +146,7 @@ export function Comedero() {
   /* Entrega estimada: solo en el navegador (la fecha de hoy no es la del build). */
   useEffect(() => {
     try {
-      setEntrega([fechaEntrega(O.entrega.min, O.entrega.festivos), fechaEntrega(O.entrega.max, O.entrega.festivos)]);
+      setEntrega(rangoEntrega(O.entrega.min, O.entrega.max, O.entrega.festivos));
     } catch {
       /* queda el texto de respaldo */
     }
@@ -338,6 +341,10 @@ export function Comedero() {
       <div ref={raiz} className="dn-landing" data-theme="dark">
         {/* ── 1 · Oferta ── */}
         <section className="dn-section dn-oferta" id="comprar" style={{ ...px(124, 40), "--dn-acento": "#9aa9ff" } as CSSProperties}>
+          {/* Aviso de arriba, pegado al menú (los 16 px son el padding_top de la plantilla). */}
+          <p className="dn-aviso" style={{ marginTop: -16, marginBottom: 16 }}>
+            {O.aviso}
+          </p>
           <div className="dn-container dn-oferta__rejilla">
             <div className="dn-oferta__galeria">
               <div
@@ -465,6 +472,7 @@ export function Comedero() {
                 </div>
               </div>
 
+              {O.prepago && prepago && <BloquePrepago p={prepago} />}
               <div className="dn-oferta__form">
                 {comprar(true)}
               </div>
@@ -478,34 +486,9 @@ export function Comedero() {
 
               {pagos()}
 
-              <div className="dn-entrega">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d="M3 7h11v8H3zM14 10h4l3 3v2h-7" />
-                  <circle cx="7" cy="17" r="2" />
-                  <circle cx="17" cy="17" r="2" />
-                </svg>
-                <p>
-                  <span>
-                    {entrega ? (
-                      <>
-                        Pide hoy y te llega entre el <b>{entrega[0]}</b> y el <b>{entrega[1]}</b>
-                      </>
-                    ) : (
-                      O.entrega.respaldo
-                    )}
-                  </span>
-                  <small>{O.entrega.nota}</small>
-                </p>
-              </div>
+              <RejillaConfianza datos={O.confianza} />
 
-              <ul className="dn-oferta__confianza">
-                {O.confianza.map((c) => (
-                  <li key={c}>
-                    <Escudo />
-                    {c}
-                  </li>
-                ))}
-              </ul>
+              <PasosEntrega rango={entrega} respaldo={O.entrega.respaldo} nota={O.entrega.nota} />
             </div>
           </div>
 
@@ -535,6 +518,7 @@ export function Comedero() {
                   <p className="dn-hoja__titulo">{O.hojaTitulo}</p>
                   <p className="dn-hoja__total">{formatCOP(total)}</p>
                   <p className="dn-hoja__nota">{O.precioNota}</p>
+                  {O.prepago && prepago && <LineaPrepago p={prepago} />}
                 </div>
               </div>
               <p className="dn-oferta__etiqueta">Color</p>
@@ -556,6 +540,45 @@ export function Comedero() {
               {pagos(true)}
             </div>
           </dialog>
+        </section>
+
+        {/* ── 1b · La duda principal (dn-duda del tema) ── */}
+        <section className="dn-section dn-duda" style={{ ...px(48, 48), "--dn-acento": "#9aa9ff" } as CSSProperties}>
+          <div className="dn-container dn-duda__rejilla">
+            <div className="dn-duda__media dn-reveal">
+              <img src={landing.duda.imagen} alt={landing.duda.alt} loading="lazy" width={1100} height={1100} />
+            </div>
+            <div className="dn-duda__texto">
+              <p className="dn-kicker dn-reveal">{landing.duda.kicker}</p>
+              <h2 className="dn-duda__titulo dn-reveal" style={{ fontSize: 34 }}>
+                {landing.duda.pregunta}
+              </h2>
+              <p className="dn-duda__remate dn-reveal">{landing.duda.remate}</p>
+              <div className="dn-body dn-reveal">
+                <p>{landing.duda.respuesta}</p>
+              </div>
+              <ul className="dn-duda__puntos">
+                {landing.duda.puntos.map((b) => (
+                  <li key={b.texto} className="dn-reveal">
+                    {b.tipo === "no" ? (
+                      <svg className="dn-duda__no" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
+                        <path d="M6 6l12 12M18 6 6 18" />
+                      </svg>
+                    ) : (
+                      <Check />
+                    )}
+                    <span>{b.texto}</span>
+                  </li>
+                ))}
+              </ul>
+              <figure className="dn-duda__cita dn-reveal">
+                <blockquote>«{landing.duda.cita}»</blockquote>
+                <figcaption>
+                  {landing.duda.citaAutor} · <span>{landing.duda.citaFuente}</span>
+                </figcaption>
+              </figure>
+            </div>
+          </div>
         </section>
 
         {/* ── 2 · El plato vacío no avisa ── */}

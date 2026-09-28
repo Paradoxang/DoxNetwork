@@ -31,3 +31,35 @@ export function fechaEntrega(dias: number, festivos: string[] = FESTIVOS) {
   }
   return new Intl.DateTimeFormat("es-CO", { weekday: "short", day: "numeric", month: "short" }).format(d).replace(/\./g, "");
 }
+
+/** La fecha tras `dias` días hábiles, como Date (misma cuenta que fechaEntrega). */
+function sumarHabiles(dias: number, festivos: string[]) {
+  const clave = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const d = new Date();
+  d.setHours(12, 0, 0, 0);
+  let c = 0;
+  while (c < dias) {
+    d.setDate(d.getDate() + 1);
+    const w = d.getDay();
+    if (w !== 0 && w !== 6 && !festivos.includes(clave(d))) c++;
+  }
+  return d;
+}
+
+/**
+ * «jue 1 – mar 6 oct» (o «mié 30 sep – vie 2 oct»): el paso 3 de la línea de
+ * entrega, igual que dn-landing.js del tema desde el 28-sep-2026.
+ */
+export function rangoEntrega(min: number, max: number, festivos: string[] = FESTIVOS) {
+  const f = new Intl.DateTimeFormat("es-CO", { weekday: "short", day: "numeric", month: "short" });
+  const partes = (d: Date) => {
+    const o: Record<string, string> = {};
+    f.formatToParts(d).forEach((p) => (o[p.type] = p.value.replace(/\./g, "")));
+    return o;
+  };
+  const a = partes(sumarHabiles(min, festivos));
+  const b = partes(sumarHabiles(max, festivos));
+  return a.month === b.month
+    ? `${a.weekday} ${a.day} – ${b.weekday} ${b.day} ${b.month}`
+    : `${a.weekday} ${a.day} ${a.month} – ${b.weekday} ${b.day} ${b.month}`;
+}

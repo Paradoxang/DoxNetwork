@@ -126,12 +126,41 @@ export const landing = {
         "2026-10-12", "2026-11-02", "2026-11-16", "2026-12-08", "2026-12-25",
         "2027-01-01", "2027-01-11", "2027-03-22", "2027-03-25", "2027-03-26",
       ],
-      respaldo: "Llega en 3 a 6 días hábiles",
+      respaldo: "3 a 6 días hábiles",
       nota: "Fecha estimada; la confirma la transportadora según tu ciudad.",
     },
-    confianza: ["Te confirmamos por WhatsApp antes de despachar", "Garantía legal y 5 días hábiles de retracto"],
+    /* Como la plantilla de Shopify desde el 28-sep-2026: franja de arriba, rejilla 2×2
+       («Título | detalle»; iconos 1 envío, 2 pago, 3 garantía, 4 retracto) y el descuento
+       por pago adelantado con reloj (lib/prepago.tsx). */
+    aviso: "Lleva 2 comederos: el segundo con 30 % menos · envío gratis",
+    confianza: [
+      "Envío gratis | a toda Colombia",
+      "Pagas al recibir | o antes, como prefieras",
+      "Garantía legal | si llega mal, lo resolvemos",
+      "5 días de retracto | hábiles, desde que lo recibes",
+    ],
+    prepago: true,
     barra: { texto: "Comprar", nota: "Envío gratis" },
     hojaTitulo: "Pídelo ahora",
+  },
+  /* La duda principal (sections/dn-duda.liquid del tema), justo después de la oferta. */
+  duda: {
+    kicker: "La duda que todos tienen",
+    pregunta: "¿Sin pilas ni enchufe? ¿Y cómo funciona?",
+    remate: "Por gravedad.",
+    respuesta:
+      "Llenas el tanque de 3,2 litros y listo. A medida que tu mascota come y el plato se vacía, la croqueta baja sola por su propio peso. No tiene motor ni pilas: no hay nada que se descargue ni que programar.",
+    imagen: "/comedero/dn-cm-g-llenado.webp",
+    alt: "Una mano llena el tanque del comedero con croqueta",
+    puntos: [
+      { tipo: "si", texto: "Con la perilla del frente ajustas cuánto se abre la salida" },
+      { tipo: "si", texto: "Tu mascota come a su ritmo: no mide porciones ni horarios" },
+      { tipo: "no", texto: "Solo croqueta seca: lo húmedo se apelmaza y atasca la salida" },
+    ],
+    /* Cita real, copiada tal cual de una reseña del proveedor (la completa, con lo malo, está en Reseñas). */
+    cita: "No fue caro y es muy práctico. Le echo un paquete entero de concentrado y no tengo que estar pendiente a toda hora.",
+    citaAutor: "Medellín, comedero gris",
+    citaFuente: "Cliente del proveedor",
   },
   dolor: {
     kicker: "¿Te suena?",

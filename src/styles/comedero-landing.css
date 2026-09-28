@@ -150,14 +150,44 @@
 @keyframes dn-latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.025); box-shadow: 0 10px 36px rgba(115, 132, 242, 0.45); } }
 .dn-pagos { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 6.4px; margin: 12.8px 0 0; padding: 0; }
 .dn-pagos li { font-family: var(--dn-mono); font-size: 11.2px; letter-spacing: 0.06em; padding: 4.8px 10.4px; border-radius: 999px; border: 1px solid var(--dn-line-strong); color: var(--dn-mute); }
-.dn-entrega { display: flex; gap: 12px; align-items: flex-start; margin-top: 16px; padding: 13.6px 16px; border-radius: var(--dn-radio-sm); background: rgba(116, 216, 176, 0.08); border: 1px solid rgba(116, 216, 176, 0.25); }
-.dn-entrega svg { width: 24px; height: 24px; flex: none; color: var(--dn-mint); margin-top: 1.6px; }
-.dn-entrega p { margin: 0; display: grid; gap: 3.2px; font-size: 15.2px; }
-.dn-entrega b { color: var(--dn-mint); }
-.dn-entrega small { color: var(--dn-faint); font-size: 12.16px; }
-.dn-oferta__confianza { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 8px; }
-.dn-oferta__confianza li { display: flex; gap: 8.8px; align-items: flex-start; color: var(--dn-mute); font-size: 14.4px; }
-.dn-oferta__confianza svg { width: 18px; height: 18px; flex: none; color: var(--dn-mint); margin-top: 1.6px; }
+/* Confianza en rejilla 2×2 bajo el botón (título + detalle; icono por posición). */
+.dn-confianza { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.dn-confianza li { display: flex; gap: 9.6px; align-items: flex-start; padding: 12px; border-radius: var(--dn-radio-sm); background: rgba(255, 255, 255, 0.03); border: 1px solid var(--dn-line); }
+.dn-confianza svg { width: 22px; height: 22px; flex: none; color: var(--dn-mint); margin-top: 1px; }
+.dn-confianza span { display: grid; gap: 2px; min-width: 0; }
+.dn-confianza b { font-size: 14.4px; line-height: 1.25; color: var(--dn-ink); }
+.dn-confianza small { font-size: 12.16px; line-height: 1.35; color: var(--dn-mute); }
+.dn-confianza__nota { margin: 8.8px 0 0; font-size: 12.8px; color: var(--dn-mute); text-align: center; }
+
+/* Entrega en 3 pasos: hoy → confirmamos → te llega (fecha calculada). */
+.dn-entrega { margin-top: 16px; padding: 16px 12px 12px; border-radius: var(--dn-radio-sm); background: rgba(116, 216, 176, 0.08); border: 1px solid rgba(116, 216, 176, 0.25); }
+.dn-entrega__pasos { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); position: relative; }
+.dn-entrega__pasos::before { content: ""; position: absolute; top: 17px; left: 16.6%; right: 16.6%; border-top: 2px dashed rgba(116, 216, 176, 0.45); }
+.dn-entrega__pasos li { position: relative; display: grid; justify-items: center; gap: 3.2px; text-align: center; padding: 0 4px; }
+.dn-entrega__pasos i { width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center; background: var(--dn-bg-soft); border: 1.5px solid var(--dn-mint); color: var(--dn-mint); margin-bottom: 4px; }
+.dn-entrega__pasos svg { width: 18px; height: 18px; }
+.dn-entrega__pasos b { font-size: 13.6px; line-height: 1.2; color: var(--dn-mint); }
+.dn-entrega__pasos span { font-size: 12px; line-height: 1.3; color: var(--dn-mute); }
+.dn-entrega__nota { display: block; margin-top: 10.4px; text-align: center; color: var(--dn-faint); font-size: 12.16px; }
+
+/* Descuento por pago adelantado con reloj (sale oculto; lo muestra dn-landing.js). */
+.dn-prepago[hidden], .dn-hoja__prepago[hidden] { display: none; }
+.dn-prepago { margin: 0 0 16px; padding: 14.4px 16px; border-radius: var(--dn-radio-sm); background: rgba(242, 196, 109, 0.08); border: 1px dashed rgba(242, 196, 109, 0.55); }
+.dn-prepago__titulo { margin: 0 0 10.4px; font-weight: 700; font-size: 15.2px; color: var(--dn-ink); }
+.dn-prepago__fila { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 12px; }
+.dn-prepago__codigo { display: inline-flex; align-items: center; gap: 10px; padding: 8.8px 12px; border-radius: 999px; border: 1px solid var(--dn-gold); background: rgba(242, 196, 109, 0.12); color: var(--dn-gold); cursor: pointer; font: inherit; min-height: 44px; }
+.dn-prepago__codigo span { font-family: var(--dn-mono); font-size: 16px; letter-spacing: 0.08em; font-weight: 700; }
+.dn-prepago__codigo small { font-size: 12px; color: var(--dn-ink); border-left: 1px solid rgba(242, 196, 109, 0.4); padding-left: 10px; }
+.dn-prepago__codigo:focus-visible { outline: 3px solid var(--dn-gold); outline-offset: 2px; }
+.dn-prepago__reloj { margin: 0; font-size: 13.6px; color: var(--dn-mute); }
+.dn-prepago__reloj b { font-family: var(--dn-mono); font-size: 17.6px; color: var(--dn-gold); font-variant-numeric: tabular-nums; }
+.dn-prepago__nota { margin: 10.4px 0 0; font-size: 12.8px; line-height: 1.45; color: var(--dn-mute); }
+.dn-hoja__prepago { margin: 6.4px 0 0; font-size: 12.8px; color: var(--dn-mute); }
+.dn-hoja__prepago b { font-family: var(--dn-mono); color: var(--dn-gold); font-variant-numeric: tabular-nums; }
+
+/* Franja de aviso arriba de la oferta: pegada al encabezado (el margen negativo lo pone la sección). */
+.dn-aviso { margin: 0 0 16px; padding: 9.6px var(--dn-margen); text-align: center; background: var(--dn-acento); color: #0b0f1d; font-family: var(--dn-mono); font-size: 12.16px; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; line-height: 1.35; }
+
 .dn-oferta__wa { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; color: #25d366; font-weight: 700; text-decoration: none; font-size: 15.2px; }
 .dn-oferta__wa svg { width: 20px; height: 20px; }
 
@@ -187,9 +217,12 @@
   .dn-pack__precio { font-size: 19.2px; }
   .dn-oferta__boton { font-size: 19.2px; padding: 20px 25.6px; }
   .dn-pagos li { font-size: 12.8px; }
-  .dn-entrega p { font-size: 17.28px; }
-  .dn-entrega small { font-size: 13.6px; }
-  .dn-oferta__confianza li { font-size: 16.32px; }
+  .dn-entrega__pasos b { font-size: 15.2px; }
+  .dn-entrega__pasos span, .dn-entrega__nota { font-size: 13.6px; }
+  .dn-confianza b { font-size: 15.2px; }
+  .dn-confianza small { font-size: 13.12px; }
+  .dn-prepago__titulo { font-size: 16.8px; }
+  .dn-aviso { font-size: 13.12px; }
   .dn-oferta__producto { font-size: 13.12px; }
 }
 
@@ -437,3 +470,25 @@ a.dn-oferta__estrellas small { text-decoration: underline; text-underline-offset
 .dn-medios--compacto { margin-top: 10px; }
 .dn-medios--compacto .dn-medios__icono { width: 34px; height: 22px; }
 .dn-medios--compacto .dn-medios__sello { height: 22px; font-size: 11px; }
+
+/* --- La duda principal (dn-duda) ------------------------------------------ */
+.dn-duda__rejilla { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; align-items: center; }
+.dn-duda__media { border-radius: var(--dn-radio); overflow: hidden; background: #eef0f4; aspect-ratio: 1; }
+.dn-duda__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dn-duda__titulo { font-family: var(--dn-display); font-weight: 700; line-height: 1.08; margin: 0; text-wrap: balance; font-size: clamp(26px, 7vw, 34px); }
+.dn-duda__remate { font-family: var(--dn-display); font-size: 22.4px; color: var(--dn-acento); margin: 6.4px 0 12.8px; font-weight: 700; }
+.dn-duda .dn-body { color: var(--dn-mute); line-height: 1.6; }
+.dn-duda .dn-body p { margin: 0 0 12px; }
+.dn-duda__puntos { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 10.4px; }
+.dn-duda__puntos li { display: flex; gap: 10.4px; align-items: flex-start; font-size: 16px; color: var(--dn-ink); }
+.dn-duda__puntos svg { width: 20px; height: 20px; flex: none; color: var(--dn-mint); margin-top: 2px; }
+.dn-duda__puntos svg.dn-duda__no { color: #ff8a8a; }
+.dn-duda__cita { margin: 20px 0 0; padding: 16px 18px; border-radius: var(--dn-radio-sm); border-left: 3px solid var(--dn-acento); background: rgba(255, 255, 255, 0.03); }
+.dn-duda__cita blockquote { margin: 0 0 8px; font-size: 16px; line-height: 1.5; color: var(--dn-ink); }
+.dn-duda__cita figcaption { font-size: 13.12px; color: var(--dn-mute); }
+.dn-duda__cita figcaption span { font-family: var(--dn-mono); font-size: 11.52px; letter-spacing: 0.08em; text-transform: uppercase; }
+@media (min-width: 990px) {
+  .dn-duda__rejilla { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 56px; }
+  .dn-duda__remate { font-size: 26px; }
+  .dn-duda__puntos li { font-size: 17.28px; }
+}

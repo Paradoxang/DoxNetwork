@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { PasosEntrega, RejillaConfianza } from "@/components/ConfianzaEntrega";
 import { MediosPago } from "@/components/MediosPago";
 import { pixel } from "@/components/MetaPixel";
 import { Seo } from "@/components/Seo";
@@ -6,7 +7,8 @@ import { landingPorSlug, type SeccionPlantilla } from "@/data/landings";
 import { formatCOP, site } from "@/data/site";
 import { conAtribucion, useAtribucion } from "@/lib/atribucion";
 import { useCart } from "@/lib/cart";
-import { fechaEntrega } from "@/lib/entrega";
+import { rangoEntrega } from "@/lib/entrega";
+import { BloquePrepago, LineaPrepago, usePrepago } from "@/lib/prepago";
 import { TIENDA_SHOPIFY } from "@/lib/shopify";
 import { NotFound } from "@/pages/NotFound";
 import "@/styles/comedero-landing.css";
@@ -99,7 +101,8 @@ export function LandingProducto({ slug }: { slug: string }) {
   const [cantidad, setCantidad] = useState(packs[0]?.cantidad ?? 1);
   const [foto, setFoto] = useState(0);
   const [barra, setBarra] = useState(false);
-  const [entrega, setEntrega] = useState<[string, string] | null>(null);
+  const [entrega, setEntrega] = useState<string | null>(null);
+  const prepago = usePrepago();
 
   const precio = L?.precio ?? 0;
   const pack = packs.find((p) => p.cantidad === cantidad);
@@ -146,7 +149,7 @@ export function LandingProducto({ slug }: { slug: string }) {
   useEffect(() => {
     try {
       const festivos = String(O.festivos ?? "").split(",").map((f) => f.trim()).filter(Boolean);
-      setEntrega([fechaEntrega(O.dias_min ?? 3, festivos), fechaEntrega(O.dias_max ?? 6, festivos)]);
+      setEntrega(rangoEntrega(O.dias_min ?? 3, O.dias_max ?? 6, festivos));
     } catch {
       /* queda el texto de respaldo */
     }
@@ -278,6 +281,12 @@ export function LandingProducto({ slug }: { slug: string }) {
       case "dn-oferta":
         return (
           <section key={s.id} className="dn-section dn-oferta" id="comprar" style={px(s, 108)}>
+            {/* Aviso de arriba, pegado al menú: solo ofertas reales (el pack, el envío). */}
+            {S.aviso && (
+              <p className="dn-aviso" style={{ marginTop: -(S.padding_top ?? 48), marginBottom: S.padding_top ?? 48 }}>
+                {S.aviso}
+              </p>
+            )}
             <div className="dn-container dn-oferta__rejilla">
               <div className="dn-oferta__galeria">
                 <div
@@ -373,6 +382,7 @@ export function LandingProducto({ slug }: { slug: string }) {
                   </div>
                 )}
 
+                {S.prepago_mostrar && prepago && <BloquePrepago p={prepago} />}
                 <div className="dn-oferta__form">{comprar(true)}</div>
                 {L.disponible && (
                   <p className="mt-2 text-center">
@@ -384,36 +394,19 @@ export function LandingProducto({ slug }: { slug: string }) {
 
                 <MediosPago contraEntrega />
 
-                {S.mostrar_entrega && (
-                  <div className="dn-entrega">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <path d="M3 7h11v8H3zM14 10h4l3 3v2h-7" />
-                      <circle cx="7" cy="17" r="2" />
-                      <circle cx="17" cy="17" r="2" />
-                    </svg>
-                    <p>
-                      <span>
-                        {entrega ? (
-                          <>
-                            Pide hoy y te llega entre el <b>{entrega[0]}</b> y el <b>{entrega[1]}</b>
-                          </>
-                        ) : (
-                          S.entrega_respaldo
-                        )}
-                      </span>
-                      <small>{S.entrega_nota}</small>
-                    </p>
-                  </div>
-                )}
+                <RejillaConfianza datos={[S.confianza1, S.confianza2, S.confianza3, S.confianza4]} nota={S.confianza_nota} />
 
-                <ul className="dn-oferta__confianza">
-                  {[S.confianza1, S.confianza2, S.confianza3, S.confianza4].filter(Boolean).map((c: string) => (
-                    <li key={c}>
-                      <Escudo />
-                      {c}
-                    </li>
-                  ))}
-                </ul>
+                {S.mostrar_entrega && (
+                  <PasosEntrega
+                    rango={entrega}
+                    respaldo={S.entrega_respaldo}
+                    nota={S.entrega_nota}
+                    paso1={S.entrega_paso1}
+                    paso2Titulo={S.entrega_paso2_titulo}
+                    paso2={S.entrega_paso2}
+                    paso3={S.entrega_paso3}
+                  />
+                )}
               </div>
             </div>
 
@@ -445,6 +438,7 @@ export function LandingProducto({ slug }: { slug: string }) {
                     <p className="dn-hoja__titulo">{S.hoja_titulo}</p>
                     <p className="dn-hoja__total">{formatCOP(total)}</p>
                     <p className="dn-hoja__nota">{S.precio_nota}</p>
+                    {S.prepago_mostrar && prepago && <LineaPrepago p={prepago} />}
                   </div>
                 </div>
                 {packs.length > 0 && (
@@ -457,6 +451,62 @@ export function LandingProducto({ slug }: { slug: string }) {
                 <MediosPago contraEntrega compacto />
               </div>
             </dialog>
+          </section>
+        );
+
+      case "dn-duda":
+        /* La duda principal (sections/dn-duda.liquid): una objeción, respondida con datos de la ficha. */
+        return (
+          <section key={s.id} className="dn-section dn-duda" style={px(s)}>
+            <div className="dn-container dn-duda__rejilla">
+              <div className="dn-duda__media dn-reveal">
+                <img src={img(S.imagen_asset)} alt={S.alt} loading="lazy" width={1100} height={1100} />
+              </div>
+              <div className="dn-duda__texto">
+                {S.kicker && <p className="dn-kicker dn-reveal">{S.kicker}</p>}
+                <h2 className="dn-duda__titulo dn-reveal" style={{ fontSize: S.heading_size }}>
+                  {S.pregunta}
+                </h2>
+                {S.remate && <p className="dn-duda__remate dn-reveal">{S.remate}</p>}
+                {S.respuesta && (
+                  <div className="dn-body dn-reveal">
+                    {parrafos(S.respuesta).map((p) => (
+                      <p key={p}>{p}</p>
+                    ))}
+                  </div>
+                )}
+                {bloques(s).length > 0 && (
+                  <ul className="dn-duda__puntos">
+                    {bloques(s).map((b) => (
+                      <li key={b.settings.texto} className="dn-reveal">
+                        {b.settings.tipo === "no" ? (
+                          <svg className="dn-duda__no" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
+                            <path d="M6 6l12 12M18 6 6 18" />
+                          </svg>
+                        ) : (
+                          <Check />
+                        )}
+                        <span>{b.settings.texto}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {S.cita && (
+                  <figure className="dn-duda__cita dn-reveal">
+                    <blockquote>«{S.cita}»</blockquote>
+                    <figcaption>
+                      {S.cita_autor}
+                      {S.cita_fuente && (
+                        <>
+                          {" · "}
+                          <span>{S.cita_fuente}</span>
+                        </>
+                      )}
+                    </figcaption>
+                  </figure>
+                )}
+              </div>
+            </div>
           </section>
         );
 

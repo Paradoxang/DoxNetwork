@@ -1,6 +1,7 @@
 {
   "order": [
     "oferta",
+    "duda",
     "lavadero",
     "pasos",
     "cifras",
@@ -90,12 +91,12 @@
         "dias_min": 3,
         "dias_max": 6,
         "festivos": "2026-10-12,2026-11-02,2026-11-16,2026-12-08,2026-12-25,2027-01-01,2027-01-11,2027-03-22,2027-03-25,2027-03-26",
-        "entrega_respaldo": "Llega en 3 a 6 días hábiles",
+        "entrega_respaldo": "3 a 6 días hábiles",
         "entrega_nota": "Fecha estimada; la confirma la transportadora según tu ciudad.",
-        "confianza1": "Te confirmamos por WhatsApp antes de despachar",
-        "confianza2": "Si llega rota, incompleta o no funciona: 10 días para reclamar",
-        "confianza3": "Graba un video al abrir la caja: lo pide la garantía",
-        "confianza4": "5 días hábiles de retracto, como manda la ley",
+        "confianza1": "Envío gratis | a toda Colombia",
+        "confianza2": "Pagas al recibir | o antes, como prefieras",
+        "confianza3": "10 días para reclamar | si llega rota, incompleta o no funciona",
+        "confianza4": "5 días de retracto | hábiles, desde que lo recibes",
         "wa_numero": "",
         "wa_mensaje": "",
         "wa_texto": "",
@@ -106,7 +107,10 @@
         "acento": "#74d8b0",
         "heading_size": 44,
         "padding_top": 16,
-        "padding_bottom": 40
+        "padding_bottom": 40,
+        "aviso": "Envío gratis a toda Colombia · pagas al recibir",
+        "prepago_mostrar": true,
+        "confianza_nota": "Graba un video al abrir la caja: lo pide la garantía."
       }
     },
     "lavadero": {
@@ -552,6 +556,52 @@
         "texto": "",
         "boton_texto": "Pedir la mía",
         "acento": "#74d8b0",
+        "heading_size": 34,
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "duda": {
+      "type": "dn-duda",
+      "blocks": {
+        "punto_1": {
+          "type": "punto",
+          "settings": {
+            "tipo": "si",
+            "texto": "120 W, conectada al encendedor"
+          }
+        },
+        "punto_2": {
+          "type": "punto",
+          "settings": {
+            "tipo": "si",
+            "texto": "Cable de 4,5 m para moverte por todo el carro"
+          }
+        },
+        "punto_3": {
+          "type": "punto",
+          "settings": {
+            "tipo": "no",
+            "texto": "No va en el enchufe de la casa: solo en la toma de 12 V del carro"
+          }
+        }
+      },
+      "block_order": [
+        "punto_1",
+        "punto_2",
+        "punto_3"
+      ],
+      "settings": {
+        "acento": "#74d8b0",
+        "imagen_asset": "dn-ap-2.webp",
+        "alt": "Aspiradora con su cable al encendedor, cepillo y boquillas",
+        "pregunta": "¿Una aspiradora que va al encendedor del carro?",
+        "remate": "Por eso no se descarga.",
+        "respuesta": "<p>Se conecta a la toma de 12 V del carro y funciona mientras esté conectada: no tiene batería que cargar ni que se acabe a mitad de la limpieza. Trae cepillo y boquillas para los tapetes y las rendijas entre las sillas, y un cable de 4,5 m para llegar a todo el carro.</p>",
+        "cita": "",
+        "cita_autor": "",
+        "cita_fuente": "",
+        "kicker": "La duda que todos tienen",
         "heading_size": 34,
         "padding_top": 48,
         "padding_bottom": 48
