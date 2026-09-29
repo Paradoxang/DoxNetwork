@@ -20,11 +20,11 @@ doxnetworks.com en vez de Releasit.
 | `src/pages/LandingProducto.tsx`, `src/pages/Comedero.tsx` | con el formulario encendido, «Comprar y pagar al recibir» abre el formulario y el checkout queda como «o paga ya con tarjeta, PSE, Nequi o Bre-B» |
 | `src/components/MetaPixel.tsx` | `pixel()` acepta un tercer argumento `{ eventID }` |
 | `src/styles/comedero-landing.css` | estilos `.dn-campo`, `.dn-pedido__*`, `.dn-oferta__alterno` al final |
-| `.env.production` | `VITE_FORMULARIO_COD=0` (apagado hasta el pedido de prueba) |
+| `.env.production` | `VITE_FORMULARIO_COD=1`: encendido el 29-09 tras el pedido de prueba #1008, que llegó a Dropi solo |
 
 ## Lo que tienes que saber
-- **Apagado no cambia nada**: «Comprar» sigue yendo al checkout. Con `?formulario`
-  en la URL se ve encendido, para probar en vivo.
+- **Está encendido desde el 29-09.** Con `VITE_FORMULARIO_COD=0` vuelve todo al
+  checkout; con 0, `?formulario` en la URL lo enciende solo para esa visita.
 - **Credenciales**: app «Pedidos contra entrega» del Dev Dashboard de Shopify
   (client credentials). `SHOPIFY_CLIENT_ID` va en `[vars]` de wrangler.toml; el
   secreto `SHOPIFY_CLIENT_SECRET` lo pone Santiago en Cloudflare y nunca va al repo.
