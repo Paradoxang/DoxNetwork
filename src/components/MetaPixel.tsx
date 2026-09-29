@@ -83,9 +83,15 @@ export function MetaPixel() {
   return null;
 }
 
-/** Evento del píxel. Inofensivo sin ID, y mudo en las rutas de vapes. */
-export function pixel(evento: string, datos?: Record<string, unknown>) {
+/**
+ * Evento del píxel. Inofensivo sin ID, y mudo en las rutas de vapes.
+ * `eventID` va en las compras del formulario contra entrega (el número de
+ * pedido de Shopify), para que Meta no las cuente dos veces si también le
+ * llegan por otra vía.
+ */
+export function pixel(evento: string, datos?: Record<string, unknown>, opciones?: { eventID?: string }) {
   if (typeof window === "undefined" || sinPixel(window.location.pathname)) return;
   if (!asegurar()) return;
-  fbqDe()?.("track", evento, datos);
+  if (opciones) fbqDe()?.("track", evento, datos, opciones);
+  else fbqDe()?.("track", evento, datos);
 }

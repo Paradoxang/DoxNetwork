@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { PasosEntrega, RejillaConfianza } from "@/components/ConfianzaEntrega";
 import { MediosPago } from "@/components/MediosPago";
 import { pixel } from "@/components/MetaPixel";
+import { usePedidoContraEntrega } from "@/components/PedidoContraEntrega";
 import { Seo } from "@/components/Seo";
 import { landingPorSlug, type SeccionPlantilla } from "@/data/landings";
 import { formatCOP, site } from "@/data/site";
@@ -26,7 +27,9 @@ import "@/styles/comedero-landing.css";
  *
  * Lo que es de este sitio, como en /comedero: «Comprar» va al checkout de
  * Shopify con la atribución del anuncio, el píxel manda sus eventos con la
- * variante, y «o añádelo a la cesta» lo lleva a la cesta de la tienda.
+ * variante, y «o añádelo a la cesta» lo lleva a la cesta de la tienda. Con el
+ * formulario contra entrega encendido (components/PedidoContraEntrega.tsx),
+ * «Comprar» abre el formulario y el checkout queda como «o paga ya».
  */
 
 const bloques = (s: SeccionPlantilla) => (s.block_order ?? []).map((id) => s.blocks![id]);
@@ -81,7 +84,7 @@ export function LandingProducto({ slug }: { slug: string }) {
   const pista = useRef<HTMLDivElement>(null);
   const minis = useRef<HTMLDivElement>(null);
   const deslizando = useRef<number>();
-  const boton = useRef<HTMLAnchorElement>(null);
+  const boton = useRef<HTMLElement>(null);
   const hoja = useRef<HTMLDialogElement>(null);
 
   const secciones = L ? L.plantilla.order.map((id) => ({ id, ...L.plantilla.sections[id] })).filter((s) => !s.disabled) : [];
@@ -118,6 +121,11 @@ export function LandingProducto({ slug }: { slug: string }) {
     num_items: unidades,
     currency: "COP",
   });
+  const cod = usePedidoContraEntrega(
+    { nombre: L?.nombre ?? "", variante: L?.variante ?? "", cantidad, total, foto: L && fotos[0] ? L.carpeta + fotos[0].archivo : undefined },
+    checkout,
+    atribucion
+  );
 
   useEffect(() => {
     if (L?.disponible) pixel("ViewContent", evento());
@@ -244,8 +252,21 @@ export function LandingProducto({ slug }: { slug: string }) {
   /* Funciones y no componentes: un componente declarado dentro del render se
      vuelve a montar en cada cambio de estado (y la barra perdería su botón). */
   const comprar = (principal = false) =>
-    L.disponible ? (
-      <a ref={principal ? boton : undefined} className="dn-boton dn-boton--primario dn-oferta__boton" href={checkout} onClick={alCheckout}>
+    L.disponible && cod.encendido ? (
+      <button
+        ref={principal ? (boton as RefObject<HTMLButtonElement>) : undefined}
+        type="button"
+        className="dn-boton dn-boton--primario dn-oferta__boton"
+        onClick={() => {
+          cerrarHoja();
+          cod.abrir();
+        }}
+      >
+        <span>Comprar y pagar al recibir</span>
+        <Flecha />
+      </button>
+    ) : L.disponible ? (
+      <a ref={principal ? (boton as RefObject<HTMLAnchorElement>) : undefined} className="dn-boton dn-boton--primario dn-oferta__boton" href={checkout} onClick={alCheckout}>
         <span>{O.boton_texto}</span>
         <Flecha />
       </a>
@@ -384,6 +405,13 @@ export function LandingProducto({ slug }: { slug: string }) {
 
                 {S.prepago_mostrar && prepago && <BloquePrepago p={prepago} />}
                 <div className="dn-oferta__form">{comprar(true)}</div>
+                {L.disponible && cod.encendido && (
+                  <p className="dn-oferta__alterno">
+                    <a href={checkout} onClick={alCheckout}>
+                      o paga ya con tarjeta, PSE, Nequi o Bre-B
+                    </a>
+                  </p>
+                )}
                 {L.disponible && (
                   <p className="mt-2 text-center">
                     <button type="button" onClick={alaCesta} className="text-[12px] font-semibold text-mute underline underline-offset-4 hover:text-ink">
@@ -451,6 +479,7 @@ export function LandingProducto({ slug }: { slug: string }) {
                 <MediosPago contraEntrega compacto />
               </div>
             </dialog>
+            {L.disponible && cod.encendido && cod.elemento}
           </section>
         );
 

@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { PasosEntrega, RejillaConfianza } from "@/components/ConfianzaEntrega";
 import { MediosPago } from "@/components/MediosPago";
 import { pixel } from "@/components/MetaPixel";
+import { usePedidoContraEntrega } from "@/components/PedidoContraEntrega";
 import { ResenasProducto } from "@/components/ResenasProducto";
 import { Seo } from "@/components/Seo";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
@@ -35,6 +36,8 @@ import "@/styles/comedero-landing.css";
  * por enlace de carrito (con UTM, fbclid y gclid), el píxel de Meta con sus
  * eventos, las reseñas con su componente, y «o añádelo a la cesta» para la
  * cesta de la tienda. Los anuncios apuntan aquí: no se redirige nada.
+ * Con el formulario contra entrega encendido (components/PedidoContraEntrega.tsx),
+ * «Comprar» abre el formulario y el checkout queda como «o paga ya».
  */
 
 const O = landing.oferta;
@@ -85,7 +88,7 @@ export function Comedero() {
   const pista = useRef<HTMLDivElement>(null);
   const minis = useRef<HTMLDivElement>(null);
   const deslizando = useRef<number>();
-  const boton = useRef<HTMLAnchorElement>(null);
+  const boton = useRef<HTMLElement>(null);
   const hoja = useRef<HTMLDialogElement>(null);
 
   const [color, setColor] = useState<Color>("Gris");
@@ -110,6 +113,7 @@ export function Comedero() {
   const pack = O.packs.find((p) => p.cantidad === cantidad) ?? O.packs[0];
   const total = precioPack(pack);
   const checkout = enlaceCheckout(variante, atribucion, cantidad);
+  const cod = usePedidoContraEntrega({ nombre: comedero.nombre, detalle: color, variante, cantidad, total, foto: O.fotos[0].src }, checkout, atribucion);
   const resenas = porProducto[productoComedero.slug] ?? [];
   const promedio = resenas.length ? resenas.reduce((n, r) => n + r.estrellas, 0) / resenas.length : 0;
 
@@ -277,13 +281,26 @@ export function Comedero() {
 
   /** El botón de compra: al checkout de Shopify con color y cantidad; apagado, pide aviso. */
   const comprar = (principal = false) =>
-    disponible ? (
-      <a ref={principal ? boton : undefined} className="dn-boton dn-boton--primario dn-oferta__boton" href={checkout} onClick={alCheckout}>
+    disponible && cod.encendido ? (
+      <button
+        ref={principal ? (boton as RefObject<HTMLButtonElement>) : undefined}
+        type="button"
+        className="dn-boton dn-boton--primario dn-oferta__boton"
+        onClick={() => {
+          cerrarHoja();
+          cod.abrir();
+        }}
+      >
+        <span>Comprar y pagar al recibir</span>
+        <Flecha />
+      </button>
+    ) : disponible ? (
+      <a ref={principal ? (boton as RefObject<HTMLAnchorElement>) : undefined} className="dn-boton dn-boton--primario dn-oferta__boton" href={checkout} onClick={alCheckout}>
         <span>{O.boton}</span>
         <Flecha />
       </a>
     ) : (
-      <a ref={principal ? boton : undefined} className="dn-boton dn-boton--primario dn-oferta__boton" href={waLink(mensajeAviso(color))}>
+      <a ref={principal ? (boton as RefObject<HTMLAnchorElement>) : undefined} className="dn-boton dn-boton--primario dn-oferta__boton" href={waLink(mensajeAviso(color))}>
         <WhatsAppIcon className="h-5 w-5" /> <span>Avísame cuando esté</span>
       </a>
     );
@@ -476,6 +493,13 @@ export function Comedero() {
               <div className="dn-oferta__form">
                 {comprar(true)}
               </div>
+              {disponible && cod.encendido && (
+                <p className="dn-oferta__alterno">
+                  <a href={checkout} onClick={alCheckout}>
+                    o paga ya con tarjeta, PSE, Nequi o Bre-B
+                  </a>
+                </p>
+              )}
               {disponible && (
                 <p className="mt-2 text-center">
                   <button type="button" onClick={alaCesta} className="text-[12px] font-semibold text-mute underline underline-offset-4 hover:text-ink">
@@ -540,6 +564,7 @@ export function Comedero() {
               {pagos(true)}
             </div>
           </dialog>
+          {disponible && cod.encendido && cod.elemento}
         </section>
 
         {/* ── 1b · La duda principal (dn-duda del tema) ── */}
