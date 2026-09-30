@@ -92,7 +92,10 @@ export function Comedero() {
   const hoja = useRef<HTMLDialogElement>(null);
 
   const [color, setColor] = useState<Color>("Gris");
-  const [cantidad, setCantidad] = useState(1);
+  /* El pack de 2 sale marcado (Santiago, 29-sep-2026): 2 de los 5 primeros
+     pedidos ya eran de 2 con el de 1 marcado, y el pack deja casi el doble por
+     pedido. El de 1 sigue a un toque. */
+  const [cantidad, setCantidad] = useState(2);
   const [foto, setFoto] = useState(0);
   const [barra, setBarra] = useState(false);
   const [entrega, setEntrega] = useState<string | null>(null);
