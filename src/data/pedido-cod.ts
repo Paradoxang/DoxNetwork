@@ -85,7 +85,14 @@ export interface PedidoEntrada {
   web: string;
   /** Milisegundos desde que se abrió el formulario. */
   ms: number;
+  /** Cookies _fbp y _fbc del píxel de Meta, para la compra por API de conversiones (worker/capi.ts). */
+  fbp?: string;
+  fbc?: string;
 }
+
+/** Lee una cookie del navegador (vacía fuera del navegador). */
+export const leerCookie = (nombre: string) =>
+  typeof document === "undefined" ? "" : (document.cookie.match(new RegExp(`(?:^|; )${nombre}=([^;]*)`))?.[1] ?? "");
 
 /** 10 dígitos que empiezan por 3, sin +57, espacios ni guiones. */
 export const limpiarCelular = (s: string) => s.replace(/\D/g, "").replace(/^57(?=3\d{9}$)/, "");

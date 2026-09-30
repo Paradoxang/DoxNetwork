@@ -18,8 +18,9 @@
  * secreto de Cloudflare que pone Santiago: no va en este repositorio.
  */
 import { CANTIDAD_MAX, DEPARTAMENTOS, SEGUNDO_CON_DESCUENTO, celularValido, limpiarCelular, nombreValido, type PedidoEntrada } from "../src/data/pedido-cod";
+import { enviarCompra, type EnvCapi } from "./capi";
 
-export interface Env {
+export interface Env extends EnvCapi {
   ASSETS: { fetch(req: Request): Promise<Response> };
   SHOPIFY_TIENDA: string;
   SHOPIFY_CLIENT_ID: string;
@@ -115,10 +116,14 @@ function leer(b: Partial<PedidoEntrada>) {
   const total = Number(b.total);
   const pagina = texto(b.pagina, 60);
   const atribucion = [...new URLSearchParams(texto(b.atribucion, 600))].filter(([k]) => k.startsWith("utm_") || k === "fbclid" || k === "gclid");
-  return { variante, cantidad, nombre, celular, departamento, ciudad, direccion, barrio, total, pagina, atribucion };
+  // Cookies del píxel de Meta: solo si tienen su forma (fb.1.<ms>.<valor>); si no, se ignoran.
+  const cookieFb = (v: unknown) => (/^fb\.\d\.\d{10,16}\.[\w.-]{4,200}$/.test(texto(v, 260)) ? texto(v, 260) : undefined);
+  const fbp = cookieFb(b.fbp);
+  const fbc = cookieFb(b.fbc);
+  return { variante, cantidad, nombre, celular, departamento, ciudad, direccion, barrio, total, pagina, atribucion, fbp, fbc };
 }
 
-export async function pedido(req: Request, env: Env): Promise<Response> {
+export async function pedido(req: Request, env: Env, ctx?: { waitUntil(p: Promise<unknown>): void }): Promise<Response> {
   const origen = req.headers.get("Origin") ?? "";
   const h = cors(origen);
   /* Pregunta previa del navegador antes de un POST con JSON desde otro origen */
@@ -178,8 +183,32 @@ export async function pedido(req: Request, env: Env): Promise<Response> {
       { order, options: { inventoryBehaviour: "BYPASS", sendReceipt: false, sendFulfillmentReceipt: false } }
     );
     if (!orderCreate.order) throw new Error(`orderCreate: ${JSON.stringify(orderCreate.userErrors).slice(0, 400)}`);
+    const id = orderCreate.order.id.split("/").pop()!;
 
-    return json({ ok: true, pedido: orderCreate.order.name, id: orderCreate.order.id.split("/").pop(), total }, 200, h);
+    // Copia de servidor de la compra para Meta (worker/capi.ts), con el mismo event_id que manda
+    // el navegador en PedidoContraEntrega.tsx: «pedido-<id>». No frena la respuesta al cliente.
+    const capi = enviarCompra(env, {
+      eventId: `pedido-${id}`,
+      url: `https://${sitio}${p.pagina}`,
+      valor: total,
+      variante: p.variante,
+      cantidad: p.cantidad,
+      nombre: p.nombre,
+      celular: p.celular,
+      ciudad: p.ciudad,
+      departamento: p.departamento,
+      fbp: p.fbp,
+      fbc: p.fbc,
+      fbclid: p.atribucion.find(([k]) => k === "fbclid")?.[1],
+      ip: req.headers.get("CF-Connecting-IP"),
+      agente: req.headers.get("User-Agent"),
+    })
+      .then((r) => console.log("capi", orderCreate.order!.name, r.ok ? "ok" : "falló", r.detalle))
+      .catch((e) => console.error("capi", orderCreate.order!.name, e));
+    if (ctx) ctx.waitUntil(capi);
+    else await capi;
+
+    return json({ ok: true, pedido: orderCreate.order.name, id, total }, 200, h);
   } catch (e) {
     if (e instanceof ErrorCliente) return json({ ok: false, error: e.message }, e.status, h);
     console.error("pedido", e);

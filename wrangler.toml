@@ -37,3 +37,6 @@ not_found_handling = "404-page"
 [vars]
 SHOPIFY_TIENDA = "yf61aj-nz.myshopify.com"
 SHOPIFY_CLIENT_ID = "f844af4e4e9c3403b056798f0075ef7c"
+# Píxel de la tienda (Dox Networks Store). No es secreto: va en el HTML público.
+# El token de la API de conversiones es el secreto META_CAPI_TOKEN (worker/capi.ts).
+META_PIXEL_ID = "2342205396552833"

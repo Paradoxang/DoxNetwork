@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent, type RefObject } from "react";
 import { pixel } from "@/components/MetaPixel";
-import { DEPARTAMENTOS, celularValido, limpiarCelular, nombreValido } from "@/data/pedido-cod";
+import { DEPARTAMENTOS, celularValido, leerCookie, limpiarCelular, nombreValido } from "@/data/pedido-cod";
 import { formatCOP, waLink } from "@/data/site";
 
 /**
@@ -134,6 +134,8 @@ function DialogoPedido({ dialogo, linea, alternativa, atribucion }: { dialogo: R
           atribucion,
           pagina: window.location.pathname,
           ms: Date.now() - abiertoEn.current,
+          fbp: leerCookie("_fbp"),
+          fbc: leerCookie("_fbc"),
         }),
       });
       const j = (await r.json().catch(() => ({}))) as { ok?: boolean; pedido?: string; id?: string; error?: string };
