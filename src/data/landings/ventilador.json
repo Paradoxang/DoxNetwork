@@ -12,15 +12,6 @@
             "rotulo": ""
           }
         },
-        "f2": {
-          "type": "foto",
-          "settings": {
-            "imagen_asset": "dn-vt-2.webp",
-            "alt": "Bombillo ventilador encendido en el techo de una cocina",
-            "color": "",
-            "rotulo": "Imagen ilustrativa"
-          }
-        },
         "p1": {
           "type": "pack",
           "settings": {
@@ -40,11 +31,64 @@
             "insignia": "El segundo con 30 % menos",
             "descuento": 40470
           }
+        },
+        "g-producto": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-vt-producto.webp",
+            "alt": "Bombillo ventilador LED con su control remoto",
+            "rotulo": ""
+          }
+        },
+        "g-paso1": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-vt-paso1.webp",
+            "alt": "Paso 1: quitas el bombillo del portabombillo del techo",
+            "rotulo": "Paso 1 · Imagen ilustrativa"
+          }
+        },
+        "g-paso2": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-vt-paso2.webp",
+            "alt": "Paso 2: enroscas el bombillo ventilador en el mismo portabombillo",
+            "rotulo": "Paso 2 · Imagen ilustrativa"
+          }
+        },
+        "g-paso3": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-vt-paso3.webp",
+            "alt": "Paso 3: lo prendes y lo manejas con el control desde la cama",
+            "rotulo": "Paso 3 · Imagen ilustrativa"
+          }
+        },
+        "g-tonos": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-vt-tonos.webp",
+            "alt": "Los tres tonos de luz: cálida, neutra y fría",
+            "rotulo": "Imagen ilustrativa"
+          }
+        },
+        "g-cuartos": {
+          "type": "foto",
+          "settings": {
+            "imagen_asset": "dn-vt-cuartos.webp",
+            "alt": "Uno en cada cuarto: el pack de 2",
+            "rotulo": "Uno por cuarto · Imagen ilustrativa"
+          }
         }
       },
       "block_order": [
+        "g-producto",
+        "g-paso1",
+        "g-paso2",
+        "g-paso3",
+        "g-tonos",
+        "g-cuartos",
         "f1",
-        "f2",
         "p1",
         "p2"
       ],
@@ -126,8 +170,8 @@
         "r3"
       ],
       "settings": {
-        "imagen_asset": "dn-vt-2.webp",
-        "alt": "Bombillo ventilador funcionando en el techo de una cocina",
+        "imagen_asset": "dn-vt-paso2.webp",
+        "alt": "Se enrosca en el portabombillo del techo, sin electricista ni huecos",
         "rotulo": "Imagen ilustrativa",
         "imagen_derecha": false,
         "kicker": "¿Te suena?",
@@ -428,7 +472,7 @@
         "kicker": "Formas de pago",
         "headline": "Paga como prefieras",
         "texto": "Tarjeta, PSE, Nequi, Bre-B o contra entrega. Y el envío va por nuestra cuenta.",
-        "imagen_asset": "dn-vt-1.webp",
+        "imagen_asset": "dn-vt-producto.webp",
         "alt": "Bombillo ventilador LED con control remoto",
         "boton_texto": "Pedir el mío",
         "acento": "#74d8b0",
@@ -443,8 +487,8 @@
         "headline": "Esta noche, con aire y sin obra",
         "precio_nota": "Envío gratis · también contra entrega",
         "boton_texto": "Pedir el mío",
-        "imagen_asset": "dn-vt-1.webp",
-        "alt": "Bombillo ventilador LED con control remoto",
+        "imagen_asset": "dn-vt-paso3.webp",
+        "alt": "De noche, prendes el ventilador con el control desde la cama",
         "acento": "#74d8b0",
         "heading_size": 38,
         "padding_top": 40,
@@ -565,7 +609,7 @@
       ],
       "settings": {
         "acento": "#74d8b0",
-        "imagen_asset": "dn-vt-1.webp",
+        "imagen_asset": "dn-vt-producto.webp",
         "alt": "Bombillo ventilador con rosca E27 y su control remoto",
         "pregunta": "¿Un ventilador en el bombillo?",
         "remate": "Suena raro. Funciona así.",
