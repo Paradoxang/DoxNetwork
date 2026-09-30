@@ -288,7 +288,12 @@ export function LandingProducto({ slug }: { slug: string }) {
                 <b>{p.titulo}</b>
                 {!compacto && <small>{p.detalle}</small>}
               </span>
-              {!compacto && <span className="dn-pack__precio">{formatCOP(precioPack(p))}</span>}
+              {!compacto && (
+                <span className="dn-pack__precio">
+                  {p.descuento > 0 && <s>{formatCOP(precio * p.cantidad)}</s>}
+                  <span>{formatCOP(precioPack(p))}</span>
+                </span>
+              )}
             </span>
           </label>
         ))}
@@ -382,17 +387,21 @@ export function LandingProducto({ slug }: { slug: string }) {
                 <p className="dn-oferta__producto">{L.nombre}</p>
                 {S.subtitulo && <p className="dn-oferta__sub">{S.subtitulo}</p>}
 
-                <ul className="dn-oferta__checks">
+                <ul className={`dn-oferta__checks${S.checks_emoji ? " dn-oferta__checks--emoji" : ""}`}>
                   {[S.check1, S.check2, S.check3, S.check4].filter(Boolean).map((c: string) => (
                     <li key={c}>
-                      <Check />
+                      {!S.checks_emoji && <Check />}
                       {c}
                     </li>
                   ))}
                 </ul>
 
+                {/* Tachado honesto (30-sep-2026): solo con un pack con descuento, y lo tachado es lo que
+                    costarían esas unidades sueltas (como en dn-oferta de Shopify). */}
                 <div className="dn-oferta__precio">
                   <strong>{formatCOP(total)}</strong>
+                  {pack && pack.descuento > 0 && <s className="dn-oferta__antes">{formatCOP(precio * pack.cantidad)}</s>}
+                  {pack && pack.descuento > 0 && <em className="dn-oferta__ahorro">Ahorras {formatCOP(pack.descuento)}</em>}
                   {S.precio_nota && <span>{S.precio_nota}</span>}
                 </div>
 

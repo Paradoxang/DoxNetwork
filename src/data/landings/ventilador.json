@@ -1,16 +1,4 @@
 {
-  "order": [
-    "oferta",
-    "duda",
-    "sinobra",
-    "pasos",
-    "cifras",
-    "comparativa",
-    "paraquien",
-    "garantia",
-    "cierre",
-    "faq"
-  ],
   "sections": {
     "oferta": {
       "type": "dn-oferta",
@@ -66,10 +54,10 @@
         "resenas_texto": "",
         "resenas_pct": 100,
         "subtitulo": "Se enrosca donde va el bombillo y lo manejas con el control: luz y ventilador, juntos o por separado.",
-        "check1": "Se enrosca en el portabombillo normal (rosca E27)",
-        "check2": "Luz y ventilador por separado: prende uno, el otro o los dos",
-        "check3": "Con control remoto, para manejarlo desde la cama",
-        "check4": "No perforas el techo: sirve si vives en arriendo",
+        "check1": "💡 Se enrosca en el portabombillo normal (rosca E27)",
+        "check2": "🌀 Luz y ventilador por separado: prende uno, el otro o los dos",
+        "check3": "🛏️ Con control remoto, para manejarlo desde la cama",
+        "check4": "🏠 No perforas el techo: sirve si vives en arriendo",
         "precio_nota": "Envío gratis a toda Colombia",
         "colores": "",
         "packs_titulo": "¿Cuántos quieres?",
@@ -99,9 +87,12 @@
         "heading_size": 44,
         "padding_top": 16,
         "padding_bottom": 40,
-        "aviso": "Lleva 2 ventiladores: el segundo con 30 % menos · envío gratis",
+        "aviso": "🔥 Lleva 2 ventiladores: el segundo con 30 % menos · 🚚 envío gratis",
         "prepago_mostrar": true,
-        "confianza_nota": ""
+        "confianza_nota": "",
+        "checks_emoji": true,
+        "formulario_cod": true,
+        "pack_por_defecto": 1
       }
     },
     "sinobra": {
@@ -588,5 +579,17 @@
         "padding_bottom": 48
       }
     }
-  }
+  },
+  "order": [
+    "oferta",
+    "duda",
+    "sinobra",
+    "pasos",
+    "cifras",
+    "comparativa",
+    "paraquien",
+    "garantia",
+    "cierre",
+    "faq"
+  ]
 }

@@ -1,17 +1,4 @@
 {
-  "order": [
-    "oferta",
-    "duda",
-    "lavadero",
-    "pasos",
-    "cifras",
-    "comparativa",
-    "rincones",
-    "paraquien",
-    "garantia",
-    "cierre",
-    "faq"
-  ],
   "sections": {
     "oferta": {
       "type": "dn-oferta",
@@ -75,10 +62,10 @@
         "resenas_texto": "",
         "resenas_pct": 100,
         "subtitulo": "Se conecta al encendedor del carro: no hay que cargarla y funciona mientras esté conectada.",
-        "check1": "Se conecta al encendedor del carro (12 V)",
-        "check2": "120 W de potencia",
-        "check3": "Cable de 4,5 m para moverte por el carro",
-        "check4": "Cepillo y boquillas para tapetes y rendijas",
+        "check1": "🔌 Se conecta al encendedor del carro (12 V)",
+        "check2": "💨 120 W de potencia",
+        "check3": "📏 Cable de 4,5 m para moverte por el carro",
+        "check4": "🧹 Cepillo y boquillas para tapetes y rendijas",
         "precio_nota": "Envío gratis a toda Colombia",
         "colores": "",
         "packs_titulo": "¿Cuántas quieres?",
@@ -108,9 +95,12 @@
         "heading_size": 44,
         "padding_top": 16,
         "padding_bottom": 40,
-        "aviso": "Envío gratis a toda Colombia · pagas al recibir",
+        "aviso": "🚚 Envío gratis a toda Colombia · 💵 pagas al recibir",
         "prepago_mostrar": true,
-        "confianza_nota": "Graba un video al abrir la caja: lo pide la garantía."
+        "confianza_nota": "Graba un video al abrir la caja: lo pide la garantía.",
+        "checks_emoji": true,
+        "formulario_cod": true,
+        "pack_por_defecto": 1
       }
     },
     "lavadero": {
@@ -607,5 +597,18 @@
         "padding_bottom": 48
       }
     }
-  }
+  },
+  "order": [
+    "oferta",
+    "duda",
+    "lavadero",
+    "pasos",
+    "cifras",
+    "comparativa",
+    "rincones",
+    "paraquien",
+    "garantia",
+    "cierre",
+    "faq"
+  ]
 }

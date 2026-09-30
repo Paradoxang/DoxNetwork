@@ -524,3 +524,26 @@ a.dn-oferta__estrellas small { text-decoration: underline; text-underline-offset
 .dn-pedido__ok p { margin: 0; }
 .dn-pedido__numero { font-family: var(--dn-mono); color: var(--dn-gold); font-size: 18px; }
 .dn-pedido__ok .dn-oferta__boton { width: 100%; }
+
+/* ── 30-sep-2026 · Calco de dn-landing.css de Shopify: tachado honesto del pack, ventajas con emoji
+   y comparativa en celular ── */
+.dn-oferta__antes { font-family: var(--dn-mono); font-size: 17.6px; color: var(--dn-faint); text-decoration-thickness: 2px; }
+.dn-oferta__ahorro { font-style: normal; font-size: 12.8px; font-weight: 800; letter-spacing: 0.02em; color: #0b0f1d; background: var(--dn-mint); border-radius: 999px; padding: 3.2px 10px; align-self: center; }
+.dn-oferta__precio span { flex-basis: 100%; }
+.dn-pack__precio { display: grid; justify-items: end; line-height: 1.15; }
+.dn-pack__precio s { font-size: 12.8px; color: var(--dn-faint); text-decoration-thickness: 1.5px; }
+.dn-oferta__checks--emoji li { gap: 10px; }
+
+/* Comparativa en celular: el aspecto arriba, de lado a lado, y debajo las dos opciones en dos
+   mitades iguales (antes cada fila tenía sus propias columnas y no casaban entre filas). */
+@media (max-width: 749px) {
+  .dn-vs__cabeza { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .dn-vs__cabeza > span:first-child { display: none; }
+  .dn-vs__fila { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .dn-vs__fila > span { padding: 10px 12px 14px; font-size: 14.4px; overflow-wrap: anywhere; hyphens: auto; }
+  .dn-vs__fila > .dn-vs__aspecto { grid-column: 1 / -1; justify-content: center; text-align: center; padding: 12px 12px 4px; font-size: 12.8px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--dn-mute); background: rgba(255, 255, 255, 0.03); }
+  .dn-vs__fila > .dn-vs__celda { border-top: 0; justify-content: center; text-align: center; }
+  .dn-vs__col { padding: 14px 8px; }
+  .dn-vs__col img { width: 72px; height: 72px; }
+  .dn-vs__col svg { width: 52px; height: 52px; }
+}

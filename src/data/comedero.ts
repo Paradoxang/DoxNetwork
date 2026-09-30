@@ -78,11 +78,13 @@ export const landing = {
   oferta: {
     kicker: "Para perros y gatos · envío gratis",
     subtitulo: comedero.resumen,
+    /* Con emoji delante (Santiago, 30-sep-2026): el emoji hace de viñeta, como en Shopify. */
+    checksEmoji: true,
     checks: [
-      "Tanque de 3,2 litros: lo llenas una vez",
-      "Funciona por gravedad: nada que se descargue",
-      "Para croqueta seca, perros y gatos",
-      "Perilla para ajustar la salida a su croqueta",
+      "🐾 Tanque de 3,2 litros: lo llenas una vez",
+      "⚡ Funciona por gravedad: nada que se descargue",
+      "🐶 Para croqueta seca, perros y gatos",
+      "🎛️ Perilla para ajustar la salida a su croqueta",
     ],
     /* Los medios van como logos debajo de «Comprar»: junto al precio solo el envío, como en Shopify */
     precioNota: "Envío gratis a toda Colombia",
@@ -132,7 +134,7 @@ export const landing = {
     /* Como la plantilla de Shopify desde el 28-sep-2026: franja de arriba, rejilla 2×2
        («Título | detalle»; iconos 1 envío, 2 pago, 3 garantía, 4 retracto) y el descuento
        por pago adelantado con reloj (lib/prepago.tsx). */
-    aviso: "Lleva 2 comederos: el segundo con 30 % menos · envío gratis",
+    aviso: "🔥 Lleva 2 comederos: el segundo con 30 % menos · 🚚 envío gratis",
     confianza: [
       "Envío gratis | a toda Colombia",
       "Pagas al recibir | o antes, como prefieras",

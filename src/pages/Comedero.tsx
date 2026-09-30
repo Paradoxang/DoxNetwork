@@ -449,17 +449,22 @@ export function Comedero() {
               )}
               <p className="dn-oferta__sub">{O.subtitulo}</p>
 
-              <ul className="dn-oferta__checks">
+              <ul className={`dn-oferta__checks${O.checksEmoji ? " dn-oferta__checks--emoji" : ""}`}>
                 {O.checks.map((c) => (
                   <li key={c}>
-                    <Check />
+                    {!O.checksEmoji && <Check />}
                     {c}
                   </li>
                 ))}
               </ul>
 
+              {/* Tachado honesto (30-sep-2026): solo con el pack con descuento, y lo tachado es lo que
+                  costarían esas unidades sueltas. La unidad sola no lleva tachado: no hay un precio
+                  anterior que lo respalde (Ley 1480). */}
               <div className="dn-oferta__precio">
                 <strong>{formatCOP(total)}</strong>
+                {pack.descuento > 0 && <s className="dn-oferta__antes">{formatCOP(comedero.precio * pack.cantidad)}</s>}
+                {pack.descuento > 0 && <em className="dn-oferta__ahorro">Ahorras {formatCOP(pack.descuento)}</em>}
                 <span>{O.precioNota}</span>
               </div>
 
@@ -485,7 +490,10 @@ export function Comedero() {
                             {p.descuento > 0 && ` · te ahorras ${formatCOP(p.descuento)}`}
                           </small>
                         </span>
-                        <span className="dn-pack__precio">{formatCOP(precioPack(p))}</span>
+                        <span className="dn-pack__precio">
+                          {p.descuento > 0 && <s>{formatCOP(comedero.precio * p.cantidad)}</s>}
+                          <span>{formatCOP(precioPack(p))}</span>
+                        </span>
                       </span>
                     </label>
                   ))}
