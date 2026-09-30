@@ -101,7 +101,12 @@ export function LandingProducto({ slug }: { slug: string }) {
         .map((b) => b.settings as { cantidad: number; titulo: string; detalle: string; insignia: string; descuento: number })
     : [];
 
-  const [cantidad, setCantidad] = useState(packs[0]?.cantidad ?? 1);
+  // El pack marcado al abrir es el de «pack_por_defecto» de la plantilla, como en Shopify (dn-oferta);
+  // si no hay un pack con esa cantidad, el primero.
+  const [cantidad, setCantidad] = useState(() => {
+    const def = Number(O.pack_por_defecto);
+    return packs.some((p) => Number(p.cantidad) === def) ? def : (packs[0]?.cantidad ?? 1);
+  });
   const [foto, setFoto] = useState(0);
   const [barra, setBarra] = useState(false);
   const [entrega, setEntrega] = useState<string | null>(null);
