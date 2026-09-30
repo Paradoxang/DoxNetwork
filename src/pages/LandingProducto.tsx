@@ -27,7 +27,7 @@ import "@/styles/comedero-landing.css";
  *
  * Lo que es de este sitio, como en /comedero: «Comprar» va al checkout de
  * Shopify con la atribución del anuncio, el píxel manda sus eventos con la
- * variante, y «o añádelo a la cesta» lo lleva a la cesta de la tienda. Con el
+ * variante, y el botón «Añadir al carrito» lo lleva a la cesta de la tienda. Con el
  * formulario contra entrega encendido (components/PedidoContraEntrega.tsx),
  * «Comprar» abre el formulario y el checkout queda como «o paga ya».
  */
@@ -56,6 +56,13 @@ const Escudo = () => (
 const Flecha = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);
+const IconoCesta = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="9" cy="20" r="1.5" />
+    <circle cx="18" cy="20" r="1.5" />
+    <path d="M2.5 3h2.6l2.4 12h11.2l2-8.5H6.2" />
   </svg>
 );
 const IrAComprar = ({ children, href = "#comprar", reveal = false }: { children: ReactNode; href?: string; reveal?: boolean }) => (
@@ -253,6 +260,22 @@ export function LandingProducto({ slug }: { slug: string }) {
     pixel("AddToCart", evento(total, cantidad));
     cart.setOpen(true);
   };
+  /* «Añadir al carrito» visible, como en la tienda de Shopify (30-sep-2026, pedido de Santiago):
+     el de arriba sigue siendo «comprar ya»; este mete el pack elegido en la cesta y la abre. */
+  const botonCesta = () =>
+    L.disponible ? (
+      <button
+        type="button"
+        className="dn-boton dn-oferta__carrito"
+        onClick={() => {
+          cerrarHoja();
+          alaCesta();
+        }}
+      >
+        <IconoCesta />
+        <span>Añadir al carrito</span>
+      </button>
+    ) : null;
 
   /* Funciones y no componentes: un componente declarado dentro del render se
      vuelve a montar en cada cambio de estado (y la barra perdería su botón). */
@@ -419,18 +442,12 @@ export function LandingProducto({ slug }: { slug: string }) {
 
                 {S.prepago_mostrar && prepago && <BloquePrepago p={prepago} />}
                 <div className="dn-oferta__form">{comprar(true)}</div>
+                {botonCesta()}
                 {L.disponible && cod.encendido && (
                   <p className="dn-oferta__alterno">
                     <a href={checkout} onClick={alCheckout}>
                       o paga ya con tarjeta, PSE, Nequi o Bre-B
                     </a>
-                  </p>
-                )}
-                {L.disponible && (
-                  <p className="mt-2 text-center">
-                    <button type="button" onClick={alaCesta} className="text-[12px] font-semibold text-mute underline underline-offset-4 hover:text-ink">
-                      o añádelo a la cesta
-                    </button>
                   </p>
                 )}
 
@@ -490,6 +507,7 @@ export function LandingProducto({ slug }: { slug: string }) {
                   </>
                 )}
                 {comprar()}
+                {botonCesta()}
                 <MediosPago contraEntrega compacto />
               </div>
             </dialog>

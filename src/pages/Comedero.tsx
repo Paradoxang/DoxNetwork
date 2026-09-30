@@ -34,7 +34,7 @@ import "@/styles/comedero-landing.css";
  *
  * Lo que es de este sitio y no del tema: «Comprar» va al checkout de Shopify
  * por enlace de carrito (con UTM, fbclid y gclid), el píxel de Meta con sus
- * eventos, las reseñas con su componente, y «o añádelo a la cesta» para la
+ * eventos, las reseñas con su componente, y el botón «Añadir al carrito» para la
  * cesta de la tienda. Los anuncios apuntan aquí: no se redirige nada.
  * Con el formulario contra entrega encendido (components/PedidoContraEntrega.tsx),
  * «Comprar» abre el formulario y el checkout queda como «o paga ya».
@@ -60,6 +60,13 @@ const Escudo = () => (
 const Flecha = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d="M5 12h14M13 6l6 6-6 6" />
+  </svg>
+);
+const IconoCesta = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="9" cy="20" r="1.5" />
+    <circle cx="18" cy="20" r="1.5" />
+    <path d="M2.5 3h2.6l2.4 12h11.2l2-8.5H6.2" />
   </svg>
 );
 
@@ -277,6 +284,22 @@ export function Comedero() {
     pixel("AddToCart", evento(total, cantidad));
     cart.setOpen(true);
   };
+  /* «Añadir al carrito» visible, como en la tienda de Shopify (30-sep-2026, pedido de Santiago):
+     el de arriba sigue siendo «comprar ya»; este mete el color y el pack elegidos en la cesta y la abre. */
+  const botonCesta = () =>
+    disponible ? (
+      <button
+        type="button"
+        className="dn-boton dn-oferta__carrito"
+        onClick={() => {
+          cerrarHoja();
+          alaCesta();
+        }}
+      >
+        <IconoCesta />
+        <span>Añadir al carrito</span>
+      </button>
+    ) : null;
 
   /* Funciones y no componentes: un componente declarado dentro del render se
      vuelve a montar en cada cambio de estado, y el observador de la barra se
@@ -504,18 +527,12 @@ export function Comedero() {
               <div className="dn-oferta__form">
                 {comprar(true)}
               </div>
+              {botonCesta()}
               {disponible && cod.encendido && (
                 <p className="dn-oferta__alterno">
                   <a href={checkout} onClick={alCheckout}>
                     o paga ya con tarjeta, PSE, Nequi o Bre-B
                   </a>
-                </p>
-              )}
-              {disponible && (
-                <p className="mt-2 text-center">
-                  <button type="button" onClick={alaCesta} className="text-[12px] font-semibold text-mute underline underline-offset-4 hover:text-ink">
-                    o añádelo a la cesta
-                  </button>
                 </p>
               )}
 
@@ -572,6 +589,7 @@ export function Comedero() {
                 ))}
               </div>
               {comprar()}
+              {botonCesta()}
               {pagos(true)}
             </div>
           </dialog>

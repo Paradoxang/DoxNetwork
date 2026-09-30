@@ -496,6 +496,10 @@ a.dn-oferta__estrellas small { text-decoration: underline; text-underline-offset
 /* ── Formulario contra entrega (29-sep-2026, components/PedidoContraEntrega.tsx) ──
    Va dentro de la misma hoja que la compra rápida (.dn-hoja). Los campos a 16 px
    para que el iPhone no haga zoom al tocarlos. */
+/* «Añadir al carrito»: segundo botón, con borde de marca, como en la tienda de Shopify (dn-landing.css) */
+.dn-section .dn-oferta__carrito, .dn-hoja .dn-oferta__carrito { width: 100%; margin-top: 10px; padding: 14px 22px; font-size: 16px; background: transparent; color: var(--dn-ink); box-shadow: inset 0 0 0 1.5px var(--dn-brand); }
+.dn-oferta__carrito:hover { background: rgba(115, 132, 242, 0.12); }
+.dn-oferta__carrito svg { width: 1.15em; height: 1.15em; flex: none; }
 .dn-oferta__alterno { margin: 10px 0 0; text-align: center; font-size: 13px; }
 .dn-oferta__alterno a { color: var(--dn-mute); text-decoration: underline; text-underline-offset: 4px; font-weight: 600; }
 .dn-oferta__alterno a:hover { color: var(--dn-ink); }
