@@ -29,12 +29,21 @@ export interface Env {
 }
 
 const API = "2026-07";
-const ORIGENES = new Set(["https://doxnetworks.com", "https://www.doxnetworks.com"]);
+/**
+ * Desde el 30-sep-2026 también pide la tienda de Shopify (tienda.doxnetworks.com),
+ * que tiene el mismo formulario en sus páginas de producto
+ * (snippets/dn-pedido.liquid del tema). Es otro origen: por eso las cabeceras CORS.
+ */
+const ORIGENES = new Set(["https://doxnetworks.com", "https://www.doxnetworks.com", "https://tienda.doxnetworks.com"]);
 
 let token: { valor: string; vence: number } | null = null;
 
-const json = (datos: unknown, status = 200) =>
-  new Response(JSON.stringify(datos), { status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store" } });
+/** Cabeceras CORS para un origen permitido; vacías para el resto. */
+const cors = (origen: string): Record<string, string> =>
+  ORIGENES.has(origen) ? { "Access-Control-Allow-Origin": origen, Vary: "Origin" } : {};
+
+const json = (datos: unknown, status = 200, extra: Record<string, string> = {}) =>
+  new Response(JSON.stringify(datos), { status, headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", ...extra } });
 
 /** Error que se le puede mostrar al cliente tal cual. */
 class ErrorCliente extends Error {
@@ -110,10 +119,15 @@ function leer(b: Partial<PedidoEntrada>) {
 }
 
 export async function pedido(req: Request, env: Env): Promise<Response> {
-  if (req.method !== "POST") return json({ ok: false, error: "Método no permitido." }, 405);
   const origen = req.headers.get("Origin") ?? "";
+  const h = cors(origen);
+  /* Pregunta previa del navegador antes de un POST con JSON desde otro origen */
+  if (req.method === "OPTIONS")
+    return new Response(null, { status: ORIGENES.has(origen) ? 204 : 403, headers: { ...h, "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type", "Access-Control-Max-Age": "86400" } });
+  if (req.method !== "POST") return json({ ok: false, error: "Método no permitido." }, 405, h);
   if (!ORIGENES.has(origen) && !(env.SIMULAR === "1" && origen.startsWith("http://localhost"))) return json({ ok: false, error: "Origen no permitido." }, 403);
-  if (Number(req.headers.get("Content-Length") ?? 0) > 8000) return json({ ok: false, error: "Pedido demasiado grande." }, 413);
+  if (Number(req.headers.get("Content-Length") ?? 0) > 8000) return json({ ok: false, error: "Pedido demasiado grande." }, 413, h);
+  const sitio = ORIGENES.has(origen) ? new URL(origen).host : "doxnetworks.com";
 
   try {
     const p = leer((await req.json()) as Partial<PedidoEntrada>);
@@ -130,7 +144,7 @@ export async function pedido(req: Request, env: Env): Promise<Response> {
       phone: `+57${p.celular}`,
     };
 
-    if (env.SIMULAR === "1") return json({ ok: true, simulado: true, pedido: "#SIMULADO", entrada: p, direccion });
+    if (env.SIMULAR === "1") return json({ ok: true, simulado: true, pedido: "#SIMULADO", entrada: p, direccion }, 200, h);
 
     const { productVariant: v } = await gql<{
       productVariant: { id: string; title: string; price: string; product: { id: string; title: string; status: string; tags: string[] } } | null;
@@ -155,8 +169,8 @@ export async function pedido(req: Request, env: Env): Promise<Response> {
       financialStatus: "PENDING",
       transactions: [{ kind: "SALE", status: "PENDING", gateway: "Cash on Delivery (COD)", amountSet: cop(total) }],
       tags: ["formulario-contraentrega"],
-      note: `Pedido del formulario contra entrega de doxnetworks.com${p.pagina}. Confirmar por WhatsApp antes de despachar.`,
-      customAttributes: [{ key: "pagina", value: p.pagina }, ...p.atribucion.map(([key, value]) => ({ key, value }))],
+      note: `Pedido del formulario contra entrega de ${sitio}${p.pagina}. Confirmar por WhatsApp antes de despachar.`,
+      customAttributes: [{ key: "pagina", value: `${sitio}${p.pagina}` }, ...p.atribucion.map(([key, value]) => ({ key, value }))],
     };
     const { orderCreate } = await gql<{ orderCreate: { order: { id: string; name: string } | null; userErrors: { field: string[]; message: string }[] } }>(
       env,
@@ -165,10 +179,10 @@ export async function pedido(req: Request, env: Env): Promise<Response> {
     );
     if (!orderCreate.order) throw new Error(`orderCreate: ${JSON.stringify(orderCreate.userErrors).slice(0, 400)}`);
 
-    return json({ ok: true, pedido: orderCreate.order.name, id: orderCreate.order.id.split("/").pop(), total });
+    return json({ ok: true, pedido: orderCreate.order.name, id: orderCreate.order.id.split("/").pop(), total }, 200, h);
   } catch (e) {
-    if (e instanceof ErrorCliente) return json({ ok: false, error: e.message }, e.status);
+    if (e instanceof ErrorCliente) return json({ ok: false, error: e.message }, e.status, h);
     console.error("pedido", e);
-    return json({ ok: false, error: "No pudimos registrar el pedido." }, 502);
+    return json({ ok: false, error: "No pudimos registrar el pedido." }, 502, h);
   }
 }
